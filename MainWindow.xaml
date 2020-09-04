@@ -6,7 +6,101 @@
         xmlns:local="clr-namespace:Edimsha"
         mc:Ignorable="d"
         Title="Edimsha" Height="450" Width="800" WindowStartupLocation="CenterScreen" Icon="icon.png">
-    <Grid>
-        
-    </Grid>
+
+    <StackPanel>
+        <Menu Name="topmenu" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Row="0" Margin="0">
+            <MenuItem Header="Menu">
+                <MenuItem Header="Buscar actualizacion"></MenuItem>
+                <MenuItem Header="Enviar logs (0 errores)" IsEnabled="False" />
+                <Separator></Separator>
+                <MenuItem Header="Salir"></MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Modo">
+                <MenuItem Header="Editor" IsChecked="True" IsCheckable="True"/>
+                <MenuItem Header="Conversor" IsCheckable="True"></MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Idioma">
+                <MenuItem Header="English"></MenuItem>
+                <MenuItem Header="Español"></MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <!-- Usado con el modo Editor, si se cambia a conversor se esconde este Grid y se visualiza el otro -->
+        <Grid Name="imageEditor">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" Grid.ColumnSpan="7" Grid.Row="0" HorizontalAlignment="Center"/>
+
+            <ListView Margin="5,0" Grid.ColumnSpan="7" Grid.Row="1" Height="130">
+                <ListViewItem>Test1.png</ListViewItem>
+                <ListViewItem>Test2.png</ListViewItem>
+                <ListViewItem>Test3.png</ListViewItem>
+                <ListViewItem>Test4.png</ListViewItem>
+            </ListView>
+
+            <CheckBox Content="Eliminar lista al salir" Grid.ColumnSpan="4" Grid.Row="2"/>
+            <Button Content="Seleccionar archivos" Grid.ColumnSpan="3" Grid.Column="5"  Grid.Row="2"/>
+
+            <Label Content="Carpeta de salida:" Grid.ColumnSpan="2" Grid.Row="3"/>
+            <TextBlock TextWrapping="Wrap" Text="Por defecto misma carpete edimsha_nombreImagen.png"  Grid.Column="1"  Grid.ColumnSpan="3" Grid.Row="3"/>
+            <Button Content="Seleccionar carpeta" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="3"/>
+
+            <Label Content="Label" Grid.ColumnSpan="2" Grid.Row="4"/>
+            <TextBlock TextWrapping="Wrap" Text="edimsha_ (omitido si la carpeta de salida es diferente)"  Grid.Column="1"  Grid.ColumnSpan="3" Grid.Row="4"/>
+            <CheckBox Content="Incluir al remplazar" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4"/>
+
+            <Label Content="Resolución de salida:" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="5"/>
+            <Label Content="Ancho (px):" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="5"/>
+            <TextBlock TextWrapping="Wrap" Text="512"  Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="5"/>
+            <Label Content="Alto (px):"  Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="5"/>
+            <TextBlock TextWrapping="Wrap" Text="689"  Grid.Column="4" Grid.ColumnSpan="1" Grid.Row="5"/>
+            <CheckBox Content="Mantener resolución original"  Grid.Column="5" Grid.ColumnSpan="1" Grid.Row="5"/>
+            <Button Content="Res. usadas"  Grid.Column="6" Grid.ColumnSpan="1" Grid.Row="5"/>
+
+            <ProgressBar Height="15" Grid.ColumnSpan="7" Grid.Row="6" />
+
+            <Button Content="Resetear"  Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7"/>
+            <Button Content="Parar" IsEnabled="False" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="7"/>
+            <Button Content="Iniciar" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="7"/>
+        </Grid>
+
+        <!-- Usado con el modo Conversor, si se cambia a editor se esconde este Grid y se visualiza el otro -->
+        <Grid Name="imageConverter">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+        </Grid>
+
+    </StackPanel>
 </Window>
