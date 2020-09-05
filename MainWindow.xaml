@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Edimsha"
         mc:Ignorable="d"
-        Title="Edimsha" Height="450" Width="800" WindowStartupLocation="CenterScreen" Icon="icon.png">
+        Title="Edimsha" Height="469" Width="800" WindowStartupLocation="CenterScreen" Icon="icon.png">
 
     <StackPanel>
         <Menu Name="topmenu" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Row="0" Margin="0">
@@ -28,79 +28,134 @@
         </Menu>
 
         <!-- Usado con el modo Editor, si se cambia a conversor se esconde este Grid y se visualiza el otro -->
-        <Grid Name="imageEditor">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" Name="imageEditor">
+            <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" HorizontalAlignment="Center" Margin="5,0"/>
 
-            <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" Grid.ColumnSpan="7" Grid.Row="0" HorizontalAlignment="Center"/>
-
-            <ListView Margin="5,0" Grid.ColumnSpan="7" Grid.Row="1" Height="130">
+            <ListView Margin="5,0" Height="175">
                 <ListViewItem>Test1.png</ListViewItem>
                 <ListViewItem>Test2.png</ListViewItem>
                 <ListViewItem>Test3.png</ListViewItem>
                 <ListViewItem>Test4.png</ListViewItem>
             </ListView>
 
-            <CheckBox Content="Eliminar lista al salir" Grid.ColumnSpan="4" Grid.Row="2"/>
-            <Button Content="Seleccionar archivos" Grid.ColumnSpan="3" Grid.Column="5"  Grid.Row="2"/>
+            <Grid Height="30">
+                <Grid.Resources>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5,5,5,5" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-            <Label Content="Carpeta de salida:" Grid.ColumnSpan="2" Grid.Row="3"/>
-            <TextBlock TextWrapping="Wrap" Text="Por defecto misma carpete edimsha_nombreImagen.png"  Grid.Column="1"  Grid.ColumnSpan="3" Grid.Row="3"/>
-            <Button Content="Seleccionar carpeta" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="3"/>
+                <CheckBox Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Button Content="Seleccionar archivos"  Grid.Column="2"/>
+            </Grid>
 
-            <Label Content="Label" Grid.ColumnSpan="2" Grid.Row="4"/>
-            <TextBlock TextWrapping="Wrap" Text="edimsha_ (omitido si la carpeta de salida es diferente)"  Grid.Column="1"  Grid.ColumnSpan="3" Grid.Row="4"/>
-            <CheckBox Content="Incluir al remplazar" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4"/>
+            <Grid Height="30">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5,5,5,5" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="131*"/>
+                    <ColumnDefinition Width="88*"/>
+                </Grid.ColumnDefinitions>
 
-            <Label Content="Resolución de salida:" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="5"/>
-            <Label Content="Ancho (px):" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="5"/>
-            <TextBlock TextWrapping="Wrap" Text="512"  Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="5"/>
-            <Label Content="Alto (px):"  Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="5"/>
-            <TextBlock TextWrapping="Wrap" Text="689"  Grid.Column="4" Grid.ColumnSpan="1" Grid.Row="5"/>
-            <CheckBox Content="Mantener resolución original"  Grid.Column="5" Grid.ColumnSpan="1" Grid.Row="5"/>
-            <Button Content="Res. usadas"  Grid.Column="6" Grid.ColumnSpan="1" Grid.Row="5"/>
+                <Label Content="Carpeta de salida:" Grid.Column="0"/>
+                <TextBlock TextWrapping="Wrap" Text="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="373"/>
+                <Button Content="Seleccionar carpeta" Grid.Column="2"/>
+            </Grid>
 
-            <ProgressBar Height="15" Grid.ColumnSpan="7" Grid.Row="6" />
+            <Grid Height="30">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                    </Style>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="Margin" Value="5,5,5,5" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="131*"/>
+                    <ColumnDefinition Width="88*"/>
+                </Grid.ColumnDefinitions>
 
-            <Button Content="Resetear"  Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7"/>
-            <Button Content="Parar" IsEnabled="False" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="7"/>
-            <Button Content="Iniciar" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="7"/>
-        </Grid>
+                <Label Content="Cambiar edimsha por:" Grid.Column="0"/>
+                <TextBlock TextWrapping="Wrap" Text="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="16" Width="373"/>
+                <CheckBox Content="Incluir al remplazar" Grid.Column="2" VerticalAlignment="Center"/>
+            </Grid>
 
-        <!-- Usado con el modo Conversor, si se cambia a editor se esconde este Grid y se visualiza el otro -->
-        <Grid Name="imageConverter">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-        </Grid>
+            <Grid Height="30">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5,5,5,5" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="131*"/>
+                    <ColumnDefinition Width="88*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Resolución de salida:" Grid.Column="0"/>
+
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="22*" />
+                        <ColumnDefinition Width="15*" />
+                        <ColumnDefinition Width="22*" />
+                        <ColumnDefinition Width="15*" />
+                        <ColumnDefinition Width="48*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Ancho (px):" Grid.Column="0"/>
+                    <TextBlock TextWrapping="Wrap" Text="552" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <Label Content="Alto (px):" Grid.Column="2"/>
+                    <TextBlock TextWrapping="Wrap" Text="689" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <CheckBox Content="Mantener res. original" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                </Grid>
+
+                <Button Content="Res. usadas" Grid.Column="2"/>
+            </Grid>
+
+            <ProgressBar Height="20" Margin="5,5,5,0"/>
+
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5,5,5,5" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Content="Resetear" Grid.Column="0"/>
+                <Button Content="Parar" IsEnabled="False" Grid.Column="1"/>
+                <Button Content="Iniciar" Grid.Column="2"/>
+            </Grid>
+
+        </StackPanel>
 
     </StackPanel>
 </Window>
