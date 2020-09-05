@@ -5,10 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Edimsha"
         mc:Ignorable="d"
-        Title="Edimsha" Height="469" Width="800" WindowStartupLocation="CenterScreen" Icon="icon.png">
+        Title="Edimsha" 
+        Height="505" 
+        Width="830" 
+        MinWidth="830"
+        MinHeight="455"
+        WindowStartupLocation="CenterScreen"        
+        Icon="icon.png" >
 
     <StackPanel>
-        <Menu Name="topmenu" VerticalAlignment="Top" Grid.ColumnSpan="4" Grid.Row="0" Margin="0">
+        <Menu Name="topmenu" VerticalAlignment="Top">
             <MenuItem Header="Menu">
                 <MenuItem Header="Buscar actualizacion"></MenuItem>
                 <MenuItem Header="Enviar logs (0 errores)" IsEnabled="False" />
@@ -28,134 +34,144 @@
         </Menu>
 
         <!-- Usado con el modo Editor, si se cambia a conversor se esconde este Grid y se visualiza el otro -->
-        <StackPanel Orientation="Vertical" Name="imageEditor">
-            <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" HorizontalAlignment="Center" Margin="5,0"/>
+        <StackPanel Name="imageEditor">
 
-            <ListView Margin="5,0" Height="175">
+            <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" HorizontalAlignment="Center"/>
+
+            <ListView Margin="5,0" MinWidth="200" Height="185">
                 <ListViewItem>Test1.png</ListViewItem>
                 <ListViewItem>Test2.png</ListViewItem>
                 <ListViewItem>Test3.png</ListViewItem>
                 <ListViewItem>Test4.png</ListViewItem>
             </ListView>
 
-            <Grid Height="30">
-                <Grid.Resources>
-                    <Style TargetType="CheckBox">
-                        <Setter Property="Margin" Value="5,0,0,0" />
-                    </Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="5,5,5,5" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <CheckBox Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Button Content="Seleccionar archivos"  Grid.Column="2"/>
-            </Grid>
-
-            <Grid Height="30">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Margin" Value="5,0,0,0" />
-                    </Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="5,5,5,5" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="45*"/>
-                    <ColumnDefinition Width="131*"/>
-                    <ColumnDefinition Width="88*"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Content="Carpeta de salida:" Grid.Column="0"/>
-                <TextBlock TextWrapping="Wrap" Text="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="373"/>
-                <Button Content="Seleccionar carpeta" Grid.Column="2"/>
-            </Grid>
-
-            <Grid Height="30">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Margin" Value="5,0,0,0" />
-                    </Style>
-                    <Style TargetType="CheckBox">
-                        <Setter Property="Margin" Value="5,5,5,5" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="45*"/>
-                    <ColumnDefinition Width="131*"/>
-                    <ColumnDefinition Width="88*"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Content="Cambiar edimsha por:" Grid.Column="0"/>
-                <TextBlock TextWrapping="Wrap" Text="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="16" Width="373"/>
-                <CheckBox Content="Incluir al remplazar" Grid.Column="2" VerticalAlignment="Center"/>
-            </Grid>
-
-            <Grid Height="30">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Margin" Value="5,0,0,0" />
-                    </Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="5,5,5,5" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="45*"/>
-                    <ColumnDefinition Width="131*"/>
-                    <ColumnDefinition Width="88*"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Content="Resolución de salida:" Grid.Column="0"/>
-
-                <Grid Grid.Column="1">
+            <StackPanel Orientation="Vertical">
+                <Grid Height="30">
+                    <Grid.Resources>
+                        <Style TargetType="CheckBox">
+                            <Setter Property="Margin" Value="5,0,0,0" />
+                        </Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="5,5,5,5" />
+                        </Style>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="22*" />
-                        <ColumnDefinition Width="15*" />
-                        <ColumnDefinition Width="22*" />
-                        <ColumnDefinition Width="15*" />
-                        <ColumnDefinition Width="48*" />
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Ancho (px):" Grid.Column="0"/>
-                    <TextBlock TextWrapping="Wrap" Text="552" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                    <Label Content="Alto (px):" Grid.Column="2"/>
-                    <TextBlock TextWrapping="Wrap" Text="689" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                    <CheckBox Content="Mantener res. original" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
+                    <CheckBox Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Button Content="Seleccionar archivos"  Grid.Column="2"/>
                 </Grid>
 
-                <Button Content="Res. usadas" Grid.Column="2"/>
-            </Grid>
+                <Grid Height="30">
+                    <Grid.Resources>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Margin" Value="5,0,0,0" />
+                        </Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="5,5,5,5" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45*"/>
+                        <ColumnDefinition Width="131*"/>
+                        <ColumnDefinition Width="88*"/>
+                    </Grid.ColumnDefinitions>
 
-            <ProgressBar Height="20" Margin="5,5,5,0"/>
+                    <Label Content="Carpeta de salida:" Grid.Column="0"/>
+                    <TextBox TextWrapping="Wrap" Text="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" VerticalAlignment="Center" Margin="5" Height="20"/>
+                    <Button Content="Seleccionar carpeta" Grid.Column="2"/>
+                </Grid>
 
-            <Grid>
-                <Grid.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="5,5,5,5" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+                <Grid Height="30">
+                    <Grid.Resources>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Margin" Value="5,0,0,0" />
+                        </Style>
+                        <Style TargetType="CheckBox">
+                            <Setter Property="Margin" Value="5,5,5,5" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="135*"/>
+                        <ColumnDefinition Width="97*"/>
+                        <ColumnDefinition Width="296*"/>
+                        <ColumnDefinition Width="264*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Content="Resetear" Grid.Column="0"/>
-                <Button Content="Parar" IsEnabled="False" Grid.Column="1"/>
-                <Button Content="Iniciar" Grid.Column="2"/>
-            </Grid>
+                    <Label Content="Cambiar edimsha por:" Grid.Column="0"/>
+                    <TextBox TextWrapping="Wrap" Text="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" VerticalAlignment="Center" Height="20" Margin="5" Grid.ColumnSpan="2"/>
+                    <CheckBox Content="Incluir al remplazar" Grid.Column="3" VerticalAlignment="Center" Margin="5" Height="15"/>
+                </Grid>
 
+                <Grid Height="30">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="5,0,0,0" />
+                        </Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="5,5,5,5" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45*"/>
+                        <ColumnDefinition Width="131*"/>
+                        <ColumnDefinition Width="88*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Resolución de salida:" Grid.Column="0"/>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Label Content="Ancho (px):" VerticalAlignment="Center"/>
+                        <TextBox TextWrapping="Wrap" Text="552" VerticalAlignment="Center" Margin="0,6" Width="40" IsEnabled="False" TextAlignment="Center"/>
+
+                        <Label Content="Alto (px):" VerticalAlignment="Center"/>
+                        <TextBox TextWrapping="Wrap" Text="689" VerticalAlignment="Center" Margin="0,6" Width="40" IsEnabled="False" TextAlignment="Center"/>
+
+                        <CheckBox Content="Mantener resolución original" VerticalAlignment="Center" Margin="20,0,5,0" Height="15"/>
+
+                    </StackPanel>
+
+                    <Button Content="Resoluciones usadas" Grid.Column="2"/>
+                </Grid>
+
+                <Grid Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70*"/>
+                        <ColumnDefinition Width="112*"/>
+                        <ColumnDefinition Width="91*"/>
+                        <ColumnDefinition Width="137*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Compresion en %:" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <Slider Grid.Column="1" VerticalAlignment="Center" Height="20" Margin="5"/>
+                    <CheckBox Content="Optimizar imagen" Grid.Column="2" VerticalAlignment="Center" Margin="5" Height="15"/>
+                    <CheckBox Content="Remplazar por original" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,0,5" Height="15" HorizontalAlignment="Left" Width="140"/>
+                </Grid>
+
+                <ProgressBar Height="20" Margin="5,5,5,0"/>
+
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="5,5,5,5" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Content="Resetear" Grid.Column="0"/>
+                    <Button Content="Parar" IsEnabled="False" Grid.Column="1"/>
+                    <Button Content="Iniciar" Grid.Column="2"/>
+                </Grid>
+
+            </StackPanel>
         </StackPanel>
-
     </StackPanel>
+
 </Window>
