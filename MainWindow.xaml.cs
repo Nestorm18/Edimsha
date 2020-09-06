@@ -1,6 +1,10 @@
 ﻿using Edimsha.Properties;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 
@@ -17,7 +21,7 @@ namespace Edimsha
         public MainWindow()
         {
             //Settings.Default.Reset(); // Used to find bugs with defaults values in the app.
-            
+
             //LoadLanguage();
             InitializeComponent();
         }
@@ -79,17 +83,17 @@ namespace Edimsha
                 case EditionMode.Editor:
                     miEditor.IsChecked = true;
                     miConversor.IsChecked = false;
-                    
+
                     imageEditor.Visibility = Visibility.Visible;
-                    imageConversor.Visibility = Visibility.Hidden;
+                    imageConversor.Visibility = Visibility.Collapsed;
                     break;
                 case EditionMode.Conversor:
                     miEditor.IsChecked = false;
                     miConversor.IsChecked = true;
 
-                    imageEditor.Visibility = Visibility.Hidden;
+                    imageEditor.Visibility = Visibility.Collapsed;
                     imageConversor.Visibility = Visibility.Visible;
-                    break;                
+                    break;
             }
         }
         #endregion
@@ -108,7 +112,7 @@ namespace Edimsha
             SaveAppLang();
         }
         // Logic
-        
+
         /// <summary>
         /// Save the new language and restart the application.
         /// </summary>
@@ -131,11 +135,60 @@ namespace Edimsha
         #endregion
 
         #region StackPanel Editor
+        // Events
+        private void LvEditorDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
+                SavePathsInEditorJson(files);
+            }
+        }
+
+        private void SavePathsInEditorJson(string[] files)
+        {
+            List<string> pathsJSon = new List<string>();
+
+            foreach (var file in files)
+            {
+                if (Path.HasExtension(file))
+                {
+                    // It is a file
+                    Console.WriteLine($"File={file}");
+                    pathsJSon.Add(file);
+                }
+                else
+                {
+                    // It is a folder
+                    Console.WriteLine($"Folder={file}");
+
+                    foreach (string dirFile in Directory.GetFiles(file))
+                    {
+                        Console.WriteLine($"Dir file={dirFile}");
+                        pathsJSon.Add(dirFile);
+                    }
+                }
+            }
+            
+            string path = @"D:\curso_c_sharp\Edimsha\Edimsha\Resources\editorFilePaths.json";
+
+            File.WriteAllText(path, JsonConvert.SerializeObject(pathsJSon, Formatting.Indented));
+
+            // serialize JSON directly to a file
+            using (StreamWriter file = File.CreateText(path))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, pathsJSon);
+            }
+
+        }
+        // Logic
         #endregion
 
         #region StackPanel Conversor
-
+        // Events
+        // Logic
         #endregion
 
         #region General
@@ -152,5 +205,4 @@ namespace Edimsha
         #endregion
 
     }
-    
 }

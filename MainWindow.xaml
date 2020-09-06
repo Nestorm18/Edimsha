@@ -34,11 +34,11 @@
         </Menu>
 
         <!-- Usado con el modo Editor, si se cambia a conversor se esconde este StackPanel y se visualiza el otro -->
-        <StackPanel x:Name="imageEditor">
+        <StackPanel x:Name="imageEditor" VerticalAlignment="Stretch">
 
             <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" HorizontalAlignment="Center"/>
 
-            <ListView Margin="5,0" MinWidth="200" Height="185">
+            <ListView x:Name="lvEditor" Margin="5,0" MinWidth="200" Height="185" AllowDrop="True" Drop="LvEditorDrop">
                 <ListViewItem>Test1.png</ListViewItem>
                 <ListViewItem>Test2.png</ListViewItem>
                 <ListViewItem>Test3.png</ListViewItem>
@@ -174,8 +174,10 @@
         </StackPanel>
 
         <!-- Usado con el modo Conversor, si se cambia a conversor se esconde este StackPanel y se visualiza el otro -->
-        <StackPanel x:Name="imageConversor">
-
+        <StackPanel x:Name="imageConversor" Visibility="Collapsed">
+            <StackPanel Orientation="Vertical">
+                <Label Content="Proximamente"/>
+            </StackPanel>
         </StackPanel>
 
     </StackPanel>
