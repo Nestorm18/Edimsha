@@ -14,27 +14,27 @@
         Icon="icon.png" >
 
     <StackPanel>
-        <Menu Name="topmenu" VerticalAlignment="Top">
-            <MenuItem Header="Menu">
-                <MenuItem Header="Buscar actualizacion"></MenuItem>
-                <MenuItem Header="Enviar logs (0 errores)" IsEnabled="False" />
+        <Menu x:Name="menubar" VerticalAlignment="Top">
+            <MenuItem x:Name="miMenu" Header="Menu">
+                <MenuItem x:Name="miSearchUpdates" Header="Buscar actualizacion" Click="SearchForUpdates"></MenuItem>
+                <MenuItem x:Name="miSendLogs" Header="Enviar logs (0 errores)" IsEnabled="False" Click="SendErrorLogs" />
                 <Separator></Separator>
-                <MenuItem Header="Salir"></MenuItem>
+                <MenuItem x:Name="miExit" Header="Salir" Click="ExitApp"></MenuItem>
             </MenuItem>
 
-            <MenuItem Header="Modo">
-                <MenuItem Header="Editor" IsChecked="True" IsCheckable="True"/>
-                <MenuItem Header="Conversor" IsCheckable="True"></MenuItem>
+            <MenuItem x:Name="miMode" Header="Modo">
+                <MenuItem x:Name="miEditor" Header="Editor" IsChecked="True" IsCheckable="True" Click="ChangeToEditor"/>
+                <MenuItem x:Name="miConversor" Header="Conversor" IsCheckable="True" Click="ChangeToConversor"></MenuItem>
             </MenuItem>
 
-            <MenuItem Header="Idioma">
-                <MenuItem Header="English"></MenuItem>
-                <MenuItem Header="Español"></MenuItem>
+            <MenuItem x:Name="miLanguaje" Header="Idioma">
+                <MenuItem x:Name="miEnglish" Header="English" Click="ChangeToEnglish"></MenuItem>
+                <MenuItem x:Name="miSpanish" Header="Español" Click="ChangeToSpanish"></MenuItem>
             </MenuItem>
         </Menu>
 
-        <!-- Usado con el modo Editor, si se cambia a conversor se esconde este Grid y se visualiza el otro -->
-        <StackPanel Name="imageEditor">
+        <!-- Usado con el modo Editor, si se cambia a conversor se esconde este StackPanel y se visualiza el otro -->
+        <StackPanel x:Name="imageEditor">
 
             <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" HorizontalAlignment="Center"/>
 
@@ -172,6 +172,12 @@
 
             </StackPanel>
         </StackPanel>
+
+        <!-- Usado con el modo Conversor, si se cambia a conversor se esconde este StackPanel y se visualiza el otro -->
+        <StackPanel x:Name="imageConversor">
+
+        </StackPanel>
+
     </StackPanel>
 
 </Window>
