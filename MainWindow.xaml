@@ -38,12 +38,7 @@
 
             <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" HorizontalAlignment="Center"/>
 
-            <ListView x:Name="lvEditor" Margin="5,0" MinWidth="200" Height="185" AllowDrop="True" Drop="LvEditorDrop">
-                <ListViewItem>Test1.png</ListViewItem>
-                <ListViewItem>Test2.png</ListViewItem>
-                <ListViewItem>Test3.png</ListViewItem>
-                <ListViewItem>Test4.png</ListViewItem>
-            </ListView>
+            <ListView x:Name="lvEditor" Margin="5,0" MinWidth="200" Height="185" AllowDrop="True" Drop="LvEditorDrop"/>
 
             <StackPanel Orientation="Vertical">
                 <Grid Height="30">

@@ -1,10 +1,8 @@
 ﻿using Edimsha.Properties;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 
@@ -24,6 +22,10 @@ namespace Edimsha
 
             //LoadLanguage();
             InitializeComponent();
+
+            // TODO: TEMP CODE
+            Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+            UpdateLvEditor(store.GetPaths());
         }
 
         #region Menubar
@@ -140,50 +142,42 @@ namespace Edimsha
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                string[] items = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-                SavePathsInEditorJson(files);
+                List<string> paths = ExtractDroppedPaths(items);
+
+                Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+                store.SavePaths(paths);
+
+                UpdateLvEditor(paths);
             }
         }
 
-        private void SavePathsInEditorJson(string[] files)
-        {
-            List<string> pathsJSon = new List<string>();
-
-            foreach (var file in files)
-            {
-                if (Path.HasExtension(file))
-                {
-                    // It is a file
-                    Console.WriteLine($"File={file}");
-                    pathsJSon.Add(file);
-                }
-                else
-                {
-                    // It is a folder
-                    Console.WriteLine($"Folder={file}");
-
-                    foreach (string dirFile in Directory.GetFiles(file))
-                    {
-                        Console.WriteLine($"Dir file={dirFile}");
-                        pathsJSon.Add(dirFile);
-                    }
-                }
-            }
-            
-            string path = @"D:\curso_c_sharp\Edimsha\Edimsha\Resources\editorFilePaths.json";
-
-            File.WriteAllText(path, JsonConvert.SerializeObject(pathsJSon, Formatting.Indented));
-
-            // serialize JSON directly to a file
-            using (StreamWriter file = File.CreateText(path))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, pathsJSon);
-            }
-
-        }
         // Logic
+        private List<string> ExtractDroppedPaths(string[] items)
+        {
+            if (items is null) throw new ArgumentNullException(nameof(items));
+
+            List<string> pathsJson = new List<string>();
+
+            foreach (var item in items)
+            {
+                if (Path.HasExtension(item)) // It is a file, get path
+                    pathsJson.Add(item);
+                else
+                    foreach (string dirFile in Directory.GetFiles(item)) // It is a folder, extract paths
+                        pathsJson.Add(dirFile);
+            }
+
+            return pathsJson;
+
+        }
+
+        private void UpdateLvEditor(List<string> paths)
+        {
+            foreach (var path in paths)            
+                lvEditor.Items.Add(path);           
+        }
         #endregion
 
         #region StackPanel Conversor
