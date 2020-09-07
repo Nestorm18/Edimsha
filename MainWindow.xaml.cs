@@ -25,6 +25,8 @@ namespace Edimsha
 
             // TODO: TEMP CODE
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+            bool still = store.IsPathsStillAvailableFromLastSession(true);
+            
             UpdateLvEditor(store);
         }
 

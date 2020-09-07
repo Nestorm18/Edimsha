@@ -15,7 +15,6 @@ namespace Edimsha
         public Storage(string filePaths)
         {
             storePath = filePaths;
-            // TODO: Comprobar si las rutas del json siguen siendo validas
         }
 
         public void SavePaths(List<string> paths)
@@ -36,5 +35,28 @@ namespace Edimsha
             string json = File.ReadAllText(storePath);
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
+
+        public bool IsPathsStillAvailableFromLastSession(bool removeMissingPaths=false)
+        {
+            List<string> pathList = GetPaths();
+            bool save = false;
+
+            for (int i = 0; i < pathList.Count; i++)
+            {
+                if (!File.Exists(pathList[i]))
+                {
+                    save = true;
+                    if (removeMissingPaths) pathList.RemoveAt(i);
+                }
+            }
+
+            if (save)           
+                if (removeMissingPaths) SavePaths(pathList);
+            else           
+                return true;
+
+            return false;
+        }
+
     }
 }
