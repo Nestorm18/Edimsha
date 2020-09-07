@@ -25,7 +25,7 @@ namespace Edimsha
 
             // TODO: TEMP CODE
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
-            UpdateLvEditor(store.GetPaths());
+            UpdateLvEditor(store);
         }
 
         #region Menubar
@@ -147,9 +147,11 @@ namespace Edimsha
                 List<string> paths = ExtractDroppedPaths(items);
 
                 Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+                store.KeepSavedPreviousPaths = true;
+                
                 store.SavePaths(paths);
 
-                UpdateLvEditor(paths);
+                UpdateLvEditor(store);
             }
         }
 
@@ -173,9 +175,11 @@ namespace Edimsha
 
         }
 
-        private void UpdateLvEditor(List<string> paths)
+        private void UpdateLvEditor(Storage store)
         {
-            foreach (var path in paths)            
+            lvEditor.Items.Clear();
+            
+            foreach (var path in store.GetPaths())            
                 lvEditor.Items.Add(path);           
         }
         #endregion
