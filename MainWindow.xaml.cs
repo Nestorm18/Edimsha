@@ -1,4 +1,5 @@
 ﻿using Edimsha.Properties;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,13 +22,10 @@ namespace Edimsha
             //Settings.Default.Reset(); // Used to find bugs with defaults values in the app.
 
             //LoadLanguage();
+
             InitializeComponent();
 
-            // TODO: TEMP CODE
-            Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
-            bool still = store.IsPathsStillAvailableFromLastSession(true);
-
-            UpdateLvEditor(store);
+            LoadSettings();
         }
 
         #region Window
@@ -176,6 +174,16 @@ namespace Edimsha
             }
         }
 
+        private void ChkCleanListOnExit_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkCleanListOnExit.IsChecked == true)            
+                Settings.Default.chkCleanListOnExit = true;         
+            else            
+                Settings.Default.chkCleanListOnExit = false;
+
+            Settings.Default.Save();
+        }
+
         // Logic
         private List<string> ExtractDroppedPaths(string[] items)
         {
@@ -203,6 +211,7 @@ namespace Edimsha
             foreach (var path in store.GetPaths())
                 lvEditor.Items.Add(path);
         }
+
         #endregion
 
         #region StackPanel Conversor
@@ -222,7 +231,23 @@ namespace Edimsha
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
         }
 
+        private void LoadSettings()
+        {
+            Console.WriteLine("Cargando opciones por defecto");
+
+            // Checkbox CleanListOnExit
+            chkCleanListOnExit.IsChecked = Settings.Default.chkCleanListOnExit;
+
+            // Listview
+            Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+            bool still = store.IsPathsStillAvailableFromLastSession(true);
+
+            UpdateLvEditor(store);
+
+            // Other
+        }
 
         #endregion
+
     }
 }

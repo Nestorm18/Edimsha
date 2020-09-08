@@ -57,7 +57,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <CheckBox x:Name="chkCleanListOnExit" Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <CheckBox x:Name="chkCleanListOnExit" Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ChkCleanListOnExit_Click"/>
                     <Button Content="Seleccionar archivos"  Grid.Column="2"/>
                 </Grid>
 

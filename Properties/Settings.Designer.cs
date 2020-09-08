@@ -34,5 +34,17 @@ namespace Edimsha.Properties {
                 this["Lang"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool chkCleanListOnExit {
+            get {
+                return ((bool)(this["chkCleanListOnExit"]));
+            }
+            set {
+                this["chkCleanListOnExit"] = value;
+            }
+        }
     }
 }
