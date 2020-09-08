@@ -11,7 +11,8 @@
         MinWidth="830"
         MinHeight="455"
         WindowStartupLocation="CenterScreen"        
-        Icon="icon.png" >
+        Icon="icon.png"
+        Closing="Window_Closing">
 
     <StackPanel>
         <Menu x:Name="menubar" VerticalAlignment="Top">
@@ -56,7 +57,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <CheckBox Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <CheckBox x:Name="chkCleanListOnExit" Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Button Content="Seleccionar archivos"  Grid.Column="2"/>
                 </Grid>
 

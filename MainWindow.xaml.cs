@@ -26,9 +26,28 @@ namespace Edimsha
             // TODO: TEMP CODE
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
             bool still = store.IsPathsStillAvailableFromLastSession(true);
-            
+
             UpdateLvEditor(store);
         }
+
+        #region Window
+        // Events
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CleanListOnExit(chkCleanListOnExit.IsChecked);
+        }
+
+        // Logic   
+        private void CleanListOnExit(bool? isChecked)
+        {
+            if (isChecked == true)
+            {
+                Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+                store.CleanFile();
+            }
+        }
+
+        #endregion
 
         #region Menubar
 
@@ -150,7 +169,7 @@ namespace Edimsha
 
                 Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
                 store.KeepSavedPreviousPaths = true;
-                
+
                 store.SavePaths(paths);
 
                 UpdateLvEditor(store);
@@ -180,9 +199,9 @@ namespace Edimsha
         private void UpdateLvEditor(Storage store)
         {
             lvEditor.Items.Clear();
-            
-            foreach (var path in store.GetPaths())            
-                lvEditor.Items.Add(path);           
+
+            foreach (var path in store.GetPaths())
+                lvEditor.Items.Add(path);
         }
         #endregion
 
@@ -202,7 +221,8 @@ namespace Edimsha
             Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
         }
-        #endregion
 
+
+        #endregion
     }
 }

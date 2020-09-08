@@ -58,5 +58,9 @@ namespace Edimsha
             return false;
         }
 
+        public void CleanFile()
+        {
+            File.WriteAllText(storePath, "[]");
+        }
     }
 }
