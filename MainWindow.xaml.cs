@@ -176,9 +176,9 @@ namespace Edimsha
 
         private void ChkCleanListOnExit_Click(object sender, RoutedEventArgs e)
         {
-            if (chkCleanListOnExit.IsChecked == true)            
-                Settings.Default.chkCleanListOnExit = true;         
-            else            
+            if (chkCleanListOnExit.IsChecked == true)
+                Settings.Default.chkCleanListOnExit = true;
+            else
                 Settings.Default.chkCleanListOnExit = false;
 
             Settings.Default.Save();
@@ -240,11 +240,35 @@ namespace Edimsha
 
             // Listview
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
-            bool still = store.IsPathsStillAvailableFromLastSession(true);
+            bool still = store.StillPathsSameFromLastSession();
+
+            if (!still)
+                LaunchPathChangeMsg(store);
 
             UpdateLvEditor(store);
 
             // Other
+        }
+
+        private void LaunchPathChangeMsg(Storage store)
+        {
+            MessageBoxResult result = MessageBox.Show("Las rutas que estaban anteriormente se han modificado, Pulsa \"Si\" para ver los cambios.",
+                "Rutas modificadas",
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Information);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                string append = "";
+
+                List<string> paths = store.GetPathChanges();
+                foreach (var text in paths)
+                    append += text + "\n\n";
+
+                MessageBox.Show(append, "Rutas eliminadas", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            store.RemoveMissingPathsFromLastSession();
         }
 
         #endregion

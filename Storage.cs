@@ -36,31 +36,56 @@ namespace Edimsha
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
-        public bool IsPathsStillAvailableFromLastSession(bool removeMissingPaths=false)
+        public bool StillPathsSameFromLastSession()
+        {
+            List<string> paths = GetPaths();
+            if (paths.Count > 0)
+                foreach (var path in paths)
+                    if (!File.Exists(path))
+                        return false;
+            return true;
+        }
+
+        public List<string> GetPathChanges()
+        {
+            List<string> changes = new List<string>();
+
+            foreach (var path in GetPaths())
+                if (!File.Exists(path))
+                    changes.Add(path);
+
+            if (changes.Count == 0)
+                return null;
+            else
+                return changes;
+
+        }
+
+        public void RemoveMissingPathsFromLastSession()
         {
             List<string> pathList = GetPaths();
             bool save = false;
 
             for (int i = 0; i < pathList.Count; i++)
-            {
+            {               
                 if (!File.Exists(pathList[i]))
                 {
                     save = true;
-                    if (removeMissingPaths) pathList.RemoveAt(i);
+                    pathList[i] = "";
                 }
             }
 
-            if (save)           
-                if (removeMissingPaths) SavePaths(pathList);
-            else           
-                return true;
+            pathList = pathList.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
 
-            return false;
+            if (save)
+                SavePaths(pathList);                
         }
 
         public void CleanFile()
         {
             File.WriteAllText(storePath, "[]");
         }
+
+        
     }
 }
