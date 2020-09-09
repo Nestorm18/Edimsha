@@ -1,4 +1,5 @@
 ﻿using Edimsha.Properties;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -159,6 +160,7 @@ namespace Edimsha
 
         #region StackPanel Editor
         // Events
+        // ListView
         private void LvEditorDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -181,16 +183,6 @@ namespace Edimsha
             UpdateCtxLvEditor();
         }
 
-        private void ChkCleanListOnExit_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkCleanListOnExit.IsChecked == true)
-                Settings.Default.chkCleanListOnExit = true;
-            else
-                Settings.Default.chkCleanListOnExit = false;
-
-            Settings.Default.Save();
-        }
-
         private void CtxLvDelete(object sender, RoutedEventArgs e)
         {
             if (lvEditor.SelectedItems.Count > 0)
@@ -210,6 +202,39 @@ namespace Edimsha
             store.CleanFile();
 
             UpdateLvEditor(store);            
+        }
+
+        // Checkbox chkCleanListOnExit
+        private void ChkCleanListOnExit_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkCleanListOnExit.IsChecked == true)
+                Settings.Default.chkCleanListOnExit = true;
+            else
+                Settings.Default.chkCleanListOnExit = false;
+
+            Settings.Default.Save();
+        }
+
+        // Button open file selector
+        private void BtnSelectEditorImages(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
+            openFileDialog.Multiselect = true;
+            
+            if (openFileDialog.ShowDialog() == true)
+            {
+                List<string> paths = new List<string>(openFileDialog.FileNames);
+
+                Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS)
+                {
+                    KeepSavedPreviousPaths = true
+                };
+
+                store.SavePaths(paths);
+
+                UpdateLvEditor(store);
+            }
         }
 
         // Logic
@@ -310,5 +335,6 @@ namespace Edimsha
 
 
         #endregion
+       
     }
 }
