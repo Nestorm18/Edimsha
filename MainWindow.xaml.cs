@@ -192,7 +192,7 @@ namespace Edimsha
         {
             if (lvEditor.SelectedItems.Count > 0)
             {
-                string item = (string) lvEditor.SelectedItems[0];
+                string item = (string)lvEditor.SelectedItems[0];
 
                 Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
                 store.RemovePath(item);
@@ -200,9 +200,13 @@ namespace Edimsha
                 UpdateLvEditor(store);
             }
         }
+       
         private void CtxLvDeleteAll(object sender, RoutedEventArgs e)
         {
+            Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+            store.CleanFile();
 
+            UpdateLvEditor(store);
         }
 
         // Logic
