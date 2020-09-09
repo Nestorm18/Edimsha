@@ -29,8 +29,7 @@ namespace Edimsha
 
             LoadSettings();
         }
-        // TODO: https://stackoverflow.com/questions/39320120/why-the-contextmenu-right-mouse-click-on-listview-items-is-not-working
-
+        
         #region Window
         // Events
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -260,8 +259,6 @@ namespace Edimsha
 
         private void LoadSettings()
         {
-            Console.WriteLine("Cargando opciones por defecto");
-
             // Checkbox CleanListOnExit
             chkCleanListOnExit.IsChecked = Settings.Default.chkCleanListOnExit;
 
