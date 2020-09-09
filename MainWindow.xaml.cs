@@ -160,7 +160,6 @@ namespace Edimsha
 
         #region StackPanel Editor
         // Events
-
         private void LvEditorDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -176,6 +175,11 @@ namespace Edimsha
 
                 UpdateLvEditor(store);
             }
+        }
+
+        private void LvEditor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateCtxLvEditor();
         }
 
         private void ChkCleanListOnExit_Click(object sender, RoutedEventArgs e)
@@ -206,7 +210,7 @@ namespace Edimsha
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
             store.CleanFile();
 
-            UpdateLvEditor(store);
+            UpdateLvEditor(store);            
         }
 
         // Logic
@@ -232,6 +236,7 @@ namespace Edimsha
         private void UpdateLvEditor(Storage store)
         {
             lvEditor.ItemsSource = store.GetPaths();
+            UpdateCtxLvEditor();
         }
 
         #endregion
@@ -267,8 +272,22 @@ namespace Edimsha
             if (!still) LaunchPathChangeMsg(store);
 
             UpdateLvEditor(store);
+            UpdateCtxLvEditor();
 
             // Other
+        }
+
+        private void UpdateCtxLvEditor()
+        {
+            if (lvEditor.SelectedItems.Count > 0)
+                ctxLvRemove.IsEnabled = true;
+            else
+                ctxLvRemove.IsEnabled = false;
+
+            if (lvEditor.Items.Count > 0)
+                ctxLvRemoveAll.IsEnabled = true;
+            else
+                ctxLvRemoveAll.IsEnabled = false;
         }
 
         private void LaunchPathChangeMsg(Storage store)
@@ -292,8 +311,7 @@ namespace Edimsha
             store.RemoveMissingPathsFromLastSession();
         }
 
+
         #endregion
-
-
     }
 }
