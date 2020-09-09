@@ -86,6 +86,12 @@ namespace Edimsha
             File.WriteAllText(storePath, "[]");
         }
 
-        
+        internal void RemovePath(string path)
+        {
+            List<string> paths = GetPaths();
+            paths.RemoveAll(x => x.Contains(path));
+            
+            SavePaths(paths);
+        }
     }
 }

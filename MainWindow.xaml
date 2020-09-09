@@ -39,7 +39,14 @@
 
             <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" HorizontalAlignment="Center"/>
 
-            <ListView x:Name="lvEditor" Margin="5,0" MinWidth="200" Height="185" AllowDrop="True" Drop="LvEditorDrop"/>
+            <ListView x:Name="lvEditor" Margin="5,0" MinWidth="200" Height="185" AllowDrop="True" Drop="LvEditorDrop">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Eliminar" Click="CtxLvDelete"/>
+                        <MenuItem Header="Eliminar todos los elementos" Click="CtxLvDeleteAll"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
 
             <StackPanel Orientation="Vertical">
                 <Grid Height="30">

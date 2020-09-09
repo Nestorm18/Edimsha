@@ -6,6 +6,8 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Edimsha
 {
@@ -158,7 +160,7 @@ namespace Edimsha
 
         #region StackPanel Editor
         // Events
-        
+
         private void LvEditorDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -186,6 +188,23 @@ namespace Edimsha
             Settings.Default.Save();
         }
 
+        private void CtxLvDelete(object sender, RoutedEventArgs e)
+        {
+            if (lvEditor.SelectedItems.Count > 0)
+            {
+                string item = (string) lvEditor.SelectedItems[0];
+
+                Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+                store.RemovePath(item);
+
+                UpdateLvEditor(store);
+            }
+        }
+        private void CtxLvDeleteAll(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         // Logic
         private List<string> ExtractDroppedPaths(string[] items)
         {
@@ -208,7 +227,6 @@ namespace Edimsha
 
         private void UpdateLvEditor(Storage store)
         {
-            lvEditor.Items.Clear();
             lvEditor.ItemsSource = store.GetPaths();
         }
 
@@ -271,6 +289,7 @@ namespace Edimsha
         }
 
         #endregion
+
 
     }
 }
