@@ -27,6 +27,7 @@ namespace Edimsha
 
             LoadSettings();
         }
+        // TODO: https://stackoverflow.com/questions/39320120/why-the-contextmenu-right-mouse-click-on-listview-items-is-not-working
 
         #region Window
         // Events
@@ -157,6 +158,7 @@ namespace Edimsha
 
         #region StackPanel Editor
         // Events
+        
         private void LvEditorDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -207,9 +209,7 @@ namespace Edimsha
         private void UpdateLvEditor(Storage store)
         {
             lvEditor.Items.Clear();
-
-            foreach (var path in store.GetPaths())
-                lvEditor.Items.Add(path);
+            lvEditor.ItemsSource = store.GetPaths();
         }
 
         #endregion
@@ -242,8 +242,7 @@ namespace Edimsha
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
             bool still = store.StillPathsSameFromLastSession();
 
-            if (!still)
-                LaunchPathChangeMsg(store);
+            if (!still) LaunchPathChangeMsg(store);
 
             UpdateLvEditor(store);
 
