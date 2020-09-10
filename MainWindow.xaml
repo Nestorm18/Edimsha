@@ -80,7 +80,7 @@
                     <Label Content="Carpeta de salida:" Grid.Column="0"/>
                     <xctk:WatermarkTextBox x:Name="txtOutputFolder" TextWrapping="Wrap" Watermark="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" VerticalAlignment="Center"/>
 
-                    <Button Content="Seleccionar carpeta" Grid.Column="2"/>
+                    <Button Content="Seleccionar carpeta" Grid.Column="2" Click="BtnSelectEditorOutputFolder" />
                 </Grid>
 
                 <Grid Height="30">

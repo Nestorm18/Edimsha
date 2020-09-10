@@ -1,6 +1,7 @@
 ﻿using Edimsha.Properties;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,7 +31,7 @@ namespace Edimsha
 
             LoadSettings();
         }
-        
+
         #region Window
         // Events
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -48,16 +49,17 @@ namespace Edimsha
                 store.CleanFile();
             }
         }
-        
+
         private void SaveEditorOutputFolderPath()
         {
             string path = txtOutputFolder.Text;
-           
+
             if (Directory.Exists(path))
-            {
                 Settings.Default.txtEditorFolderPath = txtOutputFolder.Text;
-                Settings.Default.Save();
-            }            
+            else // Empty path            
+                Settings.Default.txtEditorFolderPath = "";
+
+            Settings.Default.Save();
         }
 
         #endregion
@@ -207,13 +209,13 @@ namespace Edimsha
                 UpdateLvEditor(store);
             }
         }
-       
+
         private void CtxLvDeleteAll(object sender, RoutedEventArgs e)
         {
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
             store.CleanFile();
 
-            UpdateLvEditor(store);            
+            UpdateLvEditor(store);
         }
 
         // Checkbox chkCleanListOnExit
@@ -251,11 +253,17 @@ namespace Edimsha
             }
         }
 
-        // TxtOutputFolder
-
-        // TxtEdimsha
-
         // Button open folder selector
+        private void BtnSelectEditorOutputFolder(object sender, RoutedEventArgs e)
+        {
+            VistaFolderBrowserDialog openFolderDialog = new VistaFolderBrowserDialog
+            {
+                ShowNewFolderButton = true
+            };
+
+            if (openFolderDialog.ShowDialog() == true)
+                txtOutputFolder.Text = openFolderDialog.SelectedPath;
+        }
 
         // Logic
         private List<string> ExtractDroppedPaths(string[] items)
@@ -316,7 +324,8 @@ namespace Edimsha
             UpdateLvEditor(store);
             UpdateCtxLvEditor();
 
-            // Other
+            // txtOutputFolder
+            txtOutputFolder.Text = Settings.Default.txtEditorFolderPath;
         }
 
         private void UpdateCtxLvEditor()
@@ -354,5 +363,7 @@ namespace Edimsha
         }
 
         #endregion
+
+
     }
 }
