@@ -38,6 +38,7 @@ namespace Edimsha
         {
             CleanEditorListOnExit(chkCleanListOnExit.IsChecked);
             SaveEditorOutputFolderPath();
+            SaveEditorEdimsha();
         }
 
         // Logic   
@@ -59,6 +60,12 @@ namespace Edimsha
             else // Empty path            
                 Settings.Default.txtEditorFolderPath = "";
 
+            Settings.Default.Save();
+        }
+       
+        private void SaveEditorEdimsha()
+        {
+            Settings.Default.txtEdimsha = txtEdimsha.Text;
             Settings.Default.Save();
         }
 
@@ -326,6 +333,9 @@ namespace Edimsha
 
             // txtOutputFolder
             txtOutputFolder.Text = Settings.Default.txtEditorFolderPath;
+
+            // txtEdimsha
+            txtEdimsha.Text = Settings.Default.txtEdimsha;
         }
 
         private void UpdateCtxLvEditor()

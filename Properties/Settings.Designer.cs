@@ -58,5 +58,17 @@ namespace Edimsha.Properties {
                 this["txtEditorFolderPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string txtEdimsha {
+            get {
+                return ((string)(this["txtEdimsha"]));
+            }
+            set {
+                this["txtEdimsha"] = value;
+            }
+        }
     }
 }
