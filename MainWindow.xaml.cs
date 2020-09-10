@@ -35,17 +35,29 @@ namespace Edimsha
         // Events
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            CleanListOnExit(chkCleanListOnExit.IsChecked);
+            CleanEditorListOnExit(chkCleanListOnExit.IsChecked);
+            SaveEditorOutputFolderPath();
         }
 
         // Logic   
-        private void CleanListOnExit(bool? isChecked)
+        private void CleanEditorListOnExit(bool? isChecked)
         {
             if (isChecked == true)
             {
                 Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
                 store.CleanFile();
             }
+        }
+        
+        private void SaveEditorOutputFolderPath()
+        {
+            string path = txtOutputFolder.Text;
+           
+            if (Directory.Exists(path))
+            {
+                Settings.Default.txtEditorFolderPath = txtOutputFolder.Text;
+                Settings.Default.Save();
+            }            
         }
 
         #endregion
@@ -239,6 +251,12 @@ namespace Edimsha
             }
         }
 
+        // TxtOutputFolder
+
+        // TxtEdimsha
+
+        // Button open folder selector
+
         // Logic
         private List<string> ExtractDroppedPaths(string[] items)
         {
@@ -335,8 +353,6 @@ namespace Edimsha
             store.RemoveMissingPathsFromLastSession();
         }
 
-
         #endregion
-       
     }
 }

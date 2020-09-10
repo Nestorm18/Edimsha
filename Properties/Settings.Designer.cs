@@ -46,5 +46,17 @@ namespace Edimsha.Properties {
                 this["chkCleanListOnExit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string txtEditorFolderPath {
+            get {
+                return ((string)(this["txtEditorFolderPath"]));
+            }
+            set {
+                this["txtEditorFolderPath"] = value;
+            }
+        }
     }
 }
