@@ -218,10 +218,12 @@ namespace Edimsha
         // Button open file selector
         private void BtnSelectEditorImages(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
-            openFileDialog.Multiselect = true;
-            
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg",
+                Multiselect = true
+            };
+
             if (openFileDialog.ShowDialog() == true)
             {
                 List<string> paths = new List<string>(openFileDialog.FileNames);

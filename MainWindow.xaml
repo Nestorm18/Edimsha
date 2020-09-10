@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Edimsha"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
         Title="Edimsha" 
         Height="505" 
@@ -49,15 +50,16 @@
             </ListView>
 
             <StackPanel Orientation="Vertical">
-                <Grid Height="30">
-                    <Grid.Resources>
-                        <Style TargetType="CheckBox">
-                            <Setter Property="Margin" Value="5,0,0,0" />
-                        </Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="5,5,5,5" />
-                        </Style>
-                    </Grid.Resources>
+                <StackPanel.Resources>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                    </Style>                    
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5,3,5,3" />
+                    </Style>
+                </StackPanel.Resources>
+                
+                <Grid Height="30">                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -68,15 +70,7 @@
                     <Button Content="Seleccionar archivos"  Grid.Column="2" Click="BtnSelectEditorImages"/>
                 </Grid>
 
-                <Grid Height="30">
-                    <Grid.Resources>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Margin" Value="5,0,0,0" />
-                        </Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="5,5,5,5" />
-                        </Style>
-                    </Grid.Resources>
+                <Grid Height="30">                   
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="45*"/>
                         <ColumnDefinition Width="131*"/>
@@ -84,19 +78,12 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Carpeta de salida:" Grid.Column="0"/>
-                    <TextBox TextWrapping="Wrap" Text="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" VerticalAlignment="Center" Margin="5" Height="20"/>
+                    <xctk:WatermarkTextBox TextWrapping="Wrap" Watermark="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" VerticalAlignment="Center"/>
+                     
                     <Button Content="Seleccionar carpeta" Grid.Column="2"/>
                 </Grid>
 
-                <Grid Height="30">
-                    <Grid.Resources>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Margin" Value="5,0,0,0" />
-                        </Style>
-                        <Style TargetType="CheckBox">
-                            <Setter Property="Margin" Value="5,5,5,5" />
-                        </Style>
-                    </Grid.Resources>
+                <Grid Height="30">                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="135*"/>
                         <ColumnDefinition Width="97*"/>
@@ -105,19 +92,11 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Cambiar edimsha por:" Grid.Column="0"/>
-                    <TextBox TextWrapping="Wrap" Text="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" VerticalAlignment="Center" Height="20" Margin="5" Grid.ColumnSpan="2"/>
+                    <xctk:WatermarkTextBox TextWrapping="Wrap" Watermark="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
                     <CheckBox Content="Incluir al remplazar" Grid.Column="3" VerticalAlignment="Center" Margin="5" Height="15"/>
                 </Grid>
 
-                <Grid Height="30">
-                    <Grid.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Margin" Value="5,0,0,0" />
-                        </Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="5,5,5,5" />
-                        </Style>
-                    </Grid.Resources>
+                <Grid Height="30">                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="45*"/>
                         <ColumnDefinition Width="131*"/>
@@ -128,12 +107,12 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
                         <Label Content="Ancho (px):" VerticalAlignment="Center"/>
-                        <TextBox TextWrapping="Wrap" Text="552" VerticalAlignment="Center" Margin="0,6" Width="40" IsEnabled="False" TextAlignment="Center"/>
+                        <xctk:WatermarkTextBox Watermark="552" Width="40" IsEnabled="False" Height="24"/>
 
                         <Label Content="Alto (px):" VerticalAlignment="Center"/>
-                        <TextBox TextWrapping="Wrap" Text="689" VerticalAlignment="Center" Margin="0,6" Width="40" IsEnabled="False" TextAlignment="Center"/>
+                        <xctk:WatermarkTextBox Watermark="689" Width="40" IsEnabled="False" Height="24"/>
 
-                        <CheckBox Content="Mantener resolución original" VerticalAlignment="Center" Margin="20,0,5,0" Height="15"/>
+                        <CheckBox Content="Mantener resolución original" VerticalAlignment="Center" Margin="19,0,5,0" Height="15"/>
 
                     </StackPanel>
 
@@ -156,12 +135,7 @@
 
                 <ProgressBar Height="20" Margin="5,5,5,0"/>
 
-                <Grid>
-                    <Grid.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="5,5,5,5" />
-                        </Style>
-                    </Grid.Resources>
+                <Grid Height="30">                   
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
