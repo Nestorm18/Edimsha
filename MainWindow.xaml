@@ -94,7 +94,7 @@
 
                     <Label Content="Cambiar edimsha por:" Grid.Column="0"/>
                     <xctk:WatermarkTextBox x:Name="txtEdimsha" TextWrapping="Wrap" Watermark="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3"/>
-                    <CheckBox Content="Incluir al remplazar" Grid.Column="4" VerticalAlignment="Center" Margin="5,8" Height="14"/>
+                    <CheckBox x:Name="chkAddOnReplace" Content="Incluir al remplazar" Grid.Column="4" VerticalAlignment="Center" Click="ChkAddOnReplace_Click" />
                 </Grid>
 
                 <Grid Height="30">

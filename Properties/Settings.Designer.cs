@@ -70,5 +70,17 @@ namespace Edimsha.Properties {
                 this["txtEdimsha"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool chkAddOnReplace {
+            get {
+                return ((bool)(this["chkAddOnReplace"]));
+            }
+            set {
+                this["chkAddOnReplace"] = value;
+            }
+        }
     }
 }

@@ -272,6 +272,16 @@ namespace Edimsha
                 txtOutputFolder.Text = openFolderDialog.SelectedPath;
         }
 
+        private void ChkAddOnReplace_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkAddOnReplace.IsChecked == true)
+                Settings.Default.chkAddOnReplace = true;
+            else
+                Settings.Default.chkAddOnReplace = false;
+
+            Settings.Default.Save();
+        }
+
         // Logic
         private List<string> ExtractDroppedPaths(string[] items)
         {
@@ -318,10 +328,7 @@ namespace Edimsha
         }
 
         private void LoadSettings()
-        {
-            // Checkbox CleanListOnExit
-            chkCleanListOnExit.IsChecked = Settings.Default.chkCleanListOnExit;
-
+        {            
             // Listview
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
             bool still = store.StillPathsSameFromLastSession();
@@ -331,11 +338,17 @@ namespace Edimsha
             UpdateLvEditor(store);
             UpdateCtxLvEditor();
 
+            // chkCleanListOnExit
+            chkCleanListOnExit.IsChecked = Settings.Default.chkCleanListOnExit;
+
             // txtOutputFolder
             txtOutputFolder.Text = Settings.Default.txtEditorFolderPath;
 
             // txtEdimsha
             txtEdimsha.Text = Settings.Default.txtEdimsha;
+
+            // Checkbox chkAddOnReplace
+            chkAddOnReplace.IsChecked = Settings.Default.chkAddOnReplace;
         }
 
         private void UpdateCtxLvEditor()
@@ -372,8 +385,9 @@ namespace Edimsha
             store.RemoveMissingPathsFromLastSession();
         }
 
+
         #endregion
 
-
+        
     }
 }
