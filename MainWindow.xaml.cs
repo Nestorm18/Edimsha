@@ -68,7 +68,7 @@ namespace Edimsha
 
             Settings.Default.Save();
         }
-       
+
         private void SaveEditorEdimsha()
         {
             Settings.Default.txtEdimsha = txtEdimsha.Text;
@@ -314,6 +314,28 @@ namespace Edimsha
         }
 
         // Slider Compression
+        // Checkbox ChkOptimizeImage
+        private void ChkOptimizeImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkOptimizeImage.IsChecked == true)
+                Settings.Default.chkOptimizeImage = true;
+            else
+                Settings.Default.chkOptimizeImage = false;
+
+            Settings.Default.Save();
+        }
+
+        // Checkbox ChkReplaceForOriginal
+        private void ChkReplaceForOriginal_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkReplaceForOriginal.IsChecked == true)
+                Settings.Default.chkReplaceForOriginal = true;
+            else
+                Settings.Default.chkReplaceForOriginal = false;
+
+            Settings.Default.Save();
+
+        }
 
         // Logic
         private List<string> ExtractDroppedPaths(string[] items)
@@ -361,7 +383,7 @@ namespace Edimsha
         }
 
         private void LoadSettings()
-        {            
+        {
             // Listview
             Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
             bool still = store.StillPathsSameFromLastSession();
@@ -371,23 +393,14 @@ namespace Edimsha
             UpdateLvEditor(store);
             UpdateCtxLvEditor();
 
-            // chkCleanListOnExit
             chkCleanListOnExit.IsChecked = Settings.Default.chkCleanListOnExit;
-
-            // txtOutputFolder
             txtOutputFolder.Text = Settings.Default.txtEditorFolderPath;
-
-            // txtEdimsha
             txtEdimsha.Text = Settings.Default.txtEdimsha;
-
-            // Checkbox chkAddOnReplace
             chkAddOnReplace.IsChecked = Settings.Default.chkAddOnReplace;
-
-            // Checkbox chkKeepOriginalResolution
             chkKeepOriginalResolution.IsChecked = Settings.Default.chkKeepOriginalResolution;
-
-            // Slider sldCompression
             sldCompression.Value = Settings.Default.sldCompression;
+            chkOptimizeImage.IsChecked = Settings.Default.chkOptimizeImage;
+            chkReplaceForOriginal.IsChecked = Settings.Default.chkReplaceForOriginal;
         }
 
         private void UpdateCtxLvEditor()
@@ -423,8 +436,9 @@ namespace Edimsha
 
             store.RemoveMissingPathsFromLastSession();
         }
+
         #endregion
 
-  
+
     }
 }

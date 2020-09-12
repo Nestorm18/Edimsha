@@ -106,5 +106,29 @@ namespace Edimsha.Properties {
                 this["sldCompression"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool chkOptimizeImage {
+            get {
+                return ((bool)(this["chkOptimizeImage"]));
+            }
+            set {
+                this["chkOptimizeImage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool chkReplaceForOriginal {
+            get {
+                return ((bool)(this["chkReplaceForOriginal"]));
+            }
+            set {
+                this["chkReplaceForOriginal"] = value;
+            }
+        }
     }
 }
