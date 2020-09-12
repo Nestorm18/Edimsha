@@ -7,10 +7,10 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
         Title="Edimsha" 
-        Height="505" 
+        Height="515" 
         Width="830" 
         MinWidth="830"
-        MinHeight="455"
+        MinHeight="515"
         WindowStartupLocation="CenterScreen"        
         Icon="icon.png"
         Closing="Window_Closing">
@@ -157,6 +157,12 @@
                 <Label Content="Proximamente"/>
             </StackPanel>
         </StackPanel>
+
+        <StatusBar Height="25" Margin="5,5,5,5">
+            <StatusBarItem>
+                <TextBlock Name="statusbar" />
+            </StatusBarItem>
+        </StatusBar>
 
     </StackPanel>
 
