@@ -130,8 +130,8 @@
 
                     <Label Content="Compresion en %:" Grid.Column="0" Grid.ColumnSpan="2"/>
                     <Slider x:Name="sldCompression" Grid.Column="1" VerticalAlignment="Center" Height="20" Margin="5" Maximum="100" SmallChange="1" Minimum="1" TickFrequency="10"/>
-                    <CheckBox x:Name="chkOptimizeImage" Content="Optimizar imagen" Grid.Column="2" VerticalAlignment="Center" Margin="5" Height="15" Checked="ChkOptimizeImage_Click"/>
-                    <CheckBox x:Name="chkReplaceForOriginal" Content="Remplazar por original" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,0,5" Height="15" HorizontalAlignment="Left" Width="140" Checked="ChkReplaceForOriginal_Click"/>
+                    <CheckBox x:Name="chkOptimizeImage" Content="Optimizar imagen" Grid.Column="2" VerticalAlignment="Center" Margin="5" Height="15" Click="ChkOptimizeImage_Click"/>
+                    <CheckBox x:Name="chkReplaceForOriginal" Content="Remplazar por original" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,0,5" Height="15" HorizontalAlignment="Left" Width="140" Click="ChkReplaceForOriginal_Click"/>
                 </Grid>
 
                 <ProgressBar Height="20" Margin="5,5,5,0"/>
