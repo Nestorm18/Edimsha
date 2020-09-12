@@ -82,5 +82,17 @@ namespace Edimsha.Properties {
                 this["chkAddOnReplace"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool chkKeepOriginalResolution {
+            get {
+                return ((bool)(this["chkKeepOriginalResolution"]));
+            }
+            set {
+                this["chkKeepOriginalResolution"] = value;
+            }
+        }
     }
 }

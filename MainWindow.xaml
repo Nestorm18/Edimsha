@@ -108,16 +108,16 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
                         <Label Content="Ancho (px):" VerticalAlignment="Center"/>
-                        <xctk:WatermarkTextBox Watermark="552" Width="40" IsEnabled="False" Height="24"/>
+                        <xctk:WatermarkTextBox x:Name="txtWidth" Watermark="552" Width="40" IsEnabled="False" Height="24"/>
 
                         <Label Content="Alto (px):" VerticalAlignment="Center"/>
-                        <xctk:WatermarkTextBox Watermark="689" Width="40" IsEnabled="False" Height="24"/>
+                        <xctk:WatermarkTextBox x:Name="txtHeight" Watermark="689" Width="40" IsEnabled="False" Height="24"/>
 
-                        <CheckBox Content="Mantener resolución original" VerticalAlignment="Center" Margin="19,0,5,0" Height="15"/>
+                        <CheckBox x:Name="chkKeepOriginalResolution" Content="Mantener resolución original" VerticalAlignment="Center" Margin="19,0,5,0" Height="15" Checked="ChkKeepOriginalResolution_Checked"/>
 
                     </StackPanel>
 
-                    <Button Content="Resoluciones usadas" Grid.Column="2"/>
+                    <Button x:Name="btnUsedResolutions" Content="Resoluciones usadas" Grid.Column="2" Click="BtnUsedResolutions_Click" />
                 </Grid>
 
                 <Grid Height="30">
@@ -136,14 +136,14 @@
 
                 <ProgressBar Height="20" Margin="5,5,5,0"/>
 
-                <Grid Height="30">
+                <Grid Height="30" Margin="0,4,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Content="Resetear" Grid.Column="0"/>
+                    <Button Content="Resetear" Grid.Column="0" Margin="5,3"/>
                     <Button Content="Parar" IsEnabled="False" Grid.Column="1"/>
                     <Button Content="Iniciar" Grid.Column="2"/>
                 </Grid>

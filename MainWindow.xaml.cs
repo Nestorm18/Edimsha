@@ -272,6 +272,7 @@ namespace Edimsha
                 txtOutputFolder.Text = openFolderDialog.SelectedPath;
         }
 
+        // Checkbox AddOnReplace
         private void ChkAddOnReplace_Click(object sender, RoutedEventArgs e)
         {
             if (chkAddOnReplace.IsChecked == true)
@@ -280,6 +281,23 @@ namespace Edimsha
                 Settings.Default.chkAddOnReplace = false;
 
             Settings.Default.Save();
+        }
+
+        // Checkbox KeepOriginalResolution 
+        private void ChkKeepOriginalResolution_Checked(object sender, RoutedEventArgs e)
+        {
+            if (chkKeepOriginalResolution.IsChecked == true)
+                Settings.Default.chkKeepOriginalResolution = true;
+            else
+                Settings.Default.chkKeepOriginalResolution = false;
+
+            Settings.Default.Save();
+        }
+
+        // Button open resolution selection/save
+        private void BtnUsedResolutions_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         // Logic
@@ -349,6 +367,9 @@ namespace Edimsha
 
             // Checkbox chkAddOnReplace
             chkAddOnReplace.IsChecked = Settings.Default.chkAddOnReplace;
+
+            // Checkbox chkKeepOriginalResolution
+            chkKeepOriginalResolution.IsChecked = Settings.Default.chkKeepOriginalResolution;
         }
 
         private void UpdateCtxLvEditor()
@@ -384,10 +405,7 @@ namespace Edimsha
 
             store.RemoveMissingPathsFromLastSession();
         }
-
-
         #endregion
 
-        
     }
 }
