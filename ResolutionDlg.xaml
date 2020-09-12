@@ -40,15 +40,15 @@
             </Grid.ColumnDefinitions>
 
             <Label Content="Resoluciones:" Grid.Row="0" Grid.Column="0" Height="Auto" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" Height="24" Margin="0,0,5,0"/>
+            <ComboBox x:Name="cmbResolutions" Grid.Row="0" Grid.Column="1" Height="24" Margin="0,0,5,0" IsEnabled="False" SelectionChanged="CmbResolutions_SelectionChanged"/>
 
             <Label Content="Ancho (px) (X):" Grid.Row="1" Grid.Column="0" Height="Auto" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1" Margin="0,5,5,0"/>
+            <xctk:IntegerUpDown x:Name="txtWidth" Grid.Row="1" Grid.Column="1" Margin="0,5,5,0" ValueChanged="Spinners_ValueChanged"/>
 
             <Label Content="Alto (px) (Y):" Grid.Row="2" Grid.Column="0" Height="Auto" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <xctk:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="0,5,5,0"/>
+            <xctk:IntegerUpDown x:Name="txtHeight" Grid.Row="2" Grid.Column="1" Margin="0,5,5,0" ValueChanged="Spinners_ValueChanged"/>
 
-            <Button Content="Guardar resolucion" Grid.Row="3" Grid.Column="1" Height="24" Margin="0,5,5,0"/>
+            <Button x:Name="btnSaveResolution" Content="Guardar resolucion" Grid.Row="3" Grid.Column="1" Height="24" Margin="0,5,5,0" Click="BtnSaveResolution_Click" IsEnabled="False"/>
         </Grid>
 
         <StackPanel>
@@ -64,9 +64,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Content="Eliminar" Grid.Column="0" Height="24"/>
-                <Button Content="Cancelar" Grid.Column="1" Height="24"/>
-                <Button Content="Cargar resolucion" Grid.Column="2" Height="24"/>
+                <Button x:Name="btnRemove" Content="Eliminar" Grid.Column="0" Height="24" Click="BtnRemove_Click" IsEnabled="False"/>
+                <Button x:Name="btnCancel" Content="Cancelar" Grid.Column="1" Height="24" Click="BtnCancel_Click"/>
+                <Button x:Name="btnLoadResolution" Content="Cargar resolucion" Grid.Column="2" Height="24" Click="BtnLoadResolution_Click" IsEnabled="False"/>
             </Grid>
         </StackPanel>
     </StackPanel>

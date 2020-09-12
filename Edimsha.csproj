@@ -100,7 +100,10 @@
     <Compile Include="ResolutionDlg.xaml.cs">
       <DependentUpon>ResolutionDlg.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resolution.cs" />
     <Compile Include="Storage.cs" />
+    <Compile Include="StoragePaths.cs" />
+    <Compile Include="StorageResolutions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

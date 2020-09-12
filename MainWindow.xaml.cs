@@ -32,8 +32,9 @@ namespace Edimsha
             LoadSettings();
 
             // TEMP
-            //ResolutionDlg dlg = new ResolutionDlg();
-            //dlg.ShowDialog();
+            ResolutionDlg dlg = new ResolutionDlg();
+            dlg.ShowDialog();
+            Close();
         }
 
         #region Window
@@ -52,7 +53,7 @@ namespace Edimsha
         {
             if (isChecked == true)
             {
-                Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
                 store.CleanFile();
             }
         }
@@ -192,7 +193,7 @@ namespace Edimsha
         #endregion
 
         #region StackPanel Editor
-        // Events
+        #region Events
         // ListView
         private void LvEditorDrop(object sender, DragEventArgs e)
         {
@@ -202,7 +203,7 @@ namespace Edimsha
 
                 List<string> paths = ExtractDroppedPaths(items);
 
-                Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
                 store.KeepSavedPreviousPaths = true;
 
                 store.SavePaths(paths);
@@ -222,7 +223,7 @@ namespace Edimsha
             {
                 string item = (string)lvEditor.SelectedItems[0];
 
-                Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
                 store.RemovePath(item);
 
                 UpdateLvEditor(store);
@@ -231,7 +232,7 @@ namespace Edimsha
 
         private void CtxLvDeleteAll(object sender, RoutedEventArgs e)
         {
-            Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+            StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
             store.CleanFile();
 
             UpdateLvEditor(store);
@@ -261,7 +262,7 @@ namespace Edimsha
             {
                 List<string> paths = new List<string>(openFileDialog.FileNames);
 
-                Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS)
+                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS)
                 {
                     KeepSavedPreviousPaths = true
                 };
@@ -336,8 +337,9 @@ namespace Edimsha
             Settings.Default.Save();
 
         }
+        #endregion
 
-        // Logic
+        #region Logic
         private List<string> ExtractDroppedPaths(string[] items)
         {
             if (items is null) throw new ArgumentNullException(nameof(items));
@@ -357,12 +359,12 @@ namespace Edimsha
 
         }
 
-        private void UpdateLvEditor(Storage store)
+        private void UpdateLvEditor(StoragePaths store)
         {
-            lvEditor.ItemsSource = store.GetPaths();
+            lvEditor.ItemsSource = store.GetObject<string>();
             UpdateCtxLvEditor();
         }
-
+        #endregion
         #endregion
 
         #region StackPanel Conversor
@@ -385,7 +387,7 @@ namespace Edimsha
         private void LoadSettings()
         {
             // Listview
-            Storage store = new Storage(FilePaths.EDITOR_FILE_PATHS);
+            StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
             bool still = store.StillPathsSameFromLastSession();
 
             if (!still) LaunchPathChangeMsg(store);
@@ -416,7 +418,7 @@ namespace Edimsha
                 ctxLvRemoveAll.IsEnabled = false;
         }
 
-        private void LaunchPathChangeMsg(Storage store)
+        private void LaunchPathChangeMsg(StoragePaths store)
         {
             MessageBoxResult result = MessageBox.Show("Las rutas que estaban anteriormente se han modificado, Pulsa \"Si\" para ver los cambios.",
                 "Rutas modificadas",
@@ -438,7 +440,6 @@ namespace Edimsha
         }
 
         #endregion
-
 
     }
 }
