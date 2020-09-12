@@ -288,7 +288,7 @@ namespace Edimsha
         }
 
         // Checkbox KeepOriginalResolution 
-        private void ChkKeepOriginalResolution_Checked(object sender, RoutedEventArgs e)
+        private void ChkKeepOriginalResolution_Click(object sender, RoutedEventArgs e)
         {
             if (chkKeepOriginalResolution.IsChecked == true)
                 Settings.Default.chkKeepOriginalResolution = true;
@@ -303,6 +303,13 @@ namespace Edimsha
         {
             ResolutionDlg dlg = new ResolutionDlg();
             dlg.ShowDialog();
+        }
+
+        // Slider Compression
+        private void SldCompression_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Settings.Default.sldCompression = (int)sldCompression.Value;
+            Settings.Default.Save();
         }
 
         // Logic
@@ -375,6 +382,9 @@ namespace Edimsha
 
             // Checkbox chkKeepOriginalResolution
             chkKeepOriginalResolution.IsChecked = Settings.Default.chkKeepOriginalResolution;
+
+            // Slider sldCompression
+            sldCompression.Value = Settings.Default.sldCompression;
         }
 
         private void UpdateCtxLvEditor()
@@ -412,5 +422,6 @@ namespace Edimsha
         }
         #endregion
 
+  
     }
 }

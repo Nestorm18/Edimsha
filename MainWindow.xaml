@@ -113,7 +113,7 @@
                         <Label Content="Alto (px):" VerticalAlignment="Center"/>
                         <xctk:WatermarkTextBox x:Name="txtHeight" Watermark="689" Width="40" IsEnabled="False" Height="24"/>
 
-                        <CheckBox x:Name="chkKeepOriginalResolution" Content="Mantener resolución original" VerticalAlignment="Center" Margin="19,0,5,0" Height="15" Checked="ChkKeepOriginalResolution_Checked"/>
+                        <CheckBox x:Name="chkKeepOriginalResolution" Content="Mantener resolución original" VerticalAlignment="Center" Margin="19,0,5,0" Height="15" Click="ChkKeepOriginalResolution_Click"/>
 
                     </StackPanel>
 
@@ -129,7 +129,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Compresion en %:" Grid.Column="0" Grid.ColumnSpan="2"/>
-                    <Slider Grid.Column="1" VerticalAlignment="Center" Height="20" Margin="5"/>
+                    <Slider x:Name="sldCompression" Grid.Column="1" VerticalAlignment="Center" Height="20" Margin="5" ValueChanged="SldCompression_ValueChanged" Maximum="100" SmallChange="1" Minimum="1" TickFrequency="10"/>
                     <CheckBox Content="Optimizar imagen" Grid.Column="2" VerticalAlignment="Center" Margin="5" Height="15"/>
                     <CheckBox Content="Remplazar por original" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,0,5" Height="15" HorizontalAlignment="Left" Width="140"/>
                 </Grid>
