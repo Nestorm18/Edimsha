@@ -43,6 +43,8 @@ namespace Edimsha
             CleanEditorListOnExit(chkCleanListOnExit.IsChecked);
             SaveEditorOutputFolderPath();
             SaveEditorEdimsha();
+            SaveEditorSliderCompression();
+
         }
 
         // Logic   
@@ -70,6 +72,12 @@ namespace Edimsha
         private void SaveEditorEdimsha()
         {
             Settings.Default.txtEdimsha = txtEdimsha.Text;
+            Settings.Default.Save();
+        }
+
+        private void SaveEditorSliderCompression()
+        {
+            Settings.Default.sldCompression = (int)sldCompression.Value;
             Settings.Default.Save();
         }
 
@@ -306,11 +314,6 @@ namespace Edimsha
         }
 
         // Slider Compression
-        private void SldCompression_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            Settings.Default.sldCompression = (int)sldCompression.Value;
-            Settings.Default.Save();
-        }
 
         // Logic
         private List<string> ExtractDroppedPaths(string[] items)
