@@ -30,6 +30,10 @@ namespace Edimsha
             InitializeComponent();
 
             LoadSettings();
+
+            // TEMP
+            //ResolutionDlg dlg = new ResolutionDlg();
+            //dlg.ShowDialog();
         }
 
         #region Window
@@ -297,7 +301,8 @@ namespace Edimsha
         // Button open resolution selection/save
         private void BtnUsedResolutions_Click(object sender, RoutedEventArgs e)
         {
-
+            ResolutionDlg dlg = new ResolutionDlg();
+            dlg.ShowDialog();
         }
 
         // Logic
