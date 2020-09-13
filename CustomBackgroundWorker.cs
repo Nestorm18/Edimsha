@@ -34,7 +34,6 @@ namespace Edimsha
                 edt.Run();
                 
                 ReportProgress(cnt, allPaths.Count);
-                System.Threading.Thread.Sleep(250);
                 cnt++;
             }
         }

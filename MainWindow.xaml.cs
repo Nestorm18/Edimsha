@@ -465,6 +465,8 @@ namespace Edimsha
                 statusbar.Text = "Cancelled by user...";
             else
             {
+                bw.ProgressChanged -= Worker_ProgressChanged;
+                bw.RunWorkerCompleted -= Worker_RunWorkerCompleted;
                 EnableEditorUI();
             }
         }
