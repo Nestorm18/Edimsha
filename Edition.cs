@@ -24,10 +24,14 @@ namespace Edimsha
         internal void Run()
         {
             // Image resize to user values
-            Image image = Resize(Image.FromFile(ImagePath));
-            string savePath = GeneratesavePath();
+            Image image;
+            
+            using (var img = Image.FromFile(ImagePath))
+            {
+                image = Resize(img);
+            }            
 
-            Console.WriteLine(savePath);
+            string savePath = GeneratesavePath();
 
             if (Settings.Default.chkOptimizeImage)
             {
@@ -39,14 +43,14 @@ namespace Edimsha
                 image.Save(savePath, ImageFormat.Jpeg);
             }
         }
-
+      
         private string GeneratesavePath()
         {
             string name = GenerateName();
-                        
-            if (Settings.Default.txtEditorFolderPath.Equals(""))            
+
+            if (Settings.Default.txtEditorFolderPath.Equals(""))
                 return Path.Combine(Directory.GetParent(ImagePath).FullName, name);
-            
+
             return Path.Combine(Settings.Default.txtEditorFolderPath, name);
         }
 
@@ -58,17 +62,14 @@ namespace Edimsha
             bool replaceOriginal = Settings.Default.chkReplaceForOriginal;
             bool replaceEdimsha = Settings.Default.chkAddOnReplace;
 
-
-            string edimsha = Settings.Default.txtEdimsha;
-
-            if (replaceOriginal && !replaceEdimsha)            
-                edimsha = "";
+            if (replaceOriginal && !replaceEdimsha)
+                return imageName;
 
             if (samePath || (replaceEdimsha && !samePath))
             {
-                edimsha = Settings.Default.txtEdimsha;
+                string edimsha = Settings.Default.txtEdimsha;
                 return $"{edimsha}{imageName}";
-            }                     
+            }
 
             return imageName;
         }
@@ -78,8 +79,8 @@ namespace Edimsha
             string outputDir = Settings.Default.txtEditorFolderPath;
             string currentDir = Directory.GetParent(ImagePath).FullName;
 
-            if (outputDir.Equals(""))            
-                return true;           
+            if (outputDir.Equals(""))
+                return true;
 
             return Equals(outputDir, currentDir);
         }
