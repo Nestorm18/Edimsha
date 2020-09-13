@@ -32,6 +32,12 @@ namespace Edimsha
             InitializeComponent();
 
             LoadSettings();
+
+            //Edition edt = new Edition(@"D:\curso_c_sharp\Edimsha\Edimsha\imagenes_pueba\Test\WEB TOTE BLANCO ABC LSE.jpg");
+            //edt.Run();
+
+            //Close();
+
         }
 
         #region Window
@@ -39,10 +45,7 @@ namespace Edimsha
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             CleanEditorListOnExit(chkCleanListOnExit.IsChecked);
-            SaveEditorOutputFolderPath();
-            SaveEditorEdimsha();
             SaveEditorSliderCompression();
-
         }
 
         // Logic   
@@ -265,6 +268,12 @@ namespace Edimsha
             }
         }
 
+        // Textfield TxtOutputFolder
+        private void TxtOutputFolder_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveEditorOutputFolderPath();
+        }
+
         // Button open folder selector
         private void BtnSelectEditorOutputFolder(object sender, RoutedEventArgs e)
         {
@@ -277,6 +286,12 @@ namespace Edimsha
                 txtOutputFolder.Text = openFolderDialog.SelectedPath;
         }
 
+        // Textfield TxtEdimsha
+        private void TxtEdimsha_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveEditorEdimsha();
+        }
+       
         // Checkbox AddOnReplace
         private void ChkAddOnReplace_Click(object sender, RoutedEventArgs e)
         {
@@ -534,6 +549,5 @@ namespace Edimsha
         }
 
         #endregion
-
     }
 }

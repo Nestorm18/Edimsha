@@ -78,7 +78,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Carpeta de salida:" Grid.Column="0"/>
-                    <xctk:WatermarkTextBox x:Name="txtOutputFolder" TextWrapping="Wrap" Watermark="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" VerticalAlignment="Center"/>
+                    <xctk:WatermarkTextBox x:Name="txtOutputFolder" TextWrapping="Wrap" Watermark="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" VerticalAlignment="Center" LostFocus="TxtOutputFolder_LostFocus" />
 
                     <Button x:Name="btnSelectEditorOutputFolder" Content="Seleccionar carpeta" Grid.Column="2" Click="BtnSelectEditorOutputFolder" />
                 </Grid>
@@ -93,7 +93,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Cambiar edimsha por:" Grid.Column="0"/>
-                    <xctk:WatermarkTextBox x:Name="txtEdimsha" TextWrapping="Wrap" Watermark="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3"/>
+                    <xctk:WatermarkTextBox x:Name="txtEdimsha" TextWrapping="Wrap" Watermark="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" LostFocus="TxtEdimsha_LostFocus"/>
                     <CheckBox x:Name="chkAddOnReplace" Content="Incluir al remplazar" Grid.Column="4" VerticalAlignment="Center" Click="ChkAddOnReplace_Click" />
                 </Grid>
 
