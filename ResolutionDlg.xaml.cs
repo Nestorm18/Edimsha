@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace Edimsha
@@ -92,9 +93,17 @@ namespace Edimsha
                     Width = width,
                     Height = height
                 };
-                store.SaveResolution(res);
+
+                MsgResolutionExist(store.SaveResolution(res));
+
             }
             LoadResolutions();
+        }
+
+        private void MsgResolutionExist(bool exist)
+        {
+            if (exist)
+                MessageBox.Show("Esa resolucion ya existe.", "Resolucion existente", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void BtnRemove_Click(object sender, RoutedEventArgs e)

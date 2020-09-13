@@ -12,7 +12,8 @@ namespace Edimsha
         {
             return Width.Equals(other.Width) && Height.Equals(other.Height);
         }
-                public override int GetHashCode()
+        
+        public override int GetHashCode()
         {
             return (Width.GetHashCode()) ^ (Height.GetHashCode());
         }
