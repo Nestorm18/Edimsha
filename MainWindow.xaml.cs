@@ -198,8 +198,10 @@ namespace Edimsha
 
                 List<string> paths = ExtractDroppedPaths(items);
 
-                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
-                store.KeepSavedPreviousPaths = true;
+                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS)
+                {
+                    KeepSavedPreviousPaths = true
+                };
 
                 store.SavePaths(paths);
 
@@ -236,11 +238,7 @@ namespace Edimsha
         // Checkbox chkCleanListOnExit
         private void ChkCleanListOnExit_Click(object sender, RoutedEventArgs e)
         {
-            if (chkCleanListOnExit.IsChecked == true)
-                Settings.Default.chkCleanListOnExit = true;
-            else
-                Settings.Default.chkCleanListOnExit = false;
-
+            Settings.Default.chkCleanListOnExit = (chkCleanListOnExit.IsChecked == true);
             Settings.Default.Save();
         }
 
@@ -283,22 +281,14 @@ namespace Edimsha
         // Checkbox AddOnReplace
         private void ChkAddOnReplace_Click(object sender, RoutedEventArgs e)
         {
-            if (chkAddOnReplace.IsChecked == true)
-                Settings.Default.chkAddOnReplace = true;
-            else
-                Settings.Default.chkAddOnReplace = false;
-
+            Settings.Default.chkAddOnReplace = (chkAddOnReplace.IsChecked == true);
             Settings.Default.Save();
         }
 
         // Checkbox KeepOriginalResolution 
         private void ChkKeepOriginalResolution_Click(object sender, RoutedEventArgs e)
         {
-            if (chkKeepOriginalResolution.IsChecked == true)
-                Settings.Default.chkKeepOriginalResolution = true;
-            else
-                Settings.Default.chkKeepOriginalResolution = false;
-
+            Settings.Default.chkKeepOriginalResolution = (chkKeepOriginalResolution.IsChecked == true);
             Settings.Default.Save();
         }
 
@@ -315,24 +305,15 @@ namespace Edimsha
         // Checkbox ChkOptimizeImage
         private void ChkOptimizeImage_Click(object sender, RoutedEventArgs e)
         {
-            if (chkOptimizeImage.IsChecked == true)
-                Settings.Default.chkOptimizeImage = true;
-            else
-                Settings.Default.chkOptimizeImage = false;
-
+            Settings.Default.chkOptimizeImage = (chkOptimizeImage.IsChecked == true);
             Settings.Default.Save();
         }
 
         // Checkbox ChkReplaceForOriginal
         private void ChkReplaceForOriginal_Click(object sender, RoutedEventArgs e)
         {
-            if (chkReplaceForOriginal.IsChecked == true)
-                Settings.Default.chkReplaceForOriginal = true;
-            else
-                Settings.Default.chkReplaceForOriginal = false;
-
+            Settings.Default.chkReplaceForOriginal = (chkReplaceForOriginal.IsChecked == true);
             Settings.Default.Save();
-
         }
         #endregion
 
@@ -411,15 +392,8 @@ namespace Edimsha
 
         private void UpdateCtxLvEditor()
         {
-            if (lvEditor.SelectedItems.Count > 0)
-                ctxLvRemove.IsEnabled = true;
-            else
-                ctxLvRemove.IsEnabled = false;
-
-            if (lvEditor.Items.Count > 0)
-                ctxLvRemoveAll.IsEnabled = true;
-            else
-                ctxLvRemoveAll.IsEnabled = false;
+            ctxLvRemove.IsEnabled = (lvEditor.SelectedItems.Count > 0);
+            ctxLvRemoveAll.IsEnabled = (lvEditor.Items.Count > 0);
         }
 
         private void LaunchPathChangeMsg(StoragePaths store)
