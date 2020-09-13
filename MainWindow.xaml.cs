@@ -301,6 +301,12 @@ namespace Edimsha
         }
 
         // Slider Compression
+        private void SldCompression_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (statusbar != null)
+                statusbar.Text = $"Dejar sin comprimir un {(int)sldCompression.Value}%";
+        }
+
         // Checkbox ChkOptimizeImage
         private void ChkOptimizeImage_Click(object sender, RoutedEventArgs e)
         {
@@ -481,6 +487,8 @@ namespace Edimsha
             sldCompression.Value = Settings.Default.sldCompression;
             chkOptimizeImage.IsChecked = Settings.Default.chkOptimizeImage;
             chkReplaceForOriginal.IsChecked = Settings.Default.chkReplaceForOriginal;
+
+            statusbar.Text = "Aplicacion iniciada";
         }
 
         private void LoadWidthAndHeigth()
