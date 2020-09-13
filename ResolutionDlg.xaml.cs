@@ -9,7 +9,7 @@ namespace Edimsha
     public partial class ResolutionDlg : Window
     {
         private StorageResolutions store = new StorageResolutions(FilePaths.RESOLUTIONS);
-        
+
         public ResolutionDlg()
         {
             InitializeComponent();
@@ -21,13 +21,17 @@ namespace Edimsha
             if (store.GetResolutions().Count > 0)
             {
                 List<string> toCmb = new List<string>();
-                
-                foreach (var item in store.GetResolutions())            
+
+                foreach (var item in store.GetResolutions())
                     toCmb.Add($"X: {item.Width}, Y: {item.Height}");
-                
+
                 cmbResolutions.ItemsSource = toCmb;
                 cmbResolutions.SelectedIndex = toCmb.Count - 1;
 
+            }
+            else
+            {
+                cmbResolutions.ItemsSource = new List<string>();
             }
             UpdateUI();
         }
@@ -39,20 +43,26 @@ namespace Edimsha
                 cmbResolutions.IsEnabled = true;
                 btnRemove.IsEnabled = true;
                 btnSaveResolution.IsEnabled = true;
-                
-                // TODO: fix Return null cuando elige index 0 
-                string[] splt = cmbResolutions.SelectedItem.ToString().Split();
-                string width = splt[1].Trim().Replace(",", "");
-                string height = splt[3].Trim();
 
-                txtWidth.Text = width;
-                txtHeight.Text = height;
+                if (cmbResolutions.SelectedItem != null)
+                {
+                    string[] splt = cmbResolutions.SelectedItem.ToString().Split();
+
+                    string width = splt[1].Trim().Replace(",", "");
+                    string height = splt[3].Trim();
+
+                    txtWidth.Text = width;
+                    txtHeight.Text = height;
+                }
             }
             else
             {
                 cmbResolutions.IsEnabled = false;
                 btnRemove.IsEnabled = false;
                 btnSaveResolution.IsEnabled = false;
+
+                txtWidth.Text = "";
+                txtHeight.Text = "";
             }
         }
 
@@ -64,8 +74,8 @@ namespace Edimsha
 
         private void Spinners_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (txtWidth.Value > 0 && txtHeight.Value > 0)            
-                btnSaveResolution.IsEnabled = true;            
+            if (txtWidth.Value > 0 && txtHeight.Value > 0)
+                btnSaveResolution.IsEnabled = true;
             else
                 btnSaveResolution.IsEnabled = false;
         }
