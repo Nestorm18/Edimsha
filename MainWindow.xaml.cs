@@ -310,6 +310,7 @@ namespace Edimsha
         // Checkbox ChkOptimizeImage
         private void ChkOptimizeImage_Click(object sender, RoutedEventArgs e)
         {
+            sldCompression.IsEnabled = (chkOptimizeImage.IsChecked == true);
             Settings.Default.chkOptimizeImage = (chkOptimizeImage.IsChecked == true);
             Settings.Default.Save();
         }

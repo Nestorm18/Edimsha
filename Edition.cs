@@ -19,6 +19,11 @@ namespace Edimsha
 
         internal void Run()
         {
+            Resize();
+        }
+
+        private void Resize()
+        {
             throw new NotImplementedException();
         }
     }
