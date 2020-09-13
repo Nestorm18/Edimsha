@@ -37,7 +37,6 @@ namespace Edimsha
                 System.Threading.Thread.Sleep(250);
                 cnt++;
             }
-            e.Result = 42;
         }
     }
 }

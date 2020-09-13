@@ -455,8 +455,7 @@ namespace Edimsha
                 statusbar.Text = "Cancelled by user...";
             else
             {
-                EnableEditorUI();
-                statusbar.Text = "Done... Calc result: " + e.Result;
+                EnableEditorUI();                
             }
         }
 
