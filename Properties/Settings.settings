@@ -29,5 +29,11 @@
     <Setting Name="chkReplaceForOriginal" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Width" Type="System.String" Scope="User">
+      <Value Profile="(Default)">000</Value>
+    </Setting>
+    <Setting Name="Height" Type="System.String" Scope="User">
+      <Value Profile="(Default)">000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

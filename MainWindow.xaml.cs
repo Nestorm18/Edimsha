@@ -30,11 +30,6 @@ namespace Edimsha
             InitializeComponent();
 
             LoadSettings();
-
-            // TEMP
-            ResolutionDlg dlg = new ResolutionDlg();
-            dlg.ShowDialog();
-            Close();
         }
 
         #region Window
@@ -312,6 +307,8 @@ namespace Edimsha
         {
             ResolutionDlg dlg = new ResolutionDlg();
             dlg.ShowDialog();
+
+            LoadWidthAndHeigth();
         }
 
         // Slider Compression
@@ -399,10 +396,17 @@ namespace Edimsha
             txtOutputFolder.Text = Settings.Default.txtEditorFolderPath;
             txtEdimsha.Text = Settings.Default.txtEdimsha;
             chkAddOnReplace.IsChecked = Settings.Default.chkAddOnReplace;
+            LoadWidthAndHeigth();
             chkKeepOriginalResolution.IsChecked = Settings.Default.chkKeepOriginalResolution;
             sldCompression.Value = Settings.Default.sldCompression;
             chkOptimizeImage.IsChecked = Settings.Default.chkOptimizeImage;
             chkReplaceForOriginal.IsChecked = Settings.Default.chkReplaceForOriginal;
+        }
+
+        private void LoadWidthAndHeigth()
+        {
+            txtWidth.Text = Settings.Default.Width;
+            txtHeight.Text = Settings.Default.Height;
         }
 
         private void UpdateCtxLvEditor()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Edimsha.Properties;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -44,6 +45,7 @@ namespace Edimsha
                 cmbResolutions.IsEnabled = true;
                 btnRemove.IsEnabled = true;
                 btnSaveResolution.IsEnabled = true;
+                btnLoadResolution.IsEnabled = true;
 
                 if (cmbResolutions.SelectedItem != null)
                 {
@@ -61,6 +63,7 @@ namespace Edimsha
                 cmbResolutions.IsEnabled = false;
                 btnRemove.IsEnabled = false;
                 btnSaveResolution.IsEnabled = false;
+                btnLoadResolution.IsEnabled = false;
 
                 txtWidth.Text = "";
                 txtHeight.Text = "";
@@ -119,9 +122,9 @@ namespace Edimsha
 
         private void BtnLoadResolution_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Guarda resolucion en Settings y cargar en mainview
-            //Settings.Default.Resolution = ;
+            Settings.Default.Width = txtWidth.Text;
+            Settings.Default.Height = txtHeight.Text;
+            Close();
         }
-
     }
 }
