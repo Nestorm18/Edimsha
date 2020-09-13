@@ -97,6 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Edition.cs" />
     <Compile Include="ResolutionDlg.xaml.cs">
       <DependentUpon>ResolutionDlg.xaml</DependentUpon>
     </Compile>

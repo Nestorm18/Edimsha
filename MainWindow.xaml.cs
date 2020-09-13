@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -20,6 +21,7 @@ namespace Edimsha
     {
         // Menubar
         private EditionMode currentMode = EditionMode.Editor;
+        private CustomBackgroundWorker bw;
 
         public MainWindow()
         {
@@ -334,13 +336,20 @@ namespace Edimsha
         // Button Stop
         private void BtnStop_Click(object sender, RoutedEventArgs e)
         {
-
+            bw.CancelAsync();
+            EnableEditorUI();
         }
 
         // Button Start
         private void BtnStart_Click(object sender, RoutedEventArgs e)
         {
+            DisableEditorUI();
 
+            bw = null;
+            bw = new CustomBackgroundWorker();
+            bw.ProgressChanged += Worker_ProgressChanged;
+            bw.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            bw.RunWorkerAsync();
         }
 
         #endregion
@@ -367,8 +376,69 @@ namespace Edimsha
 
         private void UpdateLvEditor(StoragePaths store)
         {
-            lvEditor.ItemsSource = store.GetObject<string>();
+            List<string> src = store.GetObject<string>();
+            lvEditor.ItemsSource = src;
+            pbEditor.Maximum = src.Count;
+
             UpdateCtxLvEditor();
+        }
+
+        private void EnableEditorUI()
+        {
+            menubar.IsEnabled = true;
+            lvEditor.IsEnabled = true;
+            chkCleanListOnExit.IsEnabled = true;
+            btnSelectEditorImages.IsEnabled = true;
+            txtOutputFolder.IsEnabled = true;
+            btnSelectEditorOutputFolder.IsEnabled = true;
+            txtEdimsha.IsEnabled = true;
+            chkAddOnReplace.IsEnabled = true;
+            chkKeepOriginalResolution.IsEnabled = true;
+            btnUsedResolutions.IsEnabled = true;
+            sldCompression.IsEnabled = true;
+            chkOptimizeImage.IsEnabled = true;
+            chkReplaceForOriginal.IsEnabled = true;
+            btnReset.IsEnabled = true;
+            btnStop.IsEnabled = false;
+            btnStart.IsEnabled = true;
+        }
+
+        private void DisableEditorUI()
+        {
+            menubar.IsEnabled = false;
+            lvEditor.IsEnabled = false;
+            chkCleanListOnExit.IsEnabled = false;
+            btnSelectEditorImages.IsEnabled = false;
+            txtOutputFolder.IsEnabled = false;
+            btnSelectEditorOutputFolder.IsEnabled = false;
+            txtEdimsha.IsEnabled = false;
+            chkAddOnReplace.IsEnabled = false;
+            chkKeepOriginalResolution.IsEnabled = false;
+            btnUsedResolutions.IsEnabled = false;
+            sldCompression.IsEnabled = false;
+            chkOptimizeImage.IsEnabled = false;
+            chkReplaceForOriginal.IsEnabled = false;
+            btnReset.IsEnabled = false;
+            btnStop.IsEnabled = true;
+            btnStart.IsEnabled = false;
+        }
+
+        // BackgroundWorker
+        void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            pbEditor.Value = e.ProgressPercentage;
+            statusbar.Text = $"Editada {e.ProgressPercentage} de {e.UserState}";
+        }
+
+        void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+                statusbar.Text = "Cancelled by user...";
+            else
+            {
+                EnableEditorUI();
+                statusbar.Text = "Done... Calc result: " + e.Result;
+            }
         }
 
         #endregion

@@ -67,7 +67,7 @@
                     </Grid.ColumnDefinitions>
 
                     <CheckBox x:Name="chkCleanListOnExit" Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ChkCleanListOnExit_Click"/>
-                    <Button Content="Seleccionar archivos"  Grid.Column="2" Click="BtnSelectEditorImages"/>
+                    <Button x:Name="btnSelectEditorImages" Content="Seleccionar archivos"  Grid.Column="2" Click="BtnSelectEditorImages"/>
                 </Grid>
 
                 <Grid Height="30">
@@ -80,7 +80,7 @@
                     <Label Content="Carpeta de salida:" Grid.Column="0"/>
                     <xctk:WatermarkTextBox x:Name="txtOutputFolder" TextWrapping="Wrap" Watermark="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" VerticalAlignment="Center"/>
 
-                    <Button Content="Seleccionar carpeta" Grid.Column="2" Click="BtnSelectEditorOutputFolder" />
+                    <Button x:Name="btnSelectEditorOutputFolder" Content="Seleccionar carpeta" Grid.Column="2" Click="BtnSelectEditorOutputFolder" />
                 </Grid>
 
                 <Grid Height="30">
@@ -134,7 +134,7 @@
                     <CheckBox x:Name="chkReplaceForOriginal" Content="Remplazar por original" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,0,5" Height="15" HorizontalAlignment="Left" Width="140" Click="ChkReplaceForOriginal_Click"/>
                 </Grid>
 
-                <ProgressBar Height="20" Margin="5,5,5,0"/>
+                <ProgressBar x:Name="pbEditor" Height="20" Margin="5,5,5,0" SmallChange="1"/>
 
                 <Grid Height="30" Margin="0,4,0,0">
                     <Grid.ColumnDefinitions>
