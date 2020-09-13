@@ -143,9 +143,9 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Content="Resetear" Grid.Column="0" Margin="5,3"/>
-                    <Button Content="Parar" IsEnabled="False" Grid.Column="1"/>
-                    <Button Content="Iniciar" Grid.Column="2"/>
+                    <Button x:Name="btnReset" Content="Resetear" Grid.Column="0" Margin="5,3" Click="BtnReset_Click"/>
+                    <Button x:Name="btnStop" Content="Parar" IsEnabled="False" Grid.Column="1" Click="BtnStop_Click"/>
+                    <Button x:Name="btnStart" Content="Iniciar" Grid.Column="2" Click="BtnStart_Click"/>
                 </Grid>
 
             </StackPanel>

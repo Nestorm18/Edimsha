@@ -229,10 +229,7 @@ namespace Edimsha
 
         private void CtxLvDeleteAll(object sender, RoutedEventArgs e)
         {
-            StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
-            store.CleanFile();
-
-            UpdateLvEditor(store);
+            DeleteJsonEditor();
         }
 
         // Checkbox chkCleanListOnExit
@@ -315,6 +312,37 @@ namespace Edimsha
             Settings.Default.chkReplaceForOriginal = (chkReplaceForOriginal.IsChecked == true);
             Settings.Default.Save();
         }
+
+        // Button Reset
+        private void BtnReset_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteJsonEditor();
+            Settings.Default.Reset();
+            lvEditor.ItemsSource = new List<string>();
+            chkCleanListOnExit.IsChecked = false;
+            txtOutputFolder.Text = "";
+            txtEdimsha.Text = "";
+            chkAddOnReplace.IsChecked = false;
+            txtWidth.Text = Settings.Default.Width;
+            txtHeight.Text = Settings.Default.Height;
+            chkKeepOriginalResolution.IsChecked = false;
+            sldCompression.Value = 80;
+            chkOptimizeImage.IsChecked = false;
+            chkReplaceForOriginal.IsChecked = false;
+        }
+
+        // Button Stop
+        private void BtnStop_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        // Button Start
+        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Logic
@@ -342,6 +370,7 @@ namespace Edimsha
             lvEditor.ItemsSource = store.GetObject<string>();
             UpdateCtxLvEditor();
         }
+
         #endregion
         #endregion
 
@@ -415,6 +444,14 @@ namespace Edimsha
             }
 
             store.RemoveMissingPathsFromLastSession();
+        }
+
+        private void DeleteJsonEditor()
+        {
+            StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
+            store.CleanFile();
+
+            UpdateLvEditor(store);
         }
 
         #endregion

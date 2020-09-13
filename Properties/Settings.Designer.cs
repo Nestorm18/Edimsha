@@ -133,7 +133,7 @@ namespace Edimsha.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1920")]
         public string Width {
             get {
                 return ((string)(this["Width"]));
@@ -145,7 +145,7 @@ namespace Edimsha.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1080")]
         public string Height {
             get {
                 return ((string)(this["Height"]));
