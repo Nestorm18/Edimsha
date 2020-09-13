@@ -399,9 +399,15 @@ namespace Edimsha
             lvEditor.ItemsSource = src;
 
             if (src.Count == 0)
+            {
                 pbEditor.Maximum = 1;
+                btnStart.IsEnabled = false;
+            }
             else
+            {
                 pbEditor.Maximum = src.Count;
+                btnStart.IsEnabled = true;
+            }
 
             UpdateCtxLvEditor();
         }
