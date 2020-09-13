@@ -397,7 +397,11 @@ namespace Edimsha
         {
             List<string> src = store.GetObject<string>();
             lvEditor.ItemsSource = src;
-            pbEditor.Maximum = src.Count;
+
+            if (src.Count == 0)
+                pbEditor.Maximum = 1;
+            else
+                pbEditor.Maximum = src.Count;
 
             UpdateCtxLvEditor();
         }
@@ -455,7 +459,7 @@ namespace Edimsha
                 statusbar.Text = "Cancelled by user...";
             else
             {
-                EnableEditorUI();                
+                EnableEditorUI();
             }
         }
 
@@ -495,9 +499,9 @@ namespace Edimsha
 
             if (Settings.Default.txtEdimsha.Equals("") || Settings.Default.txtEdimsha.Equals("edimsha_"))
                 txtEdimsha.Text = "";
-            else            
-                txtEdimsha.Text = Settings.Default.txtEdimsha;            
-            
+            else
+                txtEdimsha.Text = Settings.Default.txtEdimsha;
+
             chkAddOnReplace.IsChecked = Settings.Default.chkAddOnReplace;
             LoadWidthAndHeigth();
             chkKeepOriginalResolution.IsChecked = Settings.Default.chkKeepOriginalResolution;
