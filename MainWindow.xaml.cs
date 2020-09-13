@@ -32,12 +32,6 @@ namespace Edimsha
             InitializeComponent();
 
             LoadSettings();
-
-            //Edition edt = new Edition(@"D:\curso_c_sharp\Edimsha\Edimsha\imagenes_pueba\Test\WEB TOTE BLANCO ABC LSE.jpg");
-            //edt.Run();
-
-            //Close();
-
         }
 
         #region Window
@@ -72,7 +66,10 @@ namespace Edimsha
 
         private void SaveEditorEdimsha()
         {
-            Settings.Default.txtEdimsha = txtEdimsha.Text;
+            if (txtEdimsha.Text.Equals(""))
+                Settings.Default.txtEdimsha = "edimsha_";
+            else
+                Settings.Default.txtEdimsha = txtEdimsha.Text;
             Settings.Default.Save();
         }
 
@@ -291,7 +288,7 @@ namespace Edimsha
         {
             SaveEditorEdimsha();
         }
-       
+
         // Checkbox AddOnReplace
         private void ChkAddOnReplace_Click(object sender, RoutedEventArgs e)
         {
@@ -496,7 +493,12 @@ namespace Edimsha
 
             chkCleanListOnExit.IsChecked = Settings.Default.chkCleanListOnExit;
             txtOutputFolder.Text = Settings.Default.txtEditorFolderPath;
-            txtEdimsha.Text = Settings.Default.txtEdimsha;
+
+            if (Settings.Default.txtEdimsha.Equals("") || Settings.Default.txtEdimsha.Equals("edimsha_"))
+                txtEdimsha.Text = "";
+            else            
+                txtEdimsha.Text = Settings.Default.txtEdimsha;            
+            
             chkAddOnReplace.IsChecked = Settings.Default.chkAddOnReplace;
             LoadWidthAndHeigth();
             chkKeepOriginalResolution.IsChecked = Settings.Default.chkKeepOriginalResolution;

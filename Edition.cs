@@ -29,15 +29,15 @@ namespace Edimsha
 
             Console.WriteLine(savePath);
 
-            //if (Settings.Default.chkOptimizeImage)
-            //{
-            //    Console.WriteLine("Runnning quant");
-            //    image.Save(savePath, ImageFormat.Jpeg);
-            //}
-            //else
-            //{
-            //    image.Save(savePath, ImageFormat.Jpeg);
-            //}
+            if (Settings.Default.chkOptimizeImage)
+            {
+                Console.WriteLine("Runnning quant");
+                image.Save(savePath, ImageFormat.Jpeg);
+            }
+            else
+            {
+                image.Save(savePath, ImageFormat.Jpeg);
+            }
         }
 
         private string GeneratesavePath()
@@ -58,13 +58,17 @@ namespace Edimsha
             bool replaceOriginal = Settings.Default.chkReplaceForOriginal;
             bool replaceEdimsha = Settings.Default.chkAddOnReplace;
 
-            string edimsha = "edimsha_";
+
+            string edimsha = Settings.Default.txtEdimsha;
 
             if (replaceOriginal && !replaceEdimsha)            
                 edimsha = "";
-            
-            if (samePath)            
-                return $"{edimsha}{imageName}";          
+
+            if (samePath || (replaceEdimsha && !samePath))
+            {
+                edimsha = Settings.Default.txtEdimsha;
+                return $"{edimsha}{imageName}";
+            }                     
 
             return imageName;
         }
