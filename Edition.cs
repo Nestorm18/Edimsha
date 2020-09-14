@@ -1,5 +1,4 @@
 ﻿using Edimsha.Properties;
-using ImageMagick;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -52,6 +51,9 @@ namespace Edimsha
 
             string savePath = GeneratesavePath();
 
+            if (AddOnReplace)            
+                File.Delete(ImagePath);            
+
             if (Settings.Default.chkOptimizeImage)
             {
                 Console.WriteLine("Runnning quant");
@@ -79,13 +81,10 @@ namespace Edimsha
             bool samePath = IsSamePath();
             string imageName = Path.GetFileName(ImagePath);
 
-            bool replaceOriginal = ReplaceOriginal;
-            bool replaceEdimsha = AddOnReplace;
-
-            if (replaceOriginal && !replaceEdimsha)
+            if (ReplaceOriginal && !AddOnReplace)
                 return imageName;
 
-            if (samePath || (replaceEdimsha && !samePath))
+            if (samePath || (AddOnReplace && !samePath))
             {
                 string edimsha = Edimsha;
                 return $"{edimsha}{imageName}";
