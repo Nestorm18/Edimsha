@@ -42,6 +42,8 @@ namespace Edimsha
             {
                 image.Save(savePath, ImageFormat.Jpeg);
             }
+
+            image.Dispose();
         }
       
         private string GeneratesavePath()
