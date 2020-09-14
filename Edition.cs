@@ -9,18 +9,25 @@ namespace Edimsha
 {
     internal class Edition
     {
-        private readonly int width;
-        private readonly int height;
-
         public Edition(string path)
         {
             ImagePath = path;
-            width = int.Parse(Settings.Default.Width);
-            height = int.Parse(Settings.Default.Height);
         }
 
         public string ImagePath { get; set; }
-
+        
+        public int Width { get; internal set; }
+        
+        public int Height { get; internal set; }
+        
+        public string OutputFolder { get; internal set; }
+       
+        public bool ReplaceOriginal { get; internal set; }
+        
+        public bool ReplaceEdimsha { get; internal set; }
+       
+        public string Edimsha { get; internal set; }
+       
         internal void Run()
         {
             // Image resize to user values
@@ -42,7 +49,6 @@ namespace Edimsha
             {
                 image.Save(savePath, ImageFormat.Jpeg);
             }
-
             image.Dispose();
         }
       
@@ -53,7 +59,7 @@ namespace Edimsha
             if (Settings.Default.txtEditorFolderPath.Equals(""))
                 return Path.Combine(Directory.GetParent(ImagePath).FullName, name);
 
-            return Path.Combine(Settings.Default.txtEditorFolderPath, name);
+            return Path.Combine(OutputFolder, name);
         }
 
         private string GenerateName()
@@ -61,15 +67,15 @@ namespace Edimsha
             bool samePath = IsSamePath();
             string imageName = Path.GetFileName(ImagePath);
 
-            bool replaceOriginal = Settings.Default.chkReplaceForOriginal;
-            bool replaceEdimsha = Settings.Default.chkAddOnReplace;
+            bool replaceOriginal = ReplaceOriginal;
+            bool replaceEdimsha = ReplaceEdimsha;
 
             if (replaceOriginal && !replaceEdimsha)
                 return imageName;
 
             if (samePath || (replaceEdimsha && !samePath))
             {
-                string edimsha = Settings.Default.txtEdimsha;
+                string edimsha = Edimsha;
                 return $"{edimsha}{imageName}";
             }
 
@@ -78,7 +84,7 @@ namespace Edimsha
 
         private bool IsSamePath()
         {
-            string outputDir = Settings.Default.txtEditorFolderPath;
+            string outputDir = OutputFolder;
             string currentDir = Directory.GetParent(ImagePath).FullName;
 
             if (outputDir.Equals(""))
@@ -87,7 +93,7 @@ namespace Edimsha
             return Equals(outputDir, currentDir);
         }
 
-        private Image Resize(Image image) => FixedSize(image, width, height);
+        private Image Resize(Image image) => FixedSize(image, Width, Height);
 
         static Image FixedSize(Image imgPhoto, int Width, int Height)
         {

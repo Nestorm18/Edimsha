@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Edimsha.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -31,9 +32,17 @@ namespace Edimsha
                     return;
                 }
 
-                Edition edt = new Edition(path);
+                Edition edt = new Edition(path)
+                {
+                    Width = int.Parse(Settings.Default.Width),
+                    Height = int.Parse(Settings.Default.Height),
+                    OutputFolder = Settings.Default.txtEditorFolderPath,
+                    ReplaceOriginal = Settings.Default.chkReplaceForOriginal,
+                    ReplaceEdimsha = Settings.Default.chkAddOnReplace,
+                    Edimsha = Settings.Default.txtEdimsha
+                };
                 edt.Run();
-                
+
                 ReportProgress(cnt, allPaths.Count);
                 cnt++;
             }
