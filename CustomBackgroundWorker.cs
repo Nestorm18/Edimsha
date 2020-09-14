@@ -39,6 +39,7 @@ namespace Edimsha
                     Width = int.Parse(Settings.Default.Width),
                     Height = int.Parse(Settings.Default.Height),
                     OriginalResolution = Settings.Default.chkKeepOriginalResolution,
+                    CompressionValue = Settings.Default.sldCompression,
                     OptimizeImage = Settings.Default.chkOptimizeImage,
                     ReplaceOriginal = Settings.Default.chkReplaceForOriginal
                 };

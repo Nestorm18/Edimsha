@@ -1,4 +1,5 @@
 ﻿using Edimsha.Properties;
+using ImageMagick;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -31,6 +32,8 @@ namespace Edimsha
         public bool OriginalResolution { get; internal set; }
 
         public bool OptimizeImage { get; internal set; }
+
+        public int CompressionValue { get; internal set; }
 
         internal void Run()
         {
