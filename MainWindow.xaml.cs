@@ -514,6 +514,7 @@ namespace Edimsha
             LoadWidthAndHeigth();
             chkKeepOriginalResolution.IsChecked = Settings.Default.chkKeepOriginalResolution;
             sldCompression.Value = Settings.Default.sldCompression;
+            sldCompression.IsEnabled = Settings.Default.chkOptimizeImage;
             chkOptimizeImage.IsChecked = Settings.Default.chkOptimizeImage;
             chkReplaceForOriginal.IsChecked = Settings.Default.chkReplaceForOriginal;
 
