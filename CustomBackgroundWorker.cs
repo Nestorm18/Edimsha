@@ -1,15 +1,15 @@
 ﻿using Edimsha.Properties;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Edimsha
 {
     internal class CustomBackgroundWorker : BackgroundWorker
     {
 
-        private StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
-        private List<string> allPaths;
+        private readonly StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
+        private readonly List<string> allPaths;
 
         public CustomBackgroundWorker()
         {
@@ -23,8 +23,7 @@ namespace Edimsha
         void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             int cnt = 1;
-
-            foreach (string path in allPaths)
+            Parallel.ForEach(allPaths, path =>
             {
                 if (CancellationPending == true)
                 {
@@ -34,18 +33,20 @@ namespace Edimsha
 
                 Edition edt = new Edition(path)
                 {
+                    OutputFolder = Settings.Default.txtEditorFolderPath,
+                    Edimsha = Settings.Default.txtEdimsha,
+                    AddOnReplace = Settings.Default.chkAddOnReplace,
                     Width = int.Parse(Settings.Default.Width),
                     Height = int.Parse(Settings.Default.Height),
-                    OutputFolder = Settings.Default.txtEditorFolderPath,
-                    ReplaceOriginal = Settings.Default.chkReplaceForOriginal,
-                    ReplaceEdimsha = Settings.Default.chkAddOnReplace,
-                    Edimsha = Settings.Default.txtEdimsha
+                    OriginalResolution = Settings.Default.chkKeepOriginalResolution,
+                    OptimizeImage = Settings.Default.chkOptimizeImage,
+                    ReplaceOriginal = Settings.Default.chkReplaceForOriginal
                 };
                 edt.Run();
 
                 ReportProgress(cnt, allPaths.Count);
                 cnt++;
-            }
+            });
         }
     }
 }

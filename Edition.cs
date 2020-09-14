@@ -15,28 +15,37 @@ namespace Edimsha
         }
 
         public string ImagePath { get; set; }
-        
+
         public int Width { get; internal set; }
-        
+
         public int Height { get; internal set; }
-        
+
         public string OutputFolder { get; internal set; }
-       
+
         public bool ReplaceOriginal { get; internal set; }
-        
-        public bool ReplaceEdimsha { get; internal set; }
-       
+
+        public bool AddOnReplace { get; internal set; }
+
         public string Edimsha { get; internal set; }
-       
+
+        public bool OriginalResolution { get; internal set; }
+
+        public bool OptimizeImage { get; internal set; }
+
         internal void Run()
         {
             // Image resize to user values
             Image image;
-            
+
             using (var img = Image.FromFile(ImagePath))
             {
+                if (OriginalResolution)
+                {
+                    Width = img.Width;
+                    Height = img.Height;
+                }
                 image = Resize(img);
-            }            
+            }
 
             string savePath = GeneratesavePath();
 
@@ -51,7 +60,7 @@ namespace Edimsha
             }
             image.Dispose();
         }
-      
+
         private string GeneratesavePath()
         {
             string name = GenerateName();
@@ -68,7 +77,7 @@ namespace Edimsha
             string imageName = Path.GetFileName(ImagePath);
 
             bool replaceOriginal = ReplaceOriginal;
-            bool replaceEdimsha = ReplaceEdimsha;
+            bool replaceEdimsha = AddOnReplace;
 
             if (replaceOriginal && !replaceEdimsha)
                 return imageName;
