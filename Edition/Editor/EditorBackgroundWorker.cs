@@ -46,9 +46,14 @@ namespace Edimsha.Edition.Editor
                 };
                 edt.Run();
 
-                ReportProgress(cnt, allPaths.Count);
+                ReportProgress(cnt, new MyUserState { CountPaths = allPaths.Count, PathName = path });
                 cnt++;
             });
         }
+    }
+    class MyUserState
+    {
+        public double CountPaths { get; set; }
+        public string PathName { get; set; }
     }
 }

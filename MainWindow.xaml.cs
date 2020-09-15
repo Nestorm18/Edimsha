@@ -457,8 +457,10 @@ namespace Edimsha
         // BackgroundWorker
         void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            MyUserState state = e.UserState as MyUserState;
+            
             pbEditor.Value = e.ProgressPercentage;
-            statusbar.Text = $"Editada {e.ProgressPercentage} de {e.UserState}";
+            statusbar.Text = $"Editada {e.ProgressPercentage} de {state.CountPaths}";
         }
 
         void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
