@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -97,17 +97,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CustomBackgroundWorker.cs">
+    <Compile Include="Edition\Editor\EditorBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Edition.cs" />
-    <Compile Include="ResolutionDlg.xaml.cs">
+    <Compile Include="Edition\Editor\Edition.cs" />
+    <Compile Include="Dialogs\ResolutionDlg.xaml.cs">
       <DependentUpon>ResolutionDlg.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resolution.cs" />
-    <Compile Include="Storage.cs" />
-    <Compile Include="StoragePaths.cs" />
-    <Compile Include="StorageResolutions.cs" />
+    <Compile Include="Edition\Editor\Resolution.cs" />
+    <Compile Include="Storage\Storage.cs" />
+    <Compile Include="Storage\StoragePaths.cs" />
+    <Compile Include="Storage\StorageResolutions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,14 +116,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EditionMode.cs" />
-    <Compile Include="FilePaths.cs" />
-    <Compile Include="ImageFormats.cs" />
+    <Compile Include="Edition\EditionMode.cs" />
+    <Compile Include="Edition\FilePaths.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ResolutionDlg.xaml">
+    <Page Include="Dialogs\ResolutionDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,7 +164,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.png" />
+    <Resource Include="Resources\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -180,7 +179,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.ico" />
+    <Resource Include="Resources\icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

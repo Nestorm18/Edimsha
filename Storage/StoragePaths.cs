@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
 
-namespace Edimsha
+namespace Edimsha.Storage
 {
 
     class StoragePaths : Storage

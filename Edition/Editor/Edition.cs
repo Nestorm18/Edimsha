@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace Edimsha
+namespace Edimsha.Edition.Editor
 {
     internal class Edition
     {

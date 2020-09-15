@@ -1,9 +1,11 @@
-﻿using Edimsha.Properties;
-using System;
+﻿using Edimsha.Edition;
+using Edimsha.Edition.Editor;
+using Edimsha.Properties;
+using Edimsha.Storage;
 using System.Collections.Generic;
 using System.Windows;
 
-namespace Edimsha
+namespace Edimsha.Dialogs
 {
     /// <summary>
     /// Lógica de interacción para ResolutionDlg.xaml

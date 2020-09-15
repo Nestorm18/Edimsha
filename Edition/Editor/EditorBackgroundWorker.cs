@@ -1,17 +1,18 @@
 ﻿using Edimsha.Properties;
+using Edimsha.Storage;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Edimsha
+namespace Edimsha.Edition.Editor
 {
-    internal class CustomBackgroundWorker : BackgroundWorker
+    internal class EditorBackgroundWorker : BackgroundWorker
     {
 
         private readonly StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
         private readonly List<string> allPaths;
 
-        public CustomBackgroundWorker()
+        public EditorBackgroundWorker()
         {
             WorkerSupportsCancellation = true;
             WorkerReportsProgress = true;

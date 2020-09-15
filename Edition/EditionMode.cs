@@ -1,4 +1,4 @@
-﻿namespace Edimsha
+﻿namespace Edimsha.Edition
 {
     public enum EditionMode
     {

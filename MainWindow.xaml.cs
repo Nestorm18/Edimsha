@@ -1,6 +1,9 @@
-﻿using Edimsha.Properties;
+﻿using Edimsha.Dialogs;
+using Edimsha.Edition;
+using Edimsha.Edition.Editor;
+using Edimsha.Properties;
+using Edimsha.Storage;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
@@ -10,7 +13,6 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Edimsha
 {
@@ -21,7 +23,7 @@ namespace Edimsha
     {
         // Menubar
         private EditionMode currentMode = EditionMode.Editor;
-        private CustomBackgroundWorker bw;
+        private EditorBackgroundWorker bw;
 
         public MainWindow()
         {
@@ -365,7 +367,7 @@ namespace Edimsha
             DisableEditorUI();
 
             bw = null;
-            bw = new CustomBackgroundWorker();
+            bw = new EditorBackgroundWorker();
             bw.ProgressChanged += Worker_ProgressChanged;
             bw.RunWorkerCompleted += Worker_RunWorkerCompleted;
             bw.RunWorkerAsync();

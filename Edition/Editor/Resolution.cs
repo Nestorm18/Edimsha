@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Edimsha
+namespace Edimsha.Edition.Editor
 {
     class Resolution : IEquatable<Resolution>
     {

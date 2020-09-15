@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
-using System;
 using System.Linq;
+using Edimsha.Edition.Editor;
 
-namespace Edimsha
+namespace Edimsha.Storage
 {
     class StorageResolutions : Storage
     {

@@ -12,7 +12,7 @@
         MinWidth="830"
         MinHeight="515"
         WindowStartupLocation="CenterScreen"        
-        Icon="icon.png"
+        Icon="Resources/icon.png"
         Closing="Window_Closing">
 
     <StackPanel>

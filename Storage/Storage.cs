@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Edimsha.Edition;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Edimsha
+namespace Edimsha.Storage
 {
     class Storage : FilePaths
     {
