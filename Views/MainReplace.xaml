@@ -1,0 +1,318 @@
+﻿<Window x:Class="Edimsha.Views.MainReplace"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Edimsha.Views" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Edimsha" 
+        Height="515" 
+        Width="830" 
+        MinWidth="830"
+        MinHeight="515"
+        WindowStartupLocation="CenterScreen"        
+        Icon="/Resources/icon.png"
+        Closing="Window_Closing">
+    <StackPanel>
+        <!-- Menubar -->
+        <Menu x:Name="Menubar">
+            <!-- Menu -->
+            <MenuItem x:Name="MenuMenuItem" Header="Menu">
+                <!-- Sarch for updates -->
+                <MenuItem x:Name="SearchForUpdatesMenuItem" 
+                          Click="SearchForUpdatesMenuItem_Click"
+                          Header="Sarch for updates"/>
+
+                <!-- Send logs -->
+                <MenuItem x:Name="SendLogsMenuItem" 
+                          Click="SendLogsMenuItem_Click" 
+                          Header="Send logs (0 errores)"                           
+                          IsEnabled="False"/>
+
+                <!-- Separator line-->
+                <Separator/>
+
+                <!-- Exit -->
+                <MenuItem x:Name="ExitMenuItem" 
+                          Click="ExitMenuItem_Click"
+                          Header="Exit"/>
+            </MenuItem>
+
+            <!-- Mode -->
+            <MenuItem x:Name="ModeMenuItem" Header="Mode">
+                <!-- Editor Mode -->
+                <MenuItem x:Name="EditorMenuItem" 
+                          Click="EditorMenuItem_Click"
+                          Header="Editor" 
+                          IsChecked="True" 
+                          IsCheckable="True"/>
+
+                <!-- Conversor Mode -->
+                <MenuItem x:Name="ConversorMenuItem" 
+                          Click="ConversorMenuItem_Click"
+                          Header="Conversor" 
+                          IsCheckable="True"/>
+            </MenuItem>
+
+            <!-- Language -->
+            <MenuItem x:Name="LanguajeMenuItem" Header="Language">
+                <!-- English -->
+                <MenuItem x:Name="EnglishMenuItem" 
+                          Click="EnglishMenuItem_Click"
+                          Header="English"/>
+
+                <!-- Spanish -->
+                <MenuItem x:Name="SpanishMenuItem"
+                          Click="SpanishMenuItem_Click"
+                          Header="Español"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Used with Editor mode, if you switch to converter this StackPanel is 
+        hidden and the other one is displayed -->
+        <Border Margin="5">
+            <StackPanel x:Name="Editor">
+                <!-- Text to indicate acepted file types -->
+                <TextBlock Text="Drag the images or folder to edit (* .png, * .jpg)" 
+                           HorizontalAlignment="Center"/>
+
+                <!-- List see all images paths -->
+                <ListView x:Name="ImagesPathListView" 
+                          Drop="ImagesPathListView_Drop" 
+                          SelectionChanged="ImagesPathListView_SelectionChanged" 
+                          Height="185" 
+                          AllowDrop="True">
+
+                    <!-- Mouse context menu -->
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <!--Remove selected item-->
+                            <MenuItem x:Name="RemoveMenuItem" 
+                                      Header="Remove"  
+                                      IsEnabled="False"/>
+
+                            <!--Remove all items-->
+                            <MenuItem x:Name="RemoveAllMenuItem" 
+                                      Header="Delete all items" 
+                                      IsEnabled="False"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+
+                    <!-- ListViewItem Style -->
+                    <ListViewItem Background="#8ED36E" Padding="2">D:\curso_c_sharp</ListViewItem>
+                    <ListViewItem Background="#8ED36E" Padding="2">D:\curso_c_sharp\Shamic</ListViewItem>
+                    <ListViewItem Padding="2">D:\curso_c_sharp\Destructores</ListViewItem>
+                    <ListViewItem Padding="2">D:\curso_c_sharp\MVVMDemo</ListViewItem>
+                </ListView>
+
+                <!-- Options container -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Checkbox delete items on close -->
+                    <CheckBox x:Name="CleanListOnExitCheckBox" 
+                              Click="CleanListOnExitCheckBox_Click"
+                              Grid.Row="0" 
+                              Grid.Column="0"
+                              Content="Clean list on exit"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"/>
+
+                    <!--Button open dialog to find images-->
+                    <Button x:Name="SelectFilesButton" 
+                            Click="SelectFilesButton_Click"
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Content="Select Files"/>
+
+                    <!-- Text to indicate nested component utility path -->
+                    <TextBlock Grid.Row="1"
+                           Grid.Column="0" 
+                           Text="Output folder:"  
+                           HorizontalAlignment="Right"/>
+
+                    <!-- Textbox indicating save path -->
+                    <xctk:WatermarkTextBox x:Name="OutputFolderWatermarkTextBox"   
+                                           LostFocus="OutputFolderWatermarkTextBox_LostFocus"
+                                           Grid.Row="1"
+                                           Grid.Column="1"
+                                           Watermark="By default same folder edimsha_Imagename.png"/>
+
+                    <!-- Button to select a path -->
+                    <Button x:Name="SelectEditorOutputFolderButton"    
+                            Click="SelectEditorOutputFolderButton_Click"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Content="Select folder"/>
+
+                    <!-- Text to indicate nested component utility prefix -->
+                    <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           Text="Change edimsha to:"/>
+
+                    <!-- Textbox indicating used prefix -->
+                    <xctk:WatermarkTextBox x:Name="EdimshaWatermarkTextBox" 
+                                           LostFocus="EdimshaWatermarkTextBox_LostFocus"
+                                           Grid.Row="2"
+                                           Grid.Column="1"
+                                           Watermark="edimsha_ (skipped if output folder is different)"/>
+
+                    <!-- Button to select a path -->
+                    <CheckBox x:Name="AddOnReplaceCheckBox" 
+                              Click="AddOnReplaceCheckBox_Click"
+                              Grid.Row="2"
+                              Grid.Column="2"
+                              Content="Include on replace" 
+                              VerticalAlignment="Center"/>
+
+                    <!-- Text to indicate nested component utilities -->
+                    <TextBlock Grid.Row="3" 
+                           Grid.Column="0" 
+                           HorizontalAlignment="Right"
+                           Text="Output resolution:"/>
+
+                    <!-- StackPanel contain multiple options -->
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="3"
+                                Grid.Column="1">
+
+                        <!-- Text to indicate width -->
+                        <Label VerticalAlignment="Center"
+                               Content="Width (px):" />
+
+                        <!-- TextBox show used width -->
+                        <xctk:WatermarkTextBox x:Name="WidthWatermarkTextBox" 
+                                               Watermark="552"                                                
+                                               IsEnabled="False"/>
+
+                        <!-- Text to indicate height -->
+                        <Label VerticalAlignment="Center"
+                               Content="Height (px):"/>
+
+                        <!-- TextBox show used height -->
+                        <xctk:WatermarkTextBox x:Name="HeightWatermarkTextBox" 
+                                               Watermark="689"
+                                               IsEnabled="False"/>
+
+                        <!-- Checkbox to keep original resolution -->
+                        <CheckBox x:Name="KeepOriginalResolutionCheckBox" 
+                                  Click="KeepOriginalResolutionCheckBox_Click"
+                                  Content="Keep original resolution" 
+                                  VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                    <!-- Button opens resolution selection dialog -->
+                    <Button x:Name="UsedResolutionsButton" 
+                            Click="UsedResolutionsButton_Click"
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Content="Used resolutions"/>
+
+                    <!-- Text to indicate nested component utility compression -->
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0" 
+                               HorizontalAlignment="Right"
+                               Text="Compression in %:"/>
+
+                    <!-- Grid contain slider and checkbox -->
+                    <Grid Grid.Row="4"
+                          Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Slider select compression value -->
+                        <Slider x:Name="CompressionSlider"
+                                ValueChanged="CompressionSlider_ValueChanged"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center" 
+                                Maximum="100" 
+                                SmallChange="1" 
+                                Minimum="1"
+                                TickFrequency="10"/>
+
+                        <!-- Checkbox optimize image -->
+                        <CheckBox x:Name="OptimizeImageCheckBox"
+                                  Click="OptimizeImageCheckBox_Click"
+                                  Grid.Row="0"
+                                  Grid.Column="2"
+                                  Content="Optimizar imagen"
+                                  VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- CheckBox replace original image -->
+                    <CheckBox x:Name="ReplaceForOriginalCheckBox" 
+                              Click="ReplaceForOriginalCheckBox_Click"
+                              Grid.Row="4"
+                              Grid.Column="2"
+                              Content="Remplazar por original" 
+                              VerticalAlignment="Center"/>
+
+                    <!-- ProgressBar procesed images -->
+                    <ProgressBar x:Name="EditorProgressBar" 
+                                 SmallChange="1"
+                                 Grid.Row="5"
+                                 Grid.ColumnSpan="3"
+                                 Height="20"/>
+
+                    <!-- Grid used for bottom buttons -->
+                    <Grid Grid.Row="6" 
+                          Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Button to reset UI -->
+                        <Button x:Name="ResetButton" 
+                            Click="ResetButton_Click"
+                            Grid.Column="0"
+                            Content="Reset"/>
+
+                        <!-- Button to stop processing images -->
+                        <Button x:Name="StopButton" 
+                            Click="StopButton_Click"
+                            Grid.Column="1"
+                            Content="Stop" 
+                            IsEnabled="False"/>
+
+                        <!-- Button to start image processing -->
+                        <Button x:Name="StartButton" 
+                            Click="StartButton_Click"
+                            Grid.Column="2"
+                            Content="Start" 
+                            IsEnabled="False"/>
+
+                    </Grid>
+
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Simple text output -->
+        <StatusBar Height="25" Margin="5,5,5,5">
+            <StatusBarItem>
+                <TextBlock Name="Statusbar" />
+            </StatusBarItem>
+        </StatusBar>
+
+    </StackPanel>
+</Window>

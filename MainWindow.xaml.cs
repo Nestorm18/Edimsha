@@ -458,7 +458,7 @@ namespace Edimsha
         void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var state = e.UserState as MyUserState;
-            
+
             pbEditor.Value = e.ProgressPercentage;
             statusbar.Text = $"Editada {e.ProgressPercentage} de {state.CountPaths}";
         }
