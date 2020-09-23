@@ -1,50 +1,91 @@
-﻿<Window x:Class="Edimsha.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Edimsha"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
-        mc:Ignorable="d"
-        Title="Edimsha" 
-        Height="515" 
-        Width="830" 
-        MinWidth="830"
-        MinHeight="515"
-        WindowStartupLocation="CenterScreen"        
-        Icon="Resources/icon.png"
-        Closing="Window_Closing">
+﻿<Window
+    x:Class="Edimsha.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Edimsha"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Title="Edimsha"
+    Width="830"
+    Height="515"
+    MinWidth="830"
+    MinHeight="515"
+    Closing="Window_Closing"
+    Icon="Resources/icon.png"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
 
     <StackPanel>
         <Menu x:Name="menubar" VerticalAlignment="Top">
             <MenuItem x:Name="miMenu" Header="Menu">
-                <MenuItem x:Name="miSearchUpdates" Header="Buscar actualizacion" Click="SearchForUpdates"></MenuItem>
-                <MenuItem x:Name="miSendLogs" Header="Enviar logs (0 errores)" IsEnabled="False" Click="SendErrorLogs" />
-                <Separator></Separator>
-                <MenuItem x:Name="miExit" Header="Salir" Click="ExitApp"></MenuItem>
+                <MenuItem
+                    x:Name="miSearchUpdates"
+                    Click="SearchForUpdates"
+                    Header="Buscar actualizacion" />
+                <MenuItem
+                    x:Name="miSendLogs"
+                    Click="SendErrorLogs"
+                    Header="Enviar logs (0 errores)"
+                    IsEnabled="False" />
+                <Separator />
+                <MenuItem
+                    x:Name="miExit"
+                    Click="ExitApp"
+                    Header="Salir" />
             </MenuItem>
 
             <MenuItem x:Name="miMode" Header="Modo">
-                <MenuItem x:Name="miEditor" Header="Editor" IsChecked="True" IsCheckable="True" Click="ChangeToEditor"/>
-                <MenuItem x:Name="miConversor" Header="Conversor" IsCheckable="True" Click="ChangeToConversor"></MenuItem>
+                <MenuItem
+                    x:Name="miEditor"
+                    Click="ChangeToEditor"
+                    Header="Editor"
+                    IsCheckable="True"
+                    IsChecked="True" />
+                <MenuItem
+                    x:Name="miConversor"
+                    Click="ChangeToConversor"
+                    Header="Conversor"
+                    IsCheckable="True" />
             </MenuItem>
 
             <MenuItem x:Name="miLanguaje" Header="Idioma">
-                <MenuItem x:Name="miEnglish" Header="English" Click="ChangeToEnglish"></MenuItem>
-                <MenuItem x:Name="miSpanish" Header="Español" Click="ChangeToSpanish"></MenuItem>
+                <MenuItem
+                    x:Name="miEnglish"
+                    Click="ChangeToEnglish"
+                    Header="English" />
+                <MenuItem
+                    x:Name="miSpanish"
+                    Click="ChangeToSpanish"
+                    Header="Español" />
             </MenuItem>
         </Menu>
 
-        <!-- Usado con el modo Editor, si se cambia a conversor se esconde este StackPanel y se visualiza el otro -->
+        <!--  Usado con el modo Editor, si se cambia a conversor se esconde este StackPanel y se visualiza el otro  -->
         <StackPanel x:Name="imageEditor" VerticalAlignment="Stretch">
 
-            <Label Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" HorizontalAlignment="Center"/>
+            <Label HorizontalAlignment="Center" Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" />
 
-            <ListView x:Name="lvEditor" Margin="5,0" MinWidth="200" Height="185" AllowDrop="True" Drop="LvEditorDrop" SelectionChanged="LvEditor_SelectionChanged">
+            <ListView
+                x:Name="lvEditor"
+                Height="185"
+                MinWidth="200"
+                Margin="5,0"
+                AllowDrop="True"
+                Drop="LvEditorDrop"
+                SelectionChanged="LvEditor_SelectionChanged">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem x:Name="ctxLvRemove" Header="Eliminar" Click="CtxLvDelete" IsEnabled="False"/>
-                        <MenuItem x:Name="ctxLvRemoveAll" Header="Eliminar todos los elementos" Click="CtxLvDeleteAll" IsEnabled="False"/>
+                        <MenuItem
+                            x:Name="ctxLvRemove"
+                            Click="CtxLvDelete"
+                            Header="Eliminar"
+                            IsEnabled="False" />
+                        <MenuItem
+                            x:Name="ctxLvRemoveAll"
+                            Click="CtxLvDeleteAll"
+                            Header="Eliminar todos los elementos"
+                            IsEnabled="False" />
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -61,100 +102,201 @@
 
                 <Grid Height="30">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <CheckBox x:Name="chkCleanListOnExit" Content="Eliminar lista al salir"  Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ChkCleanListOnExit_Click"/>
-                    <Button x:Name="btnSelectEditorImages" Content="Seleccionar archivos"  Grid.Column="2" Click="BtnSelectEditorImages"/>
+                    <CheckBox
+                        x:Name="chkCleanListOnExit"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Click="ChkCleanListOnExit_Click"
+                        Content="Eliminar lista al salir" />
+                    <Button
+                        x:Name="btnSelectEditorImages"
+                        Grid.Column="2"
+                        Click="BtnSelectEditorImages"
+                        Content="Seleccionar archivos" />
                 </Grid>
 
                 <Grid Height="30">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="45*"/>
-                        <ColumnDefinition Width="131*"/>
-                        <ColumnDefinition Width="88*"/>
+                        <ColumnDefinition Width="45*" />
+                        <ColumnDefinition Width="131*" />
+                        <ColumnDefinition Width="88*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Carpeta de salida:" Grid.Column="0"/>
-                    <xctk:WatermarkTextBox x:Name="txtOutputFolder" TextWrapping="Wrap" Watermark="Por defecto misma carpete edimsha_nombreImagen.png" Grid.Column="1" VerticalAlignment="Center" LostFocus="TxtOutputFolder_LostFocus" />
+                    <Label Grid.Column="0" Content="Carpeta de salida:" />
+                    <xctk:WatermarkTextBox
+                        x:Name="txtOutputFolder"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        LostFocus="TxtOutputFolder_LostFocus"
+                        TextWrapping="Wrap"
+                        Watermark="Por defecto misma carpete edimsha_nombreImagen.png" />
 
-                    <Button x:Name="btnSelectEditorOutputFolder" Content="Seleccionar carpeta" Grid.Column="2" Click="BtnSelectEditorOutputFolder" />
+                    <Button
+                        x:Name="btnSelectEditorOutputFolder"
+                        Grid.Column="2"
+                        Click="BtnSelectEditorOutputFolder"
+                        Content="Seleccionar carpeta" />
                 </Grid>
 
                 <Grid Height="30">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="140*"/>
-                        <ColumnDefinition Width="101*"/>
-                        <ColumnDefinition Width="238*"/>
-                        <ColumnDefinition Width="69*"/>
-                        <ColumnDefinition Width="274*"/>
+                        <ColumnDefinition Width="140*" />
+                        <ColumnDefinition Width="101*" />
+                        <ColumnDefinition Width="238*" />
+                        <ColumnDefinition Width="69*" />
+                        <ColumnDefinition Width="274*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Cambiar edimsha por:" Grid.Column="0"/>
-                    <xctk:WatermarkTextBox x:Name="txtEdimsha" TextWrapping="Wrap" Watermark="edimsha_ (omitido si la carpeta de salida es diferente)" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="3" LostFocus="TxtEdimsha_LostFocus"/>
-                    <CheckBox x:Name="chkAddOnReplace" Content="Incluir al remplazar" Grid.Column="4" VerticalAlignment="Center" Click="ChkAddOnReplace_Click" />
+                    <Label Grid.Column="0" Content="Cambiar edimsha por:" />
+                    <xctk:WatermarkTextBox
+                        x:Name="txtEdimsha"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3"
+                        VerticalAlignment="Center"
+                        LostFocus="TxtEdimsha_LostFocus"
+                        TextWrapping="Wrap"
+                        Watermark="edimsha_ (omitido si la carpeta de salida es diferente)" />
+                    <CheckBox
+                        x:Name="chkAddOnReplace"
+                        Grid.Column="4"
+                        VerticalAlignment="Center"
+                        Click="ChkAddOnReplace_Click"
+                        Content="Incluir al remplazar" />
                 </Grid>
 
                 <Grid Height="30">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="45*"/>
-                        <ColumnDefinition Width="131*"/>
-                        <ColumnDefinition Width="88*"/>
+                        <ColumnDefinition Width="45*" />
+                        <ColumnDefinition Width="131*" />
+                        <ColumnDefinition Width="88*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Resolución de salida:" Grid.Column="0"/>
+                    <Label Grid.Column="0" Content="Resolución de salida:" />
 
-                    <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <Label Content="Ancho (px):" VerticalAlignment="Center"/>
-                        <xctk:WatermarkTextBox x:Name="txtWidth" Watermark="552" Width="40" IsEnabled="False" Height="24"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Label VerticalAlignment="Center" Content="Ancho (px):" />
+                        <xctk:WatermarkTextBox
+                            x:Name="txtWidth"
+                            Width="40"
+                            Height="24"
+                            IsEnabled="False"
+                            Watermark="552" />
 
-                        <Label Content="Alto (px):" VerticalAlignment="Center"/>
-                        <xctk:WatermarkTextBox x:Name="txtHeight" Watermark="689" Width="40" IsEnabled="False" Height="24"/>
+                        <Label VerticalAlignment="Center" Content="Alto (px):" />
+                        <xctk:WatermarkTextBox
+                            x:Name="txtHeight"
+                            Width="40"
+                            Height="24"
+                            IsEnabled="False"
+                            Watermark="689" />
 
-                        <CheckBox x:Name="chkKeepOriginalResolution" Content="Mantener resolución original" VerticalAlignment="Center" Margin="19,0,5,0" Height="15" Click="ChkKeepOriginalResolution_Click"/>
+                        <CheckBox
+                            x:Name="chkKeepOriginalResolution"
+                            Height="15"
+                            Margin="19,0,5,0"
+                            VerticalAlignment="Center"
+                            Click="ChkKeepOriginalResolution_Click"
+                            Content="Mantener resolución original" />
 
                     </StackPanel>
 
-                    <Button x:Name="btnUsedResolutions" Content="Resoluciones usadas" Grid.Column="2" Click="BtnUsedResolutions_Click" />
+                    <Button
+                        x:Name="btnUsedResolutions"
+                        Grid.Column="2"
+                        Click="BtnUsedResolutions_Click"
+                        Content="Resoluciones usadas" />
                 </Grid>
 
                 <Grid Height="30">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="70*"/>
-                        <ColumnDefinition Width="112*"/>
-                        <ColumnDefinition Width="91*"/>
-                        <ColumnDefinition Width="137*"/>
+                        <ColumnDefinition Width="70*" />
+                        <ColumnDefinition Width="112*" />
+                        <ColumnDefinition Width="91*" />
+                        <ColumnDefinition Width="137*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Compresion en %:" Grid.Column="0" Grid.ColumnSpan="2"/>
-                    <Slider x:Name="sldCompression" Grid.Column="1" VerticalAlignment="Center" Height="20" Margin="5" Maximum="100" SmallChange="1" Minimum="1" TickFrequency="10" ValueChanged="SldCompression_ValueChanged"/>
-                    <CheckBox x:Name="chkOptimizeImage" Content="Optimizar imagen" Grid.Column="2" VerticalAlignment="Center" Margin="5" Height="15" Click="ChkOptimizeImage_Click"/>
-                    <CheckBox x:Name="chkReplaceForOriginal" Content="Remplazar por original" Grid.Column="3" VerticalAlignment="Center" Margin="5,5,0,5" Height="15" HorizontalAlignment="Left" Width="140" Click="ChkReplaceForOriginal_Click"/>
+                    <Label
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Content="Compresion en %:" />
+                    <Slider
+                        x:Name="sldCompression"
+                        Grid.Column="1"
+                        Height="20"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Maximum="100"
+                        Minimum="1"
+                        SmallChange="1"
+                        TickFrequency="10"
+                        ValueChanged="SldCompression_ValueChanged" />
+                    <CheckBox
+                        x:Name="chkOptimizeImage"
+                        Grid.Column="2"
+                        Height="15"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Click="ChkOptimizeImage_Click"
+                        Content="Optimizar imagen" />
+                    <CheckBox
+                        x:Name="chkReplaceForOriginal"
+                        Grid.Column="3"
+                        Width="140"
+                        Height="15"
+                        Margin="5,5,0,5"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Click="ChkReplaceForOriginal_Click"
+                        Content="Remplazar por original" />
                 </Grid>
 
-                <ProgressBar x:Name="pbEditor" Height="20" Margin="5,5,5,0" SmallChange="1"/>
+                <ProgressBar
+                    x:Name="pbEditor"
+                    Height="20"
+                    Margin="5,5,5,0"
+                    SmallChange="1" />
 
                 <Grid Height="30" Margin="0,4,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="btnReset" Content="Resetear" Grid.Column="0" Margin="5,3" Click="BtnReset_Click"/>
-                    <Button x:Name="btnStop" Content="Parar" IsEnabled="False" Grid.Column="1" Click="BtnStop_Click"/>
-                    <Button x:Name="btnStart" Content="Iniciar" IsEnabled="False" Grid.Column="2" Click="BtnStart_Click"/>
+                    <Button
+                        x:Name="btnReset"
+                        Grid.Column="0"
+                        Margin="5,3"
+                        Click="BtnReset_Click"
+                        Content="Resetear" />
+                    <Button
+                        x:Name="btnStop"
+                        Grid.Column="1"
+                        Click="BtnStop_Click"
+                        Content="Parar"
+                        IsEnabled="False" />
+                    <Button
+                        x:Name="btnStart"
+                        Grid.Column="2"
+                        Click="BtnStart_Click"
+                        Content="Iniciar"
+                        IsEnabled="False" />
                 </Grid>
 
             </StackPanel>
         </StackPanel>
 
-        <!-- Usado con el modo Conversor, si se cambia a conversor se esconde este StackPanel y se visualiza el otro -->
+        <!--  Usado con el modo Conversor, si se cambia a conversor se esconde este StackPanel y se visualiza el otro  -->
         <StackPanel x:Name="imageConversor" Visibility="Collapsed">
             <StackPanel Orientation="Vertical">
-                <Label Content="Proximamente"/>
+                <Label Content="Proximamente" />
             </StackPanel>
         </StackPanel>
 

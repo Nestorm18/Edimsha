@@ -3,6 +3,7 @@ using Edimsha.Edition;
 using Edimsha.Edition.Editor;
 using Edimsha.Properties;
 using Edimsha.Storage;
+using Edimsha.Views;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using System;
@@ -33,7 +34,9 @@ namespace Edimsha
 
             InitializeComponent();
 
-            LoadSettings();
+            //LoadSettings();
+            MainReplace r = new MainReplace();
+            r.ShowDialog();
         }
 
         #region Window

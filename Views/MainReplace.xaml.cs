@@ -58,11 +58,6 @@ namespace Edimsha.Views
 
         }
 
-        private void CleanListOnExitCheckBox_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void SelectFilesButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -124,6 +119,16 @@ namespace Edimsha.Views
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void SearchForUpdatesMenuItem_Click(object sender, RoutedEventArgs e)
         {
 
         }
