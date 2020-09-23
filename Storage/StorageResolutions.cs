@@ -8,7 +8,6 @@ namespace Edimsha.Storage
 {
     class StorageResolutions : Storage
     {
-
         public StorageResolutions(string filePaths) : base(filePaths) { }
 
         internal List<Resolution> GetResolutions()
@@ -18,10 +17,10 @@ namespace Edimsha.Storage
 
         internal bool SaveResolution(Resolution resolution)
         {
-            List<Resolution> resolutions = GetObject<Resolution>();
+            var resolutions = GetObject<Resolution>();
             resolutions.Add(resolution);
 
-            List<Resolution> temp = resolutions;
+            var temp = resolutions;
 
             // Remove Duplicates
             resolutions = resolutions.Distinct().ToList();
@@ -33,12 +32,12 @@ namespace Edimsha.Storage
 
         internal void RemoveResolution(string res)
         {
-            string[] splt = res.Split();
+            var splt = res.Split();
 
-            int width = int.Parse(splt[1].Trim().Replace(",", ""));
-            int height = int.Parse(splt[3].Trim());
+            var width = int.Parse(splt[1].Trim().Replace(",", ""));
+            var height = int.Parse(splt[3].Trim());
 
-            List<Resolution> resolutions = GetObject<Resolution>();
+            var resolutions = GetObject<Resolution>();
 
             // Remove Duplicates
             resolutions.RemoveAll(r => (r.Width == width && r.Height == height));

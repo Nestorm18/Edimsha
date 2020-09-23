@@ -21,9 +21,8 @@ namespace Edimsha.Storage
 
         public List<T> GetObject<T>()
         {
-            string json = File.ReadAllText(storePath);
-
-            List<T> jsDes = JsonConvert.DeserializeObject<List<T>>(json);
+            var json = File.ReadAllText(storePath);
+            var jsDes = JsonConvert.DeserializeObject<List<T>>(json);
 
             if (jsDes != null)
                 return JsonConvert.DeserializeObject<List<T>>(json);

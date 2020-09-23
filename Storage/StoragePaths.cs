@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Edimsha.Storage
 {
-
     class StoragePaths : Storage
     {
         public StoragePaths(string filePaths) : base(filePaths) { }
@@ -16,7 +15,7 @@ namespace Edimsha.Storage
         {
             if (KeepSavedPreviousPaths)
             {
-                List<string> oldPaths = GetObject<string>();
+                var oldPaths = GetObject<string>();
                 paths.AddRange(oldPaths);
 
                 // Remove Duplicates
@@ -27,7 +26,7 @@ namespace Edimsha.Storage
 
         public bool StillPathsSameFromLastSession()
         {
-            List<string> paths = GetObject<string>();
+            var paths = GetObject<string>();
             if (paths.Count > 0)
                 foreach (var path in paths)
                     if (!File.Exists(path))
@@ -37,7 +36,7 @@ namespace Edimsha.Storage
 
         public List<string> GetPathChanges()
         {
-            List<string> changes = new List<string>();
+            var changes = new List<string>();
 
             foreach (var path in GetObject<string>())
                 if (!File.Exists(path))
@@ -51,7 +50,7 @@ namespace Edimsha.Storage
 
         public void RemoveMissingPathsFromLastSession()
         {
-            List<string> pathList = GetObject<string>();
+            var pathList = GetObject<string>();
             bool save = false;
 
             for (int i = 0; i < pathList.Count; i++)
@@ -71,7 +70,7 @@ namespace Edimsha.Storage
 
         internal void RemovePath(string path)
         {
-            List<string> paths = GetObject<string>();
+            var paths = GetObject<string>();
             paths.RemoveAll(x => x.Contains(path));
 
             SavePaths(paths);

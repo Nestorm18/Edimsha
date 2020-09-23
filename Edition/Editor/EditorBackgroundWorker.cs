@@ -23,7 +23,7 @@ namespace Edimsha.Edition.Editor
 
         void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            int cnt = 1;
+            var cnt = 1;
             Parallel.ForEach(allPaths, path =>
             {
                 if (CancellationPending == true)
@@ -32,7 +32,7 @@ namespace Edimsha.Edition.Editor
                     return;
                 }
 
-                Edition edt = new Edition(path)
+                var edt = new Edition(path)
                 {
                     OutputFolder = Settings.Default.txtEditorFolderPath,
                     Edimsha = Settings.Default.txtEdimsha,

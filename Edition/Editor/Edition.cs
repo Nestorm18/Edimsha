@@ -49,7 +49,7 @@ namespace Edimsha.Edition.Editor
                 image = Resize(img);
             }
 
-            string savePath = GeneratesavePath();
+            var savePath = GeneratesavePath();
 
             if (AddOnReplace)            
                 File.Delete(ImagePath);            
@@ -68,7 +68,7 @@ namespace Edimsha.Edition.Editor
 
         private string GeneratesavePath()
         {
-            string name = GenerateName();
+            var name = GenerateName();
 
             if (Settings.Default.txtEditorFolderPath.Equals(""))
                 return Path.Combine(Directory.GetParent(ImagePath).FullName, name);
@@ -78,8 +78,8 @@ namespace Edimsha.Edition.Editor
 
         private string GenerateName()
         {
-            bool samePath = IsSamePath();
-            string imageName = Path.GetFileName(ImagePath);
+            var samePath = IsSamePath();
+            var imageName = Path.GetFileName(ImagePath);
 
             if (ReplaceOriginal && !AddOnReplace)
                 return imageName;
@@ -95,8 +95,8 @@ namespace Edimsha.Edition.Editor
 
         private bool IsSamePath()
         {
-            string outputDir = OutputFolder;
-            string currentDir = Directory.GetParent(ImagePath).FullName;
+            var outputDir = OutputFolder;
+            var currentDir = Directory.GetParent(ImagePath).FullName;
 
             if (outputDir.Equals(""))
                 return true;
@@ -108,19 +108,16 @@ namespace Edimsha.Edition.Editor
 
         static Image FixedSize(Image imgPhoto, int Width, int Height)
         {
-            int sourceWidth = imgPhoto.Width;
-            int sourceHeight = imgPhoto.Height;
-            int sourceX = 0;
-            int sourceY = 0;
-            int destX = 0;
-            int destY = 0;
+            var sourceWidth = imgPhoto.Width;
+            var sourceHeight = imgPhoto.Height;
+            var sourceX = 0;
+            var sourceY = 0;
+            var destX = 0;
+            var destY = 0;
 
-            float nPercent;
-            float nPercentW;
-            float nPercentH;
-
-            nPercentW = Width / (float)sourceWidth;
-            nPercentH = Height / (float)sourceHeight;
+            var nPercent = 0.0f;
+            var nPercentW = Width / (float)sourceWidth;
+            var nPercentH = Height / (float)sourceHeight;
 
             if (nPercentH < nPercentW)
             {
@@ -133,13 +130,13 @@ namespace Edimsha.Edition.Editor
                 destY = Convert.ToInt16((Height - (sourceHeight * nPercent)) / 2);
             }
 
-            int destWidth = (int)(sourceWidth * nPercent);
-            int destHeight = (int)(sourceHeight * nPercent);
+            var destWidth = (int)(sourceWidth * nPercent);
+            var destHeight = (int)(sourceHeight * nPercent);
 
-            Bitmap bmPhoto = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
+            var bmPhoto = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
-            Graphics grPhoto = Graphics.FromImage(bmPhoto);
+            var grPhoto = Graphics.FromImage(bmPhoto);
             grPhoto.Clear(Color.White); // Backgroundcolor!
             grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
 

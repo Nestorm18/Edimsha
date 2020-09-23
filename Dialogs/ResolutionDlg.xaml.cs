@@ -24,14 +24,13 @@ namespace Edimsha.Dialogs
         {
             if (store.GetResolutions().Count > 0)
             {
-                List<string> toCmb = new List<string>();
+                var toCmb = new List<string>();
 
                 foreach (var item in store.GetResolutions())
                     toCmb.Add($"X: {item.Width}, Y: {item.Height}");
 
                 cmbResolutions.ItemsSource = toCmb;
                 cmbResolutions.SelectedIndex = toCmb.Count - 1;
-
             }
             else
             {
@@ -51,10 +50,10 @@ namespace Edimsha.Dialogs
 
                 if (cmbResolutions.SelectedItem != null)
                 {
-                    string[] splt = cmbResolutions.SelectedItem.ToString().Split();
+                    var splt = cmbResolutions.SelectedItem.ToString().Split();
 
-                    string width = splt[1].Trim().Replace(",", "");
-                    string height = splt[3].Trim();
+                    var width = splt[1].Trim().Replace(",", "");
+                    var height = splt[3].Trim();
 
                     txtWidth.Text = width;
                     txtHeight.Text = height;
@@ -88,8 +87,8 @@ namespace Edimsha.Dialogs
 
         private void BtnSaveResolution_Click(object sender, RoutedEventArgs e)
         {
-            int width = (int)txtWidth.Value;
-            int height = (int)txtHeight.Value;
+            var width = (int)txtWidth.Value;
+            var height = (int)txtHeight.Value;
 
             if (width > 0 && height > 0)
             {

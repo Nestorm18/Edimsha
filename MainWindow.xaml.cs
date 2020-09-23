@@ -49,14 +49,14 @@ namespace Edimsha
         {
             if (isChecked == true)
             {
-                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
+                var store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
                 store.CleanFile();
             }
         }
 
         private void SaveEditorOutputFolderPath()
         {
-            string path = txtOutputFolder.Text;
+            var path = txtOutputFolder.Text;
 
             if (Directory.Exists(path))
                 Settings.Default.txtEditorFolderPath = txtOutputFolder.Text;
@@ -198,11 +198,11 @@ namespace Edimsha
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] items = (string[])e.Data.GetData(DataFormats.FileDrop);
+                var items = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-                List<string> paths = ExtractDroppedPaths(items);
+                var paths = ExtractDroppedPaths(items);
 
-                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS)
+                var store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS)
                 {
                     KeepSavedPreviousPaths = true
                 };
@@ -222,9 +222,9 @@ namespace Edimsha
         {
             if (lvEditor.SelectedItems.Count > 0)
             {
-                string item = (string)lvEditor.SelectedItems[0];
+                var item = (string)lvEditor.SelectedItems[0];
 
-                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
+                var store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
                 store.RemovePath(item);
 
                 UpdateLvEditor(store);
@@ -246,7 +246,7 @@ namespace Edimsha
         // Button open file selector
         private void BtnSelectEditorImages(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            var openFileDialog = new OpenFileDialog
             {
                 Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg",
                 Multiselect = true
@@ -254,9 +254,9 @@ namespace Edimsha
 
             if (openFileDialog.ShowDialog() == true)
             {
-                List<string> paths = new List<string>(openFileDialog.FileNames);
+                var paths = new List<string>(openFileDialog.FileNames);
 
-                StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS)
+                var store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS)
                 {
                     KeepSavedPreviousPaths = true
                 };
@@ -276,7 +276,7 @@ namespace Edimsha
         // Button open folder selector
         private void BtnSelectEditorOutputFolder(object sender, RoutedEventArgs e)
         {
-            VistaFolderBrowserDialog openFolderDialog = new VistaFolderBrowserDialog
+            var openFolderDialog = new VistaFolderBrowserDialog
             {
                 ShowNewFolderButton = true
             };
@@ -308,7 +308,7 @@ namespace Edimsha
         // Button open resolution selection/save
         private void BtnUsedResolutions_Click(object sender, RoutedEventArgs e)
         {
-            ResolutionDlg dlg = new ResolutionDlg();
+            var dlg = new ResolutionDlg();
             dlg.ShowDialog();
 
             LoadWidthAndHeigth();
@@ -380,7 +380,7 @@ namespace Edimsha
         {
             if (items is null) throw new ArgumentNullException(nameof(items));
 
-            List<string> pathsJson = new List<string>();
+            var pathsJson = new List<string>();
 
             foreach (var item in items)
             {
@@ -397,7 +397,7 @@ namespace Edimsha
 
         private void UpdateLvEditor(StoragePaths store)
         {
-            List<string> src = store.GetObject<string>();
+            var src = store.GetObject<string>();
             lvEditor.ItemsSource = src;
 
             if (src.Count == 0)
@@ -457,7 +457,7 @@ namespace Edimsha
         // BackgroundWorker
         void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            MyUserState state = e.UserState as MyUserState;
+            var state = e.UserState as MyUserState;
             
             pbEditor.Value = e.ProgressPercentage;
             statusbar.Text = $"Editada {e.ProgressPercentage} de {state.CountPaths}";
@@ -490,7 +490,7 @@ namespace Edimsha
         /// </summary>
         private void LoadLanguage()
         {
-            string lang = Settings.Default.Lang.ToString();
+            var lang = Settings.Default.Lang.ToString();
             Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
         }
@@ -498,8 +498,8 @@ namespace Edimsha
         private void LoadSettings()
         {
             // Listview
-            StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
-            bool still = store.StillPathsSameFromLastSession();
+            var store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
+            var still = store.StillPathsSameFromLastSession();
 
             if (!still) LaunchPathChangeMsg(store);
 
@@ -539,7 +539,7 @@ namespace Edimsha
 
         private void LaunchPathChangeMsg(StoragePaths store)
         {
-            MessageBoxResult result = MessageBox.Show("Las rutas que estaban anteriormente se han modificado, Pulsa \"Si\" para ver los cambios.",
+            var result = MessageBox.Show("Las rutas que estaban anteriormente se han modificado, Pulsa \"Si\" para ver los cambios.",
                 "Rutas modificadas",
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Information);
@@ -560,7 +560,7 @@ namespace Edimsha
 
         private void DeleteJsonEditor()
         {
-            StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
+            var store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
             store.CleanFile();
 
             UpdateLvEditor(store);
