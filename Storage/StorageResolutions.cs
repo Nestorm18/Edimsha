@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
 using Edimsha.Edition.Editor;
+using Newtonsoft.Json;
 
 namespace Edimsha.Storage
 {
-    class StorageResolutions : Storage
+    internal class StorageResolutions : Storage
     {
-        public StorageResolutions(string filePaths) : base(filePaths) { }
+        public StorageResolutions(string filePaths) : base(filePaths)
+        {
+        }
 
         internal List<Resolution> GetResolutions()
         {
@@ -40,7 +42,7 @@ namespace Edimsha.Storage
             var resolutions = GetObject<Resolution>();
 
             // Remove Duplicates
-            resolutions.RemoveAll(r => (r.Width == width && r.Height == height));
+            resolutions.RemoveAll(r => r.Width == width && r.Height == height);
 
             File.WriteAllText(storePath, JsonConvert.SerializeObject(resolutions, Formatting.Indented));
         }

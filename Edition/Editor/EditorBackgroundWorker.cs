@@ -1,16 +1,16 @@
-﻿using Edimsha.Properties;
-using Edimsha.Storage;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Edimsha.Properties;
+using Edimsha.Storage;
 
 namespace Edimsha.Edition.Editor
 {
     internal class EditorBackgroundWorker : BackgroundWorker
     {
+        private readonly List<string> allPaths;
 
         private readonly StoragePaths store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
-        private readonly List<string> allPaths;
 
         public EditorBackgroundWorker()
         {
@@ -21,12 +21,12 @@ namespace Edimsha.Edition.Editor
             allPaths = store.GetObject<string>();
         }
 
-        void Worker_DoWork(object sender, DoWorkEventArgs e)
+        private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             var cnt = 1;
             Parallel.ForEach(allPaths, path =>
             {
-                if (CancellationPending == true)
+                if (CancellationPending)
                 {
                     e.Cancel = true;
                     return;
@@ -46,12 +46,13 @@ namespace Edimsha.Edition.Editor
                 };
                 edt.Run();
 
-                ReportProgress(cnt, new MyUserState { CountPaths = allPaths.Count, PathName = path });
+                ReportProgress(cnt, new MyUserState {CountPaths = allPaths.Count, PathName = path});
                 cnt++;
             });
         }
     }
-    class MyUserState
+
+    internal class MyUserState
     {
         public double CountPaths { get; set; }
         public string PathName { get; set; }

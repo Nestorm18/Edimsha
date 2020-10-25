@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Edimsha.Storage
 {
-    class StoragePaths : Storage
+    internal class StoragePaths : Storage
     {
-        public StoragePaths(string filePaths) : base(filePaths) { }
+        public StoragePaths(string filePaths) : base(filePaths)
+        {
+        }
 
         public bool KeepSavedPreviousPaths { get; internal set; }
 
@@ -21,6 +23,7 @@ namespace Edimsha.Storage
                 // Remove Duplicates
                 paths = paths.Distinct().ToList();
             }
+
             File.WriteAllText(storePath, JsonConvert.SerializeObject(paths, Formatting.Indented));
         }
 
@@ -44,23 +47,20 @@ namespace Edimsha.Storage
 
             if (changes.Count == 0)
                 return null;
-            else
-                return changes;
+            return changes;
         }
 
         public void RemoveMissingPathsFromLastSession()
         {
             var pathList = GetObject<string>();
-            bool save = false;
+            var save = false;
 
-            for (int i = 0; i < pathList.Count; i++)
-            {
+            for (var i = 0; i < pathList.Count; i++)
                 if (!File.Exists(pathList[i]))
                 {
                     save = true;
                     pathList[i] = "";
                 }
-            }
 
             pathList = pathList.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
 

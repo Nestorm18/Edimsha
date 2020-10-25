@@ -1,14 +1,14 @@
-﻿using Edimsha.Edition;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using Edimsha.Edition;
+using Newtonsoft.Json;
 
 namespace Edimsha.Storage
 {
-    class Storage : FilePaths
+    internal class Storage : FilePaths
     {
         protected readonly string storePath;
-       
+
         public Storage(string filePaths)
         {
             storePath = filePaths;
@@ -26,9 +26,7 @@ namespace Edimsha.Storage
 
             if (jsDes != null)
                 return JsonConvert.DeserializeObject<List<T>>(json);
-            else
-                return new List<T>();
+            return new List<T>();
         }
-
     }
 }

@@ -1,9 +1,9 @@
-﻿using Edimsha.Properties;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using Edimsha.Properties;
 
 namespace Edimsha.Edition.Editor
 {
@@ -46,13 +46,14 @@ namespace Edimsha.Edition.Editor
                     Width = img.Width;
                     Height = img.Height;
                 }
+
                 image = Resize(img);
             }
 
             var savePath = GeneratesavePath();
 
-            if (AddOnReplace)            
-                File.Delete(ImagePath);            
+            if (AddOnReplace)
+                File.Delete(ImagePath);
 
             if (Settings.Default.chkOptimizeImage)
             {
@@ -63,6 +64,7 @@ namespace Edimsha.Edition.Editor
             {
                 image.Save(savePath, ImageFormat.Jpeg);
             }
+
             image.Dispose();
         }
 
@@ -84,9 +86,9 @@ namespace Edimsha.Edition.Editor
             if (ReplaceOriginal && !AddOnReplace)
                 return imageName;
 
-            if (samePath || (AddOnReplace && !samePath))
+            if (samePath || AddOnReplace && !samePath)
             {
-                string edimsha = Edimsha;
+                var edimsha = Edimsha;
                 return $"{edimsha}{imageName}";
             }
 
@@ -104,9 +106,12 @@ namespace Edimsha.Edition.Editor
             return Equals(outputDir, currentDir);
         }
 
-        private Image Resize(Image image) => FixedSize(image, Width, Height);
+        private Image Resize(Image image)
+        {
+            return FixedSize(image, Width, Height);
+        }
 
-        static Image FixedSize(Image imgPhoto, int Width, int Height)
+        private static Image FixedSize(Image imgPhoto, int Width, int Height)
         {
             var sourceWidth = imgPhoto.Width;
             var sourceHeight = imgPhoto.Height;
@@ -116,22 +121,22 @@ namespace Edimsha.Edition.Editor
             var destY = 0;
 
             var nPercent = 0.0f;
-            var nPercentW = Width / (float)sourceWidth;
-            var nPercentH = Height / (float)sourceHeight;
+            var nPercentW = Width / (float) sourceWidth;
+            var nPercentH = Height / (float) sourceHeight;
 
             if (nPercentH < nPercentW)
             {
                 nPercent = nPercentH;
-                destX = Convert.ToInt16((Width - (sourceWidth * nPercent)) / 2);
+                destX = Convert.ToInt16((Width - sourceWidth * nPercent) / 2);
             }
             else
             {
                 nPercent = nPercentW;
-                destY = Convert.ToInt16((Height - (sourceHeight * nPercent)) / 2);
+                destY = Convert.ToInt16((Height - sourceHeight * nPercent) / 2);
             }
 
-            var destWidth = (int)(sourceWidth * nPercent);
-            var destHeight = (int)(sourceHeight * nPercent);
+            var destWidth = (int) (sourceWidth * nPercent);
+            var destHeight = (int) (sourceHeight * nPercent);
 
             var bmPhoto = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);

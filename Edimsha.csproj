@@ -108,9 +108,6 @@
     <Compile Include="Storage\Storage.cs" />
     <Compile Include="Storage\StoragePaths.cs" />
     <Compile Include="Storage\StorageResolutions.cs" />
-    <Compile Include="Views\MainReplace.xaml.cs">
-      <DependentUpon>MainReplace.xaml</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,10 +123,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Dialogs\ResolutionDlg.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainReplace.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,6 +183,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

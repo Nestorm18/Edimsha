@@ -2,7 +2,7 @@
 
 namespace Edimsha.Edition.Editor
 {
-    class Resolution : IEquatable<Resolution>
+    internal class Resolution : IEquatable<Resolution>
     {
         public int Width { get; set; }
 
@@ -12,11 +12,10 @@ namespace Edimsha.Edition.Editor
         {
             return Width.Equals(other.Width) && Height.Equals(other.Height);
         }
-        
+
         public override int GetHashCode()
         {
-            return (Width.GetHashCode()) ^ (Height.GetHashCode());
+            return Width.GetHashCode() ^ Height.GetHashCode();
         }
-
     }
 }

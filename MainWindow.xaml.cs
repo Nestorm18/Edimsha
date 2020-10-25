@@ -1,30 +1,31 @@
-﻿using Edimsha.Dialogs;
-using Edimsha.Edition;
-using Edimsha.Edition.Editor;
-using Edimsha.Properties;
-using Edimsha.Storage;
-using Edimsha.Views;
-using Microsoft.Win32;
-using Ookii.Dialogs.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using Edimsha.Dialogs;
+using Edimsha.Edition;
+using Edimsha.Edition.Editor;
+using Edimsha.Properties;
+using Edimsha.Storage;
+using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
 
 namespace Edimsha
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    ///     Lógica de interacción para MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        private EditorBackgroundWorker _bw;
+
         // Menubar
-        private EditionMode currentMode = EditionMode.Editor;
-        private EditorBackgroundWorker bw;
+        private EditionMode _currentMode = EditionMode.Editor;
 
         public MainWindow()
         {
@@ -35,13 +36,12 @@ namespace Edimsha
             InitializeComponent();
 
             //LoadSettings();
-            MainReplace r = new MainReplace();
-            r.ShowDialog();
         }
 
         #region Window
+
         // Events
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             CleanEditorListOnExit(chkCleanListOnExit.IsChecked);
             SaveEditorSliderCompression();
@@ -80,7 +80,7 @@ namespace Edimsha
 
         private void SaveEditorSliderCompression()
         {
-            Settings.Default.sldCompression = (int)sldCompression.Value;
+            Settings.Default.sldCompression = (int) sldCompression.Value;
             Settings.Default.Save();
         }
 
@@ -89,6 +89,7 @@ namespace Edimsha
         #region Menubar
 
         #region Menu
+
         // Events
         private void SearchForUpdates(object sender, RoutedEventArgs e)
         {
@@ -107,9 +108,11 @@ namespace Edimsha
         }
 
         // Logic
+
         #endregion
 
         #region Mode
+
         // Events
         private void ChangeToEditor(object sender, RoutedEventArgs e)
         {
@@ -127,18 +130,19 @@ namespace Edimsha
             switch (mode)
             {
                 case EditionMode.Editor:
-                    currentMode = EditionMode.Editor;
+                    _currentMode = EditionMode.Editor;
                     break;
                 case EditionMode.Conversor:
-                    currentMode = EditionMode.Conversor;
+                    _currentMode = EditionMode.Conversor;
                     break;
             }
+
             ChangeModeUI();
         }
 
         private void ChangeModeUI()
         {
-            switch (currentMode)
+            switch (_currentMode)
             {
                 case EditionMode.Editor:
                     miEditor.IsChecked = true;
@@ -156,9 +160,11 @@ namespace Edimsha
                     break;
             }
         }
+
         #endregion
 
         #region Languaje
+
         // Events
         private void ChangeToEnglish(object sender, RoutedEventArgs e)
         {
@@ -174,7 +180,7 @@ namespace Edimsha
         // Logic
 
         /// <summary>
-        /// Save the new language and restart the application.
+        ///     Save the new language and restart the application.
         /// </summary>
         private static void SaveAppLang()
         {
@@ -183,25 +189,28 @@ namespace Edimsha
         }
 
         /// <summary>
-        /// Restart this application.
+        ///     Restart this application.
         /// </summary>
         private static void RestartApp()
         {
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
+
         #endregion
 
         #endregion
 
         #region StackPanel Editor
+
         #region Events
+
         // ListView
         private void LvEditorDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                var items = (string[])e.Data.GetData(DataFormats.FileDrop);
+                var items = (string[]) e.Data.GetData(DataFormats.FileDrop);
 
                 var paths = ExtractDroppedPaths(items);
 
@@ -225,7 +234,7 @@ namespace Edimsha
         {
             if (lvEditor.SelectedItems.Count > 0)
             {
-                var item = (string)lvEditor.SelectedItems[0];
+                var item = (string) lvEditor.SelectedItems[0];
 
                 var store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
                 store.RemovePath(item);
@@ -242,7 +251,7 @@ namespace Edimsha
         // Checkbox chkCleanListOnExit
         private void ChkCleanListOnExit_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.chkCleanListOnExit = (chkCleanListOnExit.IsChecked == true);
+            Settings.Default.chkCleanListOnExit = chkCleanListOnExit.IsChecked == true;
             Settings.Default.Save();
         }
 
@@ -297,14 +306,14 @@ namespace Edimsha
         // Checkbox AddOnReplace
         private void ChkAddOnReplace_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.chkAddOnReplace = (chkAddOnReplace.IsChecked == true);
+            Settings.Default.chkAddOnReplace = chkAddOnReplace.IsChecked == true;
             Settings.Default.Save();
         }
 
         // Checkbox KeepOriginalResolution 
         private void ChkKeepOriginalResolution_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.chkKeepOriginalResolution = (chkKeepOriginalResolution.IsChecked == true);
+            Settings.Default.chkKeepOriginalResolution = chkKeepOriginalResolution.IsChecked == true;
             Settings.Default.Save();
         }
 
@@ -321,21 +330,21 @@ namespace Edimsha
         private void SldCompression_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (statusbar != null)
-                statusbar.Text = $"Dejar sin comprimir un {(int)sldCompression.Value}%";
+                statusbar.Text = $"Dejar sin comprimir un {(int) sldCompression.Value}%";
         }
 
         // Checkbox ChkOptimizeImage
         private void ChkOptimizeImage_Click(object sender, RoutedEventArgs e)
         {
-            sldCompression.IsEnabled = (chkOptimizeImage.IsChecked == true);
-            Settings.Default.chkOptimizeImage = (chkOptimizeImage.IsChecked == true);
+            sldCompression.IsEnabled = chkOptimizeImage.IsChecked == true;
+            Settings.Default.chkOptimizeImage = chkOptimizeImage.IsChecked == true;
             Settings.Default.Save();
         }
 
         // Checkbox ChkReplaceForOriginal
         private void ChkReplaceForOriginal_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.chkReplaceForOriginal = (chkReplaceForOriginal.IsChecked == true);
+            Settings.Default.chkReplaceForOriginal = chkReplaceForOriginal.IsChecked == true;
             Settings.Default.Save();
         }
 
@@ -360,7 +369,7 @@ namespace Edimsha
         // Button Stop
         private void BtnStop_Click(object sender, RoutedEventArgs e)
         {
-            bw.CancelAsync();
+            _bw.CancelAsync();
             EnableEditorUI();
         }
 
@@ -369,16 +378,17 @@ namespace Edimsha
         {
             DisableEditorUI();
 
-            bw = null;
-            bw = new EditorBackgroundWorker();
-            bw.ProgressChanged += Worker_ProgressChanged;
-            bw.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            bw.RunWorkerAsync();
+            _bw = null;
+            _bw = new EditorBackgroundWorker();
+            _bw.ProgressChanged += Worker_ProgressChanged;
+            _bw.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            _bw.RunWorkerAsync();
         }
 
         #endregion
 
         #region Logic
+
         private List<string> ExtractDroppedPaths(string[] items)
         {
             if (items is null) throw new ArgumentNullException(nameof(items));
@@ -386,16 +396,13 @@ namespace Edimsha
             var pathsJson = new List<string>();
 
             foreach (var item in items)
-            {
                 if (Path.HasExtension(item)) // It is a file, get path
                     pathsJson.Add(item);
                 else
-                    foreach (string dirFile in Directory.GetFiles(item)) // It is a folder, extract paths
+                    foreach (var dirFile in Directory.GetFiles(item)) // It is a folder, extract paths
                         pathsJson.Add(dirFile);
-            }
 
             return pathsJson;
-
         }
 
         private void UpdateLvEditor(StoragePaths store)
@@ -458,7 +465,7 @@ namespace Edimsha
         }
 
         // BackgroundWorker
-        void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var state = e.UserState as MyUserState;
 
@@ -466,34 +473,39 @@ namespace Edimsha
             statusbar.Text = $"Editada {e.ProgressPercentage} de {state.CountPaths}";
         }
 
-        void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
+            {
                 statusbar.Text = "Cancelled by user...";
+            }
             else
             {
-                bw.ProgressChanged -= Worker_ProgressChanged;
-                bw.RunWorkerCompleted -= Worker_RunWorkerCompleted;
+                _bw.ProgressChanged -= Worker_ProgressChanged;
+                _bw.RunWorkerCompleted -= Worker_RunWorkerCompleted;
                 EnableEditorUI();
             }
         }
 
         #endregion
+
         #endregion
 
         #region StackPanel Conversor
+
         // Events
         // Logic
+
         #endregion
 
         #region General
 
         /// <summary>
-        /// Load the last selected language.
+        ///     Load the last selected language.
         /// </summary>
         private void LoadLanguage()
         {
-            var lang = Settings.Default.Lang.ToString();
+            var lang = Settings.Default.Lang;
             Thread.CurrentThread.CurrentCulture = new CultureInfo(lang);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
         }
@@ -536,22 +548,23 @@ namespace Edimsha
 
         private void UpdateCtxLvEditor()
         {
-            ctxLvRemove.IsEnabled = (lvEditor.SelectedItems.Count > 0);
-            ctxLvRemoveAll.IsEnabled = (lvEditor.Items.Count > 0);
+            ctxLvRemove.IsEnabled = lvEditor.SelectedItems.Count > 0;
+            ctxLvRemoveAll.IsEnabled = lvEditor.Items.Count > 0;
         }
 
         private void LaunchPathChangeMsg(StoragePaths store)
         {
-            var result = MessageBox.Show("Las rutas que estaban anteriormente se han modificado, Pulsa \"Si\" para ver los cambios.",
+            var result = MessageBox.Show(
+                "Las rutas que estaban anteriormente se han modificado, Pulsa \"Si\" para ver los cambios.",
                 "Rutas modificadas",
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Information);
 
             if (result == MessageBoxResult.Yes)
             {
-                string append = "";
+                var append = "";
 
-                List<string> paths = store.GetPathChanges();
+                var paths = store.GetPathChanges();
                 foreach (var text in paths)
                     append += text + "\n\n";
 
