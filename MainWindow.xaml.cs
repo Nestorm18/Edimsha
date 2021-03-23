@@ -1,4 +1,10 @@
-﻿using System;
+﻿using Edimsha.Dialogs;
+using Edimsha.Edition;
+using Edimsha.Edition.Editor;
+using Edimsha.Properties;
+using Edimsha.Storage;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,12 +13,6 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using Edimsha.Dialogs;
-using Edimsha.Edition;
-using Edimsha.Edition.Editor;
-using Edimsha.Properties;
-using Edimsha.Storage;
-using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 
 namespace Edimsha
@@ -80,7 +80,7 @@ namespace Edimsha
 
         private void SaveEditorSliderCompression()
         {
-            Settings.Default.sldCompression = (int) sldCompression.Value;
+            Settings.Default.sldCompression = (int)sldCompression.Value;
             Settings.Default.Save();
         }
 
@@ -210,7 +210,7 @@ namespace Edimsha
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                var items = (string[]) e.Data.GetData(DataFormats.FileDrop);
+                var items = (string[])e.Data.GetData(DataFormats.FileDrop);
 
                 var paths = ExtractDroppedPaths(items);
 
@@ -234,7 +234,7 @@ namespace Edimsha
         {
             if (lvEditor.SelectedItems.Count > 0)
             {
-                var item = (string) lvEditor.SelectedItems[0];
+                var item = (string)lvEditor.SelectedItems[0];
 
                 var store = new StoragePaths(FilePaths.EDITOR_FILE_PATHS);
                 store.RemovePath(item);
@@ -330,7 +330,7 @@ namespace Edimsha
         private void SldCompression_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (statusbar != null)
-                statusbar.Text = $"Dejar sin comprimir un {(int) sldCompression.Value}%";
+                statusbar.Text = $"Dejar sin comprimir un {(int)sldCompression.Value}%";
         }
 
         // Checkbox ChkOptimizeImage
