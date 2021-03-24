@@ -4,15 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Edimsha.WPF"
+    xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
     xmlns:views="clr-namespace:Edimsha.WPF.Views"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="clr-namespace:Edimsha.WPF.Converters"
     Title="MainWindow"
     Width="800"
     Height="450"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance viewmodels:MainViewModel}">
     <Grid>
+        <Grid.Resources>
+            <converters:EnumBooleanConverter x:Key="enumBooleanConverter" />
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -20,11 +26,11 @@
 
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Menu">
-                <MenuItem Header="Buscar actualizacion" IsEnabled="False" />
-                <MenuItem Header="Enviar logs (0 errores)" IsEnabled="False" />
-                <Separator />
+                <MenuItem Header="Buscar actualizacion" Visibility="Collapsed" />
+                <MenuItem Header="Enviar logs (0 errores)" Visibility="Collapsed" />
+                <Separator Visibility="Collapsed" />
                 <MenuItem Header="Salir"
-                          Command="{Binding Salir, Mode=OneWay}"
+                          Command="{Binding SalirCommand, Mode=OneWay}"
                           CommandParameter="{Binding 
                           RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
             </MenuItem>
@@ -38,8 +44,19 @@
             </MenuItem>
 
             <MenuItem Header="Idioma">
-                <MenuItem Header="English" />
-                <MenuItem Header="Español" />
+                <RadioButton GroupName="language" Content="English"
+                             IsChecked="{Binding Path=Language,
+                                Converter={StaticResource enumBooleanConverter},
+                                ConverterParameter=English}"
+                             Command="{Binding ChangeLanguageCommand}"
+                             CommandParameter="{x:Static lang:Languages.English}" />
+
+                <RadioButton GroupName="language" Content="Español"
+                             IsChecked="{Binding Path=Language,
+                                Converter={StaticResource enumBooleanConverter},
+                                ConverterParameter=Spanish}"
+                             Command="{Binding ChangeLanguageCommand}"
+                             CommandParameter="{x:Static lang:Languages.Spanish}" />
             </MenuItem>
         </Menu>
 

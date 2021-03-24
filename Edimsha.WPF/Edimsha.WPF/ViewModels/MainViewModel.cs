@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
+using Edimsha.WPF.Lang;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.Factories;
 
@@ -10,13 +11,26 @@ namespace Edimsha.WPF.ViewModels
     {
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
+        private Languages _language = Languages.Spanish;
 
         // Properties
-        public ViewModelBase CurrentModeViewModel { get; }
+        public Languages Language
+        {
+            get => _language;
+            set
+            {
+                _language = value;
+                OnPropertyChanged();
+            } 
+        }
 
         // Commands
-        public ICommand Salir { get; }
+        public ICommand SalirCommand  { get; }
+        public ICommand ChangeLanguageCommand { get; }
 
+        // Viewmodel
+        public ViewModelBase CurrentModeViewModel { get; }
+        
         // Constructor
         public MainViewModel(IEdimshaViewModelFactory viewModelFactory)
         {
@@ -24,7 +38,8 @@ namespace Edimsha.WPF.ViewModels
             CurrentModeViewModel = _viewModelFactory.CreateViewModel(ViewType.Editor);
 
             // Commands
-            Salir = new QuitCommand();
+            SalirCommand = new QuitCommand();
+            ChangeLanguageCommand = new ChangeLanguageCommand(this);
         }
     }
 }

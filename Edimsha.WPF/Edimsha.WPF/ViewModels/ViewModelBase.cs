@@ -1,4 +1,6 @@
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Edimsha.WPF.Annotations;
 
 namespace Edimsha.WPF.ViewModels
 {
@@ -6,11 +8,14 @@ namespace Edimsha.WPF.ViewModels
 
     public class ViewModelBase : INotifyPropertyChanged
     {
-        public virtual void Dispose() { }
+        public virtual void Dispose()
+        {
+        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName)
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
