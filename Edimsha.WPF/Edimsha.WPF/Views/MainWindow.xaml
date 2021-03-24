@@ -20,10 +20,13 @@
 
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Menu">
-                <MenuItem Header="Buscar actualizacion" />
+                <MenuItem Header="Buscar actualizacion" IsEnabled="False" />
                 <MenuItem Header="Enviar logs (0 errores)" IsEnabled="False" />
                 <Separator />
-                <MenuItem Header="Salir" />
+                <MenuItem Header="Salir"
+                          Command="{Binding Salir, Mode=OneWay}"
+                          CommandParameter="{Binding 
+                          RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
             </MenuItem>
 
             <MenuItem Header="Modo">
