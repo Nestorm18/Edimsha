@@ -1,6 +1,4 @@
 using System;
-using System.Windows.Input;
-using Edimsha.WPF.Commands;
 
 namespace Edimsha.WPF.ViewModels
 {

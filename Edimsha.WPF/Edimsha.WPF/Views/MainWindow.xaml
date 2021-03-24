@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Edimsha.WPF"
     xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
+    xmlns:navigatoorType="clr-namespace:Edimsha.WPF.State.Navigators"
     xmlns:views="clr-namespace:Edimsha.WPF.Views"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +14,8 @@
     Width="800"
     Height="450"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d" d:DataContext="{d:DesignInstance viewmodels:MainViewModel}">
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance viewmodels:MainViewModel}"
+    Icon="/Resources/icon.png">
     <Grid>
         <Grid.Resources>
             <converters:EnumBooleanConverter x:Key="enumBooleanConverter" />
@@ -30,7 +32,7 @@
                 <MenuItem Header="Enviar logs (0 errores)" Visibility="Collapsed" />
                 <Separator Visibility="Collapsed" />
                 <MenuItem Header="Salir"
-                          Command="{Binding SalirCommand, Mode=OneWay}"
+                          Command="{Binding QuitCommand, Mode=OneWay}"
                           CommandParameter="{Binding 
                           RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
             </MenuItem>
@@ -39,8 +41,19 @@
                 <RadioButton
                     Content="Editor"
                     GroupName="mode"
-                    IsChecked="True" />
-                <RadioButton Content="Coversor" GroupName="mode" />
+                    IsChecked="{Binding Path=Mode,
+                                Converter={StaticResource enumBooleanConverter},
+                                ConverterParameter=Editor}"
+                    Command="{Binding ChangeModeCommand}"
+                    CommandParameter="{x:Static navigatoorType:ViewType.Editor}" />
+                <RadioButton
+                    Content="Coversor"
+                    IsChecked="{Binding Path=Mode,
+                                Converter={StaticResource enumBooleanConverter},
+                                ConverterParameter=Conversor}"
+                    Command="{Binding ChangeModeCommand}"
+                    CommandParameter="{x:Static navigatoorType:ViewType.Conversor}"
+                    GroupName="mode" />
             </MenuItem>
 
             <MenuItem Header="Idioma">

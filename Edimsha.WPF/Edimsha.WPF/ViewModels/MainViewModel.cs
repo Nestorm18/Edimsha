@@ -1,4 +1,3 @@
-using System.Windows;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Lang;
@@ -11,9 +10,12 @@ namespace Edimsha.WPF.ViewModels
     {
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
-        private Languages _language = Languages.Spanish;
 
         // Properties
+        private ViewModelBase _currentModeViewModel;
+        private Languages _language = Languages.Spanish;
+        private ViewType _mode = ViewType.Editor;
+
         public Languages Language
         {
             get => _language;
@@ -21,25 +23,45 @@ namespace Edimsha.WPF.ViewModels
             {
                 _language = value;
                 OnPropertyChanged();
-            } 
+            }
+        }
+
+        public ViewType Mode
+        {
+            get => _mode;
+            set
+            {
+                _mode = value;
+                OnPropertyChanged();
+            }
         }
 
         // Commands
-        public ICommand SalirCommand  { get; }
+        public ICommand QuitCommand { get; }
         public ICommand ChangeLanguageCommand { get; }
+        public ICommand ChangeModeCommand { get; }
 
         // Viewmodel
-        public ViewModelBase CurrentModeViewModel { get; }
-        
+        public ViewModelBase CurrentModeViewModel
+        {
+            get => _currentModeViewModel;
+            set
+            {
+                _currentModeViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
         // Constructor
         public MainViewModel(IEdimshaViewModelFactory viewModelFactory)
         {
             _viewModelFactory = viewModelFactory;
-            CurrentModeViewModel = _viewModelFactory.CreateViewModel(ViewType.Editor);
+            CurrentModeViewModel = _viewModelFactory.CreateViewModel(Mode);
 
             // Commands
-            SalirCommand = new QuitCommand();
+            QuitCommand = new QuitCommand();
             ChangeLanguageCommand = new ChangeLanguageCommand(this);
+            ChangeModeCommand = new ChangeModeCommand(this, _viewModelFactory);
         }
     }
 }

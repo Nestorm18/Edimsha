@@ -4,7 +4,13 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net5.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
+        <ApplicationIcon></ApplicationIcon>
+        <StartupObject>Edimsha.WPF.App</StartupObject>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Views\icon.png" />
+    </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Controls" />
