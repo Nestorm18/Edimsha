@@ -7,15 +7,13 @@ namespace Edimsha.WPF.ViewModels
         // IOC
 
         // Properties
-
-        #region Checkboxes
-
         private bool _cleanListOnExit;
         private bool _addOnReplace;
         private bool _keepOriginalResolution;
         private bool _optimizeImage;
         private bool _replaceForOriginal;
-
+        private bool _isRunningUi = true;
+        
         public bool CleanListOnExit
         {
             get => _cleanListOnExit;
@@ -69,7 +67,15 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
-        #endregion
+        public bool IsRunningUI
+        {
+            get => _isRunningUi;
+            set
+            {
+                _isRunningUi = value;
+                OnPropertyChanged();
+            }
+        }
 
         // Commands
 
