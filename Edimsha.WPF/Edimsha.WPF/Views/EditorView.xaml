@@ -46,8 +46,8 @@
             AllowDrop="True">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Eliminar" IsEnabled="False" />
-                    <MenuItem Header="Eliminar todos los elementos" IsEnabled="False" />
+                    <MenuItem Header="Eliminar" IsEnabled="{Binding IsCTXDelete}" />
+                    <MenuItem Header="Eliminar todos los elementos" IsEnabled="{Binding IsCTXDeleteAll}" />
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>

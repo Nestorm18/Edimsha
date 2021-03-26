@@ -17,7 +17,17 @@ namespace Edimsha.WPF.ViewModels
             if (Urls is null)
                 Urls = new ObservableCollection<string>(filepaths);
             else
-                foreach (var path in filepaths) Urls.Add(path);
+                foreach (var path in filepaths)
+                    Urls.Add(path);
+            
+            UpdateContextMenu();
+
+        }
+
+        private void UpdateContextMenu()
+        {
+            IsCTXDelete = true;
+            IsCTXDeleteAll = true;
         }
         // IOC
 
@@ -33,6 +43,8 @@ namespace Edimsha.WPF.ViewModels
         private bool _isRunningUi = true;
         private bool _isStartedUi;
         private ObservableCollection<string> _urls;
+        private bool _isCtxDelete;
+        private bool _isCtxDeleteAll;
 
         public bool CleanListOnExit
         {
@@ -104,6 +116,28 @@ namespace Edimsha.WPF.ViewModels
             {
                 if (value == _isStartedUi) return;
                 _isStartedUi = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsCTXDelete
+        {
+            get => _isCtxDelete;
+            set
+            {
+                if (value == _isCtxDelete) return;
+                _isCtxDelete = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsCTXDeleteAll
+        {
+            get => _isCtxDeleteAll;
+            set
+            {
+                if (value == _isCtxDeleteAll) return;
+                _isCtxDeleteAll = value;
                 OnPropertyChanged();
             }
         }
