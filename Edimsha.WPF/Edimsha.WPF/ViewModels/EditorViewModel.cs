@@ -1,34 +1,11 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.ViewModels
 {
     public class EditorViewModel : ViewModelBase, IFileDragDropTarget
     {
-        // Commands
-
-        // Constructor
-        public EditorViewModel()
-        {
-        }
-
-        public void OnFileDrop(string[] filepaths)
-        {
-            if (Urls is null)
-                Urls = new ObservableCollection<string>(filepaths);
-            else
-                foreach (var path in filepaths)
-                    Urls.Add(path);
-            
-            UpdateContextMenu();
-
-        }
-
-        private void UpdateContextMenu()
-        {
-            IsCTXDelete = true;
-            IsCTXDeleteAll = true;
-        }
         // IOC
 
         // Properties
@@ -42,9 +19,9 @@ namespace Edimsha.WPF.ViewModels
         private bool _replaceForOriginal;
         private bool _isRunningUi = true;
         private bool _isStartedUi;
-        private ObservableCollection<string> _urls;
         private bool _isCtxDelete;
         private bool _isCtxDeleteAll;
+        private ObservableCollection<string> _urls;
 
         public bool CleanListOnExit
         {
@@ -120,23 +97,21 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
-        public bool IsCTXDelete
+        public bool IsCtxDelete
         {
             get => _isCtxDelete;
             set
             {
-                if (value == _isCtxDelete) return;
                 _isCtxDelete = value;
                 OnPropertyChanged();
             }
         }
 
-        public bool IsCTXDeleteAll
+        public bool IsCtxDeleteAll
         {
             get => _isCtxDeleteAll;
             set
             {
-                if (value == _isCtxDeleteAll) return;
                 _isCtxDeleteAll = value;
                 OnPropertyChanged();
             }
@@ -149,10 +124,36 @@ namespace Edimsha.WPF.ViewModels
             {
                 if (Equals(value, _urls)) return;
                 _urls = value;
+
+                IsCtxDelete = Urls.Count > 0;
+                IsCtxDeleteAll = Urls.Count > 0;
+
                 OnPropertyChanged();
             }
         }
 
         #endregion
+
+        // Commands
+
+        // Constructor
+        public EditorViewModel()
+        {
+        }
+
+        public void OnFileDrop(string[] filepaths)
+        {
+            if (Urls is null)
+                Urls = new ObservableCollection<string>(filepaths.Distinct());
+            else
+            {
+                var savedPaths = Urls.ToList();
+                var newPaths = filepaths.ToList();
+
+                var filePathsDistinct = savedPaths.Concat(newPaths).Distinct().ToList();
+
+                Urls = new ObservableCollection<string>(filePathsDistinct);
+            }
+        }
     }
 }
