@@ -5,6 +5,7 @@
     xmlns:converters="clr-namespace:Edimsha.WPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Edimsha.WPF.Views"
+    xmlns:imageType="clr-namespace:Edimsha.WPF.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -15,7 +16,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
-        <converters:EditorImageFormatsAppendConverter x:Key="EditorImageFormatsAppendConverter" />
+        <converters:ImageFormatsAppendConverter x:Key="ImageFormatsAppendConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -28,7 +29,9 @@
         <Label
             Grid.Row="0"
             HorizontalAlignment="Center"
-            Content="{lang:Localization msg1, Converter={StaticResource EditorImageFormatsAppendConverter}}" />
+            Content="{lang:Localization msg1,          
+                Converter={StaticResource ImageFormatsAppendConverter},
+                ConverterParameter={x:Static imageType:ModeImageTypes.Editor}}" />
 
         <!--  Lista de enlaces  -->
         <ListView
