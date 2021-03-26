@@ -15,6 +15,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
+        <converters:EditorImageFormatsAppendConverter x:Key="EditorImageFormatsAppendConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -23,11 +24,11 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Label
             Grid.Row="0"
             HorizontalAlignment="Center"
-            Content="{lang:Localization msg1}" />
+            Content="{lang:Localization msg1, Converter={StaticResource EditorImageFormatsAppendConverter}}" />
 
         <!--  Lista de enlaces  -->
         <ListView

@@ -61,7 +61,7 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Arrastra las imagenes o carpeta a editar (*.png, *.jpg).
+        ///   Looks up a localized string similar to Arrastra las imagenes o carpeta a editar.
         /// </summary>
         internal static string msg1 {
             get {
