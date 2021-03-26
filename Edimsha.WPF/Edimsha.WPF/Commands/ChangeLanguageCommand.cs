@@ -22,7 +22,7 @@ namespace Edimsha.WPF.Commands
 
         public void Execute(object? parameter)
         {
-            if (parameter != null) _viewModel.Language = (Languages) parameter;
+            if (parameter != null) _viewModel.Language = (Languages)parameter;
 
             switch (_viewModel.Language)
             {
