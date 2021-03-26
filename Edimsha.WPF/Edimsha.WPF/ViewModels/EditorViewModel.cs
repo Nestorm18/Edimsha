@@ -1,14 +1,30 @@
-using System;
+using System.Collections.ObjectModel;
+using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.ViewModels
 {
-    public class EditorViewModel : ViewModelBase
+    public class EditorViewModel : ViewModelBase, IFileDragDropTarget
     {
+        // Commands
+
+        // Constructor
+        public EditorViewModel()
+        {
+        }
+
+        public void OnFileDrop(string[] filepaths)
+        {
+            if (Urls is null)
+                Urls = new ObservableCollection<string>(filepaths);
+            else
+                foreach (var path in filepaths) Urls.Add(path);
+        }
         // IOC
 
         // Properties
+
         #region Properties
-        
+
         private bool _cleanListOnExit;
         private bool _addOnReplace;
         private bool _keepOriginalResolution;
@@ -16,6 +32,7 @@ namespace Edimsha.WPF.ViewModels
         private bool _replaceForOriginal;
         private bool _isRunningUi = true;
         private bool _isStartedUi;
+        private ObservableCollection<string> _urls;
 
         public bool CleanListOnExit
         {
@@ -90,14 +107,18 @@ namespace Edimsha.WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        #endregion
 
-        // Commands
-
-        // Constructor
-        public EditorViewModel()
+        public ObservableCollection<string> Urls
         {
-            Console.WriteLine("Test EDITOR-VM");
+            get => _urls;
+            set
+            {
+                if (Equals(value, _urls)) return;
+                _urls = value;
+                OnPropertyChanged();
+            }
         }
+
+        #endregion
     }
 }

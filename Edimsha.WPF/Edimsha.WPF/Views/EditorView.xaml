@@ -8,6 +8,7 @@
     xmlns:imageType="clr-namespace:Edimsha.WPF.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
+    xmlns:utils="clr-namespace:Edimsha.WPF.Utils"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
     d:DataContext="{d:DesignInstance viewmodels:EditorViewModel}"
@@ -39,6 +40,9 @@
             MinWidth="200"
             MinHeight="185"
             Margin="5,0"
+            ItemsSource="{Binding Urls}"
+            utils:FileDragDropHelper.IsFileDragDropEnabled="True"
+            utils:FileDragDropHelper.FileDragDropTarget="{Binding}"
             AllowDrop="True">
             <ListView.ContextMenu>
                 <ContextMenu>
