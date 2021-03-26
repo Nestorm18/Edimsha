@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
     d:DataContext="{d:DesignInstance viewmodels:EditorViewModel}"
     d:DesignHeight="470"
     d:DesignWidth="805"
@@ -22,12 +23,11 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <!--  Mensaje superior  -->
+        
         <Label
             Grid.Row="0"
             HorizontalAlignment="Center"
-            Content="Arrastra las imagenes o carpeta a editar (*.png, *.jpg)" />
+            Content="{lang:Localization msg1}" />
 
         <!--  Lista de enlaces  -->
         <ListView
@@ -69,11 +69,11 @@
                     VerticalAlignment="Center"
                     Content="Eliminar lista al salir"
                     IsChecked="{Binding CleanListOnExit}"
-                    IsEnabled="{Binding IsRunningUI}" />
+                    IsEnabled="{Binding IsRunningUi}" />
                 <Button
                     Grid.Column="2"
                     Content="Seleccionar archivos"
-                    IsEnabled="{Binding IsRunningUI}" />
+                    IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 
             <Grid Height="30">
@@ -87,14 +87,14 @@
                 <xctk:WatermarkTextBox
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    IsEnabled="{Binding IsRunningUI}"
+                    IsEnabled="{Binding IsRunningUi}"
                     TextWrapping="Wrap"
                     Watermark="Por defecto misma carpete edimsha_nombreImagen.png" />
 
                 <Button
                     Grid.Column="2"
                     Content="Seleccionar carpeta"
-                    IsEnabled="{Binding IsRunningUI}" />
+                    IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 
             <Grid Height="30">
@@ -111,7 +111,7 @@
                     Grid.Column="1"
                     Grid.ColumnSpan="3"
                     VerticalAlignment="Center"
-                    IsEnabled="{Binding IsRunningUI}"
+                    IsEnabled="{Binding IsRunningUi}"
                     TextWrapping="Wrap"
                     Watermark="edimsha_ (omitido si la carpeta de salida es diferente)" />
                 <CheckBox
@@ -119,7 +119,7 @@
                     VerticalAlignment="Center"
                     Content="Incluir al remplazar siempre"
                     IsChecked="{Binding AddOnReplace}"
-                    IsEnabled="{Binding IsRunningUI}" />
+                    IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 
             <Grid Height="30">
@@ -152,14 +152,14 @@
                         VerticalAlignment="Center"
                         Content="Mantener resolución original"
                         IsChecked="{Binding KeepOriginalResolution}"
-                        IsEnabled="{Binding IsRunningUI}" />
+                        IsEnabled="{Binding IsRunningUi}" />
 
                 </StackPanel>
 
                 <Button
                     Grid.Column="2"
                     Content="Resoluciones usadas"
-                    IsEnabled="{Binding IsRunningUI}" />
+                    IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 
             <Grid Height="30">
@@ -178,7 +178,7 @@
                         Width="200"
                         Height="20"
                         Margin="5"
-                        IsEnabled="{Binding IsRunningUI}"
+                        IsEnabled="{Binding IsRunningUi}"
                         Maximum="100"
                         Minimum="1"
                         SmallChange="1"
@@ -188,7 +188,7 @@
                         Margin="8,0,0,0"
                         Content="Optimizar imagen"
                         IsChecked="{Binding OptimizeImage}"
-                        IsEnabled="{Binding IsRunningUI}" />
+                        IsEnabled="{Binding IsRunningUi}" />
                 </StackPanel>
                 <CheckBox
                     Grid.Column="2"
@@ -197,7 +197,7 @@
                     Margin="5,5,0,5"
                     Content="Remplazar por original"
                     IsChecked="{Binding ReplaceForOriginal}"
-                    IsEnabled="{Binding IsRunningUI}" />
+                    IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 
             <ProgressBar
@@ -216,15 +216,15 @@
                     Grid.Column="0"
                     Margin="5,3"
                     Content="Resetear"
-                    IsEnabled="{Binding IsRunningUI}" />
+                    IsEnabled="{Binding IsRunningUi}" />
                 <Button
                     Grid.Column="1"
                     Content="Parar"
-                    IsEnabled="{Binding IsRunningUI, Converter={StaticResource InvertBoolConverter}}" />
+                    IsEnabled="{Binding IsRunningUi, Converter={StaticResource InvertBoolConverter}}" />
                 <Button
                     Grid.Column="2"
                     Content="Iniciar"
-                    IsEnabled="{Binding IsRunningUI}" />
+                    IsEnabled="{Binding IsStartedUi}" />
             </Grid>
 
         </StackPanel>

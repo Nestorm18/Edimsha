@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edimsha", "Edimsha.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edimsha.WPF", "Edimsha.WPF\Edimsha.WPF\Edimsha.WPF.csproj", "{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edimsha.Core", "Edimsha.Core\Edimsha.Core.csproj", "{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

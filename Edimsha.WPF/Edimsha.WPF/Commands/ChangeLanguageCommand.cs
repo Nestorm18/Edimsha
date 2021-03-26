@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 using System;
 using System.Windows.Input;
 using Edimsha.WPF.Lang;
@@ -23,7 +23,18 @@ namespace Edimsha.WPF.Commands
         public void Execute(object? parameter)
         {
             if (parameter != null) _viewModel.Language = (Languages) parameter;
-            // TODO: Cambiar idioma funcional
+
+            switch (_viewModel.Language)
+            {
+                case Languages.English:
+                    ChangeLanguage.SetLanguage("");
+                    break;
+                case Languages.Spanish:
+                    ChangeLanguage.SetLanguage("es_ES");
+                    break;
+                default:
+                    throw new Exception("El idioma indicado no existe");
+            }
         }
 
         public event EventHandler? CanExecuteChanged;

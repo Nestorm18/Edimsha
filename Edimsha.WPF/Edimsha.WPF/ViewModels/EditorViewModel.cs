@@ -7,13 +7,16 @@ namespace Edimsha.WPF.ViewModels
         // IOC
 
         // Properties
+        #region Properties
+        
         private bool _cleanListOnExit;
         private bool _addOnReplace;
         private bool _keepOriginalResolution;
         private bool _optimizeImage;
         private bool _replaceForOriginal;
         private bool _isRunningUi = true;
-        
+        private bool _isStartedUi;
+
         public bool CleanListOnExit
         {
             get => _cleanListOnExit;
@@ -67,7 +70,7 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
-        public bool IsRunningUI
+        public bool IsRunningUi
         {
             get => _isRunningUi;
             set
@@ -76,6 +79,18 @@ namespace Edimsha.WPF.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public bool IsStartedUi
+        {
+            get => _isStartedUi;
+            set
+            {
+                if (value == _isStartedUi) return;
+                _isStartedUi = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
 
         // Commands
 
