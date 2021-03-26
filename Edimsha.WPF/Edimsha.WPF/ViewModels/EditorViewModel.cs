@@ -1,5 +1,8 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Windows.Input;
+using Edimsha.WPF.Commands;
 using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.ViewModels
@@ -124,10 +127,6 @@ namespace Edimsha.WPF.ViewModels
             {
                 if (Equals(value, _urls)) return;
                 _urls = value;
-
-                IsCtxDelete = Urls.Count > 0;
-                IsCtxDeleteAll = Urls.Count > 0;
-
                 OnPropertyChanged();
             }
         }
@@ -135,25 +134,36 @@ namespace Edimsha.WPF.ViewModels
         #endregion
 
         // Commands
+        public ICommand DeleteItemCommand { get; }
+        public ICommand DeleteAllItemsCommand { get; }
 
         // Constructor
         public EditorViewModel()
         {
+            Urls = new ObservableCollection<string>();
+            Urls.CollectionChanged += UrlsOnCollectionChanged;
+
+            // Commands
+            DeleteItemCommand = new DeleteItemsCommand(this);
+            DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
+        }
+
+        private void UrlsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            IsCtxDelete = Urls.Count > 0;
+            IsCtxDeleteAll = Urls.Count > 0;
         }
 
         public void OnFileDrop(string[] filepaths)
         {
-            if (Urls is null)
-                Urls = new ObservableCollection<string>(filepaths.Distinct());
-            else
-            {
-                var savedPaths = Urls.ToList();
-                var newPaths = filepaths.ToList();
+            var savedPaths = Urls.ToList();
+            var newPaths = filepaths.ToList();
 
-                var filePathsDistinct = savedPaths.Concat(newPaths).Distinct().ToList();
+            // Concat two list and remove duplicates to show in listview
+            var filePathsDistinct = savedPaths.Concat(newPaths).Distinct().ToList();
 
-                Urls = new ObservableCollection<string>(filePathsDistinct);
-            }
+            Urls.Clear();
+            foreach (var s in filePathsDistinct) Urls.Add(s);
         }
     }
 }

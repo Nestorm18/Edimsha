@@ -46,8 +46,15 @@
             AllowDrop="True">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Eliminar" IsEnabled="{Binding IsCtxDelete}" />
-                    <MenuItem Header="Eliminar todos los elementos" IsEnabled="{Binding IsCtxDeleteAll}" />
+                    <MenuItem Header="Eliminar"
+                              Command="{Binding DeleteItemCommand}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},
+                                    Path=PlacementTarget.SelectedItem}"
+                              IsEnabled="{Binding IsCtxDelete}" />
+                    <MenuItem Header="Eliminar todos los elementos" Command="{Binding DeleteAllItemsCommand}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},
+                                    Path=PlacementTarget.SelectedItem}"
+                              IsEnabled="{Binding IsCtxDeleteAll}" />
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
