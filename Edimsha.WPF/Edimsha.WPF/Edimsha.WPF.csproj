@@ -27,7 +27,7 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Resources\editorFilePaths.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Resources\resolutions.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>

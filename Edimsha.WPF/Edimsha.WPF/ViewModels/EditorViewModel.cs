@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Services.Data;
+using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.ViewModels
@@ -153,12 +154,17 @@ namespace Edimsha.WPF.ViewModels
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
+            
+            // TODO: traduccion "Eliminar lista al salir"
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             IsCtxDelete = Urls.Count > 0;
             IsCtxDeleteAll = Urls.Count > 0;
+            
+            var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
+            // TODO: Mostrar mensaje si falla al guardar configuracion
         }
 
         public void OnFileDrop(string[] filepaths)
