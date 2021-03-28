@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Services.Data;
@@ -156,7 +157,7 @@ namespace Edimsha.WPF.ViewModels
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             CleanListOnExitCommand = new SaveSettingsCommand(() => UpdateSetting("CleanListOnExit", CleanListOnExit));
         }
-        
+
         private void UrlsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             IsCtxDelete = Urls.Count > 0;
@@ -174,10 +175,11 @@ namespace Edimsha.WPF.ViewModels
             Urls.Clear();
             foreach (var s in filePathsDistinct) Urls.Add(s);
         }
-        
-        private void UpdateSetting<T>(string setting, T value)
+
+        private async Task UpdateSetting<T>(string setting, T value)
         {
-            _saveSettingsService.SaveConfigurationSettings(setting, value);
+            var success = await _saveSettingsService.SaveConfigurationSettings(setting, value);
+            // TODO: Mostrar mensaje si falla al guardar configuracion
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Edimsha.WPF.Settings;
 using Newtonsoft.Json;
 
@@ -14,22 +15,32 @@ namespace Edimsha.WPF.Services.Data
             _connectionString = connectionString;
         }
 
-        public void SaveConfigurationSettings<T>(string settingName, T value)
+        public async Task<bool> SaveConfigurationSettings<T>(string settingName, T value)
         {
-            Config newconfig;
-            
-            using (var settings = File.OpenText(_connectionString))
+            try
             {
-                var serializer = new JsonSerializer();
-                var config = (Config) serializer.Deserialize(settings, typeof(Config));
+                Config newconfig;
 
-                var propertyInfo = config?.GetType().GetProperty(settingName);
-                if (propertyInfo != null)
-                    propertyInfo.SetValue(config, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+                using (var settings = File.OpenText(_connectionString))
+                {
+                    var serializer = new JsonSerializer();
+                    var config = (Config) serializer.Deserialize(settings, typeof(Config));
 
-                newconfig = config;
+                    var propertyInfo = config?.GetType().GetProperty(settingName);
+                    if (propertyInfo != null)
+                        propertyInfo.SetValue(config, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+
+                    newconfig = config;
+                }
+
+                File.WriteAllText(_connectionString, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
+
+                return true;
             }
-            File.WriteAllText(_connectionString, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
+            catch
+            {
+                return false;
+            }
         }
     }
 }
