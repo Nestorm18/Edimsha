@@ -15,7 +15,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="msg1" xml:space="preserve">
+  <data name="txt1" xml:space="preserve">
     <value>Drag the images or folder to edit</value>
+  </data>
+  <data name="txt2" xml:space="preserve">
+    <value>Delete item</value>
+  </data>
+  <data name="txt3" xml:space="preserve">
+    <value>Delete all paths</value>
+  </data>
+  <data name="txt4" xml:space="preserve">
+    <value>Delete paths on exit</value>
   </data>
 </root>

@@ -30,7 +30,7 @@
         <Label
             Grid.Row="0"
             HorizontalAlignment="Center"
-            Content="{lang:Localization msg1,          
+            Content="{lang:Localization txt1,          
                 Converter={StaticResource ImageFormatsAppendConverter},
                 ConverterParameter={x:Static imageType:ModeImageTypes.Editor}}" />
 
@@ -46,12 +46,12 @@
             AllowDrop="True">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Eliminar"
+                    <MenuItem Header="{lang:Localization txt2}"
                               Command="{Binding DeleteItemCommand}"
                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},
                                     Path=PlacementTarget.SelectedItem}"
                               IsEnabled="{Binding IsCtxDelete}" />
-                    <MenuItem Header="Eliminar todos los elementos" Command="{Binding DeleteAllItemsCommand}"
+                    <MenuItem Header="{lang:Localization txt3}" Command="{Binding DeleteAllItemsCommand}"
                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},
                                     Path=PlacementTarget.SelectedItem}"
                               IsEnabled="{Binding IsCtxDeleteAll}" />
@@ -82,7 +82,7 @@
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Content="Eliminar lista al salir"
+                    Content="{lang:Localization txt4}"
                     Command="{Binding CleanListOnExitCommand}"
                     IsChecked="{Binding CleanListOnExit}"
                     IsEnabled="{Binding IsRunningUi}" />

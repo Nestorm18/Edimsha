@@ -63,9 +63,36 @@ namespace Edimsha.WPF.Lang {
         /// <summary>
         ///   Looks up a localized string similar to Drag the images or folder to edit.
         /// </summary>
-        internal static string msg1 {
+        internal static string txt1 {
             get {
-                return ResourceManager.GetString("msg1", resourceCulture);
+                return ResourceManager.GetString("txt1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete item.
+        /// </summary>
+        internal static string txt2 {
+            get {
+                return ResourceManager.GetString("txt2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete all paths.
+        /// </summary>
+        internal static string txt3 {
+            get {
+                return ResourceManager.GetString("txt3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete paths on exit.
+        /// </summary>
+        internal static string txt4 {
+            get {
+                return ResourceManager.GetString("txt4", resourceCulture);
             }
         }
     }
