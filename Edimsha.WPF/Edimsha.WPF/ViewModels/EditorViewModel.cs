@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Services.Data;
-using Edimsha.WPF.Settings;
 using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.ViewModels
@@ -150,15 +149,13 @@ namespace Edimsha.WPF.ViewModels
             Urls = new ObservableCollection<string>();
             Urls.CollectionChanged += UrlsOnCollectionChanged;
 
-            var config = new Config();
-
             // Commands
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
-            CleanListOnExitCommand = new SaveSettingsCommand(() => UpdateSetting("CleanListOnExit", CleanListOnExit));
+            CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
         }
 
-        private void UrlsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             IsCtxDelete = Urls.Count > 0;
             IsCtxDeleteAll = Urls.Count > 0;

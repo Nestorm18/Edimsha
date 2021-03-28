@@ -4,6 +4,6 @@ namespace Edimsha.WPF.Services.Data
 {
     public interface ISaveSettingsService
     {
-        Task<bool> SaveConfigurationSettings<T>(string settingNam, T value);
+        Task<bool> SaveConfigurationSettings<T>(string settingName, T value);
     }
 }
