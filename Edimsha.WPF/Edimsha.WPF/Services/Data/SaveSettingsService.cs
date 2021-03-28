@@ -9,24 +9,17 @@ using Newtonsoft.Json;
 
 namespace Edimsha.WPF.Services.Data
 {
-    public class SaveSettingsService : ISaveSettingsService
+    public class SaveSettingsService : SettingsService, ISaveSettingsService
     {
-        private readonly string _settingsPath;
-        private readonly string _editorPathsJson;
-        private readonly string _conversorPathsJson;
-
-        public SaveSettingsService(ConfigPaths settingsPath)
+        public SaveSettingsService(ConfigPaths settingsPath) : base(settingsPath)
         {
-            _settingsPath = settingsPath.SettingsFile;
-            _editorPathsJson = settingsPath.EditorPathsJson;
-            _conversorPathsJson = settingsPath.ConversorPathsJson;
         }
 
         public async Task<bool> SaveConfigurationSettings<T>(string settingName, T value)
         {
             Config newconfig;
 
-            using (var settings = File.OpenText(_settingsPath))
+            using (var settings = File.OpenText(SettingsPath))
             {
                 var serializer = new JsonSerializer();
                 var config = (Config) serializer.Deserialize(settings, typeof(Config));
@@ -38,7 +31,7 @@ namespace Edimsha.WPF.Services.Data
                 newconfig = config;
             }
 
-            await File.WriteAllTextAsync(_settingsPath, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
+            await File.WriteAllTextAsync(SettingsPath, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
 
             return true;
         }
@@ -46,19 +39,19 @@ namespace Edimsha.WPF.Services.Data
         public async Task<bool> SavePathsListview(IEnumerable<string> values, ViewType viewType)
         {
             string pathFile;
-            
+
             switch (viewType)
             {
                 case ViewType.Editor:
-                    pathFile = _editorPathsJson;
+                    pathFile = EditorPathsJson;
                     break;
                 case ViewType.Conversor:
-                    pathFile = _conversorPathsJson;
+                    pathFile = ConversorPathsJson;
                     break;
                 default:
                     throw new Exception("SavePathsListview viewType no encontrado");
             }
-            
+
             await File.WriteAllTextAsync(pathFile, JsonConvert.SerializeObject(values.ToList(), Formatting.Indented));
 
             return true;

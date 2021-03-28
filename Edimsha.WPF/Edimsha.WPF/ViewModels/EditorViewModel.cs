@@ -14,6 +14,7 @@ namespace Edimsha.WPF.ViewModels
     {
         // IOC
         private readonly ISaveSettingsService _saveSettingsService;
+        private readonly ILoadSettingsService _loadSettingsService;
 
         // Properties
 
@@ -143,9 +144,10 @@ namespace Edimsha.WPF.ViewModels
         public ICommand CleanListOnExitCommand { get; }
 
         // Constructor
-        public EditorViewModel(ISaveSettingsService saveSettingsService)
+        public EditorViewModel(ISaveSettingsService saveSettingsService, ILoadSettingsService loadSettingsService)
         {
             _saveSettingsService = saveSettingsService;
+            _loadSettingsService = loadSettingsService;
 
             Urls = new ObservableCollection<string>();
             Urls.CollectionChanged += UrlsOnCollectionChanged;
@@ -154,15 +156,21 @@ namespace Edimsha.WPF.ViewModels
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
-            
-            // TODO: traduccion "Eliminar lista al salir"
+
+            // Loaded
+            SetUserSettings();
+        }
+
+        private void SetUserSettings()
+        {
+            CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             IsCtxDelete = Urls.Count > 0;
             IsCtxDeleteAll = Urls.Count > 0;
-            
+
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
             // TODO: Mostrar mensaje si falla al guardar configuracion
         }

@@ -19,6 +19,7 @@ namespace Edimsha.WPF.HostBuild
                     ConversorPathsJson = context.Configuration.GetValue<string>("CONVERSOR_PATHS_JSON")
                 };
                 services.AddSingleton<ISaveSettingsService>(new SaveSettingsService(config));
+                services.AddSingleton<ILoadSettingsService>(new LoadSettingsService(config));
             });
             return host;
         }
