@@ -10,6 +10,9 @@
 
     <ItemGroup>
       <None Remove="Views\icon.png" />
+      <None Update="Settings\appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

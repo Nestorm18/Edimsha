@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Lang;
+using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.Factories;
 
@@ -10,6 +11,7 @@ namespace Edimsha.WPF.ViewModels
     {
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
+        private readonly ISaveSettingsService _saveSettingsService;
 
         // Properties
         private ViewModelBase _currentModeViewModel;
@@ -53,14 +55,15 @@ namespace Edimsha.WPF.ViewModels
         }
 
         // Constructor
-        public MainViewModel(IEdimshaViewModelFactory viewModelFactory)
+        public MainViewModel(IEdimshaViewModelFactory viewModelFactory, ISaveSettingsService saveSettingsService)
         {
             _viewModelFactory = viewModelFactory;
+            _saveSettingsService = saveSettingsService;
             CurrentModeViewModel = _viewModelFactory.CreateViewModel(Mode);
 
             // Commands
             QuitCommand = new QuitCommand();
-            ChangeLanguageCommand = new ChangeLanguageCommand(this);
+            ChangeLanguageCommand = new ChangeLanguageCommand(this, _saveSettingsService);
             ChangeModeCommand = new ChangeModeCommand(this, _viewModelFactory);
         }
     }

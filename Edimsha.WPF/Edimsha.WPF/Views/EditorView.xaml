@@ -83,6 +83,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="Eliminar lista al salir"
+                    Command="{Binding CleanListOnExitCommand}"
                     IsChecked="{Binding CleanListOnExit}"
                     IsEnabled="{Binding IsRunningUi}" />
                 <Button

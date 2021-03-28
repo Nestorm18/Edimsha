@@ -3,6 +3,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
+using Edimsha.WPF.Services.Data;
+using Edimsha.WPF.Settings;
 using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.ViewModels
@@ -10,6 +12,7 @@ namespace Edimsha.WPF.ViewModels
     public class EditorViewModel : ViewModelBase, IFileDragDropTarget
     {
         // IOC
+        private readonly ISaveSettingsService _saveSettingsService;
 
         // Properties
 
@@ -136,18 +139,24 @@ namespace Edimsha.WPF.ViewModels
         // Commands
         public ICommand DeleteItemCommand { get; }
         public ICommand DeleteAllItemsCommand { get; }
+        public ICommand CleanListOnExitCommand { get; }
 
         // Constructor
-        public EditorViewModel()
+        public EditorViewModel(ISaveSettingsService saveSettingsService)
         {
+            _saveSettingsService = saveSettingsService;
+
             Urls = new ObservableCollection<string>();
             Urls.CollectionChanged += UrlsOnCollectionChanged;
+
+            var config = new Config();
 
             // Commands
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
+            CleanListOnExitCommand = new SaveSettingsCommand(() => UpdateSetting("CleanListOnExit", CleanListOnExit));
         }
-
+        
         private void UrlsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             IsCtxDelete = Urls.Count > 0;
@@ -164,6 +173,11 @@ namespace Edimsha.WPF.ViewModels
 
             Urls.Clear();
             foreach (var s in filePathsDistinct) Urls.Add(s);
+        }
+        
+        private void UpdateSetting<T>(string setting, T value)
+        {
+            _saveSettingsService.SaveConfigurationSettings(setting, value);
         }
     }
 }
