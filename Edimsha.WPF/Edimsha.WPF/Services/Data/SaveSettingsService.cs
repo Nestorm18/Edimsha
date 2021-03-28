@@ -59,16 +59,7 @@ namespace Edimsha.WPF.Services.Data
                     throw new Exception("SavePathsListview viewType no encontrado");
             }
             
-            List<string> savedpaths;
-            using (var file = File.OpenText(pathFile))
-            {
-                var serializer = new JsonSerializer();
-                savedpaths = (List<string>) serializer.Deserialize(file, typeof(List<string>));
-            }
-
-            var filePathsDistinct = savedpaths!.Concat(values.ToList()).Distinct().ToList();
-            
-            await File.WriteAllTextAsync(pathFile, JsonConvert.SerializeObject(filePathsDistinct, Formatting.Indented));
+            await File.WriteAllTextAsync(pathFile, JsonConvert.SerializeObject(values.ToList(), Formatting.Indented));
 
             return true;
         }
