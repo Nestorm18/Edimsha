@@ -7,13 +7,18 @@ namespace Edimsha.WPF.Services.Data
 {
     public class SaveSettingsService : ISaveSettingsService
     {
-        private const string SETTINGS_FILE = @"Settings/appsettings.json";
+        private readonly string _connectionString;
+
+        public SaveSettingsService(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public void SaveConfigurationSettings<T>(string settingName, T value)
         {
             Config newconfig;
             
-            using (var settings = File.OpenText(SETTINGS_FILE))
+            using (var settings = File.OpenText(_connectionString))
             {
                 var serializer = new JsonSerializer();
                 var config = (Config) serializer.Deserialize(settings, typeof(Config));
@@ -24,7 +29,7 @@ namespace Edimsha.WPF.Services.Data
 
                 newconfig = config;
             }
-            File.WriteAllText(SETTINGS_FILE, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
+            File.WriteAllText(_connectionString, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
         }
     }
 }
