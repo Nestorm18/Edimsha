@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using Edimsha.WPF.Settings;
 using Newtonsoft.Json;
-using static System.IO.File;
 
 namespace Edimsha.WPF.Services.Data
 {
@@ -13,7 +15,7 @@ namespace Edimsha.WPF.Services.Data
 
         public T LoadConfigurationSetting<T>(string settingName)
         {
-            using (var settings = OpenText(SettingsPath))
+            using (var settings = File.OpenText(SettingsPath))
             {
                 var serializer = new JsonSerializer();
                 var config = (Config) serializer.Deserialize(settings, typeof(Config));
@@ -22,6 +24,20 @@ namespace Edimsha.WPF.Services.Data
             }
 
             throw new Exception($"LoadConfigurationSetting no ha encontrado {settingName}");
+        }
+
+        public ObservableCollection<string> LoadPathsListview(ObservableCollection<string> paths)
+        {
+            using (var pathsJson = File.OpenText(EditorPathsJson))
+            {
+                var serializer = new JsonSerializer();
+                var list = (List<string>) serializer.Deserialize(pathsJson, typeof(List<string>));
+
+                paths.Clear();
+                list?.ForEach(paths.Add);
+
+                return paths;
+            }
         }
     }
 }

@@ -163,6 +163,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void SetUserSettings()
         {
+            Urls = _loadSettingsService.LoadPathsListview(Urls);
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
         }
 
