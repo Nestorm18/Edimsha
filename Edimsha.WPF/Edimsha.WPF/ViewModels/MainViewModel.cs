@@ -12,6 +12,7 @@ namespace Edimsha.WPF.ViewModels
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
         private readonly ISaveSettingsService _saveSettingsService;
+        private readonly ILoadSettingsService _loadSettingsService;
 
         // Properties
         private ViewModelBase _currentModeViewModel;
@@ -55,16 +56,27 @@ namespace Edimsha.WPF.ViewModels
         }
 
         // Constructor
-        public MainViewModel(IEdimshaViewModelFactory viewModelFactory, ISaveSettingsService saveSettingsService)
+        public MainViewModel(
+            IEdimshaViewModelFactory viewModelFactory,
+            ISaveSettingsService saveSettingsService,
+            ILoadSettingsService loadSettingsService)
         {
             _viewModelFactory = viewModelFactory;
             _saveSettingsService = saveSettingsService;
+            _loadSettingsService = loadSettingsService;
             CurrentModeViewModel = _viewModelFactory.CreateViewModel(Mode);
 
             // Commands
             QuitCommand = new QuitCommand();
             ChangeLanguageCommand = new ChangeLanguageCommand(this, _saveSettingsService);
             ChangeModeCommand = new ChangeModeCommand(this, _viewModelFactory);
+
+            LoadLanguageFromSettings();
+        }
+
+        private void LoadLanguageFromSettings()
+        {
+            ChangeLanguage.SetLanguage(_loadSettingsService.LoadConfigurationSetting<string>("Language"));
         }
     }
 }

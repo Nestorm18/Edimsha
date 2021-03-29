@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Edimsha.WPF.State.Navigators;
 
 namespace Edimsha.WPF.Services.Data
 {
@@ -6,6 +7,6 @@ namespace Edimsha.WPF.Services.Data
     {
         T LoadConfigurationSetting<T>(string settingName);
 
-        List<string> LoadPathsListview();
+        List<string> LoadPathsListview(ViewType type);
     }
 }

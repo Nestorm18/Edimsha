@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Edimsha.WPF.Settings;
+using Edimsha.WPF.State.Navigators;
 using Newtonsoft.Json;
 
 namespace Edimsha.WPF.Services.Data
@@ -25,13 +26,22 @@ namespace Edimsha.WPF.Services.Data
             throw new Exception($"LoadConfigurationSetting no ha encontrado {settingName}");
         }
 
-        public List<string> LoadPathsListview()
+        public List<string> LoadPathsListview(ViewType type)
         {
-            using (var pathsJson = File.OpenText(EditorPathsJson))
+            var file = type switch
+            {
+                ViewType.Editor => EditorPathsJson,
+                ViewType.Conversor => ConversorPathsJson,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
+
+            using (var pathsJson = File.OpenText(file))
             {
                 var serializer = new JsonSerializer();
                 return (List<string>) serializer.Deserialize(pathsJson, typeof(List<string>));
             }
         }
+
+        
     }
 }

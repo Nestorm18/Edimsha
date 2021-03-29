@@ -31,11 +31,11 @@ namespace Edimsha.WPF.Commands
             {
                 case Languages.English:
                     ChangeLanguage.SetLanguage("");
-                    _saveSettingsService.SaveConfigurationSettings("Language", "En_en");
+                    _saveSettingsService.SaveConfigurationSettings("Language", "en-US");
                     break;
                 case Languages.Spanish:
                     ChangeLanguage.SetLanguage("Es_es");
-                    _saveSettingsService.SaveConfigurationSettings("Language", "Es_es");
+                    _saveSettingsService.SaveConfigurationSettings("Language", "es-ES");
                     break;
                 default:
                     throw new Exception("El idioma indicado no existe");
