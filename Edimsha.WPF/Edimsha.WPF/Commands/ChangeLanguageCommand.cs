@@ -25,17 +25,17 @@ namespace Edimsha.WPF.Commands
 
         public void Execute(object? parameter)
         {
-            if (parameter != null) _viewModel.Language = (Languages)parameter;
+            if (parameter != null) _viewModel.Language = (Languages) parameter;
 
             switch (_viewModel.Language)
             {
                 case Languages.English:
                     ChangeLanguage.SetLanguage("");
-                    _saveSettingsService.SaveConfigurationSettings("Language", "en-US");
+                    _saveSettingsService.SaveConfigurationSettings("Language", Languages.English.GetDescription());
                     break;
                 case Languages.Spanish:
-                    ChangeLanguage.SetLanguage("Es_es");
-                    _saveSettingsService.SaveConfigurationSettings("Language", "es-ES");
+                    ChangeLanguage.SetLanguage(Languages.Spanish.GetDescription());
+                    _saveSettingsService.SaveConfigurationSettings("Language", Languages.Spanish.GetDescription());
                     break;
                 default:
                     throw new Exception("El idioma indicado no existe");

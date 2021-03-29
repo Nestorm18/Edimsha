@@ -76,7 +76,10 @@ namespace Edimsha.WPF.ViewModels
 
         private void LoadLanguageFromSettings()
         {
-            ChangeLanguage.SetLanguage(_loadSettingsService.LoadConfigurationSetting<string>("Language"));
+            var lang = _loadSettingsService.LoadConfigurationSetting<string>("Language");
+            Language = ChangeLanguage.ResolveLanguage(lang);
+
+            ChangeLanguage.SetLanguage(lang);
         }
     }
 }
