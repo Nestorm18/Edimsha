@@ -89,6 +89,8 @@
                 <Button
                     Grid.Column="2"
                     Content="{lang:Localization txt5}"
+                    Command="{Binding OpenImagesCommand}"
+                    CommandParameter="{x:Static imageType:ModeImageTypes.Editor}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 

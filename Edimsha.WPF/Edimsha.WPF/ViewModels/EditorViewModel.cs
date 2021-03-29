@@ -142,6 +142,7 @@ namespace Edimsha.WPF.ViewModels
         public ICommand DeleteItemCommand { get; }
         public ICommand DeleteAllItemsCommand { get; }
         public ICommand CleanListOnExitCommand { get; }
+        public ICommand OpenImagesCommand { get; }
 
         // Constructor
         public EditorViewModel(ISaveSettingsService saveSettingsService, ILoadSettingsService loadSettingsService)
@@ -156,6 +157,7 @@ namespace Edimsha.WPF.ViewModels
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
+            OpenImagesCommand = new OpenImagesCommand(this);
 
             // Loaded
             SetUserSettings();

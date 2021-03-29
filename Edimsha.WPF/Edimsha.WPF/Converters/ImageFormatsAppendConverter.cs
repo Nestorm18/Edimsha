@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using Edimsha.WPF.Models;
+using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.Converters
 {
@@ -38,7 +37,7 @@ namespace Edimsha.WPF.Converters
         /// <returns>Formatted text</returns>
         private static string GetAllImageFormatsInline(object parameter)
         {
-            var imageType = GetImageType(parameter);
+            var imageType = ImageFormatsFronViewType.GetImageType(parameter);
 
             var builder = new StringBuilder();
 
@@ -52,23 +51,6 @@ namespace Edimsha.WPF.Converters
             var clearEnd = builder.Remove(builder.Length - 2, 2);
 
             return $"({clearEnd})";
-        }
-
-        private static IEnumerable GetImageType(object parameter)
-        {
-            IEnumerable imageTypes = null;
-
-            switch (parameter)
-            {
-                case ModeImageTypes.Editor:
-                    imageTypes = Enum.GetValues(typeof(ImageTypesEditor)).Cast<ImageTypesEditor>();
-                    break;
-                case ModeImageTypes.Converter:
-                    imageTypes = Enum.GetValues(typeof(ImageTypesConversor)).Cast<ImageTypesConversor>();
-                    break;
-            }
-
-            return imageTypes;
         }
     }
 }
