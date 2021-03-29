@@ -29,4 +29,7 @@
   <data name="txt4" xml:space="preserve">
     <value>Eliminar rutas al salir</value>
   </data>
+  <data name="txt5" xml:space="preserve">
+    <value>Seleccionar archivos</value>
+  </data>
 </root>

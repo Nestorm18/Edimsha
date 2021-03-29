@@ -95,5 +95,14 @@ namespace Edimsha.WPF.Lang {
                 return ResourceManager.GetString("txt4", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleccionar archivos.
+        /// </summary>
+        internal static string txt5 {
+            get {
+                return ResourceManager.GetString("txt5", resourceCulture);
+            }
+        }
     }
 }

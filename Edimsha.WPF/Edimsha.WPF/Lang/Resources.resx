@@ -27,4 +27,7 @@
   <data name="txt4" xml:space="preserve">
     <value>Delete paths on exit</value>
   </data>
+  <data name="txt5" xml:space="preserve">
+    <value>Select files</value>
+  </data>
 </root>
