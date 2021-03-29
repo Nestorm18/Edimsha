@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Edimsha.WPF.Services.Data
 {
@@ -6,6 +6,6 @@ namespace Edimsha.WPF.Services.Data
     {
         T LoadConfigurationSetting<T>(string settingName);
 
-        ObservableCollection<string> LoadPathsListview(ObservableCollection<string> paths);
+        List<string> LoadPathsListview();
     }
 }
