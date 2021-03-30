@@ -61,7 +61,7 @@
         </ListView>
 
         <!--  Opciones  -->
-        <StackPanel Grid.Row="2" Orientation="Vertical">
+        <StackPanel Grid.IsSharedSizeScope="True"  Grid.Row="2" Orientation="Vertical">
             <StackPanel.Resources>
                 <Style TargetType="CheckBox">
                     <Setter Property="Margin" Value="5,0,0,0" />
@@ -73,9 +73,9 @@
 
             <Grid Height="30">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" SharedSizeGroup="label_same_length" />
                     <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
@@ -97,9 +97,9 @@
 
             <Grid Height="30">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" SharedSizeGroup="label_same_length"  />
                     <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0" Content="{lang:Localization output_folder}" />
@@ -118,9 +118,9 @@
 
             <Grid Height="30">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" SharedSizeGroup="label_same_length"  />
                     <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0" Content="{lang:Localization change_edimsha_to}" />
@@ -140,37 +140,45 @@
 
             <Grid Height="30">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" SharedSizeGroup="label_same_length"  />
                     <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0" Content="{lang:Localization output_resolution}" />
 
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Label VerticalAlignment="Center" Content="{lang:Localization width_px}" />
-                    <xctk:WatermarkTextBox
-                        Width="40"
-                        Height="24"
-                        IsEnabled="False"
-                        Watermark="552" />
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
 
-                    <Label VerticalAlignment="Center" Content="{lang:Localization height_px}" />
-                    <xctk:WatermarkTextBox
-                        Width="40"
-                        Height="24"
-                        IsEnabled="False"
-                        Watermark="689" />
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Label VerticalAlignment="Center" Content="{lang:Localization width_px}" />
+                        <xctk:WatermarkTextBox
+                            Width="40"
+                            Height="24"
+                            IsEnabled="False"
+                            Watermark="552" />
+
+                        <Label VerticalAlignment="Center" Content="{lang:Localization height_px}" />
+                        <xctk:WatermarkTextBox
+                            Width="40"
+                            Height="24"
+                            IsEnabled="False"
+                            Watermark="689" />
+                    </StackPanel>
 
                     <CheckBox
+                        x:Name="KeepOriginalResolution"
+                        Grid.Column="1"
                         Height="15"
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
                         Content="{lang:Localization keep_original_resolution}"
                         IsChecked="{Binding KeepOriginalResolution}"
                         IsEnabled="{Binding IsRunningUi}" />
 
-                </StackPanel>
+                </Grid>
 
                 <Button
                     Grid.Column="2"
@@ -180,32 +188,43 @@
 
             <Grid Height="30">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" SharedSizeGroup="label_same_length" />
                     <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
                 <Label
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Content="{lang:Localization compression_in_percentage}" />
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
+
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
                     <Slider
+                        Grid.Column="0"
                         Width="200"
                         Height="20"
                         Margin="5"
+                        HorizontalAlignment="Left"
                         IsEnabled="{Binding IsRunningUi}"
                         Maximum="100"
                         Minimum="1"
                         SmallChange="1"
                         TickFrequency="10" />
                     <CheckBox
+                        Grid.Column="1"
                         Height="15"
-                        Margin="8,0,0,0"
+                        Width="{Binding ActualWidth, ElementName=KeepOriginalResolution}"
+                        HorizontalAlignment="Right"
                         Content="{lang:Localization optimize_image}"
                         IsChecked="{Binding OptimizeImage}"
                         IsEnabled="{Binding IsRunningUi}" />
-                </StackPanel>
+                </Grid>
+
                 <CheckBox
                     Grid.Column="2"
                     Height="15"
