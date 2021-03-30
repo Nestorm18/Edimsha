@@ -15,19 +15,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="txt1" xml:space="preserve">
+  <data name="drag_the_images_or_folder_to_edit" xml:space="preserve">
     <value>Drag the images or folder to edit</value>
   </data>
-  <data name="txt2" xml:space="preserve">
+  <data name="delete_item" xml:space="preserve">
     <value>Delete item</value>
   </data>
-  <data name="txt3" xml:space="preserve">
+  <data name="delete_all_paths" xml:space="preserve">
     <value>Delete all paths</value>
   </data>
-  <data name="txt4" xml:space="preserve">
+  <data name="delete_paths_on_exit" xml:space="preserve">
     <value>Delete paths on exit</value>
   </data>
-  <data name="txt5" xml:space="preserve">
+  <data name="select_files" xml:space="preserve">
     <value>Select files</value>
+  </data>
+  <data name="output_folder" xml:space="preserve">
+    <value>Output folder:</value>
+  </data>
+  <data name="by_default_same_folder_edimsha_imagename_png" xml:space="preserve">
+    <value>By default same folder edimsha_Imagename.png</value>
+  </data>
+  <data name="select_folder" xml:space="preserve">
+    <value>Select folder</value>
+  </data>
+  <data name="change_edimsha_to" xml:space="preserve">
+    <value>Change edimsha to:</value>
+  </data>
+  <data name="edimsha_omitted_if_the_output_folder_is_different" xml:space="preserve">
+    <value>edimsha_ (omitted if the output folder is different)</value>
+  </data>
+  <data name="include_when_replace_always" xml:space="preserve">
+    <value>Include when replace always</value>
+  </data>
+  <data name="output_resolution" xml:space="preserve">
+    <value>Output resolution:</value>
+  </data>
+  <data name="width_px" xml:space="preserve">
+    <value>Width (px):</value>
+  </data>
+  <data name="height_px" xml:space="preserve">
+    <value>Height (px):</value>
+  </data>
+  <data name="keep_original_resolution" xml:space="preserve">
+    <value>Keep original resolution</value>
+  </data>
+  <data name="resolutions_used" xml:space="preserve">
+    <value>Resolutions used</value>
+  </data>
+  <data name="compression_in_percentage" xml:space="preserve">
+    <value>Compression in%:</value>
+  </data>
+  <data name="optimize_image" xml:space="preserve">
+    <value>Optimize image</value>
+  </data>
+  <data name="replace_with_original" xml:space="preserve">
+    <value>Replace with original</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Start</value>
   </data>
 </root>

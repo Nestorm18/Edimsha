@@ -30,7 +30,7 @@
         <Label
             Grid.Row="0"
             HorizontalAlignment="Center"
-            Content="{lang:Localization txt1,          
+            Content="{lang:Localization drag_the_images_or_folder_to_edit,          
                 Converter={StaticResource ImageFormatsAppendConverter},
                 ConverterParameter={x:Static imageType:ModeImageTypes.Editor}}" />
 
@@ -46,12 +46,12 @@
             AllowDrop="True">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="{lang:Localization txt2}"
+                    <MenuItem Header="{lang:Localization delete_item}"
                               Command="{Binding DeleteItemCommand}"
                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},
                                     Path=PlacementTarget.SelectedItem}"
                               IsEnabled="{Binding IsCtxDelete}" />
-                    <MenuItem Header="{lang:Localization txt3}" Command="{Binding DeleteAllItemsCommand}"
+                    <MenuItem Header="{lang:Localization delete_all_paths}" Command="{Binding DeleteAllItemsCommand}"
                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},
                                     Path=PlacementTarget.SelectedItem}"
                               IsEnabled="{Binding IsCtxDeleteAll}" />
@@ -82,13 +82,13 @@
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Content="{lang:Localization txt4}"
+                    Content="{lang:Localization delete_paths_on_exit}"
                     Command="{Binding CleanListOnExitCommand}"
                     IsChecked="{Binding CleanListOnExit}"
                     IsEnabled="{Binding IsRunningUi}" />
                 <Button
                     Grid.Column="2"
-                    Content="{lang:Localization txt5}"
+                    Content="{lang:Localization select_files}"
                     Command="{Binding OpenImagesCommand}"
                     CommandParameter="{x:Static imageType:ModeImageTypes.Editor}"
                     IsEnabled="{Binding IsRunningUi}" />
@@ -101,17 +101,17 @@
                     <ColumnDefinition Width="88*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Content="Carpeta de salida:" />
+                <Label Grid.Column="0" Content="{lang:Localization output_folder}" />
                 <xctk:WatermarkTextBox
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     IsEnabled="{Binding IsRunningUi}"
                     TextWrapping="Wrap"
-                    Watermark="Por defecto misma carpete edimsha_nombreImagen.png" />
+                    Watermark="{lang:Localization by_default_same_folder_edimsha_imagename_png}" />
 
                 <Button
                     Grid.Column="2"
-                    Content="Seleccionar carpeta"
+                    Content="{lang:Localization select_folder}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 
@@ -124,18 +124,18 @@
                     <ColumnDefinition Width="274*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Content="Cambiar edimsha por:" />
+                <Label Grid.Column="0" Content="{lang:Localization change_edimsha_to}" />
                 <xctk:WatermarkTextBox
                     Grid.Column="1"
                     Grid.ColumnSpan="3"
                     VerticalAlignment="Center"
                     IsEnabled="{Binding IsRunningUi}"
                     TextWrapping="Wrap"
-                    Watermark="edimsha_ (omitido si la carpeta de salida es diferente)" />
+                    Watermark="{lang:Localization edimsha_omitted_if_the_output_folder_is_different)}" />
                 <CheckBox
                     Grid.Column="4"
                     VerticalAlignment="Center"
-                    Content="Incluir al remplazar siempre"
+                    Content="{lang:Localization include_when_replace_always}"
                     IsChecked="{Binding AddOnReplace}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
@@ -147,17 +147,17 @@
                     <ColumnDefinition Width="88*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Content="Resolución de salida:" />
+                <Label Grid.Column="0" Content="{lang:Localization output_resolution}" />
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Label VerticalAlignment="Center" Content="Ancho (px):" />
+                    <Label VerticalAlignment="Center" Content="{lang:Localization width_px}" />
                     <xctk:WatermarkTextBox
                         Width="40"
                         Height="24"
                         IsEnabled="False"
                         Watermark="552" />
 
-                    <Label VerticalAlignment="Center" Content="Alto (px):" />
+                    <Label VerticalAlignment="Center" Content="{lang:Localization height_px}" />
                     <xctk:WatermarkTextBox
                         Width="40"
                         Height="24"
@@ -168,7 +168,7 @@
                         Height="15"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Content="Mantener resolución original"
+                        Content="{lang:Localization keep_original_resolution}"
                         IsChecked="{Binding KeepOriginalResolution}"
                         IsEnabled="{Binding IsRunningUi}" />
 
@@ -176,7 +176,7 @@
 
                 <Button
                     Grid.Column="2"
-                    Content="Resoluciones usadas"
+                    Content="{lang:Localization resolutions_used}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 
@@ -190,7 +190,7 @@
                 <Label
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Content="Compresion en %:" />
+                    Content="{lang:Localization compression_in_percentage}" />
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <Slider
                         Width="200"
@@ -204,7 +204,7 @@
                     <CheckBox
                         Height="15"
                         Margin="8,0,0,0"
-                        Content="Optimizar imagen"
+                        Content="{lang:Localization optimize_image}"
                         IsChecked="{Binding OptimizeImage}"
                         IsEnabled="{Binding IsRunningUi}" />
                 </StackPanel>
@@ -213,7 +213,7 @@
                     Width="140"
                     Height="15"
                     Margin="5,5,0,5"
-                    Content="Remplazar por original"
+                    Content="{lang:Localization replace_with_original}"
                     IsChecked="{Binding ReplaceForOriginal}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
@@ -233,15 +233,15 @@
                 <Button
                     Grid.Column="0"
                     Margin="5,3"
-                    Content="Resetear"
+                    Content="{lang:Localization reset}"
                     IsEnabled="{Binding IsRunningUi}" />
                 <Button
                     Grid.Column="1"
-                    Content="Parar"
+                    Content="{lang:Localization stop}"
                     IsEnabled="{Binding IsRunningUi, Converter={StaticResource InvertBoolConverter}}" />
                 <Button
                     Grid.Column="2"
-                    Content="Iniciar"
+                    Content="{lang:Localization start}"
                     IsEnabled="{Binding IsStartedUi}" />
             </Grid>
 

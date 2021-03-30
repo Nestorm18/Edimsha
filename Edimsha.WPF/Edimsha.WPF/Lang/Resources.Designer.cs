@@ -61,47 +61,200 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drag the images or folder to edit.
+        ///   Looks up a localized string similar to By default same folder edimsha_Imagename.png.
         /// </summary>
-        internal static string txt1 {
+        internal static string by_default_same_folder_edimsha_imagename_png {
             get {
-                return ResourceManager.GetString("txt1", resourceCulture);
+                return ResourceManager.GetString("by_default_same_folder_edimsha_imagename_png", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete item.
+        ///   Looks up a localized string similar to Change edimsha to:.
         /// </summary>
-        internal static string txt2 {
+        internal static string change_edimsha_to {
             get {
-                return ResourceManager.GetString("txt2", resourceCulture);
+                return ResourceManager.GetString("change_edimsha_to", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compression in%:.
+        /// </summary>
+        internal static string compression_in_percentage {
+            get {
+                return ResourceManager.GetString("compression_in_percentage", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Delete all paths.
         /// </summary>
-        internal static string txt3 {
+        internal static string delete_all_paths {
             get {
-                return ResourceManager.GetString("txt3", resourceCulture);
+                return ResourceManager.GetString("delete_all_paths", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete item.
+        /// </summary>
+        internal static string delete_item {
+            get {
+                return ResourceManager.GetString("delete_item", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Delete paths on exit.
         /// </summary>
-        internal static string txt4 {
+        internal static string delete_paths_on_exit {
             get {
-                return ResourceManager.GetString("txt4", resourceCulture);
+                return ResourceManager.GetString("delete_paths_on_exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drag the images or folder to edit.
+        /// </summary>
+        internal static string drag_the_images_or_folder_to_edit {
+            get {
+                return ResourceManager.GetString("drag_the_images_or_folder_to_edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to edimsha_ (omitted if the output folder is different).
+        /// </summary>
+        internal static string edimsha_omitted_if_the_output_folder_is_different {
+            get {
+                return ResourceManager.GetString("edimsha_omitted_if_the_output_folder_is_different", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Height (px):.
+        /// </summary>
+        internal static string height_px {
+            get {
+                return ResourceManager.GetString("height_px", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include when replace always.
+        /// </summary>
+        internal static string include_when_replace_always {
+            get {
+                return ResourceManager.GetString("include_when_replace_always", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keep original resolution.
+        /// </summary>
+        internal static string keep_original_resolution {
+            get {
+                return ResourceManager.GetString("keep_original_resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optimize image.
+        /// </summary>
+        internal static string optimize_image {
+            get {
+                return ResourceManager.GetString("optimize_image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output folder:.
+        /// </summary>
+        internal static string output_folder {
+            get {
+                return ResourceManager.GetString("output_folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output resolution:.
+        /// </summary>
+        internal static string output_resolution {
+            get {
+                return ResourceManager.GetString("output_resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace with original.
+        /// </summary>
+        internal static string replace_with_original {
+            get {
+                return ResourceManager.GetString("replace_with_original", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        internal static string reset {
+            get {
+                return ResourceManager.GetString("reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resolutions used.
+        /// </summary>
+        internal static string resolutions_used {
+            get {
+                return ResourceManager.GetString("resolutions_used", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Select files.
         /// </summary>
-        internal static string txt5 {
+        internal static string select_files {
             get {
-                return ResourceManager.GetString("txt5", resourceCulture);
+                return ResourceManager.GetString("select_files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select folder.
+        /// </summary>
+        internal static string select_folder {
+            get {
+                return ResourceManager.GetString("select_folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        internal static string start {
+            get {
+                return ResourceManager.GetString("start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        internal static string stop {
+            get {
+                return ResourceManager.GetString("stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Width (px):.
+        /// </summary>
+        internal static string width_px {
+            get {
+                return ResourceManager.GetString("width_px", resourceCulture);
             }
         }
     }

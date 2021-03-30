@@ -17,19 +17,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="txt1" xml:space="preserve">
+  <data name="drag_the_images_or_folder_to_edit" xml:space="preserve">
     <value>Arrastra las imagenes o carpeta a editar</value>
   </data>
-  <data name="txt2" xml:space="preserve">
+  <data name="delete_item" xml:space="preserve">
     <value>Eliminar ruta</value>
   </data>
-  <data name="txt3" xml:space="preserve">
+  <data name="delete_all_paths" xml:space="preserve">
     <value>Eliminar todas las rutas</value>
   </data>
-  <data name="txt4" xml:space="preserve">
+  <data name="delete_paths_on_exit" xml:space="preserve">
     <value>Eliminar rutas al salir</value>
   </data>
-  <data name="txt5" xml:space="preserve">
+  <data name="select_files" xml:space="preserve">
     <value>Seleccionar archivos</value>
+  </data>
+  <data name="output_folder" xml:space="preserve">
+    <value>Carpeta de salida:</value>
+  </data>
+  <data name="by_default_same_folder_edimsha_imagename_png" xml:space="preserve">
+    <value>Por defecto misma carpeta edimsha_nombreImagen.png</value>
+  </data>
+  <data name="select_folder" xml:space="preserve">
+    <value>Seleccionar carpeta</value>
+  </data>
+  <data name="change_edimsha_to" xml:space="preserve">
+    <value>Cambiar edimsha por:</value>
+  </data>
+  <data name="edimsha_omitted_if_the_output_folder_is_different" xml:space="preserve">
+    <value>edimsha_ (omitido si la carpeta de salida es diferente)</value>
+  </data>
+  <data name="include_when_replace_always" xml:space="preserve">
+    <value>Incluir al remplazar siempre</value>
+  </data>
+  <data name="output_resolution" xml:space="preserve">
+    <value>Resolución de salida:</value>
+  </data>
+  <data name="width_px" xml:space="preserve">
+    <value>Ancho (px):</value>
+  </data>
+  <data name="height_px" xml:space="preserve">
+    <value>Alto (px):</value>
+  </data>
+  <data name="keep_original_resolution" xml:space="preserve">
+    <value>Mantener resolución original</value>
+  </data>
+  <data name="resolutions_used" xml:space="preserve">
+    <value>Resoluciones usadas</value>
+  </data>
+  <data name="compression_in_percentage" xml:space="preserve">
+    <value>Compresion en %:</value>
+  </data>
+  <data name="optimize_image" xml:space="preserve">
+    <value>Optimizar imagen</value>
+  </data>
+  <data name="replace_with_original" xml:space="preserve">
+    <value>Remplazar por original</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Resetear</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Parar</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Iniciar</value>
   </data>
 </root>
