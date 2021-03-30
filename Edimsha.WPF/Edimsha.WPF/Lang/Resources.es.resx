@@ -47,8 +47,8 @@
   <data name="edimsha_omitted_if_the_output_folder_is_different" xml:space="preserve">
     <value>edimsha_ (omitido si la carpeta de salida es diferente)</value>
   </data>
-  <data name="include_when_replace_always" xml:space="preserve">
-    <value>Incluir al remplazar siempre</value>
+  <data name="always_include_when_replacing" xml:space="preserve">
+    <value>Siempre incluir al remplazar</value>
   </data>
   <data name="output_resolution" xml:space="preserve">
     <value>Resolución de salida:</value>
@@ -71,8 +71,8 @@
   <data name="optimize_image" xml:space="preserve">
     <value>Optimizar imagen</value>
   </data>
-  <data name="replace_with_original" xml:space="preserve">
-    <value>Remplazar por original</value>
+  <data name="replace_with_original_image" xml:space="preserve">
+    <value>Remplazar imagen por original</value>
   </data>
   <data name="reset" xml:space="preserve">
     <value>Resetear</value>
@@ -82,5 +82,32 @@
   </data>
   <data name="start" xml:space="preserve">
     <value>Iniciar</value>
+  </data>
+  <data name="search_update" xml:space="preserve">
+    <value>Buscar actualización</value>
+  </data>
+  <data name="send_logs_0_errors" xml:space="preserve">
+    <value>Enviar logs (0 errores)</value>
+  </data>
+  <data name="quit" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="mode" xml:space="preserve">
+    <value>Modo</value>
+  </data>
+  <data name="editor" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="converter" xml:space="preserve">
+    <value>Conversor</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="file" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="initiated" xml:space="preserve">
+    <value>Iniciado</value>
   </data>
 </root>

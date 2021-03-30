@@ -30,32 +30,32 @@
         </Grid.RowDefinitions>
 
         <Menu VerticalAlignment="Top">
-            <MenuItem Header="Menu">
-                <MenuItem Header="Buscar actualizacion" Visibility="Collapsed" />
-                <MenuItem Header="Enviar logs (0 errores)" Visibility="Collapsed" />
+            <MenuItem Header="{lang:Localization file}">
+                <MenuItem Header="{lang:Localization search_update}" Visibility="Collapsed" />
+                <MenuItem Header="{lang:Localization send_logs_0_errors}" Visibility="Collapsed" />
                 <Separator Visibility="Collapsed" />
                 <MenuItem
                     Command="{Binding QuitCommand, Mode=OneWay}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                    Header="Salir" />
+                    Header="{lang:Localization quit}" />
             </MenuItem>
 
-            <MenuItem Header="Modo">
+            <MenuItem Header="{lang:Localization mode}">
                 <RadioButton
                     Command="{Binding ChangeModeCommand}"
                     CommandParameter="{x:Static navigatoorType:ViewType.Editor}"
-                    Content="Editor"
+                    Content="{lang:Localization editor}"
                     GroupName="mode"
                     IsChecked="{Binding Path=Mode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Editor}" />
                 <RadioButton
                     Command="{Binding ChangeModeCommand}"
                     CommandParameter="{x:Static navigatoorType:ViewType.Conversor}"
-                    Content="Coversor"
+                    Content="{lang:Localization converter}"
                     GroupName="mode"
                     IsChecked="{Binding Path=Mode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Conversor}" />
             </MenuItem>
 
-            <MenuItem Header="Idioma">
+            <MenuItem Header="{lang:Localization language}">
                 <RadioButton
                     Command="{Binding ChangeLanguageCommand}"
                     CommandParameter="{x:Static lang:Languages.English}"

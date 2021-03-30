@@ -61,6 +61,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Always include when replacing.
+        /// </summary>
+        internal static string always_include_when_replacing {
+            get {
+                return ResourceManager.GetString("always_include_when_replacing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to By default same folder edimsha_Imagename.png.
         /// </summary>
         internal static string by_default_same_folder_edimsha_imagename_png {
@@ -84,6 +93,15 @@ namespace Edimsha.WPF.Lang {
         internal static string compression_in_percentage {
             get {
                 return ResourceManager.GetString("compression_in_percentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Converter.
+        /// </summary>
+        internal static string converter {
+            get {
+                return ResourceManager.GetString("converter", resourceCulture);
             }
         }
         
@@ -133,6 +151,24 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Editor.
+        /// </summary>
+        internal static string editor {
+            get {
+                return ResourceManager.GetString("editor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        internal static string file {
+            get {
+                return ResourceManager.GetString("file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Height (px):.
         /// </summary>
         internal static string height_px {
@@ -142,11 +178,11 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include when replace always.
+        ///   Looks up a localized string similar to Initiated.
         /// </summary>
-        internal static string include_when_replace_always {
+        internal static string initiated {
             get {
-                return ResourceManager.GetString("include_when_replace_always", resourceCulture);
+                return ResourceManager.GetString("initiated", resourceCulture);
             }
         }
         
@@ -156,6 +192,24 @@ namespace Edimsha.WPF.Lang {
         internal static string keep_original_resolution {
             get {
                 return ResourceManager.GetString("keep_original_resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string language {
+            get {
+                return ResourceManager.GetString("language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mode.
+        /// </summary>
+        internal static string mode {
+            get {
+                return ResourceManager.GetString("mode", resourceCulture);
             }
         }
         
@@ -187,11 +241,20 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Replace with original.
+        ///   Looks up a localized string similar to Quit.
         /// </summary>
-        internal static string replace_with_original {
+        internal static string quit {
             get {
-                return ResourceManager.GetString("replace_with_original", resourceCulture);
+                return ResourceManager.GetString("quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace with original image.
+        /// </summary>
+        internal static string replace_with_original_image {
+            get {
+                return ResourceManager.GetString("replace_with_original_image", resourceCulture);
             }
         }
         
@@ -214,6 +277,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search update.
+        /// </summary>
+        internal static string search_update {
+            get {
+                return ResourceManager.GetString("search_update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select files.
         /// </summary>
         internal static string select_files {
@@ -228,6 +300,15 @@ namespace Edimsha.WPF.Lang {
         internal static string select_folder {
             get {
                 return ResourceManager.GetString("select_folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send logs (0 errors).
+        /// </summary>
+        internal static string send_logs_0_errors {
+            get {
+                return ResourceManager.GetString("send_logs_0_errors", resourceCulture);
             }
         }
         

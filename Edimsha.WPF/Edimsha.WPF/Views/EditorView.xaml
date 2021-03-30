@@ -131,11 +131,11 @@
                     VerticalAlignment="Center"
                     IsEnabled="{Binding IsRunningUi}"
                     TextWrapping="Wrap"
-                    Watermark="{lang:Localization edimsha_omitted_if_the_output_folder_is_different)}" />
+                    Watermark="{lang:Localization edimsha_omitted_if_the_output_folder_is_different}" />
                 <CheckBox
                     Grid.Column="4"
                     VerticalAlignment="Center"
-                    Content="{lang:Localization include_when_replace_always}"
+                    Content="{lang:Localization always_include_when_replacing}"
                     IsChecked="{Binding AddOnReplace}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
@@ -210,10 +210,10 @@
                 </StackPanel>
                 <CheckBox
                     Grid.Column="2"
-                    Width="140"
                     Height="15"
                     Margin="5,5,0,5"
-                    Content="{lang:Localization replace_with_original}"
+                    HorizontalAlignment="Left"
+                    Content="{lang:Localization replace_with_original_image}"
                     IsChecked="{Binding ReplaceForOriginal}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
@@ -248,6 +248,6 @@
         </StackPanel>
 
         <!--  Barra de informarcion  -->
-        <StatusBar Grid.Row="3" Margin="5,5,5,5">Iniciado</StatusBar>
+        <StatusBar Grid.Row="3" Margin="5,5,5,5">{lang:Localization initiated}</StatusBar>
     </Grid>
 </UserControl>
