@@ -9,7 +9,8 @@ namespace Edimsha.WPF.Models
     public enum ImageTypesEditor
     {
         PNG,
-        JPG
+        JPG,
+        JPEG
     }
 
     public enum ImageTypesConversor
