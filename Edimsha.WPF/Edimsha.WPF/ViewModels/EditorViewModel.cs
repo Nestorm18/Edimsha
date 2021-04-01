@@ -23,9 +23,10 @@ namespace Edimsha.WPF.ViewModels
         // Fields
         private readonly TranslationSource _ts;
         private string _statusBarCurrentText;
-        
+        private bool _isLoading;
+
         // Properties
-        
+
         #region Properties
 
         private bool _cleanListOnExit;
@@ -143,7 +144,7 @@ namespace Edimsha.WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
         public ObservableCollection<string> Urls
         {
             get => _urls;
@@ -188,7 +189,7 @@ namespace Edimsha.WPF.ViewModels
             // Loaded
             SetUserSettings();
         }
-        
+
         public void SetStatusBar(string translationKey)
         {
             StatusBar = _statusBarCurrentText = translationKey;
@@ -202,22 +203,26 @@ namespace Edimsha.WPF.ViewModels
 
         private void SetUserSettings()
         {
-            SetStatusBar("aplication_started");
-            
+            _isLoading = true;
+            SetStatusBar("application_started");
+
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
 
             IsRunningUi = true;
+            _isLoading = false;
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (_isLoading) return;
             IsCtxDelete = Urls.Count > 0;
             IsCtxDeleteAll = Urls.Count > 0;
 
+            //FIXME: Guardar solo al salir, si esto consume muchos recursos
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
 
-            // TODO: Mostrar mensaje si falla al guardar configuracion WIP
+            if (!success.Result) SetStatusBar("error_saving_editor_paths");
         }
 
         public void OnFileDrop(string[] filepaths)

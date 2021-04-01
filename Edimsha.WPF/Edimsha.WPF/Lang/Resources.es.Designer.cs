@@ -169,6 +169,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error al guardar las rutas del editor.
+        /// </summary>
+        internal static string error_saving_editor_paths {
+            get {
+                return ResourceManager.GetString("error_saving_editor_paths", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Menu.
         /// </summary>
         internal static string file {
