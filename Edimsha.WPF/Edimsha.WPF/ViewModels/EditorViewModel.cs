@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Services.Data;
+using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 
@@ -145,7 +146,10 @@ namespace Edimsha.WPF.ViewModels
         public ICommand OpenImagesCommand { get; }
 
         // Constructor
-        public EditorViewModel(ISaveSettingsService saveSettingsService, ILoadSettingsService loadSettingsService)
+        public EditorViewModel(
+            ISaveSettingsService saveSettingsService,
+            ILoadSettingsService loadSettingsService,
+            IDialogService dialogService)
         {
             _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
@@ -157,7 +161,7 @@ namespace Edimsha.WPF.ViewModels
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
-            OpenImagesCommand = new OpenImagesCommand(this);
+            OpenImagesCommand = new OpenImagesCommand(this, dialogService);
 
             // Loaded
             SetUserSettings();
@@ -179,6 +183,14 @@ namespace Edimsha.WPF.ViewModels
         }
 
         public void OnFileDrop(string[] filepaths)
+        {
+            //TODO: Permitir arrastar carpetas, si es directorio buscar imagenes dentro de carpeta hijo solamente
+            //TODO: Filtar solo por formatos disponibles 
+
+            UpdateUrlsWithoutDuplicates(filepaths);
+        }
+
+        public void UpdateUrlsWithoutDuplicates(string[] filepaths)
         {
             var savedPaths = Urls.ToList();
             var newPaths = filepaths.ToList();

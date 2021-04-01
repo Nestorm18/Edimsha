@@ -1,4 +1,5 @@
 using Edimsha.WPF.Services.Data;
+using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ namespace Edimsha.WPF.HostBuild
                 };
                 services.AddSingleton<ISaveSettingsService>(new SaveSettingsService(config));
                 services.AddSingleton<ILoadSettingsService>(new LoadSettingsService(config));
+                services.AddSingleton<IDialogService, DialogService>();
             });
             return host;
         }

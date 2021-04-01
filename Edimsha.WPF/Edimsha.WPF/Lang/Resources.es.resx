@@ -110,4 +110,10 @@
   <data name="initiated" xml:space="preserve">
     <value>Iniciado</value>
   </data>
+  <data name="select_images" xml:space="preserve">
+    <value>Selecciona imágenes</value>
+  </data>
+  <data name="image_files" xml:space="preserve">
+    <value>Archivos de imagen</value>
+  </data>
 </root>

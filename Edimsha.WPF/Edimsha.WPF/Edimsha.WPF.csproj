@@ -20,7 +20,6 @@
 
     <ItemGroup>
       <Folder Include="Controls" />
-      <Folder Include="Services\Dialogs" />
     </ItemGroup>
 
     <ItemGroup>

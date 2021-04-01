@@ -178,6 +178,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Archivos de imagen.
+        /// </summary>
+        internal static string image_files {
+            get {
+                return ResourceManager.GetString("image_files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Iniciado.
         /// </summary>
         internal static string initiated {
@@ -300,6 +309,15 @@ namespace Edimsha.WPF.Lang {
         internal static string select_folder {
             get {
                 return ResourceManager.GetString("select_folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selecciona imágenes.
+        /// </summary>
+        internal static string select_images {
+            get {
+                return ResourceManager.GetString("select_images", resourceCulture);
             }
         }
         
