@@ -105,9 +105,6 @@
   <data name="file" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="initiated" xml:space="preserve">
-    <value>Initiated</value>
-  </data>
   <data name="select_images" xml:space="preserve">
     <value>Select images</value>
   </data>

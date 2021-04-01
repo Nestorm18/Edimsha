@@ -266,7 +266,7 @@
 
         <!--  Barra de informarcion  -->
         <StatusBar Grid.Row="3" Margin="5,5,5,5">
-            <TextBlock Text="{lang:Localization initiated}" />
+            <TextBlock Text="{Binding StatusBar}" />
         </StatusBar>
     </Grid>
 </UserControl>

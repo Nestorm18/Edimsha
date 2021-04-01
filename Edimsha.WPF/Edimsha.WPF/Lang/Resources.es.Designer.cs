@@ -187,15 +187,6 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Iniciado.
-        /// </summary>
-        internal static string initiated {
-            get {
-                return ResourceManager.GetString("initiated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Mantener resolución original.
         /// </summary>
         internal static string keep_original_resolution {

@@ -16,6 +16,7 @@ namespace Edimsha.WPF.ViewModels
         // IOC
         private readonly ISaveSettingsService _saveSettingsService;
         private readonly ILoadSettingsService _loadSettingsService;
+        private readonly IDialogService _dialogService;
 
         // Properties
 
@@ -26,10 +27,11 @@ namespace Edimsha.WPF.ViewModels
         private bool _keepOriginalResolution;
         private bool _optimizeImage;
         private bool _replaceForOriginal;
-        private bool _isRunningUi = true;
+        private bool _isRunningUi;
         private bool _isStartedUi;
         private bool _isCtxDelete;
         private bool _isCtxDeleteAll;
+        private string _statusBar;
         private ObservableCollection<string> _urls;
 
         public bool CleanListOnExit
@@ -126,6 +128,17 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
+        public string StatusBar
+        {
+            get => _statusBar;
+            set
+            {
+                if (value == _statusBar) return;
+                _statusBar = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<string> Urls
         {
             get => _urls;
@@ -153,6 +166,7 @@ namespace Edimsha.WPF.ViewModels
         {
             _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
+            _dialogService = dialogService;
 
             Urls = new ObservableCollection<string>();
             Urls.CollectionChanged += UrlsOnCollectionChanged;
@@ -161,7 +175,7 @@ namespace Edimsha.WPF.ViewModels
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
-            OpenImagesCommand = new OpenImagesCommand(this, dialogService);
+            OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
 
             // Loaded
             SetUserSettings();
@@ -171,6 +185,8 @@ namespace Edimsha.WPF.ViewModels
         {
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
+
+            IsRunningUi = true;
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -188,6 +204,8 @@ namespace Edimsha.WPF.ViewModels
             //TODO: Filtar solo por formatos disponibles 
 
             UpdateUrlsWithoutDuplicates(filepaths);
+
+            StatusBar = "sdfasd";
         }
 
         public void UpdateUrlsWithoutDuplicates(string[] filepaths)
@@ -205,6 +223,12 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             var success = await _saveSettingsService.SaveConfigurationSettings(setting, value);
+
+            if (!success)
+            {
+                // _dialogService.ShowErrorMessage();
+            }
+
             // TODO: Mostrar mensaje si falla al guardar configuracion
         }
     }

@@ -107,9 +107,6 @@
   <data name="file" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="initiated" xml:space="preserve">
-    <value>Iniciado</value>
-  </data>
   <data name="select_images" xml:space="preserve">
     <value>Selecciona imágenes</value>
   </data>
