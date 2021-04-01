@@ -117,4 +117,7 @@
   <data name="error_saving_editor_paths" xml:space="preserve">
     <value>Error saving editor paths</value>
   </data>
+  <data name="the_option_could_not_be_saved" xml:space="preserve">
+    <value>The option could not be saved</value>
+  </data>
 </root>

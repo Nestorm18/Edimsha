@@ -119,4 +119,7 @@
   <data name="error_saving_editor_paths" xml:space="preserve">
     <value>Error al guardar las rutas del editor</value>
   </data>
+  <data name="the_option_could_not_be_saved" xml:space="preserve">
+    <value>No se ha podido guarlar la opcion</value>
+  </data>
 </root>

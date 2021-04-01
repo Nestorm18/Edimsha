@@ -249,12 +249,7 @@ namespace Edimsha.WPF.ViewModels
         {
             var success = await _saveSettingsService.SaveConfigurationSettings(setting, value);
 
-            if (!success)
-            {
-                // _dialogService.ShowErrorMessage();
-            }
-
-            // TODO: Mostrar mensaje si falla al guardar configuracion
+            if (!success) SetStatusBar("the_option_could_not_be_saved");
         }
     }
 }

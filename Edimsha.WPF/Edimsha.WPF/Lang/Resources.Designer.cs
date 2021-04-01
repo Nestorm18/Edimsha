@@ -358,6 +358,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The option could not be saved.
+        /// </summary>
+        internal static string the_option_could_not_be_saved {
+            get {
+                return ResourceManager.GetString("the_option_could_not_be_saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Width (px):.
         /// </summary>
         internal static string width_px {
