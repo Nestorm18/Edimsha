@@ -1,7 +1,6 @@
 #nullable enable
 using System;
 using System.Collections;
-using System.Resources;
 using System.Text;
 using System.Windows.Input;
 using Edimsha.WPF.Lang;
@@ -15,15 +14,14 @@ namespace Edimsha.WPF.Commands
     {
         private readonly EditorViewModel _editorViewModel;
         private readonly IDialogService _dialogService;
-        private readonly ResourceManager _rs;
+        private readonly TranslationSource _ts;
 
         public OpenImagesCommand(EditorViewModel editorViewModel, IDialogService dialogService)
         {
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
-
-            // TODO: No carga el idioma correcto
-            _rs = new ResourceManager(typeof(Resources));
+            
+            _ts = TranslationSource.Instance;
         }
 
         public bool CanExecute(object? parameter)
@@ -35,7 +33,7 @@ namespace Edimsha.WPF.Commands
         {
             var filter = CreateFilter(ImageFormatsFronViewType.GetImageType(parameter));
 
-            var urls = await _dialogService.OpenFileSelector(_rs.GetString("select_images"), filter, true);
+            var urls = await _dialogService.OpenFileSelector(_ts["select_images"], filter, true);
             
             // Clear Urls before add new ones.
             if (urls != null) _editorViewModel.UpdateUrlsWithoutDuplicates(urls.ToArray());
@@ -45,7 +43,7 @@ namespace Edimsha.WPF.Commands
         {
             var builder = new StringBuilder();
             var builderSecond = new StringBuilder();
-            builder.Append(_rs.GetString("image_files"));
+            builder.Append(_ts["image_files"]);
             builder.Append(' ');
             builder.Append('(');
 
