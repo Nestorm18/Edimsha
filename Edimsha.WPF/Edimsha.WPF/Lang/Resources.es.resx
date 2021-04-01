@@ -113,4 +113,7 @@
   <data name="image_files" xml:space="preserve">
     <value>Archivos de imagen</value>
   </data>
+  <data name="aplication_started" xml:space="preserve">
+    <value>Aplicación iniciada</value>
+  </data>
 </root>

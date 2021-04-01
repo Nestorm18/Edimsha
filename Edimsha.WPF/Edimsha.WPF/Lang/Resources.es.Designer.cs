@@ -70,6 +70,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aplicación iniciada.
+        /// </summary>
+        internal static string aplication_started {
+            get {
+                return ResourceManager.GetString("aplication_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Por defecto misma carpeta edimsha_nombreImagen.png.
         /// </summary>
         internal static string by_default_same_folder_edimsha_imagename_png {

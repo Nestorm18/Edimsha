@@ -32,6 +32,7 @@ namespace Edimsha.WPF.ViewModels
         private bool _isCtxDelete;
         private bool _isCtxDeleteAll;
         private string _statusBar;
+        private bool _defaultStatusbarText;
         private ObservableCollection<string> _urls;
 
         public bool CleanListOnExit
@@ -139,6 +140,17 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
+        public bool DefaultStatusbarText
+        {
+            get => _defaultStatusbarText;
+            set
+            {
+                if (value == _defaultStatusbarText) return;
+                _defaultStatusbarText = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<string> Urls
         {
             get => _urls;
@@ -187,6 +199,7 @@ namespace Edimsha.WPF.ViewModels
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
 
             IsRunningUi = true;
+            DefaultStatusbarText = true;
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

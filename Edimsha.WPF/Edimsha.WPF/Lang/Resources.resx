@@ -111,4 +111,7 @@
   <data name="image_files" xml:space="preserve">
     <value>Image files</value>
   </data>
+  <data name="aplication_started" xml:space="preserve">
+    <value>Application started</value>
+  </data>
 </root>
