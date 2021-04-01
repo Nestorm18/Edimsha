@@ -208,7 +208,8 @@ namespace Edimsha.WPF.ViewModels
             IsCtxDeleteAll = Urls.Count > 0;
 
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
-            // TODO: Mostrar mensaje si falla al guardar configuracion
+            
+            // TODO: Mostrar mensaje si falla al guardar configuracion WIP
         }
 
         public void OnFileDrop(string[] filepaths)
@@ -217,8 +218,6 @@ namespace Edimsha.WPF.ViewModels
             //TODO: Filtar solo por formatos disponibles 
 
             UpdateUrlsWithoutDuplicates(filepaths);
-
-            StatusBar = "sdfasd";
         }
 
         public void UpdateUrlsWithoutDuplicates(string[] filepaths)
