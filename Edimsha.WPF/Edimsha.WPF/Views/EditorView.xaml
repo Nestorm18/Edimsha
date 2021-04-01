@@ -270,8 +270,6 @@
 
         <!--  Barra de informarcion  -->
         <StatusBar Grid.Row="3" Margin="5,5,5,5">
-            <!--  Bottom textblok disapears when statusbar binding has a value  -->
-            <TextBlock Text="{lang:Localization aplication_started}" Visibility="{Binding DefaultStatusbarText, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <TextBlock Text="{Binding StatusBar}" />
         </StatusBar>
     </Grid>

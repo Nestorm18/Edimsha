@@ -1,9 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
+using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
@@ -18,8 +20,12 @@ namespace Edimsha.WPF.ViewModels
         private readonly ILoadSettingsService _loadSettingsService;
         private readonly IDialogService _dialogService;
 
+        // Fields
+        private readonly TranslationSource _ts;
+        private string _statusBarCurrentText;
+        
         // Properties
-
+        
         #region Properties
 
         private bool _cleanListOnExit;
@@ -32,7 +38,6 @@ namespace Edimsha.WPF.ViewModels
         private bool _isCtxDelete;
         private bool _isCtxDeleteAll;
         private string _statusBar;
-        private bool _defaultStatusbarText;
         private ObservableCollection<string> _urls;
 
         public bool CleanListOnExit
@@ -134,23 +139,11 @@ namespace Edimsha.WPF.ViewModels
             get => _statusBar;
             set
             {
-                if (value == _statusBar) return;
-                _statusBar = value;
+                _statusBar = _ts[value];
                 OnPropertyChanged();
             }
         }
-
-        public bool DefaultStatusbarText
-        {
-            get => _defaultStatusbarText;
-            set
-            {
-                if (value == _defaultStatusbarText) return;
-                _defaultStatusbarText = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public ObservableCollection<string> Urls
         {
             get => _urls;
@@ -180,6 +173,9 @@ namespace Edimsha.WPF.ViewModels
             _loadSettingsService = loadSettingsService;
             _dialogService = dialogService;
 
+            _ts = TranslationSource.Instance;
+            _ts.PropertyChanged += LanguageOnPropertyChanged;
+
             Urls = new ObservableCollection<string>();
             Urls.CollectionChanged += UrlsOnCollectionChanged;
 
@@ -192,14 +188,26 @@ namespace Edimsha.WPF.ViewModels
             // Loaded
             SetUserSettings();
         }
+        
+        public void SetStatusBar(string translationKey)
+        {
+            StatusBar = _statusBarCurrentText = translationKey;
+            OnPropertyChanged(nameof(StatusBar));
+        }
+
+        private void LanguageOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            StatusBar = _statusBarCurrentText;
+        }
 
         private void SetUserSettings()
         {
+            SetStatusBar("aplication_started");
+            
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
 
             IsRunningUi = true;
-            DefaultStatusbarText = true;
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -208,7 +216,7 @@ namespace Edimsha.WPF.ViewModels
             IsCtxDeleteAll = Urls.Count > 0;
 
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
-            
+
             // TODO: Mostrar mensaje si falla al guardar configuracion WIP
         }
 
