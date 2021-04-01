@@ -72,9 +72,9 @@ namespace Edimsha.WPF.Lang {
         /// <summary>
         ///   Looks up a localized string similar to Application started.
         /// </summary>
-        internal static string aplication_started {
+        internal static string application_started {
             get {
-                return ResourceManager.GetString("aplication_started", resourceCulture);
+                return ResourceManager.GetString("application_started", resourceCulture);
             }
         }
         

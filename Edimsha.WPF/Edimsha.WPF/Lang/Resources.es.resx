@@ -113,7 +113,7 @@
   <data name="image_files" xml:space="preserve">
     <value>Archivos de imagen</value>
   </data>
-  <data name="aplication_started" xml:space="preserve">
+  <data name="application_started" xml:space="preserve">
     <value>Aplicación iniciada</value>
   </data>
   <data name="error_saving_editor_paths" xml:space="preserve">
