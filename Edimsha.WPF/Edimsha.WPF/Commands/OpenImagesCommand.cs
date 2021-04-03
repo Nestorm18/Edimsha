@@ -31,7 +31,7 @@ namespace Edimsha.WPF.Commands
 
         public async void Execute(object? parameter)
         {
-            var filter = CreateFilter(ImageFormatsFronViewType.GetImageType(parameter));
+            var filter = CreateFilter(ImageFormatsFromViewType.GetImageType(parameter));
 
             var urls = await _dialogService.OpenFileSelector(_ts["select_images"], filter, true);
             

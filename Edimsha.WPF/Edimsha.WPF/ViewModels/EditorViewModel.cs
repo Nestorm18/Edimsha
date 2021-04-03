@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Lang;
+using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
@@ -244,8 +245,6 @@ namespace Edimsha.WPF.ViewModels
 
         public void OnFileDrop(string[] filepaths)
         {
-            //TODO: Filtar solo por formatos disponibles 
-
             var pathsUpdated = IsDirectoryDropped(filepaths.ToList());
 
             UpdateUrlsWithoutDuplicates(pathsUpdated);
@@ -258,10 +257,9 @@ namespace Edimsha.WPF.ViewModels
             foreach (var path in filepaths)
             {
                 if (Directory.Exists(path))
-                    if (IterateSubdirectories)
-                        Directory.GetFiles(path, "*", SearchOption.AllDirectories).ToList().ForEach(x => temp.Add(x));
-                    else
-                        Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).ToList().ForEach(x => temp.Add(x));
+                    temp.AddRange(IterateSubdirectories
+                        ? Directory.GetFiles(path, "*", SearchOption.AllDirectories)
+                        : Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly));
                 else
                     temp.Add(path);
             }
@@ -275,10 +273,24 @@ namespace Edimsha.WPF.ViewModels
             var newPaths = filepaths;
 
             // Concat two list and remove duplicates to show in listview
-            var filePathsDistinct = savedPaths.Concat(newPaths).Distinct().ToList();
+            var distinctPaths = savedPaths.Concat(newPaths).Distinct().ToList();
+
+            var removeWrongFormats = (List<string>) RemoveWrongFormats(distinctPaths);
 
             Urls.Clear();
-            foreach (var s in filePathsDistinct) Urls.Add(s);
+            foreach (var s in removeWrongFormats) Urls.Add(s);
+        }
+
+        private static IEnumerable<string> RemoveWrongFormats(IEnumerable<string> filepaths)
+        {
+            var imageType = ImageFormatsFromViewType.GetImageType(ModeImageTypes.Editor);
+
+            var extensions = new List<string>();
+
+            if (imageType != null)
+                extensions.AddRange(from object type in imageType select $".{type.ToString()?.ToLower()}");
+
+            return filepaths.Where(path => extensions.Contains(Path.GetExtension(path).ToLower())).ToList();
         }
 
         private async Task UpdateSetting<T>(string setting, T value)

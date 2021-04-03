@@ -37,7 +37,7 @@ namespace Edimsha.WPF.Converters
         /// <returns>Formatted text</returns>
         private static string GetAllImageFormatsInline(object parameter)
         {
-            var imageType = ImageFormatsFronViewType.GetImageType(parameter);
+            var imageType = ImageFormatsFromViewType.GetImageType(parameter);
 
             var builder = new StringBuilder();
 

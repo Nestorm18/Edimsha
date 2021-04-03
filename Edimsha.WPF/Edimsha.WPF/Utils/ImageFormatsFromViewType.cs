@@ -5,7 +5,7 @@ using Edimsha.WPF.Models;
 
 namespace Edimsha.WPF.Utils
 {
-    public static class ImageFormatsFronViewType
+    public static class ImageFormatsFromViewType
     {
         public static IEnumerable GetImageType(object parameter)
         {
