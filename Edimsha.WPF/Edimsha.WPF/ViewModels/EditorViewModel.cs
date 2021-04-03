@@ -211,6 +211,13 @@ namespace Edimsha.WPF.ViewModels
             StatusBar = _statusBarCurrentText = translationKey;
         }
 
+        public void OnFileDrop(string[] filepaths)
+        {
+            var pathsUpdated = IsDirectoryDropped(filepaths.ToList());
+
+            UpdateUrlsWithoutDuplicates(pathsUpdated);
+        }
+        
         private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             StatusBar = _statusBarCurrentText;
@@ -241,13 +248,6 @@ namespace Edimsha.WPF.ViewModels
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
 
             if (!success.Result) SetStatusBar("error_saving_editor_paths");
-        }
-
-        public void OnFileDrop(string[] filepaths)
-        {
-            var pathsUpdated = IsDirectoryDropped(filepaths.ToList());
-
-            UpdateUrlsWithoutDuplicates(pathsUpdated);
         }
 
         private IEnumerable<string> IsDirectoryDropped(IEnumerable<string> filepaths)
