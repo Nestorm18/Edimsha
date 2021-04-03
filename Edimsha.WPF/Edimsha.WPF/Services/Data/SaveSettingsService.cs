@@ -17,6 +17,7 @@ namespace Edimsha.WPF.Services.Data
 
         public async Task<bool> SaveConfigurationSettings<T>(string settingName, T value)
         {
+            // Update Config.cs file when you add new setting to json
             Config newconfig;
 
             using (var settings = File.OpenText(SettingsPath))
@@ -27,7 +28,9 @@ namespace Edimsha.WPF.Services.Data
                 var propertyInfo = config?.GetType().GetProperty(settingName);
                 if (propertyInfo != null)
                     propertyInfo.SetValue(config, Convert.ChangeType(value, propertyInfo.PropertyType), null);
-
+                else
+                    return false;
+                
                 newconfig = config;
             }
 

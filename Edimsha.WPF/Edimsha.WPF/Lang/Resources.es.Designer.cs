@@ -205,6 +205,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Iterar carpetas y subcarpetas.
+        /// </summary>
+        internal static string iterate_folders_and_subfolders {
+            get {
+                return ResourceManager.GetString("iterate_folders_and_subfolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mantener resolución original.
         /// </summary>
         internal static string keep_original_resolution {
@@ -219,6 +228,15 @@ namespace Edimsha.WPF.Lang {
         internal static string language {
             get {
                 return ResourceManager.GetString("language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opciones de la lista:.
+        /// </summary>
+        internal static string list_options {
+            get {
+                return ResourceManager.GetString("list_options", resourceCulture);
             }
         }
         
@@ -358,7 +376,7 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No se ha podido guarlar la opcion.
+        ///   Looks up a localized string similar to No se ha podido guardar la opcion.
         /// </summary>
         internal static string the_option_could_not_be_saved {
             get {

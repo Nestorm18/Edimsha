@@ -205,6 +205,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Iterate folders and subfolders.
+        /// </summary>
+        internal static string iterate_folders_and_subfolders {
+            get {
+                return ResourceManager.GetString("iterate_folders_and_subfolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keep original resolution.
         /// </summary>
         internal static string keep_original_resolution {
@@ -219,6 +228,15 @@ namespace Edimsha.WPF.Lang {
         internal static string language {
             get {
                 return ResourceManager.GetString("language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List options:.
+        /// </summary>
+        internal static string list_options {
+            get {
+                return ResourceManager.GetString("list_options", resourceCulture);
             }
         }
         

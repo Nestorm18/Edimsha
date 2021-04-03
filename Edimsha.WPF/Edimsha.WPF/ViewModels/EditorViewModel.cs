@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -39,6 +41,7 @@ namespace Edimsha.WPF.ViewModels
         private bool _isCtxDelete;
         private bool _isCtxDeleteAll;
         private string _statusBar;
+        private bool _iterateSubdirectories;
         private ObservableCollection<string> _urls;
 
         public bool CleanListOnExit
@@ -145,6 +148,16 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
+        public bool IterateSubdirectories
+        {
+            get => _iterateSubdirectories;
+            set
+            {
+                _iterateSubdirectories = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<string> Urls
         {
             get => _urls;
@@ -162,6 +175,7 @@ namespace Edimsha.WPF.ViewModels
         public ICommand DeleteItemCommand { get; }
         public ICommand DeleteAllItemsCommand { get; }
         public ICommand CleanListOnExitCommand { get; }
+        public ICommand IterateSubdirectoriesCommand { get; }
         public ICommand OpenImagesCommand { get; }
 
         // Constructor
@@ -184,6 +198,7 @@ namespace Edimsha.WPF.ViewModels
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
+            IterateSubdirectoriesCommand = new SaveSettingsCommand(async () => await UpdateSetting("IterateSubdirectories", IterateSubdirectories));
             OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
 
             // Loaded
@@ -193,10 +208,9 @@ namespace Edimsha.WPF.ViewModels
         public void SetStatusBar(string translationKey)
         {
             StatusBar = _statusBarCurrentText = translationKey;
-            OnPropertyChanged(nameof(StatusBar));
         }
 
-        private void LanguageOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             StatusBar = _statusBarCurrentText;
         }
@@ -208,9 +222,12 @@ namespace Edimsha.WPF.ViewModels
 
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
+            IterateSubdirectories = _loadSettingsService.LoadConfigurationSetting<bool>("IterateSubdirectories");
 
             IsRunningUi = true;
             _isLoading = false;
+
+            UrlsOnCollectionChanged(null, null);
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -227,16 +244,35 @@ namespace Edimsha.WPF.ViewModels
 
         public void OnFileDrop(string[] filepaths)
         {
-            //TODO: Permitir arrastar carpetas, si es directorio buscar imagenes dentro de carpeta hijo solamente
             //TODO: Filtar solo por formatos disponibles 
 
-            UpdateUrlsWithoutDuplicates(filepaths);
+            var pathsUpdated = IsDirectoryDropped(filepaths.ToList());
+
+            UpdateUrlsWithoutDuplicates(pathsUpdated);
         }
 
-        public void UpdateUrlsWithoutDuplicates(string[] filepaths)
+        private IEnumerable<string> IsDirectoryDropped(IEnumerable<string> filepaths)
+        {
+            var temp = new List<string>();
+
+            foreach (var path in filepaths)
+            {
+                if (Directory.Exists(path))
+                    if (IterateSubdirectories)
+                        Directory.GetFiles(path, "*", SearchOption.AllDirectories).ToList().ForEach(x => temp.Add(x));
+                    else
+                        Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).ToList().ForEach(x => temp.Add(x));
+                else
+                    temp.Add(path);
+            }
+
+            return temp;
+        }
+
+        public void UpdateUrlsWithoutDuplicates(IEnumerable<string> filepaths)
         {
             var savedPaths = Urls.ToList();
-            var newPaths = filepaths.ToList();
+            var newPaths = filepaths;
 
             // Concat two list and remove duplicates to show in listview
             var filePathsDistinct = savedPaths.Concat(newPaths).Distinct().ToList();

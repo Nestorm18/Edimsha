@@ -120,6 +120,12 @@
     <value>Error al guardar las rutas del editor</value>
   </data>
   <data name="the_option_could_not_be_saved" xml:space="preserve">
-    <value>No se ha podido guarlar la opcion</value>
+    <value>No se ha podido guardar la opcion</value>
+  </data>
+  <data name="iterate_folders_and_subfolders" xml:space="preserve">
+    <value>Iterar carpetas y subcarpetas</value>
+  </data>
+  <data name="list_options" xml:space="preserve">
+    <value>Opciones de la lista:</value>
   </data>
 </root>

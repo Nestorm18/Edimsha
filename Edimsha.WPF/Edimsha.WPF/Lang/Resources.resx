@@ -120,4 +120,10 @@
   <data name="the_option_could_not_be_saved" xml:space="preserve">
     <value>The option could not be saved</value>
   </data>
+  <data name="iterate_folders_and_subfolders" xml:space="preserve">
+    <value>Iterate folders and subfolders</value>
+  </data>
+  <data name="list_options" xml:space="preserve">
+    <value>List options:</value>
+  </data>
 </root>

@@ -4,5 +4,6 @@ namespace Edimsha.WPF.Settings
     {
         public object Language { get; set; }
         public object CleanListOnExit { get; set; }
+        public object IterateSubdirectories { get; set; }
     }
 }

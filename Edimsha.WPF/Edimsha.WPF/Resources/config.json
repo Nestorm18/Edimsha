@@ -1,4 +1,5 @@
 {
-  "Language": "Es_es",
-  "CleanListOnExit": false
+  "Language": "es-ES",
+  "CleanListOnExit": false,
+  "IterateSubdirectories": false
 }
