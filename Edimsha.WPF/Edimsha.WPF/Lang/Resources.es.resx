@@ -123,7 +123,7 @@
     <value>No se ha podido guardar la opcion</value>
   </data>
   <data name="iterate_folders_and_subfolders" xml:space="preserve">
-    <value>Iterar carpetas y subcarpetas</value>
+    <value>Recorrer carpetas y subcarpetas</value>
   </data>
   <data name="list_options" xml:space="preserve">
     <value>Opciones de la lista:</value>

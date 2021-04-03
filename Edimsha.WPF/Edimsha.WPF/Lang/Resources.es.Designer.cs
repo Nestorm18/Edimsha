@@ -205,7 +205,7 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Iterar carpetas y subcarpetas.
+        ///   Looks up a localized string similar to Recorrer carpetas y subcarpetas.
         /// </summary>
         internal static string iterate_folders_and_subfolders {
             get {
