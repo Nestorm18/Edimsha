@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -26,7 +24,7 @@ namespace Edimsha.WPF.ViewModels
         // Fields
         private readonly TranslationSource _ts;
         private string _statusBarCurrentText;
-        private bool _isLoading;
+        private bool _isLoadingSettings;
 
         // Properties
 
@@ -213,9 +211,12 @@ namespace Edimsha.WPF.ViewModels
 
         public void OnFileDrop(string[] filepaths)
         {
-            var pathsUpdated = IsDirectoryDropped(filepaths.ToList());
-
-            UpdateUrlsWithoutDuplicates(pathsUpdated);
+            var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
+            
+            var listCleaned = ListCleaned.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
+            
+            Urls.Clear();
+            foreach (var s in listCleaned) Urls.Add(s);
         }
         
         private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -225,7 +226,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void SetUserSettings()
         {
-            _isLoading = true;
+            _isLoadingSettings = true;
             SetStatusBar("application_started");
 
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
@@ -233,14 +234,14 @@ namespace Edimsha.WPF.ViewModels
             IterateSubdirectories = _loadSettingsService.LoadConfigurationSetting<bool>("IterateSubdirectories");
 
             IsRunningUi = true;
-            _isLoading = false;
+            _isLoadingSettings = false;
 
             UrlsOnCollectionChanged(null, null);
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (_isLoading) return;
+            if (_isLoadingSettings) return;
             IsCtxDelete = Urls.Count > 0;
             IsCtxDeleteAll = Urls.Count > 0;
 
@@ -249,50 +250,7 @@ namespace Edimsha.WPF.ViewModels
 
             if (!success.Result) SetStatusBar("error_saving_editor_paths");
         }
-
-        private IEnumerable<string> IsDirectoryDropped(IEnumerable<string> filepaths)
-        {
-            var temp = new List<string>();
-
-            foreach (var path in filepaths)
-            {
-                if (Directory.Exists(path))
-                    temp.AddRange(IterateSubdirectories
-                        ? Directory.GetFiles(path, "*", SearchOption.AllDirectories)
-                        : Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly));
-                else
-                    temp.Add(path);
-            }
-
-            return temp;
-        }
-
-        public void UpdateUrlsWithoutDuplicates(IEnumerable<string> filepaths)
-        {
-            var savedPaths = Urls.ToList();
-            var newPaths = filepaths;
-
-            // Concat two list and remove duplicates to show in listview
-            var distinctPaths = savedPaths.Concat(newPaths).Distinct().ToList();
-
-            var removeWrongFormats = (List<string>) RemoveWrongFormats(distinctPaths);
-
-            Urls.Clear();
-            foreach (var s in removeWrongFormats) Urls.Add(s);
-        }
-
-        private static IEnumerable<string> RemoveWrongFormats(IEnumerable<string> filepaths)
-        {
-            var imageType = ImageFormatsFromViewType.GetImageType(ModeImageTypes.Editor);
-
-            var extensions = new List<string>();
-
-            if (imageType != null)
-                extensions.AddRange(from object type in imageType select $".{type.ToString()?.ToLower()}");
-
-            return filepaths.Where(path => extensions.Contains(Path.GetExtension(path).ToLower())).ToList();
-        }
-
+        
         private async Task UpdateSetting<T>(string setting, T value)
         {
             var success = await _saveSettingsService.SaveConfigurationSettings(setting, value);

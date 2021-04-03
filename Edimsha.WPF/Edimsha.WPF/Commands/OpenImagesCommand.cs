@@ -1,9 +1,11 @@
 #nullable enable
 using System;
 using System.Collections;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Edimsha.WPF.Lang;
+using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.Utils;
 using Edimsha.WPF.ViewModels;
@@ -20,7 +22,7 @@ namespace Edimsha.WPF.Commands
         {
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
-            
+
             _ts = TranslationSource.Instance;
         }
 
@@ -35,8 +37,16 @@ namespace Edimsha.WPF.Commands
 
             var urls = await _dialogService.OpenFileSelector(_ts["select_images"], filter, true);
             
+            if (urls == null) return;
+           
             // Clear Urls before add new ones.
-            if (urls != null) _editorViewModel.UpdateUrlsWithoutDuplicates(urls.ToArray());
+            var listCleaned = ListCleaned.PathWithoutDuplicatesAndGoodFormats(
+                _editorViewModel.Urls.ToList(),
+                urls.ToArray(),
+                ModeImageTypes.Editor);
+
+            _editorViewModel.Urls.Clear();
+            foreach (var s in listCleaned) _editorViewModel.Urls.Add(s);
         }
 
         private string CreateFilter(IEnumerable getImageType)

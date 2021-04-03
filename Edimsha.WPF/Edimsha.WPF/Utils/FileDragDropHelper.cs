@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -57,6 +59,23 @@ namespace Edimsha.WPF.Utils
             {
                 throw new Exception("FileDragDropTarget object must be of type IFileDragDropTarget");
             }
+        }
+        
+        public static IEnumerable<string> IsDirectoryDropped(IEnumerable<string> filepaths, bool iterateSubdirectories)
+        {
+            var temp = new List<string>();
+
+            foreach (var path in filepaths)
+            {
+                if (Directory.Exists(path))
+                    temp.AddRange(iterateSubdirectories
+                        ? Directory.GetFiles(path, "*", SearchOption.AllDirectories)
+                        : Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly));
+                else
+                    temp.Add(path);
+            }
+
+            return temp;
         }
     }
 }
