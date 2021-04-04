@@ -207,7 +207,7 @@ namespace Edimsha.WPF.ViewModels
         {
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
 
-            var listCleaned = ListCleaned.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
+            var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
 
             Urls.Clear();
             foreach (var s in listCleaned) Urls.Add(s);

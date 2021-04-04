@@ -40,7 +40,7 @@ namespace Edimsha.WPF.Commands
             if (urls == null) return;
            
             // Clear Urls before add new ones.
-            var listCleaned = ListCleaned.PathWithoutDuplicatesAndGoodFormats(
+            var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
                 _editorViewModel.Urls.ToList(),
                 urls.ToArray(),
                 ModeImageTypes.Editor);

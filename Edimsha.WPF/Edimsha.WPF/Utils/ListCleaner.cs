@@ -5,7 +5,7 @@ using Edimsha.WPF.Models;
 
 namespace Edimsha.WPF.Utils
 {
-    public static class ListCleaned
+    public static class ListCleaner
     {
         public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(IEnumerable<string> savedPaths, IEnumerable<string> droppedPaths, ModeImageTypes mode)
         {
