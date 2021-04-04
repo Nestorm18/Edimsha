@@ -243,7 +243,7 @@ namespace Edimsha.WPF.ViewModels
             UrlsOnCollectionChanged(null, null);
 
             // Configuration has finished
-            return true;
+            return false;
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
