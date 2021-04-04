@@ -201,7 +201,7 @@ namespace Edimsha.WPF.ViewModels
             OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
 
             // Loaded
-            SetUserSettings();
+            _isLoadingSettings = SetUserSettings();
         }
         
         public void OnFileDrop(string[] filepaths)
@@ -230,9 +230,8 @@ namespace Edimsha.WPF.ViewModels
             OnPropertyChanged(nameof(StatusBar));
         }
 
-        private void SetUserSettings()
+        private bool SetUserSettings()
         {
-            _isLoadingSettings = true;
             StatusBar = "application_started";
 
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
@@ -240,9 +239,11 @@ namespace Edimsha.WPF.ViewModels
             IterateSubdirectories = _loadSettingsService.LoadConfigurationSetting<bool>("IterateSubdirectories");
 
             IsRunningUi = true;
-            _isLoadingSettings = false;
-
+            
             UrlsOnCollectionChanged(null, null);
+
+            // Configuration has finished
+            return true;
         }
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
