@@ -23,9 +23,8 @@ namespace Edimsha.WPF.ViewModels
         private readonly IDialogService _dialogService;
 
         // Fields
-        
         private bool _isLoadingSettings;
-
+        
         // Properties
 
         #region Properties
@@ -212,6 +211,14 @@ namespace Edimsha.WPF.ViewModels
 
             Urls.Clear();
             foreach (var s in listCleaned) Urls.Add(s);
+
+            SavePaths();
+        }
+
+        private void SavePaths()
+        {
+            var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
+            if (!success.Result) StatusBar = "error_saving_editor_paths";
         }
 
         /// <summary>
@@ -251,11 +258,6 @@ namespace Edimsha.WPF.ViewModels
             if (_isLoadingSettings) return;
             IsCtxDelete = Urls.Count > 0;
             IsCtxDeleteAll = Urls.Count > 0;
-
-            //FIXME: Guardar solo al salir, si esto consume muchos recursos
-            var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
-
-            if (!success.Result) StatusBar = "error_saving_editor_paths";
         }
 
         private async Task UpdateSetting<T>(string setting, T value)
