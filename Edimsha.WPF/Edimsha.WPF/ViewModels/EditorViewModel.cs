@@ -249,7 +249,7 @@ namespace Edimsha.WPF.ViewModels
             
             UrlsOnCollectionChanged(null, null);
 
-            // Configuration has finished
+            // Configuration has finished so its false for _isLoadingSettings
             return false;
         }
 
