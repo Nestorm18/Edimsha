@@ -22,7 +22,7 @@ namespace Edimsha.WPF.Lang
                 var @event = this.PropertyChanged;
                 @event?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
             }
-            get { return _currentCulture; }
+            get => _currentCulture;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
+using Edimsha.WPF.Converters;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
@@ -22,8 +23,7 @@ namespace Edimsha.WPF.ViewModels
         private readonly IDialogService _dialogService;
 
         // Fields
-        private readonly TranslationSource _ts;
-        private string _statusBarCurrentText;
+        
         private bool _isLoadingSettings;
 
         // Properties
@@ -142,7 +142,7 @@ namespace Edimsha.WPF.ViewModels
             get => _statusBar;
             set
             {
-                _statusBar = _ts[value];
+                _statusBar = value;
                 OnPropertyChanged();
             }
         }
@@ -187,8 +187,8 @@ namespace Edimsha.WPF.ViewModels
             _loadSettingsService = loadSettingsService;
             _dialogService = dialogService;
 
-            _ts = TranslationSource.Instance;
-            _ts.PropertyChanged += LanguageOnPropertyChanged;
+            var ts = TranslationSource.Instance;
+            ts.PropertyChanged += LanguageOnPropertyChanged;
 
             Urls = new ObservableCollection<string>();
             Urls.CollectionChanged += UrlsOnCollectionChanged;
@@ -203,31 +203,37 @@ namespace Edimsha.WPF.ViewModels
             // Loaded
             SetUserSettings();
         }
-
-        public void SetStatusBar(string translationKey)
-        {
-            StatusBar = _statusBarCurrentText = translationKey;
-        }
-
+        
         public void OnFileDrop(string[] filepaths)
         {
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
-            
+
             var listCleaned = ListCleaned.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
-            
+
             Urls.Clear();
             foreach (var s in listCleaned) Urls.Add(s);
         }
-        
+
+        /// <summary>
+        /// Using code behind translation, the "OnPropertyChanged" property of the element
+        /// that will be updated when changing languages must be called. 
+        /// <para>Example:</para>
+        /// Set text when UI starts; set new value you need if you update your text in any part on the viewmodel
+        /// passing the translation key.
+        /// <code>StatusBar = "application_started";</code>
+        /// To update the current showing text to new language you must add you property like this.
+        /// <code>OnPropertyChanged(nameof(StatusBar));</code>
+        /// <para>NOTE: Use <see cref="LangKeyToTranslationConverter"/> in your text binding in XAML.</para>
+        /// </summary>
         private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            StatusBar = _statusBarCurrentText;
+            OnPropertyChanged(nameof(StatusBar));
         }
 
         private void SetUserSettings()
         {
             _isLoadingSettings = true;
-            SetStatusBar("application_started");
+            StatusBar = "application_started";
 
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
@@ -248,14 +254,14 @@ namespace Edimsha.WPF.ViewModels
             //FIXME: Guardar solo al salir, si esto consume muchos recursos
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
 
-            if (!success.Result) SetStatusBar("error_saving_editor_paths");
+            if (!success.Result) StatusBar = "error_saving_editor_paths";
         }
-        
+
         private async Task UpdateSetting<T>(string setting, T value)
         {
             var success = await _saveSettingsService.SaveConfigurationSettings(setting, value);
-
-            if (!success) SetStatusBar("the_option_could_not_be_saved");
+            
+            if (!success) StatusBar = "the_option_could_not_be_saved";
         }
     }
 }
