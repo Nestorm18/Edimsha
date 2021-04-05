@@ -88,14 +88,12 @@
                     <CheckBox
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Command="{Binding CleanListOnExitCommand}"
                         Content="{lang:Localization delete_paths_on_exit}"
                         IsChecked="{Binding CleanListOnExit}"
                         IsEnabled="{Binding IsRunningUi}" />
                     <CheckBox
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Command="{Binding IterateSubdirectoriesCommand}"
                         Content="{lang:Localization iterate_folders_and_subfolders}"
                         IsChecked="{Binding IterateSubdirectories}"
                         IsEnabled="{Binding IsRunningUi}" />
@@ -150,7 +148,6 @@
                 <CheckBox
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    Command="{Binding AlwaysIncludeOnReplaceCommand}"
                     Content="{lang:Localization always_include_when_replacing}"
                     IsChecked="{Binding AlwaysIncludeOnReplace}"
                     IsEnabled="{Binding IsRunningUi}" />
@@ -192,7 +189,6 @@
                         Grid.Column="1"
                         Height="15"
                         HorizontalAlignment="Right"
-                        Command="{Binding KeepOriginalResolutionCommand}"
                         Content="{lang:Localization keep_original_resolution}"
                         IsChecked="{Binding KeepOriginalResolution}"
                         IsEnabled="{Binding IsRunningUi}" />
@@ -240,7 +236,6 @@
                         Width="{Binding ActualWidth, ElementName=KeepOriginalResolution}"
                         Height="15"
                         HorizontalAlignment="Right"
-                        Command="{Binding OptimizeImageCommand}"
                         Content="{lang:Localization optimize_image}"
                         IsChecked="{Binding OptimizeImage}"
                         IsEnabled="{Binding IsRunningUi}" />
@@ -251,7 +246,6 @@
                     Height="15"
                     Margin="5,5,0,5"
                     HorizontalAlignment="Left"
-                    Command="{Binding ReplaceForOriginalCommand}"
                     Content="{lang:Localization replace_with_original_image}"
                     IsChecked="{Binding ReplaceForOriginal}"
                     IsEnabled="{Binding IsRunningUi}" />

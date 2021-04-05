@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
@@ -29,18 +29,12 @@ namespace Edimsha.WPF.ViewModels
         // Properties
 
         #region Properties
-
-        private bool _cleanListOnExit;
-        private bool _alwaysIncludeOnReplace;
-        private bool _keepOriginalResolution;
-        private bool _optimizeImage;
-        private bool _replaceForOriginal;
+        
         private bool _isRunningUi;
         private bool _isStartedUi;
         private bool _isCtxDelete;
         private bool _isCtxDeleteAll;
         private string _statusBar;
-        private bool _iterateSubdirectories;
         private ObservableCollection<string> _urls;
         private string _outputFolder;
         private string _edimsha;
@@ -48,53 +42,53 @@ namespace Edimsha.WPF.ViewModels
 
         public bool CleanListOnExit
         {
-            get => _cleanListOnExit;
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(CleanListOnExit));
             set
             {
-                _cleanListOnExit = value;
+                UpdateSetting(nameof(CleanListOnExit), value);
                 OnPropertyChanged();
             }
         }
 
         public bool AlwaysIncludeOnReplace
         {
-            get => _alwaysIncludeOnReplace;
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(AlwaysIncludeOnReplace));
             set
             {
-                _alwaysIncludeOnReplace = value;
+                UpdateSetting(nameof(AlwaysIncludeOnReplace), value);
                 OnPropertyChanged();
             }
         }
 
         public bool KeepOriginalResolution
         {
-            get => _keepOriginalResolution;
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(KeepOriginalResolution));
 
             set
             {
-                _keepOriginalResolution = value;
+                UpdateSetting(nameof(KeepOriginalResolution), value);
                 OnPropertyChanged();
             }
         }
 
         public bool OptimizeImage
         {
-            get => _optimizeImage;
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(OptimizeImage));
 
             set
             {
-                _optimizeImage = value;
+                UpdateSetting(nameof(OptimizeImage), value);
                 OnPropertyChanged();
             }
         }
 
         public bool ReplaceForOriginal
         {
-            get => _replaceForOriginal;
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(ReplaceForOriginal));
 
             set
             {
-                _replaceForOriginal = value;
+                UpdateSetting(nameof(ReplaceForOriginal), value);
                 OnPropertyChanged();
             }
         }
@@ -152,10 +146,10 @@ namespace Edimsha.WPF.ViewModels
 
         public bool IterateSubdirectories
         {
-            get => _iterateSubdirectories;
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(IterateSubdirectories));
             set
             {
-                _iterateSubdirectories = value;
+                UpdateSetting(nameof(IterateSubdirectories), value);
                 OnPropertyChanged();
             }
         }
@@ -180,7 +174,7 @@ namespace Edimsha.WPF.ViewModels
 
                 _outputFolder = Directory.Exists(value) ? value : string.Empty;
                 _saveSettingsService.SaveConfigurationSettings("OutputFolder", _outputFolder);
-                
+
                 OnPropertyChanged();
             }
         }
@@ -192,9 +186,9 @@ namespace Edimsha.WPF.ViewModels
             {
                 if (value == _edimsha) return;
                 _edimsha = value;
-                
+
                 _saveSettingsService.SaveConfigurationSettings("Edimsha", value);
-                
+
                 OnPropertyChanged();
             }
         }
@@ -206,9 +200,9 @@ namespace Edimsha.WPF.ViewModels
             {
                 if (value.Equals(_compresionValue)) return;
                 _compresionValue = value;
-               
+
                 _saveSettingsService.SaveConfigurationSettings("CompresionValue", value);
-               
+
                 OnPropertyChanged();
             }
         }
@@ -218,27 +212,15 @@ namespace Edimsha.WPF.ViewModels
         // Commands
 
         #region Commands
-        
+
         public ICommand DeleteItemCommand { get; }
-        
+
         public ICommand DeleteAllItemsCommand { get; }
-        
-        public ICommand CleanListOnExitCommand { get; }
-        
-        public ICommand IterateSubdirectoriesCommand { get; }
-        
+
         public ICommand OpenImagesCommand { get; }
-        
+
         public ICommand OpenOutputFolderCommand { get; }
-        
-        public ICommand AlwaysIncludeOnReplaceCommand { get; }
-       
-        public ICommand KeepOriginalResolutionCommand { get; }
-      
-        public ICommand OptimizeImageCommand { get; }
-        
-        public ICommand ReplaceForOriginalCommand { get; }
-        
+
         #endregion
 
         // Constructor
@@ -260,14 +242,8 @@ namespace Edimsha.WPF.ViewModels
             // Commands
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
-            CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
-            IterateSubdirectoriesCommand = new SaveSettingsCommand(async () => await UpdateSetting("IterateSubdirectories", IterateSubdirectories));
             OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
             OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
-            AlwaysIncludeOnReplaceCommand = new SaveSettingsCommand(async () => await UpdateSetting("AlwaysIncludeOnReplace", AlwaysIncludeOnReplace));
-            KeepOriginalResolutionCommand = new SaveSettingsCommand(async () => await UpdateSetting("KeepOriginalResolution", KeepOriginalResolution));
-            OptimizeImageCommand = new SaveSettingsCommand(async () => await UpdateSetting("OptimizeImage", OptimizeImage));
-            ReplaceForOriginalCommand = new SaveSettingsCommand(async () => await UpdateSetting("ReplaceForOriginal", ReplaceForOriginal));
 
             // Loaded
             _isLoadingSettings = SetUserSettings();
@@ -312,15 +288,9 @@ namespace Edimsha.WPF.ViewModels
             StatusBar = "application_started";
 
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
-            CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
-            IterateSubdirectories = _loadSettingsService.LoadConfigurationSetting<bool>("IterateSubdirectories");
             OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>("OutputFolder");
             Edimsha = _loadSettingsService.LoadConfigurationSetting<string>("Edimsha");
-            AlwaysIncludeOnReplace = _loadSettingsService.LoadConfigurationSetting<bool>("AlwaysIncludeOnReplace");
-            KeepOriginalResolution = _loadSettingsService.LoadConfigurationSetting<bool>("KeepOriginalResolution");
             CompresionValue = _loadSettingsService.LoadConfigurationSetting<double>("CompresionValue");
-            OptimizeImage = _loadSettingsService.LoadConfigurationSetting<bool>("OptimizeImage");
-            ReplaceForOriginal = _loadSettingsService.LoadConfigurationSetting<bool>("ReplaceForOriginal");
 
             IsRunningUi = true;
 
