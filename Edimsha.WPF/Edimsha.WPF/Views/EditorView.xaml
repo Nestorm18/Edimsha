@@ -143,14 +143,16 @@
                 <xctk:WatermarkTextBox
                     Grid.Column="1"
                     VerticalAlignment="Center"
+                    Text="{Binding Edimsha}"
                     IsEnabled="{Binding IsRunningUi}"
                     TextWrapping="Wrap"
                     Watermark="{lang:Localization edimsha_omitted_if_the_output_folder_is_different}" />
                 <CheckBox
                     Grid.Column="2"
                     VerticalAlignment="Center"
+                    Command="{Binding AlwaysIncludeOnReplaceCommand}"
                     Content="{lang:Localization always_include_when_replacing}"
-                    IsChecked="{Binding AddOnReplace}"
+                    IsChecked="{Binding AlwaysIncludeOnReplace}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 

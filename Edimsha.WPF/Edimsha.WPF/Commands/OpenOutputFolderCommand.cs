@@ -35,7 +35,6 @@ namespace Edimsha.WPF.Commands
             _editorViewModel.OutputFolder = success.Result;
         }
 
-
         public event EventHandler? CanExecuteChanged;
     }
 }

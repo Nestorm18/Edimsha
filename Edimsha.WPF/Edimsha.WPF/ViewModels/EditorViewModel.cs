@@ -31,7 +31,7 @@ namespace Edimsha.WPF.ViewModels
         #region Properties
 
         private bool _cleanListOnExit;
-        private bool _addOnReplace;
+        private bool _alwaysIncludeOnReplace;
         private bool _keepOriginalResolution;
         private bool _optimizeImage;
         private bool _replaceForOriginal;
@@ -43,6 +43,7 @@ namespace Edimsha.WPF.ViewModels
         private bool _iterateSubdirectories;
         private ObservableCollection<string> _urls;
         private string _outputFolder;
+        private string _edimsha;
 
         public bool CleanListOnExit
         {
@@ -54,12 +55,12 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
-        public bool AddOnReplace
+        public bool AlwaysIncludeOnReplace
         {
-            get => _addOnReplace;
+            get => _alwaysIncludeOnReplace;
             set
             {
-                _addOnReplace = value;
+                _alwaysIncludeOnReplace = value;
                 OnPropertyChanged();
             }
         }
@@ -183,6 +184,20 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
+        public string Edimsha
+        {
+            get => _edimsha;
+            set
+            {
+                if (value == _edimsha) return;
+                _edimsha = value;
+                
+                _saveSettingsService.SaveConfigurationSettings("Edimsha", value);
+                
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         // Commands
@@ -192,6 +207,8 @@ namespace Edimsha.WPF.ViewModels
         public ICommand IterateSubdirectoriesCommand { get; }
         public ICommand OpenImagesCommand { get; }
         public ICommand OpenOutputFolderCommand { get; }
+        
+        public ICommand AlwaysIncludeOnReplaceCommand { get; }
 
         // Constructor
         public EditorViewModel(
@@ -216,6 +233,7 @@ namespace Edimsha.WPF.ViewModels
             IterateSubdirectoriesCommand = new SaveSettingsCommand(async () => await UpdateSetting("IterateSubdirectories", IterateSubdirectories));
             OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
             OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
+            AlwaysIncludeOnReplaceCommand = new SaveSettingsCommand(async () => await UpdateSetting("AlwaysIncludeOnReplace", AlwaysIncludeOnReplace));
 
             // Loaded
             _isLoadingSettings = SetUserSettings();
@@ -263,6 +281,8 @@ namespace Edimsha.WPF.ViewModels
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
             IterateSubdirectories = _loadSettingsService.LoadConfigurationSetting<bool>("IterateSubdirectories");
             OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>("OutputFolder");
+            Edimsha = _loadSettingsService.LoadConfigurationSetting<string>("Edimsha");
+            AlwaysIncludeOnReplace = _loadSettingsService.LoadConfigurationSetting<bool>("AlwaysIncludeOnReplace");
 
             IsRunningUi = true;
 

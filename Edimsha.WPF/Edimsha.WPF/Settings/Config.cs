@@ -6,5 +6,7 @@ namespace Edimsha.WPF.Settings
         public object CleanListOnExit { get; set; }
         public object IterateSubdirectories { get; set; }
         public object OutputFolder { get; set; }
+        public object Edimsha { get; set; }
+        public object AlwaysIncludeOnReplace { get; set; }
     }
 }
