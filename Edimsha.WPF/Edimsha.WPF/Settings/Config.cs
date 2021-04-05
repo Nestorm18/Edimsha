@@ -8,5 +8,9 @@ namespace Edimsha.WPF.Settings
         public object OutputFolder { get; set; }
         public object Edimsha { get; set; }
         public object AlwaysIncludeOnReplace { get; set; }
+        public object KeepOriginalResolution { get; set; }
+        public object CompresionValue { get; set; }
+        public object OptimizeImage { get; set; }
+        public object ReplaceForOriginal { get; set; }
     }
 }
