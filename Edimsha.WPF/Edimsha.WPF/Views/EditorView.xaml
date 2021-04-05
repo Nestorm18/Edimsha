@@ -122,11 +122,13 @@
                     VerticalAlignment="Center"
                     IsEnabled="{Binding IsRunningUi}"
                     TextWrapping="Wrap"
+                    Text="{Binding OutputFolder}"
                     Watermark="{lang:Localization by_default_same_folder_edimsha_imagename_png}" />
 
                 <Button
                     Grid.Column="2"
                     Content="{lang:Localization select_folder}"
+                    Command="{Binding OpenOutputFolderCommand}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>
 

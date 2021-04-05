@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -24,7 +25,7 @@ namespace Edimsha.WPF.ViewModels
 
         // Fields
         private bool _isLoadingSettings;
-        
+
         // Properties
 
         #region Properties
@@ -41,6 +42,7 @@ namespace Edimsha.WPF.ViewModels
         private string _statusBar;
         private bool _iterateSubdirectories;
         private ObservableCollection<string> _urls;
+        private string _outputFolder;
 
         public bool CleanListOnExit
         {
@@ -167,6 +169,20 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
+        public string OutputFolder
+        {
+            get => _outputFolder;
+            set
+            {
+                if (value == _outputFolder) return;
+
+                _outputFolder = Directory.Exists(value) ? value : string.Empty;
+                _saveSettingsService.SaveConfigurationSettings("OutputFolder", value);
+                
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         // Commands
@@ -175,6 +191,7 @@ namespace Edimsha.WPF.ViewModels
         public ICommand CleanListOnExitCommand { get; }
         public ICommand IterateSubdirectoriesCommand { get; }
         public ICommand OpenImagesCommand { get; }
+        public ICommand OpenOutputFolderCommand { get; }
 
         // Constructor
         public EditorViewModel(
@@ -198,11 +215,12 @@ namespace Edimsha.WPF.ViewModels
             CleanListOnExitCommand = new SaveSettingsCommand(async () => await UpdateSetting("CleanListOnExit", CleanListOnExit));
             IterateSubdirectoriesCommand = new SaveSettingsCommand(async () => await UpdateSetting("IterateSubdirectories", IterateSubdirectories));
             OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
+            OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
 
             // Loaded
             _isLoadingSettings = SetUserSettings();
         }
-        
+
         public void OnFileDrop(string[] filepaths)
         {
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
@@ -244,9 +262,10 @@ namespace Edimsha.WPF.ViewModels
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
             CleanListOnExit = _loadSettingsService.LoadConfigurationSetting<bool>("CleanListOnExit");
             IterateSubdirectories = _loadSettingsService.LoadConfigurationSetting<bool>("IterateSubdirectories");
+            OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>("OutputFolder");
 
             IsRunningUi = true;
-            
+
             UrlsOnCollectionChanged(null, null);
 
             // Configuration has finished so its false for _isLoadingSettings
@@ -263,7 +282,7 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             var success = await _saveSettingsService.SaveConfigurationSettings(setting, value);
-            
+
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
     }
