@@ -7,12 +7,14 @@ namespace Edimsha.WPF.Services.Data
         protected readonly string SettingsPath;
         protected readonly string EditorPathsJson;
         protected readonly string ConversorPathsJson;
+        protected readonly string ResolutionsJson;
 
         protected SettingsService(ConfigPaths settingsPath)
         {
             SettingsPath = settingsPath.SettingsFile;
             EditorPathsJson = settingsPath.EditorPathsJson;
             ConversorPathsJson = settingsPath.ConversorPathsJson;
+            ResolutionsJson = settingsPath.ResolutionsJson;
         }
     }
 }

@@ -1,0 +1,126 @@
+﻿<Window
+    x:Class="Edimsha.WPF.Views.Dialogs.ResolutionDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Edimsha.WPF.Views.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Title="Resoluciones usadas"
+    Width="350"
+    Height="185"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels.DialogsViewModel"
+    d:DataContext="{d:DesignInstance viewmodels:ResolutionDialogViewModel}"
+    mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="Label">
+                <Setter Property="Height" Value="24" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Height" Value="24" />
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Height" Value="24" />
+            </Style>
+            <Style TargetType="xctk:IntegerUpDown">
+                <Setter Property="Height" Value="24" />
+            </Style>
+        </StackPanel.Resources>
+
+        <Grid Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Height="Auto"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Content="Resoluciones:" />
+            <ComboBox
+                Grid.Row="0"
+                SelectedIndex="0"
+                ItemsSource="{Binding Resolutions}"
+                Grid.Column="1"
+                Height="24"
+                Margin="0,0,5,0"
+                IsEnabled="{Binding HasValidResolutions}" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Height="Auto"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Content="Ancho (px) (X):" />
+            <xctk:IntegerUpDown
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,5,5,0" />
+
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Height="Auto"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Content="Alto (px) (Y):" />
+            <xctk:IntegerUpDown
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="0,5,5,0" />
+
+            <Button
+                Grid.Row="3"
+                Grid.Column="1"
+                Height="24"
+                Margin="0,5,5,0"
+                Content="Guardar resolucion"
+                IsEnabled="False" />
+        </Grid>
+
+        <StackPanel>
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5,5,5,5" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    Height="24"
+                    Content="Eliminar"
+                    IsEnabled="False" />
+                <Button
+                    Grid.Column="1"
+                    Height="24"
+                    Command="{Binding CancelCommand, Mode=OneWay}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                    Content="Cancelar" />
+                <Button
+                    Grid.Column="2"
+                    Height="24"
+                    Content="Cargar resolucion"
+                    IsEnabled="False" />
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+</Window>

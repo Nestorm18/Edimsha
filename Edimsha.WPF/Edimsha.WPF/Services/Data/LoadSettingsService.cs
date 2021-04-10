@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Edimsha.WPF.Models;
 using Edimsha.WPF.Settings;
 using Edimsha.WPF.State.Navigators;
 using Newtonsoft.Json;
@@ -42,6 +43,12 @@ namespace Edimsha.WPF.Services.Data
             }
         }
 
-        
+        public List<Resolution> LoadResolutions()
+        {
+            if (!File.Exists(ResolutionsJson)) throw new Exception($"LoadResolutions no ha encontrado archivo");
+
+            var resolutions = File.ReadAllText(ResolutionsJson);
+            return JsonConvert.DeserializeObject<List<Resolution>>(resolutions);
+        }
     }
 }

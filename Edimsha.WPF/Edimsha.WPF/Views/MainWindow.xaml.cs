@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Edimsha.WPF
+namespace Edimsha.WPF.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

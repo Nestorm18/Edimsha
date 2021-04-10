@@ -174,14 +174,14 @@
                             Width="40"
                             Height="24"
                             IsEnabled="False"
-                            Watermark="552" />
+                            Watermark="{Binding WidthImage}" />
 
                         <Label VerticalAlignment="Center" Content="{lang:Localization height_px}" />
                         <xctk:WatermarkTextBox
                             Width="40"
                             Height="24"
                             IsEnabled="False"
-                            Watermark="689" />
+                            Watermark="{Binding HeightImage}" />
                     </StackPanel>
 
                     <CheckBox
@@ -197,6 +197,7 @@
 
                 <Button
                     Grid.Column="2"
+                    Command="{Binding OpenResolutionsDialogCommand}"
                     Content="{lang:Localization resolutions_used}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>

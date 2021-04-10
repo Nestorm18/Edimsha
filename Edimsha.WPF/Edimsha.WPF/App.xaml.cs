@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Edimsha.WPF.HostBuild;
+using Edimsha.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -10,7 +11,7 @@ namespace Edimsha.WPF
     /// </summary>
     public partial class App : Application
     {
-        private readonly IHost _host;
+        private static IHost _host;
         
         public App()
         {
@@ -24,6 +25,11 @@ namespace Edimsha.WPF
                 .AddServices()
                 .AddViewModels()
                 .AddViews();
+        }
+        
+        public static T GetRequiredServiceFromHost<T>()
+        {
+            return _host.Services.GetRequiredService<T>();
         }
         
         protected override void OnStartup(StartupEventArgs e)
@@ -43,5 +49,6 @@ namespace Edimsha.WPF
 
             base.OnExit(e);
         }
+        
     }
 }

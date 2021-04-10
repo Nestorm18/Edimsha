@@ -29,7 +29,7 @@ namespace Edimsha.WPF.ViewModels
         // Properties
 
         #region Properties
-        
+
         private bool _isRunningUi;
         private bool _isStartedUi;
         private bool _isCtxDelete;
@@ -39,6 +39,8 @@ namespace Edimsha.WPF.ViewModels
         private string _outputFolder;
         private string _edimsha;
         private double _compresionValue;
+        private int _widthImage;
+        private int _heightImage;
 
         public bool CleanListOnExit
         {
@@ -207,6 +209,28 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
+        public int WidthImage
+        {
+            get => _widthImage;
+            set
+            {
+                if (value == _widthImage) return;
+                _widthImage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int HeightImage
+        {
+            get => _heightImage;
+            set
+            {
+                if (value == _heightImage) return;
+                _heightImage = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         // Commands
@@ -220,6 +244,8 @@ namespace Edimsha.WPF.ViewModels
         public ICommand OpenImagesCommand { get; }
 
         public ICommand OpenOutputFolderCommand { get; }
+
+        public ICommand OpenResolutionsDialogCommand { get; }
 
         #endregion
 
@@ -244,6 +270,7 @@ namespace Edimsha.WPF.ViewModels
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
             OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
+            OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, _saveSettingsService);
 
             // Loaded
             _isLoadingSettings = SetUserSettings();

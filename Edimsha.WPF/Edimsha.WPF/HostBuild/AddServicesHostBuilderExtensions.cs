@@ -17,7 +17,8 @@ namespace Edimsha.WPF.HostBuild
                 {
                     SettingsFile = context.Configuration.GetValue<string>("SETTINGS_FILE"),
                     EditorPathsJson = context.Configuration.GetValue<string>("EDITOR_PATHS_JSON"),
-                    ConversorPathsJson = context.Configuration.GetValue<string>("CONVERSOR_PATHS_JSON")
+                    ConversorPathsJson = context.Configuration.GetValue<string>("CONVERSOR_PATHS_JSON"),
+                    ResolutionsJson = context.Configuration.GetValue<string>("RESOLUTIONS_JSON")
                 };
                 services.AddSingleton<ISaveSettingsService>(new SaveSettingsService(config));
                 services.AddSingleton<ILoadSettingsService>(new LoadSettingsService(config));
