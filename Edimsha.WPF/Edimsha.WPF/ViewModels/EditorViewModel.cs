@@ -271,9 +271,12 @@ namespace Edimsha.WPF.ViewModels
             OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
             OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
             OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, _saveSettingsService);
-
+            
             // Loaded
             _isLoadingSettings = SetUserSettings();
+            
+            //TODO:Eliminar
+            OpenResolutionsDialogCommand.Execute(null);
         }
 
         public void OnFileDrop(string[] filepaths)
