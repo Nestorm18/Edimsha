@@ -6,12 +6,14 @@
     xmlns:local="clr-namespace:Edimsha.WPF.Views.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     Title="Resoluciones usadas"
     Width="350"
     Height="185"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels.DialogsViewModel"
+    xmlns:converters="clr-namespace:Edimsha.WPF.Converters"
     d:DataContext="{d:DesignInstance viewmodels:ResolutionDialogViewModel}"
     mc:Ignorable="d">
     <StackPanel>
@@ -28,7 +30,9 @@
             <Style TargetType="xctk:IntegerUpDown">
                 <Setter Property="Height" Value="24" />
             </Style>
+            <converters:MultiTextConverter x:Key="multiTextConverter" />
         </StackPanel.Resources>
+
 
         <Grid Margin="0">
             <Grid.RowDefinitions>
@@ -68,7 +72,17 @@
             <xctk:IntegerUpDown
                 Grid.Row="1"
                 Grid.Column="1"
-                Margin="0,5,5,0" />
+                x:Name="Width"
+                Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,5,5,0" >
+                
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="LostFocus">
+                        <i:InvokeCommandAction Command="{Binding Path=LostFocusCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
+            </xctk:IntegerUpDown>
 
             <Label
                 Grid.Row="2"
@@ -79,16 +93,52 @@
                 Content="Alto (px) (Y):" />
             <xctk:IntegerUpDown
                 Grid.Row="2"
+                x:Name="Heigth"
+                Text="{Binding Heigth, UpdateSourceTrigger=PropertyChanged}"
                 Grid.Column="1"
-                Margin="0,5,5,0" />
+                Margin="0,5,5,0" >
+                
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="LostFocus">
+                        <i:InvokeCommandAction Command="{Binding Path=LostFocusCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
+            </xctk:IntegerUpDown>
 
-            <Button
+                <Button
                 Grid.Row="3"
                 Grid.Column="1"
                 Height="24"
                 Margin="0,5,5,0"
                 Content="Guardar resolucion"
-                IsEnabled="False" />
+                Command="{Binding SaveResolutionCommand}">
+                <Button.CommandParameter >
+                    <MultiBinding Converter="{StaticResource multiTextConverter}">
+                        <Binding ElementName="Width" Path="Text" />
+                        <Binding ElementName="Heigth" Path="Text" />
+                    </MultiBinding>
+                </Button.CommandParameter>
+                
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=Width, Path=Text, Mode=OneWay}" Value="0"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=Heigth, Path=Text, Mode=OneWay}" Value="0"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </Grid>
 
         <StackPanel>
@@ -108,7 +158,7 @@
                     Grid.Column="0"
                     Height="24"
                     Content="Eliminar"
-                    IsEnabled="False" />
+                    IsEnabled="{Binding HasValidResolutions}" />
                 <Button
                     Grid.Column="1"
                     Height="24"
@@ -119,7 +169,7 @@
                     Grid.Column="2"
                     Height="24"
                     Content="Cargar resolucion"
-                    IsEnabled="False" />
+                    IsEnabled="{Binding HasValidResolutions}" />
             </Grid>
         </StackPanel>
     </StackPanel>

@@ -16,6 +16,8 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         // Properties
         private ObservableCollection<Resolution> _resolutions;
         private bool _hasValidResolutions;
+        private int _width;
+        private int _heigth;
 
         public bool HasValidResolutions
         {
@@ -39,8 +41,32 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             }
         }
 
+        public int Width
+        {
+            get => _width;
+            set
+            {
+                if (value == _width || value <= 0) return;
+                _width = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Heigth
+        {
+            get => _heigth;
+            set
+            {
+                if (value == _heigth || value <= 0) return;
+                _heigth = value;
+                OnPropertyChanged();
+            }
+        }
+
         // Commands
         public ICommand CancelCommand { get; }
+        public ICommand SaveResolutionCommand { get; }
+        public ICommand LostFocusCommand { get; }
 
         public ResolutionDialogViewModel(
             ILoadSettingsService loadSettingsService,
@@ -54,6 +80,12 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
             // Commands
             CancelCommand = new QuitCommand();
+            SaveResolutionCommand = new SaveResolutionCommand(this, _saveSettingsService);
+            LostFocusCommand = new RelayCommand(() =>
+            {
+                OnPropertyChanged(nameof(Width));
+                OnPropertyChanged(nameof(Heigth));
+            });
 
             SetUserSettings();
         }
@@ -69,7 +101,21 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
         private void SetUserSettings()
         {
-            _loadSettingsService.LoadResolutions()?.ForEach(Resolutions.Add);
+            LoadResolutions();
+        }
+
+        private void LoadResolutions()
+        {
+            Resolutions.Clear();
+
+            var resolutions = _loadSettingsService.LoadResolutions();
+
+            foreach (var resolution in resolutions)
+            {
+                Resolutions.Add(resolution);
+                Width = resolution.Width;
+                Heigth = resolution.Height;
+            }
         }
 
         private void ResolutionsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
