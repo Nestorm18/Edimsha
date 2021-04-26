@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Edimsha.WPF.Models;
 using Edimsha.WPF.Settings;
 using Edimsha.WPF.State.Navigators;
 using Newtonsoft.Json;
@@ -57,6 +58,11 @@ namespace Edimsha.WPF.Services.Data
 
             await File.WriteAllTextAsync(pathFile, JsonConvert.SerializeObject(values.ToList(), Formatting.Indented));
 
+            return true;
+        }
+
+        public async Task<bool> SaveResolutions(IEnumerable<Resolution> resolutions)
+        {
             return true;
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using Edimsha.WPF.Commands;
+using Edimsha.WPF.Commands.Dialogs;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 
@@ -18,6 +19,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         private bool _hasValidResolutions;
         private int _width;
         private int _heigth;
+        private string _errorMessage;
 
         public bool HasValidResolutions
         {
@@ -63,10 +65,22 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             }
         }
 
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                if (value == _errorMessage) return;
+                _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
         // Commands
         public ICommand CancelCommand { get; }
         public ICommand SaveResolutionCommand { get; }
         public ICommand LostFocusCommand { get; }
+        public ICommand SelectionChangedCommand { get; }
 
         public ResolutionDialogViewModel(
             ILoadSettingsService loadSettingsService,
@@ -81,13 +95,26 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             // Commands
             CancelCommand = new QuitCommand();
             SaveResolutionCommand = new SaveResolutionCommand(this, _saveSettingsService);
-            LostFocusCommand = new RelayCommand(() =>
-            {
-                OnPropertyChanged(nameof(Width));
-                OnPropertyChanged(nameof(Heigth));
-            });
+            LostFocusCommand = new RelayCommand(UpdateWidthHeighTextboxes);
+            SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
 
             SetUserSettings();
+        }
+
+        #region Commands
+        
+        #endregion
+        private void ComboboxSelectionChangedEvent(object parameter)
+        {
+            var resolution = (Resolution) parameter;
+            Width = resolution.Width;
+            Heigth = resolution.Height;
+        }
+
+        private void UpdateWidthHeighTextboxes()
+        {
+            OnPropertyChanged(nameof(Width));
+            OnPropertyChanged(nameof(Heigth));
         }
 
         public Resolution GetResolution()
@@ -106,6 +133,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
         private void LoadResolutions()
         {
+            var flag = false;
             Resolutions.Clear();
 
             var resolutions = _loadSettingsService.LoadResolutions();
@@ -113,8 +141,12 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             foreach (var resolution in resolutions)
             {
                 Resolutions.Add(resolution);
+
+                if (flag) continue;
+                // Load first resolution and continue
                 Width = resolution.Width;
                 Heigth = resolution.Height;
+                flag = true;
             }
         }
 

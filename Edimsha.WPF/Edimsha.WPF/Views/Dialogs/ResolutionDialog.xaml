@@ -9,7 +9,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     Title="Resoluciones usadas"
     Width="350"
-    Height="185"
+    Height="210"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels.DialogsViewModel"
@@ -30,9 +30,8 @@
             <Style TargetType="xctk:IntegerUpDown">
                 <Setter Property="Height" Value="24" />
             </Style>
-            <converters:MultiTextConverter x:Key="multiTextConverter" />
+            <converters:MultiTextConverter x:Key="MultiTextConverter" />
         </StackPanel.Resources>
-
 
         <Grid Margin="0">
             <Grid.RowDefinitions>
@@ -46,6 +45,7 @@
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
+            <!-- Resolution message -->
             <Label
                 Grid.Row="0"
                 Grid.Column="0"
@@ -53,15 +53,26 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Content="Resoluciones:" />
+
+            <!-- Load resolutions inside and update textboxes -->
             <ComboBox
                 Grid.Row="0"
                 SelectedIndex="0"
+                x:Name="Combo"
                 ItemsSource="{Binding Resolutions}"
                 Grid.Column="1"
                 Height="24"
                 Margin="0,0,5,0"
-                IsEnabled="{Binding HasValidResolutions}" />
+                IsEnabled="{Binding HasValidResolutions}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}"
+                                               CommandParameter="{Binding ElementName=Combo, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
 
+            <!-- Width message -->
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
@@ -69,21 +80,22 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Content="Ancho (px) (X):" />
+
+            <!-- Change width and prevent 0 or negative numbers -->
             <xctk:IntegerUpDown
                 Grid.Row="1"
                 Grid.Column="1"
                 x:Name="Width"
                 Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}"
-                Margin="0,5,5,0" >
-                
+                Margin="0,5,5,0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="LostFocus">
-                        <i:InvokeCommandAction Command="{Binding Path=LostFocusCommand}"/>
+                        <i:InvokeCommandAction Command="{Binding Path=LostFocusCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                
             </xctk:IntegerUpDown>
 
+            <!-- Height message  -->
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
@@ -91,56 +103,39 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Content="Alto (px) (Y):" />
+
+            <!-- Change height and prevent 0 or negative numbers -->
             <xctk:IntegerUpDown
                 Grid.Row="2"
                 x:Name="Heigth"
                 Text="{Binding Heigth, UpdateSourceTrigger=PropertyChanged}"
                 Grid.Column="1"
-                Margin="0,5,5,0" >
-                
+                Margin="0,5,5,0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="LostFocus">
-                        <i:InvokeCommandAction Command="{Binding Path=LostFocusCommand}"/>
+                        <i:InvokeCommandAction Command="{Binding Path=LostFocusCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                
             </xctk:IntegerUpDown>
 
-                <Button
+            <!-- Save resolution but check that it does not exist -->
+            <Button
                 Grid.Row="3"
                 Grid.Column="1"
                 Height="24"
                 Margin="0,5,5,0"
                 Content="Guardar resolucion"
                 Command="{Binding SaveResolutionCommand}">
-                <Button.CommandParameter >
-                    <MultiBinding Converter="{StaticResource multiTextConverter}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiTextConverter}">
                         <Binding ElementName="Width" Path="Text" />
                         <Binding ElementName="Heigth" Path="Text" />
                     </MultiBinding>
                 </Button.CommandParameter>
-                
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding ElementName=Width, Path=Text, Mode=OneWay}" Value="0"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding ElementName=Heigth, Path=Text, Mode=OneWay}" Value="0"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
             </Button>
         </Grid>
 
+        <!-- Buttons to delete, cancel or save resolution -->
         <StackPanel>
             <Grid>
                 <Grid.Resources>
@@ -154,17 +149,22 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
+                <!-- Delete message -->
                 <Button
                     Grid.Column="0"
                     Height="24"
                     Content="Eliminar"
                     IsEnabled="{Binding HasValidResolutions}" />
+
+                <!-- Cancel message -->
                 <Button
                     Grid.Column="1"
                     Height="24"
                     Command="{Binding CancelCommand, Mode=OneWay}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                     Content="Cancelar" />
+
+                <!-- Load resolution message -->
                 <Button
                     Grid.Column="2"
                     Height="24"
@@ -172,5 +172,8 @@
                     IsEnabled="{Binding HasValidResolutions}" />
             </Grid>
         </StackPanel>
+
+        <TextBlock HorizontalAlignment="Center" FontWeight="Bold" 
+                   Text="{Binding ErrorMessage}" />
     </StackPanel>
 </Window>

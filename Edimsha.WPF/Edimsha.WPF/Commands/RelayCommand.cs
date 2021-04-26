@@ -5,15 +5,14 @@ namespace Edimsha.WPF.Commands
 {
     public class RelayCommand : ICommand
     {
-        private Action mAction;
+        private Action _mAction;
 
         public event EventHandler CanExecuteChanged = (sender, e) => { };
 
         public RelayCommand(Action action)
         {
-            mAction = action;
+            _mAction = action;
         }
-
 
         public bool CanExecute(object parameter)
         {
@@ -22,7 +21,7 @@ namespace Edimsha.WPF.Commands
 
         public void Execute(object parameter)
         {
-            mAction();
+            _mAction();
         }
     }
 }

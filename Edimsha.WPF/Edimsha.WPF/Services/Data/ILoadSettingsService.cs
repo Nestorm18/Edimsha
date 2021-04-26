@@ -10,6 +10,6 @@ namespace Edimsha.WPF.Services.Data
 
         List<string> LoadPathsListview(ViewType type);
         
-        List<Resolution> LoadResolutions();
+        IEnumerable<Resolution> LoadResolutions();
     }
 }

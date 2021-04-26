@@ -43,7 +43,7 @@ namespace Edimsha.WPF.Services.Data
             }
         }
 
-        public List<Resolution> LoadResolutions()
+        public IEnumerable<Resolution> LoadResolutions()
         {
             if (!File.Exists(ResolutionsJson)) throw new Exception($"LoadResolutions no ha encontrado archivo");
 
