@@ -31,7 +31,7 @@ namespace Edimsha.WPF.Services.Data
                     propertyInfo.SetValue(config, Convert.ChangeType(value, propertyInfo.PropertyType), null);
                 else
                     return false;
-                
+
                 newconfig = config;
             }
 
@@ -63,6 +63,12 @@ namespace Edimsha.WPF.Services.Data
 
         public async Task<bool> SaveResolutions(IEnumerable<Resolution> resolutions)
         {
+            if (!File.Exists(ResolutionsJson)) throw new Exception($"SaveResolutions no ha encontrado archivo");
+
+            var formatedJson = JsonConvert.SerializeObject(resolutions, Formatting.Indented);
+            
+            await File.WriteAllTextAsync(ResolutionsJson, formatedJson);
+
             return true;
         }
     }
