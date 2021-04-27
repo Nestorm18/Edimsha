@@ -52,6 +52,8 @@ namespace Edimsha.WPF.Commands.Dialogs
                 _saveSettingsService.SaveResolutions(_resolutionDialogViewModel.Resolutions);
                 // todo: Mensage en archivo de traducciones
                 _resolutionDialogViewModel.ErrorMessage = "Resolucion guardada!";
+
+                _resolutionDialogViewModel.CmbIndex = _resolutionDialogViewModel.Resolutions.Count - 1;
             }
         }
 

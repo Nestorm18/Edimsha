@@ -57,7 +57,7 @@
             <!-- Load resolutions inside and update textboxes -->
             <ComboBox
                 Grid.Row="0"
-                SelectedIndex="0"
+                SelectedIndex="{Binding CmbIndex}"
                 x:Name="Combo"
                 ItemsSource="{Binding Resolutions}"
                 Grid.Column="1"
@@ -132,6 +132,20 @@
                         <Binding ElementName="Heigth" Path="Text" />
                     </MultiBinding>
                 </Button.CommandParameter>
+                
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="ErrorMessage"
+                                    Storyboard.TargetProperty="(TextBlock.Opacity)"
+                                    From="1" To="0.0" Duration="0:0:3" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+                
             </Button>
         </Grid>
 
@@ -173,7 +187,8 @@
             </Grid>
         </StackPanel>
 
-        <TextBlock HorizontalAlignment="Center" FontWeight="Bold" 
-                   Text="{Binding ErrorMessage}" />
+        <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
+                   x:Name="ErrorMessage"
+                   Text="{Binding ErrorMessage, NotifyOnTargetUpdated=True}" />
     </StackPanel>
 </Window>

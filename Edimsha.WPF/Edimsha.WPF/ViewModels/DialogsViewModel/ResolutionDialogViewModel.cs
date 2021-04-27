@@ -20,6 +20,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         private int _width;
         private int _heigth;
         private string _errorMessage;
+        private int _cmbIndex;
 
         public bool HasValidResolutions
         {
@@ -76,6 +77,17 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             }
         }
 
+        public int CmbIndex
+        {
+            get => _cmbIndex;
+            set
+            {
+                if (value == _cmbIndex) return;
+                _cmbIndex = value;
+                OnPropertyChanged();
+            }
+        }
+
         // Commands
         public ICommand CancelCommand { get; }
         public ICommand SaveResolutionCommand { get; }
@@ -97,6 +109,9 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             SaveResolutionCommand = new SaveResolutionCommand(this, _saveSettingsService);
             LostFocusCommand = new RelayCommand(UpdateWidthHeighTextboxes);
             SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
+            
+            // TODO: eliminar
+            // TODO: cargar
 
             SetUserSettings();
         }
@@ -148,6 +163,8 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
                 Heigth = resolution.Height;
                 flag = true;
             }
+
+            CmbIndex = 0;
         }
 
         private void ResolutionsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
