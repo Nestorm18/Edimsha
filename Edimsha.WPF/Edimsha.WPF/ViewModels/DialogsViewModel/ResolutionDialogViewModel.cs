@@ -15,15 +15,17 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         private readonly ISaveSettingsService _saveSettingsService;
 
         // Propertie returned
-        public Resolution GetResolution()
+        public Resolution? GetResolution()
         {
-            return new()
+            if (Width == -1 || Heigth == -1) return null;
+
+            return new Resolution
             {
-                Width = 1,
-                Height = 1
+                Width = Width,
+                Height = Heigth
             };
         }
-        
+
         // Properties
         private ObservableCollection<Resolution> _resolutions;
         private bool _hasValidResolutions;
@@ -59,6 +61,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             get => _width;
             set
             {
+                // TODO: Aceptar -1 como valor
                 if (value == _width || value <= 0) return;
                 _width = value;
                 OnPropertyChanged();
@@ -70,6 +73,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             get => _heigth;
             set
             {
+                // TODO: Aceptar -1 como valor
                 if (value == _heigth || value <= 0) return;
                 _heigth = value;
                 OnPropertyChanged();
@@ -116,24 +120,25 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             Resolutions.CollectionChanged += ResolutionsOnCollectionChanged;
 
             // Commands
-            CancelCommand = new QuitCommand();
+            CancelCommand = new QuitCommandResolutions(this);
             SaveResolutionCommand = new SaveResolutionCommand(this, _saveSettingsService);
             LostFocusCommand = new RelayCommand(UpdateWidthHeighTextboxes);
             SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
             RemoveResolutionCommand = new RemoveResolutionCommand(this, _saveSettingsService);
-            
+
             // TODO: cargar
 
             SetUserSettings();
         }
 
         #region Commands
-        
+
         #endregion
+
         private void ComboboxSelectionChangedEvent(object parameter)
         {
             if (!(parameter is Resolution resolution)) return;
-            
+
             Width = resolution.Width;
             Heigth = resolution.Height;
         }
@@ -143,7 +148,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             OnPropertyChanged(nameof(Width));
             OnPropertyChanged(nameof(Heigth));
         }
-        
+
         private void SetUserSettings()
         {
             LoadResolutions();

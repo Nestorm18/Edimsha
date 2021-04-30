@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Edimsha.WPF.Annotations;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
@@ -30,6 +31,7 @@ namespace Edimsha.WPF.Services.Dialogs
             return dlg.ShowDialog() == CommonFileDialogResult.Ok ? dlg.FileName : null;
         }
 
+        [CanBeNull]
         public async Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService)
         {
             var vm = new ResolutionDialogViewModel(loadSettingsService, saveSettingsService);
