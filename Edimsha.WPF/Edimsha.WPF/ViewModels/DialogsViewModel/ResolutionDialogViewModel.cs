@@ -14,6 +14,16 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         private readonly ILoadSettingsService _loadSettingsService;
         private readonly ISaveSettingsService _saveSettingsService;
 
+        // Propertie returned
+        public Resolution GetResolution()
+        {
+            return new()
+            {
+                Width = 1,
+                Height = 1
+            };
+        }
+        
         // Properties
         private ObservableCollection<Resolution> _resolutions;
         private bool _hasValidResolutions;
@@ -91,6 +101,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         // Commands
         public ICommand CancelCommand { get; }
         public ICommand SaveResolutionCommand { get; }
+        public ICommand RemoveResolutionCommand { get; }
         public ICommand LostFocusCommand { get; }
         public ICommand SelectionChangedCommand { get; }
 
@@ -109,8 +120,8 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             SaveResolutionCommand = new SaveResolutionCommand(this, _saveSettingsService);
             LostFocusCommand = new RelayCommand(UpdateWidthHeighTextboxes);
             SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
+            RemoveResolutionCommand = new RemoveResolutionCommand(this, _saveSettingsService);
             
-            // TODO: eliminar
             // TODO: cargar
 
             SetUserSettings();
@@ -121,7 +132,8 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         #endregion
         private void ComboboxSelectionChangedEvent(object parameter)
         {
-            var resolution = (Resolution) parameter;
+            if (!(parameter is Resolution resolution)) return;
+            
             Width = resolution.Width;
             Heigth = resolution.Height;
         }
@@ -131,16 +143,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             OnPropertyChanged(nameof(Width));
             OnPropertyChanged(nameof(Heigth));
         }
-
-        public Resolution GetResolution()
-        {
-            return new()
-            {
-                Width = 1,
-                Height = 1
-            };
-        }
-
+        
         private void SetUserSettings()
         {
             LoadResolutions();
