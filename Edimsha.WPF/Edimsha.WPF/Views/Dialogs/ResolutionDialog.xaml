@@ -86,13 +86,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="0,5,5,0"
-                Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="LostFocus">
-                        <i:InvokeCommandAction Command="{Binding Path=LostFocusCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </xctk:IntegerUpDown>
+                Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
 
             <!--  Height message  -->
             <Label
@@ -109,13 +103,7 @@
                 Grid.Row="2"
                 Grid.Column="1"
                 Margin="0,5,5,0"
-                Text="{Binding Heigth, UpdateSourceTrigger=PropertyChanged}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="LostFocus">
-                        <i:InvokeCommandAction Command="{Binding Path=LostFocusCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </xctk:IntegerUpDown>
+                Text="{Binding Heigth, UpdateSourceTrigger=PropertyChanged}" />
 
             <!--  Save resolution but check that it does not exist  -->
             <Button

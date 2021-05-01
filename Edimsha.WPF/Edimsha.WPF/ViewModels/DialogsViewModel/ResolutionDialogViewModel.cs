@@ -61,7 +61,6 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             get => _width;
             set
             {
-                // TODO: Aceptar -1 como valor
                 if ((value == _width || value <= 0) && value != -1) return;
 
                 _width = value;
@@ -74,8 +73,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             get => _heigth;
             set
             {
-                // TODO: Aceptar -1 como valor
-                if ((value == _width || value <= 0) && value != -1) return;
+                if ((value == _heigth || value <= 0) && value != -1) return;
                 _heigth = value;
                 OnPropertyChanged();
             }
@@ -108,7 +106,6 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         public ICommand AcceptCommand { get; }
         public ICommand SaveResolutionCommand { get; }
         public ICommand RemoveResolutionCommand { get; }
-        public ICommand LostFocusCommand { get; }
         public ICommand SelectionChangedCommand { get; }
 
         public ResolutionDialogViewModel(
@@ -125,7 +122,6 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             CancelCommand = new QuitResolutionsCommand(this);
             AcceptCommand = new AcceptResolutionCommand();
             SaveResolutionCommand = new SaveResolutionCommand(this, _saveSettingsService);
-            LostFocusCommand = new RelayCommand(UpdateWidthHeighTextboxes);
             SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
             RemoveResolutionCommand = new RemoveResolutionCommand(this, _saveSettingsService);
             
@@ -143,13 +139,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             Width = resolution.Width;
             Heigth = resolution.Height;
         }
-
-        private void UpdateWidthHeighTextboxes()
-        {
-            OnPropertyChanged(nameof(Width));
-            OnPropertyChanged(nameof(Heigth));
-        }
-
+        
         private void SetUserSettings()
         {
             LoadResolutions();

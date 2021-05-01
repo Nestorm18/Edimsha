@@ -40,6 +40,9 @@ namespace Edimsha.WPF.Commands.Dialogs
                 Height = int.Parse(height)
             };
 
+            Console.WriteLine(currentResolution.Width);
+            Console.WriteLine(currentResolution.Height);
+            
             if (ExistCurrentResolution(currentResolution))
             {
                 // todo: Mensage en archivo de traducciones
