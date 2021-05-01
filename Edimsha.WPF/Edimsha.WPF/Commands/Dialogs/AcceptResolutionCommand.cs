@@ -2,18 +2,12 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Edimsha.WPF.ViewModels.DialogsViewModel;
 
 namespace Edimsha.WPF.Commands.Dialogs
 {
-    public class QuitCommandResolutions : ICommand
-    {
-        public QuitCommandResolutions(ResolutionDialogViewModel resolutionDialogViewModel)
-        {
-            resolutionDialogViewModel.Width = -1;
-            resolutionDialogViewModel.Heigth = -1;
-        }
+    public class AcceptResolutionCommand : ICommand
 
+    {
         public bool CanExecute(object? parameter)
         {
             return true;

@@ -208,6 +208,8 @@
                 <Button
                     Grid.Column="2"
                     Height="24"
+                    Command="{Binding AcceptCommand, Mode=OneWay}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                     Content="Cargar resolucion"
                     IsEnabled="{Binding HasValidResolutions}" />
             </Grid>

@@ -14,7 +14,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         private readonly ILoadSettingsService _loadSettingsService;
         private readonly ISaveSettingsService _saveSettingsService;
 
-        // Propertie returned
+        // Property to return as Resolution
         public Resolution? GetResolution()
         {
             if (Width == -1 || Heigth == -1) return null;
@@ -62,7 +62,8 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             set
             {
                 // TODO: Aceptar -1 como valor
-                if (value == _width || value <= 0) return;
+                if ((value == _width || value <= 0) && value != -1) return;
+
                 _width = value;
                 OnPropertyChanged();
             }
@@ -74,7 +75,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             set
             {
                 // TODO: Aceptar -1 como valor
-                if (value == _heigth || value <= 0) return;
+                if ((value == _width || value <= 0) && value != -1) return;
                 _heigth = value;
                 OnPropertyChanged();
             }
@@ -104,6 +105,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
         // Commands
         public ICommand CancelCommand { get; }
+        public ICommand AcceptCommand { get; }
         public ICommand SaveResolutionCommand { get; }
         public ICommand RemoveResolutionCommand { get; }
         public ICommand LostFocusCommand { get; }
@@ -120,14 +122,13 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             Resolutions.CollectionChanged += ResolutionsOnCollectionChanged;
 
             // Commands
-            CancelCommand = new QuitCommandResolutions(this);
+            CancelCommand = new QuitResolutionsCommand(this);
+            AcceptCommand = new AcceptResolutionCommand();
             SaveResolutionCommand = new SaveResolutionCommand(this, _saveSettingsService);
             LostFocusCommand = new RelayCommand(UpdateWidthHeighTextboxes);
             SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
             RemoveResolutionCommand = new RemoveResolutionCommand(this, _saveSettingsService);
-
-            // TODO: cargar
-
+            
             SetUserSettings();
         }
 

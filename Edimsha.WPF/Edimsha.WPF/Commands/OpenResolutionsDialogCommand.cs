@@ -33,12 +33,12 @@ namespace Edimsha.WPF.Commands
 
         public void Execute(object? parameter)
         {
-            var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService);
-
+            var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService).Result;
+            
             if (res == null) return;
 
-            _editorViewModel.HeightImage = res.Result.Height;
-            _editorViewModel.WidthImage = res.Result.Width;
+            _editorViewModel.HeightImage = res.Height;
+            _editorViewModel.WidthImage = res.Width;
         }
 
         public event EventHandler? CanExecuteChanged;
