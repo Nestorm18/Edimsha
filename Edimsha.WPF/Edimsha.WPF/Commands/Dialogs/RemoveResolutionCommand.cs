@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Windows.Input;
+using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
@@ -46,8 +47,9 @@ namespace Edimsha.WPF.Commands.Dialogs
                 break;
             }
             
-            // todo: Mensage en archivo de traducciones
-            _resolutionDialogViewModel.ErrorMessage = "Resolucion eliminada!";
+            var ts = TranslationSource.Instance;
+
+            _resolutionDialogViewModel.ErrorMessage = ts["deleted_resolution"];
             _resolutionDialogViewModel.CmbIndex = 0;
             
             _saveSettingsService.SaveResolutions(_resolutionDialogViewModel.Resolutions);

@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:Edimsha.WPF.Views.Dialogs"
+    xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels.DialogsViewModel"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -52,7 +53,7 @@
                 Height="Auto"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Resoluciones:" />
+                Content="{lang:Localization resolutions}" />
 
             <!--  Load resolutions inside and update textboxes  -->
             <ComboBox
@@ -78,7 +79,7 @@
                 Height="Auto"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Ancho (px) (X):" />
+                Content="{lang:Localization widthpxx}" />
 
             <!--  Change width and prevent 0 or negative numbers  -->
             <xctk:IntegerUpDown
@@ -95,7 +96,7 @@
                 Height="Auto"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Alto (px) (Y):" />
+                Content="{lang:Localization heightpxy}" />
 
             <!--  Change height and prevent 0 or negative numbers  -->
             <xctk:IntegerUpDown
@@ -112,7 +113,7 @@
                 Height="24"
                 Margin="0,5,5,0"
                 Command="{Binding SaveResolutionCommand}"
-                Content="Guardar resolucion">
+                Content="{lang:Localization save_resolution}">
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource MultiTextConverter}">
                         <Binding ElementName="Width" Path="Text" />
@@ -157,7 +158,7 @@
                     Grid.Column="0"
                     Height="24"
                     Command="{Binding RemoveResolutionCommand}"
-                    Content="Eliminar"
+                    Content="{lang:Localization remove}"
                     IsEnabled="{Binding HasValidResolutions}">
 
                     <Button.CommandParameter>
@@ -190,7 +191,7 @@
                     Height="24"
                     Command="{Binding CancelCommand, Mode=OneWay}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                    Content="Cancelar" />
+                    Content="{lang:Localization cancel}" />
 
                 <!--  Load resolution message  -->
                 <Button
@@ -198,7 +199,7 @@
                     Height="24"
                     Command="{Binding AcceptCommand, Mode=OneWay}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                    Content="Cargar resolucion"
+                    Content="{lang:Localization load_resolution}"
                     IsEnabled="{Binding HasValidResolutions}" />
             </Grid>
         </StackPanel>

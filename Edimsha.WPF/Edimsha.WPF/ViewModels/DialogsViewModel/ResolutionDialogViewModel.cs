@@ -116,7 +116,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             ILoadSettingsService loadSettingsService,
             ISaveSettingsService saveSettingsService)
         {
-            // TODO: Formatear codigo para serguir orden UI e aniadir documentacion
+            // TODO: aniadir documentacion
             _loadSettingsService = loadSettingsService;
             ISaveSettingsService saveSettingsService1 = saveSettingsService;
 

@@ -88,6 +88,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string cancel {
+            get {
+                return ResourceManager.GetString("cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change edimsha to:.
         /// </summary>
         internal static string change_edimsha_to {
@@ -138,6 +147,15 @@ namespace Edimsha.WPF.Lang {
         internal static string delete_paths_on_exit {
             get {
                 return ResourceManager.GetString("delete_paths_on_exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted resolution!.
+        /// </summary>
+        internal static string deleted_resolution {
+            get {
+                return ResourceManager.GetString("deleted_resolution", resourceCulture);
             }
         }
         
@@ -196,6 +214,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Height (px) (Y):.
+        /// </summary>
+        internal static string heightpxy {
+            get {
+                return ResourceManager.GetString("heightpxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image files.
         /// </summary>
         internal static string image_files {
@@ -237,6 +264,15 @@ namespace Edimsha.WPF.Lang {
         internal static string list_options {
             get {
                 return ResourceManager.GetString("list_options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load resolution.
+        /// </summary>
+        internal static string load_resolution {
+            get {
+                return ResourceManager.GetString("load_resolution", resourceCulture);
             }
         }
         
@@ -286,6 +322,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string remove {
+            get {
+                return ResourceManager.GetString("remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replace with original image.
         /// </summary>
         internal static string replace_with_original_image {
@@ -304,11 +349,38 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resolution saved!.
+        /// </summary>
+        internal static string resolution_saved {
+            get {
+                return ResourceManager.GetString("resolution_saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resolutions:.
+        /// </summary>
+        internal static string resolutions {
+            get {
+                return ResourceManager.GetString("resolutions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resolutions used.
         /// </summary>
         internal static string resolutions_used {
             get {
                 return ResourceManager.GetString("resolutions_used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save resolution.
+        /// </summary>
+        internal static string save_resolution {
+            get {
+                return ResourceManager.GetString("save_resolution", resourceCulture);
             }
         }
         
@@ -385,11 +457,29 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The resolution already exists!.
+        /// </summary>
+        internal static string the_resolution_already_exists {
+            get {
+                return ResourceManager.GetString("the_resolution_already_exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Width (px):.
         /// </summary>
         internal static string width_px {
             get {
                 return ResourceManager.GetString("width_px", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Width (px) (Y):.
+        /// </summary>
+        internal static string widthpxx {
+            get {
+                return ResourceManager.GetString("widthpxx", resourceCulture);
             }
         }
     }

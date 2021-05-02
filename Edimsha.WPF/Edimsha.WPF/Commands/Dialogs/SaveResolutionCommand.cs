@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
+using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
@@ -28,6 +29,8 @@ namespace Edimsha.WPF.Commands.Dialogs
 
         public void Execute(object? parameter)
         {
+            var ts = TranslationSource.Instance;
+            
             var values = (object[]) parameter!;
             var width = (string) values[0];
             var height = (string) values[1];
@@ -42,17 +45,15 @@ namespace Edimsha.WPF.Commands.Dialogs
             
             if (ExistCurrentResolution(currentResolution))
             {
-                // todo: Mensage en archivo de traducciones
-                _resolutionDialogViewModel.ErrorMessage = "La resolucion ya existe!";
+                _resolutionDialogViewModel.ErrorMessage = ts["the_resolution_already_exists"];
             }
             else
             {
                 _resolutionDialogViewModel.Resolutions.Add(currentResolution);
-                // todo: Seleccionar ultimo elemento 
+                
                 _saveSettingsService.SaveResolutions(_resolutionDialogViewModel.Resolutions);
-                // todo: Mensage en archivo de traducciones
-                _resolutionDialogViewModel.ErrorMessage = "Resolucion guardada!";
-
+               
+                _resolutionDialogViewModel.ErrorMessage = ts["resolution_saved"];
                 _resolutionDialogViewModel.CmbIndex = _resolutionDialogViewModel.Resolutions.Count - 1;
             }
         }

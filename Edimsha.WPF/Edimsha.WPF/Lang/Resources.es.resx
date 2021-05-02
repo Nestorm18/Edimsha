@@ -128,4 +128,34 @@
   <data name="list_options" xml:space="preserve">
     <value>Opciones de la lista:</value>
   </data>
+  <data name="resolutions" xml:space="preserve">
+    <value>Resoluciones:</value>
+  </data>
+  <data name="load_resolution" xml:space="preserve">
+    <value>Cargar resolucion</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="save_resolution" xml:space="preserve">
+    <value>Guardar resolucion</value>
+  </data>
+  <data name="heightpxy" xml:space="preserve">
+    <value>Alto (px) (Y):</value>
+  </data>
+  <data name="widthpxx" xml:space="preserve">
+    <value>Ancho (px) (X):</value>
+  </data>
+  <data name="deleted_resolution" xml:space="preserve">
+    <value>Resolucion eliminada!</value>
+  </data>
+  <data name="the_resolution_already_exists" xml:space="preserve">
+    <value>La resolución ya existe!</value>
+  </data>
+  <data name="resolution_saved" xml:space="preserve">
+    <value>Resolucion guardada!</value>
+  </data>
 </root>
