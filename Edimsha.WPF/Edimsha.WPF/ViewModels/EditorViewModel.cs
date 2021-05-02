@@ -274,9 +274,6 @@ namespace Edimsha.WPF.ViewModels
             
             // Loaded
             _isLoadingSettings = SetUserSettings();
-            
-            //TODO:Eliminar
-            // OpenResolutionsDialogCommand.Execute(null);
         }
 
         public void OnFileDrop(string[] filepaths)

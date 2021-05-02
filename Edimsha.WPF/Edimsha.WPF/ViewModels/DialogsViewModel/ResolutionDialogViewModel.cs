@@ -12,7 +12,6 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
     public class ResolutionDialogViewModel : ViewModelBase
     {
         private readonly ILoadSettingsService _loadSettingsService;
-        private readonly ISaveSettingsService _saveSettingsService;
 
         // Property to return as Resolution
         public Resolution? GetResolution()
@@ -27,12 +26,12 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         }
 
         // Properties
-        private ObservableCollection<Resolution> _resolutions;
         private bool _hasValidResolutions;
+        private ObservableCollection<Resolution> _resolutions = null!;
+        private int _cmbIndex;
         private int _width;
         private int _heigth;
-        private string _errorMessage;
-        private int _cmbIndex;
+        private string _errorMessage = null!;
 
         public bool HasValidResolutions
         {
@@ -52,6 +51,17 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             {
                 if (Equals(value, _resolutions)) return;
                 _resolutions = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int CmbIndex
+        {
+            get => _cmbIndex;
+            set
+            {
+                if (value == _cmbIndex) return;
+                _cmbIndex = value;
                 OnPropertyChanged();
             }
         }
@@ -90,47 +100,47 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             }
         }
 
-        public int CmbIndex
-        {
-            get => _cmbIndex;
-            set
-            {
-                if (value == _cmbIndex) return;
-                _cmbIndex = value;
-                OnPropertyChanged();
-            }
-        }
-
         // Commands
-        public ICommand CancelCommand { get; }
-        public ICommand AcceptCommand { get; }
-        public ICommand SaveResolutionCommand { get; }
-        public ICommand RemoveResolutionCommand { get; }
         public ICommand SelectionChangedCommand { get; }
+       
+        public ICommand SaveResolutionCommand { get; }
+        
+        public ICommand RemoveResolutionCommand { get; }
+        
+        public ICommand CancelCommand { get; }
+       
+        public ICommand AcceptCommand { get; }
+       
 
         public ResolutionDialogViewModel(
             ILoadSettingsService loadSettingsService,
             ISaveSettingsService saveSettingsService)
         {
+            // TODO: Formatear codigo para serguir orden UI e aniadir documentacion
             _loadSettingsService = loadSettingsService;
-            _saveSettingsService = saveSettingsService;
+            ISaveSettingsService saveSettingsService1 = saveSettingsService;
 
             Resolutions = new ObservableCollection<Resolution>();
             Resolutions.CollectionChanged += ResolutionsOnCollectionChanged;
 
             // Commands
+            SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
+            SaveResolutionCommand = new SaveResolutionCommand(this, saveSettingsService1);
+            RemoveResolutionCommand = new RemoveResolutionCommand(this, saveSettingsService1);
             CancelCommand = new QuitResolutionsCommand(this);
             AcceptCommand = new AcceptResolutionCommand();
-            SaveResolutionCommand = new SaveResolutionCommand(this, _saveSettingsService);
-            SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
-            RemoveResolutionCommand = new RemoveResolutionCommand(this, _saveSettingsService);
-            
+
             SetUserSettings();
         }
 
         #region Commands
 
         #endregion
+
+        private void ResolutionsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (Resolutions.Count > 0) HasValidResolutions = true;
+        }
 
         private void ComboboxSelectionChangedEvent(object parameter)
         {
@@ -139,7 +149,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             Width = resolution.Width;
             Heigth = resolution.Height;
         }
-        
+
         private void SetUserSettings()
         {
             LoadResolutions();
@@ -164,14 +174,6 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             }
 
             CmbIndex = 0;
-        }
-
-        private void ResolutionsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (Resolutions.Count > 0)
-            {
-                HasValidResolutions = true;
-            }
         }
     }
 }

@@ -203,6 +203,7 @@
             </Grid>
         </StackPanel>
 
+        <!-- Error message -->
         <TextBlock
             x:Name="ErrorMessage"
             HorizontalAlignment="Center"

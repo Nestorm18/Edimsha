@@ -39,9 +39,6 @@ namespace Edimsha.WPF.Commands.Dialogs
                 Width = int.Parse(width),
                 Height = int.Parse(height)
             };
-
-            Console.WriteLine(currentResolution.Width);
-            Console.WriteLine(currentResolution.Height);
             
             if (ExistCurrentResolution(currentResolution))
             {
