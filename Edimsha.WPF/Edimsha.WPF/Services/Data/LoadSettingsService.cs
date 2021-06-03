@@ -16,15 +16,22 @@ namespace Edimsha.WPF.Services.Data
 
         public T LoadConfigurationSetting<T>(string settingName)
         {
-            using (var settings = File.OpenText(SettingsPath))
+            try
             {
-                var serializer = new JsonSerializer();
-                var config = (Config) serializer.Deserialize(settings, typeof(Config));
+                using (var settings = File.OpenText(SettingsPath))
+                {
+                    var serializer = new JsonSerializer();
+                    var config = (Config) serializer.Deserialize(settings, typeof(Config));
 
-                if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
+                    if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
+                }
             }
-
-            throw new Exception($"LoadConfigurationSetting no ha encontrado {settingName}");
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return (T) new object();
         }
 
         public List<string> LoadPathsListview(ViewType type)
