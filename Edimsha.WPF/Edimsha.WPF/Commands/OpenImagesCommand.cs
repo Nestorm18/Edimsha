@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Dialogs;
+using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 using Edimsha.WPF.ViewModels;
 
@@ -28,6 +29,10 @@ namespace Edimsha.WPF.Commands
             return true;
         }
 
+        /// <summary>
+        /// In case Drag and Drop does not work, you can select folders or images.
+        /// </summary>
+        /// <param name="parameter">A current <see cref="ViewType"/> in use.</param>
         public async void Execute(object? parameter)
         {
             var filter = CreateFilter(ImageFormatsFromViewType.GetImageType(parameter));
@@ -47,7 +52,12 @@ namespace Edimsha.WPF.Commands
             foreach (var s in listCleaned) _editorViewModel.Urls.Add(s);
         }
 
-        private string CreateFilter(IEnumerable getImageType)
+        /// <summary>
+        /// Creates the filter used in file browsers based on the formats supported by the application at the current time.
+        /// </summary>
+        /// <param name="getImageType">All avaliable format for current <see cref="ViewType"/>.</param>
+        /// <returns>Formmated string to use as filter.</returns>
+        private static string CreateFilter(IEnumerable getImageType)
         {
             var builder = new StringBuilder();
             var builderSecond = new StringBuilder();

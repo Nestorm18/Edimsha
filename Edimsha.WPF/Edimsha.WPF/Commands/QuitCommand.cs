@@ -12,6 +12,10 @@ namespace Edimsha.WPF.Commands
             return true;
         }
 
+        /// <summary>
+        /// Closes the window that is passed by parameter
+        /// </summary>
+        /// <param name="parameter">Window to close.</param>
         public void Execute(object? parameter)
         {
             if (parameter == null) return;

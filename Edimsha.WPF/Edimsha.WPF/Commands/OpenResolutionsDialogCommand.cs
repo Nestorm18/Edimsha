@@ -31,6 +31,10 @@ namespace Edimsha.WPF.Commands
             return true;
         }
 
+        /// <summary>
+        /// Opens the resolution selection dialog and updates the GUI with the corresponding values.
+        /// </summary>
+        /// <param name="parameter">Unused.</param>
         public void Execute(object? parameter)
         {
             var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService).Result;

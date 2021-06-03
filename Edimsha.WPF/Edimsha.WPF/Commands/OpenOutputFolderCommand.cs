@@ -23,6 +23,10 @@ namespace Edimsha.WPF.Commands
             return true;
         }
 
+        /// <summary>
+        /// Select the folder where to save the images
+        /// </summary>
+        /// <param name="parameter">Unused.</param>
         public void Execute(object? parameter)
         {
             var success =

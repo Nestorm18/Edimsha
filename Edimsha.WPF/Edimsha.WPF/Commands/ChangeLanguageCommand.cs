@@ -23,6 +23,11 @@ namespace Edimsha.WPF.Commands
             return true;
         }
 
+        /// <summary>
+        /// Switches to the language passed by parameter and saves the selection in a configuration file.
+        /// </summary>
+        /// <param name="parameter">Selected language.</param>
+        /// <exception cref="Exception">Language not found.</exception>
         public void Execute(object? parameter)
         {
             if (parameter != null) _viewModel.Language = (Languages) parameter;

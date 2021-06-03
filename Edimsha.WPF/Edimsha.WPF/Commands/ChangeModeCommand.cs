@@ -23,6 +23,10 @@ namespace Edimsha.WPF.Commands
             return true;
         }
 
+        /// <summary>
+        /// Switches between editor/converter mode
+        /// </summary>
+        /// <param name="parameter"><see cref="ViewType"/> to use.</param>
         public void Execute(object? parameter)
         {
             if (parameter != null)
