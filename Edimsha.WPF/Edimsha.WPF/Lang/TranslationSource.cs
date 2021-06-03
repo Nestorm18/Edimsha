@@ -26,5 +26,10 @@ namespace Edimsha.WPF.Lang
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public static string GetTranslationFromString(string value)
+        {
+            return Instance[value];
+        }
     }
 }

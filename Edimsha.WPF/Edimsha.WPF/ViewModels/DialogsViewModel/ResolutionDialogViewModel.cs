@@ -124,7 +124,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
         /// <summary>
         /// Useful in translations. You must first use a TranslationSource instance.
-        /// <para></para>Example: <code>var ts = TranslationSource.Instance;</code> and pass the message as <code>ts["your_string"];</code>
+        /// <para></para>Example: <code>TranslationSource.GetTranslationFromString("your_string")</code> and pass the message.
         /// </summary>
         public string ErrorMessage
         {

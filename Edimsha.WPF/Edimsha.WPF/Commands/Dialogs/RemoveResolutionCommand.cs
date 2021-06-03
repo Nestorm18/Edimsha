@@ -52,10 +52,7 @@ namespace Edimsha.WPF.Commands.Dialogs
                 break;
             }
 
-            //TODO: Static class var ts = TranslationSource.Instance passing string 
-            var ts = TranslationSource.Instance;
-
-            _resolutionDialogViewModel.ErrorMessage = ts["deleted_resolution"];
+            _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("deleted_resolution");
             _resolutionDialogViewModel.CmbIndex = 0;
 
             _saveSettingsService.SaveResolutions(_resolutionDialogViewModel.Resolutions);

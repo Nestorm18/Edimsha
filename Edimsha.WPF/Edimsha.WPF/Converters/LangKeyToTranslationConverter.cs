@@ -9,11 +9,7 @@ namespace Edimsha.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not string key) return string.Empty;
-
-            var ts = TranslationSource.Instance;
-
-            return ts[key];
+            return value is not string key ? string.Empty : TranslationSource.GetTranslationFromString(key);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

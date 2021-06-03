@@ -16,14 +16,11 @@ namespace Edimsha.WPF.Commands
     {
         private readonly EditorViewModel _editorViewModel;
         private readonly IDialogService _dialogService;
-        private readonly TranslationSource _ts;
 
         public OpenImagesCommand(EditorViewModel editorViewModel, IDialogService dialogService)
         {
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
-
-            _ts = TranslationSource.Instance;
         }
 
         public bool CanExecute(object? parameter)
@@ -35,10 +32,11 @@ namespace Edimsha.WPF.Commands
         {
             var filter = CreateFilter(ImageFormatsFromViewType.GetImageType(parameter));
 
-            var urls = await _dialogService.OpenFileSelector(_ts["select_images"], filter, true);
-            
+            var urls = await _dialogService.OpenFileSelector(
+                TranslationSource.GetTranslationFromString("select_images"), filter, true);
+
             if (urls == null) return;
-           
+
             // Clear Urls before add new ones.
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
                 _editorViewModel.Urls.ToList(),
@@ -53,7 +51,7 @@ namespace Edimsha.WPF.Commands
         {
             var builder = new StringBuilder();
             var builderSecond = new StringBuilder();
-            builder.Append(_ts["image_files"]);
+            builder.Append(TranslationSource.GetTranslationFromString("image_files"));
             builder.Append(' ');
             builder.Append('(');
 

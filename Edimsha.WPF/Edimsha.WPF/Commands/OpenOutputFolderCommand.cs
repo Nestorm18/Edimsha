@@ -11,14 +11,11 @@ namespace Edimsha.WPF.Commands
     {
         private readonly EditorViewModel _editorViewModel;
         private readonly IDialogService _dialogService;
-        private readonly TranslationSource _ts;
 
         public OpenOutputFolderCommand(EditorViewModel editorViewModel, IDialogService dialogService)
         {
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
-
-            _ts = TranslationSource.Instance;
         }
 
         public bool CanExecute(object? parameter)
@@ -28,10 +25,11 @@ namespace Edimsha.WPF.Commands
 
         public void Execute(object? parameter)
         {
-            var success = _dialogService.OpenFolderSelector(_ts["select_folder"]);
+            var success =
+                _dialogService.OpenFolderSelector(TranslationSource.GetTranslationFromString("select_folder"));
 
             if (success.Result == null) return;
-            
+
             _editorViewModel.OutputFolder = success.Result;
         }
 

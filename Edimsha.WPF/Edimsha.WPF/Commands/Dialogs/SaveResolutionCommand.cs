@@ -34,8 +34,6 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <param name="parameter"><see cref="Resolution"/> to save. Used <see cref="MultiTextConverter"/> XAML to get values of width and heigth.</param>
         public void Execute(object? parameter)
         {
-            var ts = TranslationSource.Instance;
-            
             var values = (object[]) parameter!;
             var width = (string) values[0];
             var height = (string) values[1];
@@ -48,18 +46,18 @@ namespace Edimsha.WPF.Commands.Dialogs
                 Width = int.Parse(width),
                 Height = int.Parse(height)
             };
-            
+
             if (ExistCurrentResolution(currentResolution))
             {
-                _resolutionDialogViewModel.ErrorMessage = ts["the_resolution_already_exists"];
+                _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("the_resolution_already_exists");
             }
             else
             {
                 _resolutionDialogViewModel.Resolutions.Add(currentResolution);
-                
+
                 _saveSettingsService.SaveResolutions(_resolutionDialogViewModel.Resolutions);
-               
-                _resolutionDialogViewModel.ErrorMessage = ts["resolution_saved"];
+
+                _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("resolution_saved");
                 _resolutionDialogViewModel.CmbIndex = _resolutionDialogViewModel.Resolutions.Count - 1;
             }
         }

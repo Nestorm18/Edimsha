@@ -6,8 +6,8 @@ namespace Edimsha.WPF.Lang
     {
         public LocalizationExtension(string name) : base("[" + name + "]")
         {
-            this.Mode = BindingMode.OneWay;
-            this.Source = TranslationSource.Instance;
+            Mode = BindingMode.OneWay;
+            Source = TranslationSource.Instance;
         }
     }
 }
