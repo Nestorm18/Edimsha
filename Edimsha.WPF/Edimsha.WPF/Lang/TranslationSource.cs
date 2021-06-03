@@ -27,6 +27,11 @@ namespace Edimsha.WPF.Lang
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Search for the related translation that is passed as a string parameter.
+        /// </summary>
+        /// <param name="value">Key used for translated text.</param>
+        /// <returns>Current language in use.</returns>
         public static string GetTranslationFromString(string value)
         {
             return Instance[value];
