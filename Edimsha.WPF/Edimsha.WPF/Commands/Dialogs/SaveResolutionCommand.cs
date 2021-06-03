@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
+using Edimsha.WPF.Converters;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
@@ -27,6 +28,10 @@ namespace Edimsha.WPF.Commands.Dialogs
             return true;
         }
 
+        /// <summary>
+        /// Saves the selected resolution from the combobox and from the save file.
+        /// </summary>
+        /// <param name="parameter"><see cref="Resolution"/> to save. Used <see cref="MultiTextConverter"/> XAML to get values of width and heigth.</param>
         public void Execute(object? parameter)
         {
             var ts = TranslationSource.Instance;
@@ -35,6 +40,7 @@ namespace Edimsha.WPF.Commands.Dialogs
             var width = (string) values[0];
             var height = (string) values[1];
 
+            // Not valid values
             if (width == string.Empty || height == string.Empty) return;
 
             var currentResolution = new Resolution()
@@ -58,6 +64,11 @@ namespace Edimsha.WPF.Commands.Dialogs
             }
         }
 
+        /// <summary>
+        /// Check if the resolution already exists.
+        /// </summary>
+        /// <param name="currentResolution">Resolution to be saved.</param>
+        /// <returns></returns>
         private bool ExistCurrentResolution(Resolution currentResolution)
         {
             return _resolutionDialogViewModel.Resolutions.Any(resolution => resolution.Equals(currentResolution));
