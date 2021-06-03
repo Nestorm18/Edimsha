@@ -11,7 +11,7 @@ namespace Edimsha.WPF.HostBuild
         {
             host.ConfigureServices(services =>
             {
-                services.AddSingleton<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+                services.AddSingleton(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
             });
 
             return host;

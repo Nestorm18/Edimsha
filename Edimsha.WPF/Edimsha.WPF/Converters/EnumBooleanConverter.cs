@@ -10,13 +10,15 @@ namespace Edimsha.WPF.Converters
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            if (value == null) return null;
+            
             if (!(parameter is string parameterString))
                 return DependencyProperty.UnsetValue;
 
             if (Enum.IsDefined(value.GetType(), value) == false)
                 return DependencyProperty.UnsetValue;
 
-            object parameterValue = Enum.Parse(value.GetType(), parameterString);
+            var parameterValue = Enum.Parse(value.GetType(), parameterString);
 
             return parameterValue.Equals(value);
         }
