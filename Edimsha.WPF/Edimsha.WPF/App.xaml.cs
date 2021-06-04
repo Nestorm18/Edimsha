@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.HostBuild;
 using Edimsha.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,12 +14,20 @@ namespace Edimsha.WPF
     public partial class App : Application
     {
         private static IHost _host;
-        
+
         public App()
         {
-            _host = CreateHostBuilder().Build();
+            try
+            {
+                Logger.Log("App starts");
+                _host = CreateHostBuilder().Build();
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e.StackTrace);
+            }
         }
-        
+
         public static IHostBuilder CreateHostBuilder(string[] args = null)
         {
             return Host.CreateDefaultBuilder(args)
@@ -26,29 +36,44 @@ namespace Edimsha.WPF
                 .AddViewModels()
                 .AddViews();
         }
-        
+
         public static T GetRequiredServiceFromHost<T>()
         {
             return _host.Services.GetRequiredService<T>();
         }
-        
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            _host.Start();
+            try
+            {
+                _host.Start();
 
-            Window window = _host.Services.GetRequiredService<MainWindow>();
-            window.Show();
+                Window window = _host.Services.GetRequiredService<MainWindow>();
+                window.Show();
 
-            base.OnStartup(e);
+                base.OnStartup(e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex.StackTrace);
+                throw;
+            }
         }
-        
+
         protected override async void OnExit(ExitEventArgs e)
         {
-            await _host.StopAsync();
-            _host.Dispose();
+            try
+            {
+                await _host.StopAsync();
+                _host.Dispose();
 
-            base.OnExit(e);
+                base.OnExit(e);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex.StackTrace);
+                throw;
+            }
         }
-        
     }
 }
