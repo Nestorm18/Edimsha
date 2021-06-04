@@ -35,7 +35,7 @@ namespace Edimsha.Core.Logging.Implementation
         {
             Start();
             GetInstance();
-            
+
             _sw = new StreamWriter(_fileName, true, Encoding.ASCII);
             _sw.WriteLine(_instance.Log(message, level, origin, filePath, lineNumber));
             _sw.Close();
@@ -46,10 +46,12 @@ namespace Edimsha.Core.Logging.Implementation
             if (_isStarted) return;
             _isStarted = true;
 
-            var logsPath = "D:/descargas";
-            var currentTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            Console.WriteLine(currentTime);
-            _fileName = $"{logsPath}/Log-{currentTime}.log";
+            var logsPath = $"{Directory.GetCurrentDirectory()}/logs/";
+
+            if (!Directory.Exists(logsPath)) Directory.CreateDirectory(logsPath);
+
+            var currentTime = DateTime.Now.ToString("dddd-dd-MMMM-yyyy--HH_mm_ss");
+            _fileName = $"{logsPath}/edimsha_{currentTime}.log";
 
             var fs = new FileStream(_fileName, FileMode.OpenOrCreate);
             fs.Close();
