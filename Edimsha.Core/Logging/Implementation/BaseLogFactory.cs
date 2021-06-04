@@ -114,16 +114,19 @@ namespace Edimsha.Core.Logging.Implementation
             // If we should not log the message as the level is too low...
             if ((int) level < (int) LogOutputLevel)
                 return string.Empty;
-
+            
             // If the user wants to know where the log originated from...
             if (IncludeLogOriginDetails)
-                message = $"{message} [{Path.GetFileName(filePath)} > {origin}() > Line {lineNumber}]";
+                message = $"{DateTime.Now:dd/MM/yyyy HH:mm:ss tt} [{level.ToString().PadRight(12)}] ===> " +
+                          $"{message} [{Path.GetFileName(filePath)} > {origin}() > Line {lineNumber}]";
 
             // Log to all loggers
             mLoggers.ForEach(logger => logger.Log(message, level));
 
             // Inform listeners
             NewLog.Invoke((message, level));
+
+            Console.WriteLine(message + level);
 
             return message;
         }

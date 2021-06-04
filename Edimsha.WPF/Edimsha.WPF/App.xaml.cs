@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Edimsha.Core.Logging.Core;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.HostBuild;
 using Edimsha.WPF.Views;
@@ -19,12 +20,12 @@ namespace Edimsha.WPF
         {
             try
             {
-                Logger.Log("App starts");
+                Logger.Log("Aplicacion iniciada");
                 _host = CreateHostBuilder().Build();
             }
             catch (Exception e)
             {
-                Logger.Log(e.StackTrace);
+                Logger.Log(e.StackTrace, LogLevel.Error);
             }
         }
 
@@ -55,7 +56,7 @@ namespace Edimsha.WPF
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.StackTrace);
+                Logger.Log(ex.StackTrace, LogLevel.Error);
                 throw;
             }
         }
@@ -71,7 +72,7 @@ namespace Edimsha.WPF
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.StackTrace);
+                Logger.Log(ex.StackTrace, LogLevel.Error);
                 throw;
             }
         }
