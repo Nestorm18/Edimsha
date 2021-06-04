@@ -17,6 +17,7 @@ namespace Edimsha.WPF.Commands.Dialogs
             ResolutionDialogViewModel resolutionDialogViewModel,
             ISaveSettingsService saveSettingsService)
         {
+            
             _resolutionDialogViewModel = resolutionDialogViewModel;
             _saveSettingsService = saveSettingsService;
         }

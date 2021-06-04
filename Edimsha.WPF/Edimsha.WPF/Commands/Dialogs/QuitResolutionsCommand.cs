@@ -2,6 +2,8 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Core;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
 
 namespace Edimsha.WPF.Commands.Dialogs
@@ -12,6 +14,7 @@ namespace Edimsha.WPF.Commands.Dialogs
 
         public QuitResolutionsCommand(ResolutionDialogViewModel resolutionDialogViewModel)
         {
+            Logger.Log("Constructor");
             _resolutionDialogViewModel = resolutionDialogViewModel;
         }
 
@@ -26,11 +29,15 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <param name="parameter">The window to close as a parameter</param>
         public void Execute(object? parameter)
         {
+            Logger.Log("Close resolutions dialogs");
+            Logger.Log($"BypassWidthOrHeightLimitations:{_resolutionDialogViewModel.BypassWidthOrHeightLimitations}",
+                LogLevel.Debug);
+
             _resolutionDialogViewModel.BypassWidthOrHeightLimitations = true;
             _resolutionDialogViewModel.Width = -1;
             _resolutionDialogViewModel.Heigth = -1;
             _resolutionDialogViewModel.BypassWidthOrHeightLimitations = false;
-            
+
             if (parameter == null) return;
             var window = (Window) parameter;
             window.Close();

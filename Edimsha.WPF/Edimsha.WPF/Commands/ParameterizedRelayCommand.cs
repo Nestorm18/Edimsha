@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Implementation;
 
 namespace Edimsha.WPF.Commands
 {
@@ -10,6 +11,7 @@ namespace Edimsha.WPF.Commands
 
         public ParameterizedRelayCommand(Action<object> commandAction, Func<bool> canExecute = null)
         {
+            Logger.Log("Constructor");
             _command = commandAction;
             _canExecute = canExecute;
         }
@@ -23,6 +25,7 @@ namespace Edimsha.WPF.Commands
 
         public void Execute(object parameter)
         {
+            Logger.Log("ParameterizedRelayCommand executing");
             _command?.Invoke(parameter);
         }
     }

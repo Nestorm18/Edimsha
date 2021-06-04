@@ -49,7 +49,7 @@ namespace Edimsha.WPF
             {
                 _host.Start();
 
-                Window window = _host.Services.GetRequiredService<MainWindow>();
+                Window window = GetRequiredServiceFromHost<MainWindow>();
                 window.Show();
 
                 base.OnStartup(e);

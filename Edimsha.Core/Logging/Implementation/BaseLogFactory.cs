@@ -17,12 +17,12 @@ namespace Edimsha.Core.Logging.Implementation
         /// <summary>
         /// The list of loggers in this factory
         /// </summary>
-        protected List<ILogger> mLoggers = new List<ILogger>();
+        protected List<ILogger> mLoggers = new();
 
         /// <summary>
         /// A lock for the logger list to keep it thread-safe
         /// </summary>
-        protected object mLoggersLock = new object();
+        protected object mLoggersLock = new();
 
         #endregion
 
@@ -117,8 +117,8 @@ namespace Edimsha.Core.Logging.Implementation
             
             // If the user wants to know where the log originated from...
             if (IncludeLogOriginDetails)
-                message = $"{DateTime.Now:dd/MM/yyyy HH:mm:ss tt} [{level.ToString().PadRight(12)}] ===> " +
-                          $"{message} [{Path.GetFileName(filePath)} > {origin}() > Line {lineNumber}]";
+                message = $"{DateTime.Now:dd/MM/yyyy HH:mm:ss tt} [{level.ToString().PadRight(11)}] ===> " +
+                          $"{message} ===> [{Path.GetFileName(filePath)} > {origin}() > Line {lineNumber}]";
 
             // Log to all loggers
             mLoggers.ForEach(logger => logger.Log(message, level));
@@ -126,6 +126,7 @@ namespace Edimsha.Core.Logging.Implementation
             // Inform listeners
             NewLog.Invoke((message, level));
 
+            // Show in console always
             Console.WriteLine(message + level);
 
             return message;

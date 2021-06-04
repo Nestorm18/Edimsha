@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Core;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Converters;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
@@ -19,6 +21,8 @@ namespace Edimsha.WPF.Commands.Dialogs
             ResolutionDialogViewModel resolutionDialogViewModel,
             ISaveSettingsService saveSettingsService)
         {
+            Logger.Log("Constructor");
+
             _resolutionDialogViewModel = resolutionDialogViewModel;
             _saveSettingsService = saveSettingsService;
         }
@@ -34,9 +38,13 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <param name="parameter"><see cref="Resolution"/> to save. Used <see cref="MultiTextConverter"/> XAML to get values of width and heigth.</param>
         public void Execute(object? parameter)
         {
+            Logger.Log("Saving resolutions");
+
             var values = (object[]) parameter!;
             var width = (string) values[0];
             var height = (string) values[1];
+
+            Logger.Log($"width:{width}, height:{height}", LogLevel.Debug);
 
             // Not valid values
             if (width == string.Empty || height == string.Empty) return;
@@ -49,7 +57,9 @@ namespace Edimsha.WPF.Commands.Dialogs
 
             if (ExistCurrentResolution(currentResolution))
             {
-                _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("the_resolution_already_exists");
+                Logger.Log("the_resolution_already_exists");
+                _resolutionDialogViewModel.ErrorMessage =
+                    TranslationSource.GetTranslationFromString("the_resolution_already_exists");
             }
             else
             {
@@ -57,8 +67,12 @@ namespace Edimsha.WPF.Commands.Dialogs
 
                 _saveSettingsService.SaveResolutions(_resolutionDialogViewModel.Resolutions);
 
-                _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("resolution_saved");
+                _resolutionDialogViewModel.ErrorMessage =
+                    TranslationSource.GetTranslationFromString("resolution_saved");
+
                 _resolutionDialogViewModel.CmbIndex = _resolutionDialogViewModel.Resolutions.Count - 1;
+
+                Logger.Log("resolution_saved");
             }
         }
 
@@ -69,6 +83,7 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <returns></returns>
         private bool ExistCurrentResolution(Resolution currentResolution)
         {
+            Logger.Log(currentResolution.ToString());
             return _resolutionDialogViewModel.Resolutions.Any(resolution => resolution.Equals(currentResolution));
         }
 

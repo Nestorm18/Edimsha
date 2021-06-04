@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.ViewModels;
@@ -14,6 +15,7 @@ namespace Edimsha.WPF.Commands
 
         public OpenOutputFolderCommand(EditorViewModel editorViewModel, IDialogService dialogService)
         {
+            Logger.Log("Constructor");
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
         }

@@ -46,13 +46,17 @@ namespace Edimsha.Core.Logging.Implementation
             if (_isStarted) return;
             _isStarted = true;
 
+            // Find current app location
             var logsPath = $"{Directory.GetCurrentDirectory()}/logs/";
 
+            // Add log directory if not exists
             if (!Directory.Exists(logsPath)) Directory.CreateDirectory(logsPath);
 
+            // The file log name
             var currentTime = DateTime.Now.ToString("dddd-dd-MMMM-yyyy--HH_mm_ss");
             _fileName = $"{logsPath}/edimsha_{currentTime}.log";
 
+            // Create a file once
             var fs = new FileStream(_fileName, FileMode.OpenOrCreate);
             fs.Close();
         }

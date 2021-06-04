@@ -1,6 +1,8 @@
 ﻿#nullable enable
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Core;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.ViewModels;
@@ -14,6 +16,7 @@ namespace Edimsha.WPF.Commands
 
         public ChangeLanguageCommand(MainViewModel viewModel, ISaveSettingsService saveSettingsService)
         {
+            Logger.Log("Constructor");
             _viewModel = viewModel;
             _saveSettingsService = saveSettingsService;
         }
@@ -31,18 +34,23 @@ namespace Edimsha.WPF.Commands
         public void Execute(object? parameter)
         {
             if (parameter != null) _viewModel.Language = (Languages) parameter;
+            
+            Logger.Log($"Changing language to {_viewModel.Language}", LogLevel.Debug);
 
             switch (_viewModel.Language)
             {
                 case Languages.English:
+                    Logger.Log("Saving English", LogLevel.Debug);
                     ChangeLanguage.SetLanguage("");
                     _saveSettingsService.SaveConfigurationSettings("Language", Languages.English.GetDescription());
                     break;
                 case Languages.Spanish:
+                    Logger.Log("Saving Spanish", LogLevel.Debug);
                     ChangeLanguage.SetLanguage(Languages.Spanish.GetDescription());
                     _saveSettingsService.SaveConfigurationSettings("Language", Languages.Spanish.GetDescription());
                     break;
                 default:
+                    Logger.Log("El idioma indicado no existe", LogLevel.Error);
                     throw new Exception("El idioma indicado no existe");
             }
         }

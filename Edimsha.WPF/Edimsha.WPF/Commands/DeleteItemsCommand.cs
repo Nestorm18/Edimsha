@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.ViewModels;
 
 namespace Edimsha.WPF.Commands
@@ -12,6 +13,7 @@ namespace Edimsha.WPF.Commands
 
         public DeleteItemsCommand(EditorViewModel viewModel, bool removeAll = false)
         {
+            Logger.Log("Constructor");
             _viewModel = viewModel;
             _removeAll = removeAll;
         }

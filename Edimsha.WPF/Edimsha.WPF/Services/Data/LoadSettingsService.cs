@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Edimsha.Core.Logging.Core;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Settings;
 using Edimsha.WPF.State.Navigators;
@@ -12,6 +14,7 @@ namespace Edimsha.WPF.Services.Data
     {
         public LoadSettingsService(ConfigPaths settingsPath) : base(settingsPath)
         {
+            Logger.Log("Constructor loaded...", LogLevel.Debug);
         }
 
         public T LoadConfigurationSetting<T>(string settingName)
@@ -20,6 +23,8 @@ namespace Edimsha.WPF.Services.Data
             {
                 using (var settings = File.OpenText(SettingsPath))
                 {
+                    Logger.Log($"settingName: {settingName}", LogLevel.Debug);
+                    
                     var serializer = new JsonSerializer();
                     var config = (Config) serializer.Deserialize(settings, typeof(Config));
 
@@ -28,7 +33,7 @@ namespace Edimsha.WPF.Services.Data
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Logger.Log(e.StackTrace, LogLevel.Error);
                 throw;
             }
             return (T) new object();
@@ -36,6 +41,8 @@ namespace Edimsha.WPF.Services.Data
 
         public List<string> LoadPathsListview(ViewType type)
         {
+            Logger.Log($"ViewType: {type}", LogLevel.Debug);
+            
             var file = type switch
             {
                 ViewType.Editor => EditorPathsJson,
@@ -52,6 +59,8 @@ namespace Edimsha.WPF.Services.Data
 
         public IEnumerable<Resolution> LoadResolutions()
         {
+            Logger.Log("Loading...", LogLevel.Debug);
+            
             if (!File.Exists(ResolutionsJson)) throw new Exception($"LoadResolutions no ha encontrado archivo");
 
             var resolutions = File.ReadAllText(ResolutionsJson);

@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Implementation;
 
 namespace Edimsha.WPF.Commands
 {
@@ -11,6 +12,7 @@ namespace Edimsha.WPF.Commands
 
         public RelayCommand(Action action)
         {
+            Logger.Log("Constructor");
             _mAction = action;
         }
 
@@ -21,6 +23,7 @@ namespace Edimsha.WPF.Commands
 
         public void Execute(object parameter)
         {
+            Logger.Log("Relay executing");
             _mAction();
         }
     }

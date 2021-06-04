@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Dialogs;
@@ -20,6 +21,7 @@ namespace Edimsha.WPF.Commands
 
         public OpenImagesCommand(EditorViewModel editorViewModel, IDialogService dialogService)
         {
+            Logger.Log("Constructor");
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
         }
