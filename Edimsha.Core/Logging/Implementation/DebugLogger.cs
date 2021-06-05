@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using Edimsha.Core.Logging.Core;
 
@@ -26,11 +27,12 @@ namespace Edimsha.Core.Logging.Implementation
             //
 
             // Color console based on level
+            // ReSharper disable once ConvertSwitchStatementToSwitchExpression
             switch (level)
             {
                 // Debug
                 case LogLevel.Debug:
-                    category = "information";
+                    category = "debug";
                     break;
 
                 // Verbose
@@ -52,6 +54,13 @@ namespace Edimsha.Core.Logging.Implementation
                 case LogLevel.Success:
                     category = "-----";
                     break;
+                
+                //Informative
+                case LogLevel.Informative:
+                    category = "informative";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(level), level, null);
             }
 
             // Write message to console

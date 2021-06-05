@@ -10,44 +10,34 @@ namespace Edimsha.Core.Logging.Implementation
     /// The standard log factory for Edimsha
     /// Logs details to the Debug by default
     /// </summary>
-    public class BaseLogFactory : ILogFactory
+    public class BaseLogFactory
     {
         #region Protected Methods
 
         /// <summary>
         /// The list of loggers in this factory
         /// </summary>
-        protected List<ILogger> mLoggers = new();
+        private readonly List<ILogger> _mLoggers = new();
 
         /// <summary>
         /// A lock for the logger list to keep it thread-safe
         /// </summary>
-        protected object mLoggersLock = new();
+        private readonly object _mLoggersLock = new();
 
         #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// The level of logging to output
-        /// </summary>
-        public LogOutputLevel LogOutputLevel { get; set; }
-
+        
         /// <summary>
         /// If true, includes the origin of where the log message was logged from
         /// such as the class name, line number and file name
         /// </summary>
-        public bool IncludeLogOriginDetails { get; set; } = true;
+        private bool IncludeLogOriginDetails { get; } = true;
 
         #endregion
 
         #region Public Events
-
-        /// <summary>
-        /// Fires whenever a new log arrives
-        /// </summary>
-        public event Action<(string Message, LogLevel Level)> NewLog = (details) => { };
-
+        
         #endregion
 
         #region Constructor
@@ -69,36 +59,20 @@ namespace Edimsha.Core.Logging.Implementation
         /// Adds the specific logger to this factory
         /// </summary>
         /// <param name="logger">The logger</param>
-        public void AddLogger(ILogger logger)
+        private void AddLogger(ILogger logger)
         {
             // Log the list so it is thread-safe
-            lock (mLoggersLock)
+            lock (_mLoggersLock)
             {
                 // If the logger is not already in the list...
-                if (!mLoggers.Contains(logger))
+                if (!_mLoggers.Contains(logger))
                     // Add the logger to the list
-                    mLoggers.Add(logger);
+                    _mLoggers.Add(logger);
             }
         }
 
         /// <summary>
-        /// Removes the specified logger from this factory
-        /// </summary>
-        /// <param name="logger">The logger</param>
-        public void RemoveLogger(ILogger logger)
-        {
-            // Log the list so it is thread-safe
-            lock (mLoggersLock)
-            {
-                // If the logger is in the list...
-                if (mLoggers.Contains(logger))
-                    // Remove the logger from the list
-                    mLoggers.Remove(logger);
-            }
-        }
-
-        /// <summary>
-        /// Logs the specific message to all loggers in this factory
+        /// Logs the specific message to all loggers in this factory.
         /// </summary>
         /// <param name="message">The message to log</param>
         /// <param name="level">The level of the message being logged</param>
@@ -111,23 +85,20 @@ namespace Edimsha.Core.Logging.Implementation
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            // If we should not log the message as the level is too low...
-            if ((int) level < (int) LogOutputLevel)
-                return string.Empty;
-            
             // If the user wants to know where the log originated from...
             if (IncludeLogOriginDetails)
-                message = $"{DateTime.Now:dd/MM/yyyy HH:mm:ss tt} [{level.ToString().PadRight(11)}] ===> " +
-                          $"{message} ===> [{Path.GetFileName(filePath)} > {origin}() > Line {lineNumber}]";
+                message = $"{DateTime.Now:dd/MM/yyyy HH:mm:ss tt} [{level.ToString().PadRight(11)}] " +
+                          $"[{Path.GetFileName(filePath)} > {origin}() > Line {lineNumber}] ===> " +
+                          $"{message}";
 
             // Log to all loggers
-            mLoggers.ForEach(logger => logger.Log(message, level));
-
-            // Inform listeners
-            NewLog.Invoke((message, level));
-
+            lock (_mLoggersLock)
+            {
+                _mLoggers.ForEach(logger => logger.Log(message, level));
+            }
+            
             // Show in console always
-            Console.WriteLine(message + level);
+            Console.WriteLine(message);
 
             return message;
         }

@@ -33,6 +33,6 @@ namespace Edimsha.Core.Logging.Core
         /// <summary>
         /// A success
         /// </summary>
-        Success = 6,
+        Success = 6
     }
 }

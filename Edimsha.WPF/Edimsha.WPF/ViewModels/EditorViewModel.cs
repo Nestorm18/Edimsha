@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Converters;
 using Edimsha.WPF.Lang;
@@ -13,6 +14,9 @@ using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
+
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+#pragma warning disable 4014
 
 namespace Edimsha.WPF.ViewModels
 {
@@ -255,6 +259,8 @@ namespace Edimsha.WPF.ViewModels
             ILoadSettingsService loadSettingsService,
             IDialogService dialogService)
         {
+            Logger.Log("Constructor");
+            
             _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
             _dialogService = dialogService;
@@ -278,6 +284,8 @@ namespace Edimsha.WPF.ViewModels
 
         public void OnFileDrop(string[] filepaths)
         {
+            Logger.Log($"Filepaths: {filepaths}");
+            
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
 
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
@@ -290,6 +298,8 @@ namespace Edimsha.WPF.ViewModels
 
         private void SavePaths()
         {
+            Logger.Log("Saving paths");
+            
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
             if (!success.Result) StatusBar = "error_saving_editor_paths";
         }
@@ -307,11 +317,13 @@ namespace Edimsha.WPF.ViewModels
         /// </summary>
         private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            Logger.Log("Language changed");
             OnPropertyChanged(nameof(StatusBar));
         }
 
         private bool SetUserSettings()
         {
+            Logger.Log($"Loading saved settings");
             StatusBar = "application_started";
 
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
@@ -329,6 +341,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            Logger.Log($"Paths updated");
             if (_isLoadingSettings) return;
             IsCtxDelete = Urls.Count > 0;
             IsCtxDeleteAll = Urls.Count > 0;
@@ -336,6 +349,7 @@ namespace Edimsha.WPF.ViewModels
 
         private async Task UpdateSetting<T>(string setting, T value)
         {
+            Logger.Log($"setting: {setting}, Value: {value}");
             var success = await _saveSettingsService.SaveConfigurationSettings(setting, value);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";

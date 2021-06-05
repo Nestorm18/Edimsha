@@ -25,7 +25,7 @@ namespace Edimsha.WPF.Commands
 
         public void Execute(object parameter)
         {
-            Logger.Log("ParameterizedRelayCommand executing");
+            Logger.Log($"Command with parameters {parameter}");
             _command?.Invoke(parameter);
         }
     }

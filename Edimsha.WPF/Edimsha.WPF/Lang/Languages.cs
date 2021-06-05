@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using Edimsha.Core.Logging.Implementation;
 
 namespace Edimsha.WPF.Lang
 {
@@ -13,6 +14,8 @@ namespace Edimsha.WPF.Lang
     {
         public static string GetDescription(this Languages val)
         {
+            Logger.Log($"Languages: {val}");
+            
             var attributes = (DescriptionAttribute[]) val
                 .GetType()
                 .GetField(val.ToString())
@@ -22,6 +25,7 @@ namespace Edimsha.WPF.Lang
 
         public static T GetValueFromDescription<T>(string description) where T : Enum
         {
+            Logger.Log($"Description: {description}");
             foreach (var field in typeof(T).GetFields())
             {
                 if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
@@ -42,12 +46,14 @@ namespace Edimsha.WPF.Lang
     {
         public static void SetLanguage(string locale)
         {
+            Logger.Log($"Locale: {locale}");
             if (string.IsNullOrEmpty(locale)) locale = Languages.English.GetDescription();
             TranslationSource.Instance.CurrentCulture = new System.Globalization.CultureInfo(locale);
         }
 
         public static Languages ResolveLanguage(string locale)
         {
+            Logger.Log($"Locale: {locale}");
             return AvaliableLanguages.GetValueFromDescription<Languages>(locale);
         }
     }

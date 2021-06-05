@@ -1,3 +1,4 @@
+// ReSharper disable UnusedMember.Global
 namespace Edimsha.WPF.Settings
 {
     public class Config

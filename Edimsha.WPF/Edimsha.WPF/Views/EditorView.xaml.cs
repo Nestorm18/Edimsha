@@ -1,8 +1,6 @@
-using System.Windows.Controls;
-
 namespace Edimsha.WPF.Views
 {
-    public partial class EditorView : UserControl
+    public partial class EditorView
     {
         public EditorView()
         {

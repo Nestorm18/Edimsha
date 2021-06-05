@@ -21,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 using System;
+
 // ReSharper disable InheritdocConsiderUsage
 
 #pragma warning disable 1591
@@ -499,7 +500,7 @@ namespace Edimsha.WPF.Annotations
     /// </summary>
     InstantiatedWithFixedConstructorSignature = 4,
     /// <summary>Indicates implicit instantiation of a type.</summary>
-    InstantiatedNoFixedConstructorSignature = 8,
+    InstantiatedNoFixedConstructorSignature = 8
   }
 
   /// <summary>
@@ -1036,7 +1037,7 @@ namespace Edimsha.WPF.Annotations
     /// <summary>Marked parameter should be evaluated to null value.</summary>
     IS_NULL = 2,
     /// <summary>Marked parameter should be evaluated to not null value.</summary>
-    IS_NOT_NULL = 3,
+    IS_NOT_NULL = 3
   }
 
   /// <summary>

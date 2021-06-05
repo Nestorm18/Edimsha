@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Edimsha.Core.Logging.Core;
 
+// ReSharper disable ExplicitCallerInfoArgument
+
 namespace Edimsha.Core.Logging.Implementation
 {
     public static class Logger

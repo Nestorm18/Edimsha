@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Models;
 
 namespace Edimsha.WPF.Utils
@@ -14,6 +15,7 @@ namespace Edimsha.WPF.Utils
         /// <returns>List of avaliable formats for requested <see cref="ModeImageTypes"/>.</returns>
         public static IEnumerable GetImageType(object parameter)
         {
+            Logger.Log($"Parameter: {parameter}");
             // Gets all the values of the Enum and returns.
             IEnumerable imageTypes = parameter switch
             {

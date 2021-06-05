@@ -1,9 +1,12 @@
 using System.Windows.Input;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.Factories;
+
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
 namespace Edimsha.WPF.ViewModels
 {
@@ -61,6 +64,7 @@ namespace Edimsha.WPF.ViewModels
             ISaveSettingsService saveSettingsService,
             ILoadSettingsService loadSettingsService)
         {
+            Logger.Log("Constructor");
             _viewModelFactory = viewModelFactory;
             _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
@@ -80,6 +84,8 @@ namespace Edimsha.WPF.ViewModels
             Language = ChangeLanguage.ResolveLanguage(lang);
 
             ChangeLanguage.SetLanguage(lang);
+            
+            Logger.Log($"Language changed to: {lang}");
         }
     }
 }

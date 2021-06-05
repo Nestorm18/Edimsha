@@ -2,11 +2,13 @@ using System;
 using System.Windows.Input;
 using Edimsha.Core.Logging.Implementation;
 
+// ReSharper disable UnusedParameter.Local
+
 namespace Edimsha.WPF.Commands
 {
     public class RelayCommand : ICommand
     {
-        private Action _mAction;
+        private readonly Action _mAction;
 
         public event EventHandler CanExecuteChanged = (sender, e) => { };
 

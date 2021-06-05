@@ -1,6 +1,7 @@
 #nullable enable
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Annotations;
 
 namespace Edimsha.WPF.ViewModels
@@ -16,8 +17,9 @@ namespace Edimsha.WPF.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
+            Logger.Log($"PropertyName: {propertyName}");
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }

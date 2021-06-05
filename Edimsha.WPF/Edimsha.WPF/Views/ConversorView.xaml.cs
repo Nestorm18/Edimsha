@@ -1,8 +1,6 @@
-using System.Windows.Controls;
-
 namespace Edimsha.WPF.Views
 {
-    public partial class ConversorView : UserControl
+    public partial class ConversorView 
     {
         public ConversorView()
         {

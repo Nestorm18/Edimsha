@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Models;
 
 namespace Edimsha.WPF.Utils
@@ -16,6 +17,7 @@ namespace Edimsha.WPF.Utils
         /// <returns>List with validated formats and no duplicates</returns>
         public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(IEnumerable<string> savedPaths, IEnumerable<string> droppedPaths, ModeImageTypes mode)
         {
+            Logger.Log("Cleaning paths");
             // Concat two list and remove duplicates to show in listview
             var distinctPaths = savedPaths.Concat(droppedPaths).Distinct().ToList();
 
@@ -33,6 +35,7 @@ namespace Edimsha.WPF.Utils
         /// <returns>List with validated formats.</returns>
         private static IEnumerable<string> RemoveWrongFormats(IEnumerable<string> filepaths, ModeImageTypes mode)
         {
+            Logger.Log("Removing");
             // Get all supported images formats for the current mode
             var imageType = ImageFormatsFromViewType.GetImageType(mode);
 

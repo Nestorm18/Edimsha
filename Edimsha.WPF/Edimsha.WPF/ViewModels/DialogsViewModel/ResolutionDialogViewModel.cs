@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Commands.Dialogs;
 using Edimsha.WPF.Models;
@@ -142,7 +143,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// New selected resolution updates width and height fields.
         /// </summary>
         public ICommand SelectionChangedCommand { get; }
-        
+
         public ICommand SaveResolutionCommand { get; }
 
         public ICommand RemoveResolutionCommand { get; }
@@ -158,6 +159,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             ILoadSettingsService loadSettingsService,
             ISaveSettingsService saveSettingsService)
         {
+            Logger.Log("Constructor");
             _loadSettingsService = loadSettingsService;
             ISaveSettingsService saveSettingsService1 = saveSettingsService;
 
@@ -173,7 +175,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
             SetUserSettings();
         }
-        
+
         /// <summary>
         /// Activates GUI components if we have available resolutions.
         /// </summary>
@@ -181,6 +183,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// <param name="e">Not used.</param>
         private void ResolutionsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
+            Logger.Log("Resolutions.Count > 0");
             if (Resolutions.Count > 0) HasValidResolutions = true;
         }
 
@@ -190,6 +193,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// <param name="parameter">A <see cref="Resolution"/>. must be object because it comes as a parameter from xaml and does not allow any other format.</param>
         private void ComboboxSelectionChangedEvent(object parameter)
         {
+            Logger.Log($"parameter {parameter}");
             if (!(parameter is Resolution resolution)) return;
 
             Width = resolution.Width;
@@ -201,6 +205,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// </summary>
         private void SetUserSettings()
         {
+            Logger.Log("Loading settings");
             BypassWidthOrHeightLimitations = false;
             LoadResolutions();
         }
@@ -210,15 +215,16 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// </summary>
         private void LoadResolutions()
         {
+            Logger.Log("Loading resolutions");
             Resolutions.Clear();
 
             var resolutions = _loadSettingsService.LoadResolutions();
 
             foreach (var resolution in resolutions) Resolutions.Add(resolution);
-            
+
             // Load first resolution values and ignore others. Used in combination with CmbIndex = 0.
             if (Resolutions.Count <= 0) return;
-            
+
             Width = Resolutions[0].Width;
             Heigth = Resolutions[0].Height;
             CmbIndex = 0;

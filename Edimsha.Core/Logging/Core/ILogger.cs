@@ -1,7 +1,7 @@
 namespace Edimsha.Core.Logging.Core
 {
     /// <summary>
-    /// A logger that will handle log messages from a <see cref="ILogFactory"/>
+    /// A logger that will handle log messages/>
     /// </summary>
     public interface ILogger
     {

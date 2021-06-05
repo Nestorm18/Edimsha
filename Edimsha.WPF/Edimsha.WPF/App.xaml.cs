@@ -12,7 +12,7 @@ namespace Edimsha.WPF
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         private static IHost _host;
 
@@ -20,7 +20,7 @@ namespace Edimsha.WPF
         {
             try
             {
-                Logger.Log("Aplicacion iniciada");
+                Logger.Log("App starts DI");
                 _host = CreateHostBuilder().Build();
             }
             catch (Exception e)
@@ -29,7 +29,7 @@ namespace Edimsha.WPF
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args = null)
+        private static IHostBuilder CreateHostBuilder(string[] args = null)
         {
             return Host.CreateDefaultBuilder(args)
                 .AddConfiguration()
@@ -38,7 +38,7 @@ namespace Edimsha.WPF
                 .AddViews();
         }
 
-        public static T GetRequiredServiceFromHost<T>()
+        private static T GetRequiredServiceFromHost<T>()
         {
             return _host.Services.GetRequiredService<T>();
         }
@@ -47,6 +47,7 @@ namespace Edimsha.WPF
         {
             try
             {
+                Logger.Log("App OnStartup");
                 _host.Start();
 
                 Window window = GetRequiredServiceFromHost<MainWindow>();
@@ -67,8 +68,9 @@ namespace Edimsha.WPF
             {
                 await _host.StopAsync();
                 _host.Dispose();
-
+                
                 base.OnExit(e);
+                Logger.Log("Closing app...");
             }
             catch (Exception ex)
             {

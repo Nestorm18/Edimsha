@@ -1,3 +1,4 @@
+using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.ViewModels;
 using Edimsha.WPF.ViewModels.Factories;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,7 @@ namespace Edimsha.WPF.HostBuild
     {
         public static IHostBuilder AddViewModels(this IHostBuilder host)
         {
+            Logger.Log("AddViewModels");
             host.ConfigureServices(services =>
             {
                 services.AddTransient<MainViewModel>();
