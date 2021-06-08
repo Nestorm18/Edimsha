@@ -1,4 +1,4 @@
-﻿<!-- ReSharper disable Xaml.RedundantNamespaceAlias -->
+﻿<!--  ReSharper disable Xaml.RedundantNamespaceAlias  -->
 <UserControl
     x:Class="Edimsha.WPF.Views.EditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -16,7 +16,7 @@
     d:DesignHeight="470"
     d:DesignWidth="805"
     mc:Ignorable="d">
-    <!-- ReSharper restore Xaml.RedundantNamespaceAlias -->
+    <!--  ReSharper restore Xaml.RedundantNamespaceAlias  -->
     <UserControl.Resources>
         <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
         <converters:ImageFormatsAppendConverter x:Key="ImageFormatsAppendConverter" />
@@ -49,20 +49,20 @@
             ItemsSource="{Binding Urls}">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
+                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                     <MenuItem
                         Command="{Binding DeleteItemCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
                         Header="{lang:Localization delete_item}"
                         IsEnabled="{Binding IsCtxDelete}" />
-                    <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
-                    <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
+                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                    <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
                     <MenuItem
                         Command="{Binding DeleteAllItemsCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
                         Header="{lang:Localization delete_all_paths}"
                         IsEnabled="{Binding IsCtxDeleteAll}" />
-                    <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
+                    <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
@@ -262,7 +262,7 @@
                 Height="20"
                 Margin="5,5,5,0"
                 SmallChange="1"
-                Value="{Binding PbPosition}"/>
+                Value="{Binding PbPosition}" />
 
             <Grid Height="30" Margin="0,4,0,0">
                 <Grid.ColumnDefinitions>
@@ -284,8 +284,8 @@
                     IsEnabled="{Binding IsRunningUi, Converter={StaticResource InvertBoolConverter}}" />
                 <Button
                     Grid.Column="2"
-                    Content="{lang:Localization start}"
                     Command="{Binding StartCommand}"
+                    Content="{lang:Localization start}"
                     IsEnabled="{Binding IsStartedUi}" />
             </Grid>
 

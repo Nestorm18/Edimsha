@@ -1,16 +1,16 @@
-﻿<!-- ReSharper disable Xaml.RedundantNamespaceAlias -->
+﻿<!--  ReSharper disable Xaml.RedundantNamespaceAlias  -->
 <Window
     x:Class="Edimsha.WPF.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Edimsha.WPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
     xmlns:local="clr-namespace:Edimsha.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:navigatoorType="clr-namespace:Edimsha.WPF.State.Navigators"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
     xmlns:views="clr-namespace:Edimsha.WPF.Views"
-    xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
     Title="MainWindow"
     Width="800"
     Height="510"
@@ -20,7 +20,7 @@
     Icon="/Resources/icon.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <!-- ReSharper restore Xaml.RedundantNamespaceAlias -->
+    <!--  ReSharper restore Xaml.RedundantNamespaceAlias  -->
     <Grid>
         <Grid.Resources>
             <converters:EnumBooleanConverter x:Key="EnumBooleanConverter" />

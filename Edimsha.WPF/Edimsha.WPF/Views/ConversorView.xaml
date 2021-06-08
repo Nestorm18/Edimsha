@@ -1,4 +1,4 @@
-﻿<!-- ReSharper disable Xaml.RedundantNamespaceAlias -->
+﻿<!--  ReSharper disable Xaml.RedundantNamespaceAlias  -->
 <UserControl
     x:Class="Edimsha.WPF.Views.ConversorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d">
-    <!-- ReSharper restore Xaml.RedundantNamespaceAlias -->
+    <!--  ReSharper restore Xaml.RedundantNamespaceAlias  -->
     <Grid>
         <TextBlock>CONVERSOR</TextBlock>
     </Grid>

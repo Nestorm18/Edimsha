@@ -1,4 +1,4 @@
-﻿<!-- ReSharper disable Xaml.RedundantNamespaceAlias -->
+﻿<!--  ReSharper disable Xaml.RedundantNamespaceAlias  -->
 <Window
     x:Class="Edimsha.WPF.Views.Dialogs.ResolutionDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,8 +6,8 @@
     xmlns:converters="clr-namespace:Edimsha.WPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:local="clr-namespace:Edimsha.WPF.Views.Dialogs"
     xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
+    xmlns:local="clr-namespace:Edimsha.WPF.Views.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels.DialogsViewModel"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -18,7 +18,7 @@
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <!-- ReSharper restore Xaml.RedundantNamespaceAlias -->
+    <!--  ReSharper restore Xaml.RedundantNamespaceAlias  -->
     <StackPanel>
         <StackPanel.Resources>
             <Style TargetType="Label">
@@ -116,14 +116,14 @@
                 Margin="0,5,5,0"
                 Command="{Binding SaveResolutionCommand}"
                 Content="{lang:Localization save_resolution}">
-                
+
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource MultiTextConverter}">
                         <Binding ElementName="Width" Path="Text" />
                         <Binding ElementName="Heigth" Path="Text" />
                     </MultiBinding>
                 </Button.CommandParameter>
-                
+
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="Button.Click">
                         <BeginStoryboard>
@@ -138,7 +138,7 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </Button.Triggers>
-                
+
             </Button>
         </Grid>
 
@@ -163,14 +163,14 @@
                     Command="{Binding RemoveResolutionCommand}"
                     Content="{lang:Localization remove}"
                     IsEnabled="{Binding HasValidResolutions}">
-                   
+
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiTextConverter}">
                             <Binding ElementName="Width" Path="Text" />
                             <Binding ElementName="Heigth" Path="Text" />
                         </MultiBinding>
                     </Button.CommandParameter>
-                    
+
                     <Button.Triggers>
                         <EventTrigger RoutedEvent="Button.Click">
                             <BeginStoryboard>
@@ -185,7 +185,7 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Button.Triggers>
-                    
+
                 </Button>
 
                 <!--  Cancel message  -->
@@ -207,7 +207,7 @@
             </Grid>
         </StackPanel>
 
-        <!-- Error message -->
+        <!--  Error message  -->
         <TextBlock
             x:Name="ErrorMessage"
             HorizontalAlignment="Center"
