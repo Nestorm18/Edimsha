@@ -5,7 +5,8 @@ namespace Edimsha.WPF.Services.Data
 {
     public class SettingsService
     {
-        protected readonly string SettingsPath;
+        protected readonly string SettingsEditor;
+        protected readonly string SettingsConversor;
         protected readonly string EditorPathsJson;
         protected readonly string ConversorPathsJson;
         protected readonly string ResolutionsJson;
@@ -13,7 +14,8 @@ namespace Edimsha.WPF.Services.Data
         protected SettingsService(ConfigPaths settingsPath)
         {
             Logger.Log($"SettingsPath : {settingsPath}");
-            SettingsPath = settingsPath.SettingsFile;
+            SettingsEditor = settingsPath.SettingsEditor;
+            SettingsConversor = settingsPath.SettingsConversor;
             EditorPathsJson = settingsPath.EditorPathsJson;
             ConversorPathsJson = settingsPath.ConversorPathsJson;
             ResolutionsJson = settingsPath.ResolutionsJson;

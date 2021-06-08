@@ -5,6 +5,7 @@ using Edimsha.Core.Logging.Core;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Data;
+using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
 
 namespace Edimsha.WPF.Commands
@@ -34,7 +35,7 @@ namespace Edimsha.WPF.Commands
         public void Execute(object? parameter)
         {
             if (parameter != null) _viewModel.Language = (Languages) parameter;
-            
+
             Logger.Log($"Changing language to {_viewModel.Language}", LogLevel.Debug);
 
             switch (_viewModel.Language)
@@ -42,12 +43,14 @@ namespace Edimsha.WPF.Commands
                 case Languages.English:
                     Logger.Log("Saving English", LogLevel.Debug);
                     ChangeLanguage.SetLanguage("");
-                    _saveSettingsService.SaveConfigurationSettings("Language", Languages.English.GetDescription());
+                    _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Language", Languages.English.GetDescription());
+                    _saveSettingsService.SaveConfigurationSettings(ViewType.Conversor, "Language", Languages.English.GetDescription());
                     break;
                 case Languages.Spanish:
                     Logger.Log("Saving Spanish", LogLevel.Debug);
                     ChangeLanguage.SetLanguage(Languages.Spanish.GetDescription());
-                    _saveSettingsService.SaveConfigurationSettings("Language", Languages.Spanish.GetDescription());
+                    _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Language", Languages.Spanish.GetDescription());
+                    _saveSettingsService.SaveConfigurationSettings(ViewType.Conversor, "Language", Languages.Spanish.GetDescription());
                     break;
                 default:
                     Logger.Log("El idioma indicado no existe", LogLevel.Error);

@@ -18,33 +18,58 @@ namespace Edimsha.WPF.Services.Data
             Logger.Log("Constructor");
         }
 
-        public async Task<bool> SaveConfigurationSettings<T>(string settingName, T value)
+        public async Task<bool> SaveConfigurationSettings<T>(ViewType type, string settingName, T value)
         {
             // Update Config.cs file when you add new setting to json
             Config newconfig;
 
-            Logger.Log($"SettingName: {settingName}, Value: {value}");
-            using (var settings = File.OpenText(SettingsPath))
+            switch (type)
             {
-                var serializer = new JsonSerializer();
-                var config = (Config) serializer.Deserialize(settings, typeof(Config));
+                case ViewType.Editor:
+                    Logger.Log($"Editor SettingName: {settingName}, Value: {value}");
+                    using (var settings = File.OpenText(SettingsEditor))
+                    {
+                        var serializer = new JsonSerializer();
+                        var config = (Config) serializer.Deserialize(settings, typeof(Config));
 
-                var propertyInfo = config?.GetType().GetProperty(settingName);
-                if (propertyInfo != null)
-                    propertyInfo.SetValue(config, Convert.ChangeType(value, propertyInfo.PropertyType), null);
-                else
-                    return false;
+                        var propertyInfo = config?.GetType().GetProperty(settingName);
+                        if (propertyInfo != null)
+                            propertyInfo.SetValue(config, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+                        else
+                            return false;
 
-                newconfig = config;
+                        newconfig = config;
+                    }
+
+                    Logger.Log("Writing file...");
+                    await File.WriteAllTextAsync(SettingsEditor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
+                    break;
+                case ViewType.Conversor:
+                    Logger.Log($"Conversor SettingName: {settingName} C, Value: {value}");
+                    using (var settings = File.OpenText(SettingsConversor))
+                    {
+                        var serializer = new JsonSerializer();
+                        var config = (Config) serializer.Deserialize(settings, typeof(Config));
+
+                        var propertyInfo = config?.GetType().GetProperty(settingName);
+                        if (propertyInfo != null)
+                            propertyInfo.SetValue(config, Convert.ChangeType(value, propertyInfo.PropertyType), null);
+                        else
+                            return false;
+
+                        newconfig = config;
+                    }
+
+                    Logger.Log("Writing file...");
+                    await File.WriteAllTextAsync(SettingsConversor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
-
-            Logger.Log("Writing file...");
-            await File.WriteAllTextAsync(SettingsPath, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
-
             return true;
         }
 
-        public async Task<bool> SavePathsListview(IEnumerable<string> values, ViewType viewType)
+        public bool SavePathsListview(IEnumerable<string> values, ViewType viewType)
         {
             Logger.Log($"Values: {values}, ViewType: {viewType}");
             string pathFile;
@@ -62,7 +87,8 @@ namespace Edimsha.WPF.Services.Data
             }
 
             Logger.Log("Writing file...");
-            await File.WriteAllTextAsync(pathFile, JsonConvert.SerializeObject(values.ToList(), Formatting.Indented));
+            File.WriteAllTextAsync(pathFile, JsonConvert.SerializeObject(values.ToList(), Formatting.Indented));
+            Logger.Log("File done!");
 
             return true;
         }
@@ -73,7 +99,7 @@ namespace Edimsha.WPF.Services.Data
             if (!File.Exists(ResolutionsJson)) throw new Exception($"SaveResolutions no ha encontrado archivo");
 
             var formatedJson = JsonConvert.SerializeObject(resolutions, Formatting.Indented);
-            
+
             Logger.Log("Writing file...");
             await File.WriteAllTextAsync(ResolutionsJson, formatedJson);
         }

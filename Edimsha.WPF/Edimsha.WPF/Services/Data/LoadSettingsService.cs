@@ -17,32 +17,54 @@ namespace Edimsha.WPF.Services.Data
             Logger.Log("Constructor loaded...", LogLevel.Debug);
         }
 
-        public T LoadConfigurationSetting<T>(string settingName)
+        public T LoadConfigurationSetting<T>(ViewType type, string settingName)
         {
             try
             {
-                using (var settings = File.OpenText(SettingsPath))
+                switch (type)
                 {
-                    Logger.Log($"settingName: {settingName}", LogLevel.Debug);
-                    
-                    var serializer = new JsonSerializer();
-                    var config = (Config) serializer.Deserialize(settings, typeof(Config));
+                    case ViewType.Editor:
+                        using (var settings = File.OpenText(SettingsEditor))
+                        {
+                            Logger.Log($"settingName: {settingName}", LogLevel.Debug);
 
-                    if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
+                            var serializer = new JsonSerializer();
+                            var config = (Config) serializer.Deserialize(settings, typeof(Config));
+
+                            if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
+                        }
+                        break;
+                    case ViewType.Conversor:
+                        using (var settings = File.OpenText(SettingsConversor))
+                        {
+                            Logger.Log($"settingName: {settingName}", LogLevel.Debug);
+
+                            var serializer = new JsonSerializer();
+                            var config = (Config) serializer.Deserialize(settings, typeof(Config));
+
+                            if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
+                        }
+                        break;
+                    default:
+                        var ex = new ArgumentOutOfRangeException(nameof(type), type, null);
+                        Logger.Log(ex.StackTrace, LogLevel.Error);
+                        throw ex;
                 }
+                
             }
             catch (Exception e)
             {
                 Logger.Log(e.StackTrace, LogLevel.Error);
                 throw;
             }
+
             return (T) new object();
         }
 
         public List<string> LoadPathsListview(ViewType type)
         {
             Logger.Log($"ViewType: {type}", LogLevel.Debug);
-            
+
             var file = type switch
             {
                 ViewType.Editor => EditorPathsJson,
@@ -60,11 +82,46 @@ namespace Edimsha.WPF.Services.Data
         public IEnumerable<Resolution> LoadResolutions()
         {
             Logger.Log("Loading...", LogLevel.Debug);
-            
+
             if (!File.Exists(ResolutionsJson)) throw new Exception($"LoadResolutions no ha encontrado archivo");
 
             var resolutions = File.ReadAllText(ResolutionsJson);
             return JsonConvert.DeserializeObject<List<Resolution>>(resolutions);
+        }
+
+        public Config GetConfigFormViewType(ViewType type)
+        {
+            try
+            {
+                switch (type)
+                {
+                    case ViewType.Editor:
+                        using (var settings = File.OpenText(SettingsEditor))
+                        {
+                            Logger.Log($"Obtaining all settings editor", LogLevel.Debug);
+
+                            var serializer = new JsonSerializer();
+                            return (Config) serializer.Deserialize(settings, typeof(Config));
+                        }
+                    case ViewType.Conversor:
+                        using (var settings = File.OpenText(SettingsConversor))
+                        {
+                            Logger.Log($"Obtaining all settings converter", LogLevel.Debug);
+
+                            var serializer = new JsonSerializer();
+                            return (Config) serializer.Deserialize(settings, typeof(Config));
+                        }
+                    default:
+                        var ex = new ArgumentOutOfRangeException(nameof(type), type, null);
+                        Logger.Log(ex.StackTrace, LogLevel.Error);
+                        throw ex;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e.StackTrace, LogLevel.Error);
+                throw;
+            }
         }
     }
 }

@@ -121,8 +121,8 @@ namespace Edimsha.Edition.Editor
             var destY = 0;
 
             var nPercent = 0.0f;
-            var nPercentW = Width / (float) sourceWidth;
-            var nPercentH = Height / (float) sourceHeight;
+            var nPercentW = Width / (float)sourceWidth;
+            var nPercentH = Height / (float)sourceHeight;
 
             if (nPercentH < nPercentW)
             {
@@ -135,8 +135,8 @@ namespace Edimsha.Edition.Editor
                 destY = Convert.ToInt16((Height - sourceHeight * nPercent) / 2);
             }
 
-            var destWidth = (int) (sourceWidth * nPercent);
-            var destHeight = (int) (sourceHeight * nPercent);
+            var destWidth = (int)(sourceWidth * nPercent);
+            var destHeight = (int)(sourceHeight * nPercent);
 
             var bmPhoto = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);

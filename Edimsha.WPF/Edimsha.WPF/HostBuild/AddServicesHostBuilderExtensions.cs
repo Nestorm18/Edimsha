@@ -17,7 +17,8 @@ namespace Edimsha.WPF.HostBuild
             {
                 var config = new ConfigPaths
                 {
-                    SettingsFile = context.Configuration.GetValue<string>("SETTINGS_FILE"),
+                    SettingsEditor = context.Configuration.GetValue<string>("SETTINGS_FILE_EDITOR"),
+                    SettingsConversor = context.Configuration.GetValue<string>("SETTINGS_FILE_CONVERSOR"),
                     EditorPathsJson = context.Configuration.GetValue<string>("EDITOR_PATHS_JSON"),
                     ConversorPathsJson = context.Configuration.GetValue<string>("CONVERSOR_PATHS_JSON"),
                     ResolutionsJson = context.Configuration.GetValue<string>("RESOLUTIONS_JSON")

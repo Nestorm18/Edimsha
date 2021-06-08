@@ -12,6 +12,7 @@ using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
+using Edimsha.WPF.Services.Editor;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 
@@ -29,6 +30,7 @@ namespace Edimsha.WPF.ViewModels
 
         // Fields
         private bool _isLoadingSettings;
+        private EditorBackgroundWorker _editorBackgroundWorker;
 
         // Properties
 
@@ -49,7 +51,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool CleanListOnExit
         {
-            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(CleanListOnExit));
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(CleanListOnExit));
             set
             {
                 UpdateSetting(nameof(CleanListOnExit), value);
@@ -59,7 +61,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool AlwaysIncludeOnReplace
         {
-            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(AlwaysIncludeOnReplace));
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(AlwaysIncludeOnReplace));
             set
             {
                 UpdateSetting(nameof(AlwaysIncludeOnReplace), value);
@@ -69,7 +71,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool KeepOriginalResolution
         {
-            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(KeepOriginalResolution));
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(KeepOriginalResolution));
 
             set
             {
@@ -80,7 +82,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool OptimizeImage
         {
-            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(OptimizeImage));
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(OptimizeImage));
 
             set
             {
@@ -91,7 +93,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool ReplaceForOriginal
         {
-            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(ReplaceForOriginal));
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(ReplaceForOriginal));
 
             set
             {
@@ -106,6 +108,7 @@ namespace Edimsha.WPF.ViewModels
             set
             {
                 _isRunningUi = value;
+                IsStartedUi = value;
                 OnPropertyChanged();
             }
         }
@@ -153,7 +156,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool IterateSubdirectories
         {
-            get => _loadSettingsService.LoadConfigurationSetting<bool>(nameof(IterateSubdirectories));
+            get => _loadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(IterateSubdirectories));
             set
             {
                 UpdateSetting(nameof(IterateSubdirectories), value);
@@ -180,7 +183,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _outputFolder) return;
 
                 _outputFolder = Directory.Exists(value) ? value : string.Empty;
-                _saveSettingsService.SaveConfigurationSettings("OutputFolder", _outputFolder);
+                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "OutputFolder", _outputFolder);
 
                 OnPropertyChanged();
             }
@@ -194,7 +197,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _edimsha) return;
                 _edimsha = value;
 
-                _saveSettingsService.SaveConfigurationSettings("Edimsha", value);
+                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Edimsha", value);
 
                 OnPropertyChanged();
             }
@@ -208,7 +211,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value.Equals(_compresionValue)) return;
                 _compresionValue = value;
 
-                _saveSettingsService.SaveConfigurationSettings("CompresionValue", value);
+                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "CompresionValue", value);
 
                 OnPropertyChanged();
             }
@@ -234,8 +237,8 @@ namespace Edimsha.WPF.ViewModels
                 _heightImage = value;
                 OnPropertyChanged();
             }
-        }   
-        
+        }
+
         public int PbPosition
         {
             get => _pbPosition;
@@ -299,9 +302,9 @@ namespace Edimsha.WPF.ViewModels
             OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, _saveSettingsService);
             // Run buttons
             ResetCommand = new ResetEditorCommand(this);
-                // CancelCommand = new 
-                // StartCommand = new 
-            
+            CancelCommand = new RelayCommand(Cancel);
+            StartCommand = new RelayCommand(Start);
+
             // Loaded
             _isLoadingSettings = SetUserSettings();
         }
@@ -326,7 +329,7 @@ namespace Edimsha.WPF.ViewModels
             Logger.Log("Saving paths");
 
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
-            if (!success.Result) StatusBar = "error_saving_editor_paths";
+            if (!success) StatusBar = "error_saving_editor_paths";
         }
 
         /// <summary>
@@ -352,9 +355,9 @@ namespace Edimsha.WPF.ViewModels
             StatusBar = "application_started";
 
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
-            OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>("OutputFolder");
-            Edimsha = _loadSettingsService.LoadConfigurationSetting<string>("Edimsha");
-            CompresionValue = _loadSettingsService.LoadConfigurationSetting<double>("CompresionValue");
+            OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "OutputFolder");
+            Edimsha = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "Edimsha");
+            CompresionValue = _loadSettingsService.LoadConfigurationSetting<double>(ViewType.Editor, "CompresionValue");
 
             IsRunningUi = true;
 
@@ -378,9 +381,58 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Log($"setting: {setting}, Value: {value}");
-            var success = await _saveSettingsService.SaveConfigurationSettings(setting, value);
+            var success = await _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, setting, value);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
+        }
+
+        private void Cancel()
+        {
+            Logger.Log("Canceled edition");
+            _editorBackgroundWorker.CancelAsync();
+
+            IsRunningUi = true;
+        }
+
+        private void Start()
+        {
+            Logger.Log("Started edition");
+            IsRunningUi = false;
+
+            var paths = _urls;
+            var config = _loadSettingsService.GetConfigFormViewType(ViewType.Editor);
+
+            _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution {Width = WidthImage, Height = HeightImage});
+            _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
+            _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            _editorBackgroundWorker.RunWorkerAsync();
+        }
+
+        // BackgroundWorker
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var state = e.UserState as MyUserState;
+
+            PbPosition = e.ProgressPercentage;
+
+            if (state != null)
+                Logger.Log($"Editada {e.ProgressPercentage} de {state.CountPaths}");
+            // statusbar.Text = $"Editada {e.ProgressPercentage} de {state.CountPaths}";
+        }
+
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                Logger.Log("Cancelled by user...");
+                // statusbar.Text = "Cancelled by user...";
+            }
+            else
+            {
+                _editorBackgroundWorker.ProgressChanged -= Worker_ProgressChanged;
+                _editorBackgroundWorker.RunWorkerCompleted -= Worker_RunWorkerCompleted;
+                IsRunningUi = true;
+            }
         }
     }
 }
