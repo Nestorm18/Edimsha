@@ -11,6 +11,6 @@ namespace Edimsha.WPF.Services.Data
 
         Task<bool> SavePathsListview(IEnumerable<string> values, ViewType viewType);
 
-        Task<bool> SaveResolutions(IEnumerable<Resolution> resolutions);
+        void SaveResolutions(IEnumerable<Resolution> resolutions);
     }
 }

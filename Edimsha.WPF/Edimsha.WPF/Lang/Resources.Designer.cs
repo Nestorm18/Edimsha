@@ -349,6 +349,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset complete!.
+        /// </summary>
+        internal static string reset_completed {
+            get {
+                return ResourceManager.GetString("reset_completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resolution saved!.
         /// </summary>
         internal static string resolution_saved {

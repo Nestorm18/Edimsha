@@ -156,4 +156,7 @@
   <data name="resolution_saved" xml:space="preserve">
     <value>Resolution saved!</value>
   </data>
+  <data name="reset_completed" xml:space="preserve">
+    <value>Reset complete!</value>
+  </data>
 </root>

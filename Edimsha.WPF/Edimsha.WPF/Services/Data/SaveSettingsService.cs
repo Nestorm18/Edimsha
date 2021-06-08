@@ -67,7 +67,7 @@ namespace Edimsha.WPF.Services.Data
             return true;
         }
 
-        public async Task<bool> SaveResolutions(IEnumerable<Resolution> resolutions)
+        public async void SaveResolutions(IEnumerable<Resolution> resolutions)
         {
             Logger.Log($"Resolutions {resolutions}");
             if (!File.Exists(ResolutionsJson)) throw new Exception($"SaveResolutions no ha encontrado archivo");
@@ -76,8 +76,6 @@ namespace Edimsha.WPF.Services.Data
             
             Logger.Log("Writing file...");
             await File.WriteAllTextAsync(ResolutionsJson, formatedJson);
-
-            return true;
         }
     }
 }

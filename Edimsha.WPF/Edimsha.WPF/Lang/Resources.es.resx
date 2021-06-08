@@ -158,4 +158,7 @@
   <data name="resolution_saved" xml:space="preserve">
     <value>Resolucion guardada!</value>
   </data>
+  <data name="reset_completed" xml:space="preserve">
+    <value>Reseteo completo!</value>
+  </data>
 </root>

@@ -261,7 +261,8 @@
             <ProgressBar
                 Height="20"
                 Margin="5,5,5,0"
-                SmallChange="1" />
+                SmallChange="1"
+                Value="{Binding PbPosition}"/>
 
             <Grid Height="30" Margin="0,4,0,0">
                 <Grid.ColumnDefinitions>
@@ -273,15 +274,18 @@
                 <Button
                     Grid.Column="0"
                     Margin="5,3"
+                    Command="{Binding ResetCommand}"
                     Content="{lang:Localization reset}"
                     IsEnabled="{Binding IsRunningUi}" />
                 <Button
                     Grid.Column="1"
+                    Command="{Binding CancelCommand}"
                     Content="{lang:Localization stop}"
                     IsEnabled="{Binding IsRunningUi, Converter={StaticResource InvertBoolConverter}}" />
                 <Button
                     Grid.Column="2"
                     Content="{lang:Localization start}"
+                    Command="{Binding StartCommand}"
                     IsEnabled="{Binding IsStartedUi}" />
             </Grid>
 

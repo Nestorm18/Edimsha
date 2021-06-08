@@ -47,6 +47,7 @@ namespace Edimsha.WPF.Services.Dialogs
             var dlg = new ResolutionDialog {DataContext = vm};
             dlg.ShowDialog();
             
+            //TODO Al cerrar con la X carga la resolucion pero al cancelar funciona correctamente
             Logger.Log($"Resolution: {vm.GetResolution()}");
             return vm.GetResolution();
         }

@@ -45,6 +45,7 @@ namespace Edimsha.WPF.ViewModels
         private double _compresionValue;
         private int _widthImage;
         private int _heightImage;
+        private int _pbPosition;
 
         public bool CleanListOnExit
         {
@@ -165,7 +166,7 @@ namespace Edimsha.WPF.ViewModels
             get => _urls;
             set
             {
-                if (Equals(value, _urls)) return;
+                if (value == _urls) return;
                 _urls = value;
                 OnPropertyChanged();
             }
@@ -233,6 +234,17 @@ namespace Edimsha.WPF.ViewModels
                 _heightImage = value;
                 OnPropertyChanged();
             }
+        }   
+        
+        public int PbPosition
+        {
+            get => _pbPosition;
+            set
+            {
+                if (value == _pbPosition) return;
+                _pbPosition = value;
+                OnPropertyChanged();
+            }
         }
 
         #endregion
@@ -251,6 +263,12 @@ namespace Edimsha.WPF.ViewModels
 
         public ICommand OpenResolutionsDialogCommand { get; }
 
+        public ICommand ResetCommand { get; }
+
+        public ICommand CancelCommand { get; }
+
+        public ICommand StartCommand { get; }
+
         #endregion
 
         // Constructor
@@ -260,7 +278,7 @@ namespace Edimsha.WPF.ViewModels
             IDialogService dialogService)
         {
             Logger.Log("Constructor");
-            
+
             _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
             _dialogService = dialogService;
@@ -272,11 +290,17 @@ namespace Edimsha.WPF.ViewModels
             Urls.CollectionChanged += UrlsOnCollectionChanged;
 
             // Commands
+            // Mouse context
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
+            // Parameter buttons
             OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
             OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
             OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, _saveSettingsService);
+            // Run buttons
+            ResetCommand = new ResetEditorCommand(this);
+                // CancelCommand = new 
+                // StartCommand = new 
             
             // Loaded
             _isLoadingSettings = SetUserSettings();
@@ -285,10 +309,11 @@ namespace Edimsha.WPF.ViewModels
         public void OnFileDrop(string[] filepaths)
         {
             Logger.Log($"Filepaths: {filepaths}");
-            
+
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
 
-            var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
+            var listCleaned =
+                ListCleaner.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
 
             Urls.Clear();
             foreach (var s in listCleaned) Urls.Add(s);
@@ -296,10 +321,10 @@ namespace Edimsha.WPF.ViewModels
             SavePaths();
         }
 
-        private void SavePaths()
+        internal void SavePaths()
         {
             Logger.Log("Saving paths");
-            
+
             var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
             if (!success.Result) StatusBar = "error_saving_editor_paths";
         }
@@ -343,8 +368,11 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Log($"Paths updated");
             if (_isLoadingSettings) return;
-            IsCtxDelete = Urls.Count > 0;
-            IsCtxDeleteAll = Urls.Count > 0;
+            var isEnabled = Urls.Count > 0;
+
+            IsCtxDelete = isEnabled;
+            IsCtxDeleteAll = isEnabled;
+            IsStartedUi = isEnabled;
         }
 
         private async Task UpdateSetting<T>(string setting, T value)
