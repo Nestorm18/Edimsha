@@ -45,6 +45,15 @@ namespace Edimsha.WPF.Services.Dialogs
 
             Logger.Log("Opening dialog");
             var dlg = new ResolutionDialog {DataContext = vm};
+            
+            // Prevent load resolution if closes with the X in titlebar
+            dlg.Closing += (_, _) =>
+            {
+                vm.BypassWidthOrHeightLimitations = true;
+                vm.Width = -1;
+                vm.Heigth = -1;
+            };
+            
             dlg.ShowDialog();
             
             //TODO Al cerrar con la X carga la resolucion pero al cancelar funciona correctamente
