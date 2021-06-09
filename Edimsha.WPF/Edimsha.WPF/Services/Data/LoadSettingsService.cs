@@ -19,43 +19,25 @@ namespace Edimsha.WPF.Services.Data
 
         public T LoadConfigurationSetting<T>(ViewType type, string settingName)
         {
+            var settings = GetSettingFileWithViewType(type);
+
             try
             {
-                switch (type)
-                {
-                    case ViewType.Editor:
-                        using (var settings = File.OpenText(SettingsEditor))
-                        {
-                            Logger.Log($"settingName: {settingName}", LogLevel.Debug);
+                Logger.Log($"settingName: {settingName}", LogLevel.Debug);
 
-                            var serializer = new JsonSerializer();
-                            var config = (Config) serializer.Deserialize(settings, typeof(Config));
+                var serializer = new JsonSerializer();
+                var config = (Config) serializer.Deserialize(settings!, typeof(Config));
 
-                            if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
-                        }
-                        break;
-                    case ViewType.Conversor:
-                        using (var settings = File.OpenText(SettingsConversor))
-                        {
-                            Logger.Log($"settingName: {settingName}", LogLevel.Debug);
-
-                            var serializer = new JsonSerializer();
-                            var config = (Config) serializer.Deserialize(settings, typeof(Config));
-
-                            if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
-                        }
-                        break;
-                    default:
-                        var ex = new ArgumentOutOfRangeException(nameof(type), type, null);
-                        Logger.Log(ex.StackTrace, LogLevel.Error);
-                        throw ex;
-                }
-                
+                if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
             }
             catch (Exception e)
             {
                 Logger.Log(e.StackTrace, LogLevel.Error);
                 throw;
+            }
+            finally
+            {
+                settings.Close();
             }
 
             return (T) new object();
@@ -91,37 +73,62 @@ namespace Edimsha.WPF.Services.Data
 
         public Config GetConfigFormViewType(ViewType type)
         {
+            var settings = GetSettingFileWithViewType(type);
+
             try
             {
-                switch (type)
-                {
-                    case ViewType.Editor:
-                        using (var settings = File.OpenText(SettingsEditor))
-                        {
-                            Logger.Log($"Obtaining all settings editor", LogLevel.Debug);
+                Logger.Log("Obtaining all settings editor", LogLevel.Debug);
 
-                            var serializer = new JsonSerializer();
-                            return (Config) serializer.Deserialize(settings, typeof(Config));
-                        }
-                    case ViewType.Conversor:
-                        using (var settings = File.OpenText(SettingsConversor))
-                        {
-                            Logger.Log($"Obtaining all settings converter", LogLevel.Debug);
-
-                            var serializer = new JsonSerializer();
-                            return (Config) serializer.Deserialize(settings, typeof(Config));
-                        }
-                    default:
-                        var ex = new ArgumentOutOfRangeException(nameof(type), type, null);
-                        Logger.Log(ex.StackTrace, LogLevel.Error);
-                        throw ex;
-                }
+                var serializer = new JsonSerializer();
+                return (Config) serializer.Deserialize(settings, typeof(Config));
             }
             catch (Exception e)
             {
                 Logger.Log(e.StackTrace, LogLevel.Error);
                 throw;
             }
+            finally
+            {
+                settings.Close();
+            }
+        }
+
+        private StreamReader GetSettingFileWithViewType(ViewType type)
+        {
+            StreamReader settings = null;
+
+            try
+            {
+                switch (type)
+                {
+                    case ViewType.Editor:
+                    {
+                        settings = File.OpenText(SettingsEditor);
+                        break;
+                    }
+                    case ViewType.Conversor:
+                    {
+                        settings = File.OpenText(SettingsConversor);
+                        break;
+                    }
+                    default:
+                        ArgumentExceptionLoggedAndThrowed(type);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                ArgumentExceptionLoggedAndThrowed(type);
+            }
+
+            return settings;
+        }
+
+        private static void ArgumentExceptionLoggedAndThrowed(ViewType type)
+        {
+            var ex = new ArgumentOutOfRangeException(nameof(type), type, null);
+            Logger.Log(ex.StackTrace, LogLevel.Error);
+            throw ex;
         }
     }
 }
