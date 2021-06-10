@@ -19,11 +19,12 @@ namespace Edimsha.WPF.ViewModels
         [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
-            // Faster image procesing
-            if (!propertyName.Equals("StatusBar2") || !propertyName.Equals("StatusBar"))
-                Logger.Log($"PropertyName: {propertyName}");
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+            // Faster image procesing
+            if (!propertyName.Contains("StatusBar") || !propertyName.Contains("PbPosition")) return;
+
+            Logger.Log($"PropertyName: {propertyName}");
         }
     }
 }

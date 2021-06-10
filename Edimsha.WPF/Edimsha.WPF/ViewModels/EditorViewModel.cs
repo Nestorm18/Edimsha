@@ -429,7 +429,6 @@ namespace Edimsha.WPF.ViewModels
 
             // Percentage calculation
             PbPosition = (int) (e.ProgressPercentage * 100 / state.CountPaths);
-            ;
 
             StatusBar = "procesing";
             StatusBar2 = $"{e.ProgressPercentage} -> {state.CountPaths}";
