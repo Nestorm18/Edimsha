@@ -6,5 +6,7 @@
   "AlwaysIncludeOnReplace": false,
   "KeepOriginalResolution": false,
   "OptimizeImage": false,
-  "ReplaceForOriginal": false
+  "ReplaceForOriginal": false,
+  "Width": 0,
+  "Height": 0
 }

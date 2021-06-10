@@ -1,4 +1,5 @@
 // ReSharper disable UnusedMember.Global
+
 namespace Edimsha.WPF.Settings
 {
     public class Config
@@ -13,5 +14,8 @@ namespace Edimsha.WPF.Settings
         public object CompresionValue { get; set; }
         public object OptimizeImage { get; set; }
         public object ReplaceForOriginal { get; set; }
+
+        public object Width { get; set; }
+        public object Height { get; set; }
     }
 }

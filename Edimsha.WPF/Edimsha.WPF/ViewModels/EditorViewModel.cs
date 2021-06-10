@@ -235,6 +235,9 @@ namespace Edimsha.WPF.ViewModels
             {
                 if (value == _widthImage) return;
                 _widthImage = value;
+
+                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Width", value);
+
                 OnPropertyChanged();
             }
         }
@@ -246,6 +249,9 @@ namespace Edimsha.WPF.ViewModels
             {
                 if (value == _heightImage) return;
                 _heightImage = value;
+
+                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Height", value);
+
                 OnPropertyChanged();
             }
         }
@@ -371,6 +377,8 @@ namespace Edimsha.WPF.ViewModels
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
             OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "OutputFolder");
             Edimsha = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "Edimsha");
+            WidthImage = (int) _loadSettingsService.LoadConfigurationSetting<long>(ViewType.Editor, "Width");
+            HeightImage = (int) _loadSettingsService.LoadConfigurationSetting<long>(ViewType.Editor, "Height");
             CompresionValue = _loadSettingsService.LoadConfigurationSetting<double>(ViewType.Editor, "CompresionValue");
 
             IsRunningUi = true;
