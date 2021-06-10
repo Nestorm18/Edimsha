@@ -425,11 +425,11 @@ namespace Edimsha.WPF.ViewModels
         // BackgroundWorker
         private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var state = e.UserState as MyUserState;
+            if (!(e.UserState is MyUserState state)) return;
 
-            PbPosition = e.ProgressPercentage;
-
-            if (state == null) return;
+            // Percentage calculation
+            PbPosition = (int) (e.ProgressPercentage * 100 / state.CountPaths);
+            ;
 
             StatusBar = "procesing";
             StatusBar2 = $"{e.ProgressPercentage} -> {state.CountPaths}";
