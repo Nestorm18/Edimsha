@@ -40,6 +40,10 @@ namespace Edimsha.WPF.Commands
             _editorViewModel.ReplaceForOriginal = false;
             _editorViewModel.PbPosition = 0;
             _editorViewModel.StatusBar = "reset_completed";
+            
+            // Reset UI 
+            _editorViewModel.IsRunningUi = true;
+            _editorViewModel.IsStartedUi = false;
         }
 
         public event EventHandler? CanExecuteChanged;
