@@ -290,7 +290,6 @@ namespace Edimsha.WPF.ViewModels
             ts.PropertyChanged += LanguageOnPropertyChanged;
 
             Urls = new ObservableCollection<string>();
-            Urls.CollectionChanged += UrlsOnCollectionChanged;
 
             // Commands
             // Mouse context
@@ -307,6 +306,10 @@ namespace Edimsha.WPF.ViewModels
 
             // Loaded
             _isLoadingSettings = SetUserSettings();
+
+            // Load faster all paths if is after SetUserSettings() intead new ObservableCollection<string>();
+            // Example from 3,157 seconds to 0,065
+            Urls.CollectionChanged += UrlsOnCollectionChanged;
         }
 
         public void OnFileDrop(string[] filepaths)
