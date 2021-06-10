@@ -25,6 +25,10 @@ namespace Edimsha.WPF.Services.Editor
         private void FixNull()
         {
             _config.Edimsha ??= "edimsha_";
+
+            if (_config.Edimsha.Equals(string.Empty))
+                _config.Edimsha = "edimsha_";
+
             _config.OutputFolder ??= string.Empty;
         }
 
@@ -40,12 +44,12 @@ namespace Edimsha.WPF.Services.Editor
 
                 image = Resize(img);
             }
-            
+
             var savePath = GeneratesavePath();
-            
+
             if ((bool) _config.AlwaysIncludeOnReplace)
                 File.Delete(_path);
-            
+
             if ((bool) _config.OptimizeImage)
                 image.Save(savePath, ImageFormat.Jpeg);
             else
