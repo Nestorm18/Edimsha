@@ -25,14 +25,14 @@ namespace Edimsha.WPF.ViewModels
     {
         private readonly IDialogService _dialogService;
 
-        // Fields
-        private readonly bool _isLoadingSettings;
-
         private readonly ILoadSettingsService _loadSettingsService;
 
         // IOC
         private readonly ISaveSettingsService _saveSettingsService;
         private EditorBackgroundWorker _editorBackgroundWorker;
+
+        // Fields
+        private bool _isLoadingSettings;
 
         // Constructor
         public EditorViewModel(
@@ -96,15 +96,15 @@ namespace Edimsha.WPF.ViewModels
         }
 
         /// <summary>
-        ///     Using code behind translation, the "OnPropertyChanged" property of the element
-        ///     that will be updated when changing languages must be called.
-        ///     <para>Example:</para>
-        ///     Set text when UI starts; set new value you need if you update your text in any part on the viewmodel
-        ///     passing the translation key.
-        ///     <code>StatusBar = "application_started";</code>
-        ///     To update the current showing text to new language you must add you property like this.
-        ///     <code>OnPropertyChanged(nameof(StatusBar));</code>
-        ///     <para>NOTE: Use <see cref="LangKeyToTranslationConverter" /> in your text binding in XAML.</para>
+        /// Using code behind translation, the "OnPropertyChanged" property of the element
+        /// that will be updated when changing languages must be called. 
+        /// <para>Example:</para>
+        /// Set text when UI starts; set new value you need if you update your text in any part on the viewmodel
+        /// passing the translation key.
+        /// <code>StatusBar = "application_started";</code>
+        /// To update the current showing text to new language you must add you property like this.
+        /// <code>OnPropertyChanged(nameof(StatusBar));</code>
+        /// <para>NOTE: Use <see cref="LangKeyToTranslationConverter"/> in your text binding in XAML.</para>
         /// </summary>
         private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -114,7 +114,7 @@ namespace Edimsha.WPF.ViewModels
 
         private bool SetUserSettings()
         {
-            Logger.Log("Loading saved settings");
+            Logger.Log($"Loading saved settings");
             StatusBar = "application_started";
 
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
@@ -132,7 +132,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Logger.Log("Paths updated");
+            Logger.Log($"Paths updated");
             if (_isLoadingSettings) return;
             var isEnabled = Urls.Count > 0;
 
