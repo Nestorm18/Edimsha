@@ -24,7 +24,7 @@ namespace Edimsha.WPF.Services.Editor
 
         private void FixNull()
         {
-            _config.Edimsha ??= "Edimsha_";
+            _config.Edimsha ??= "edimsha_";
             _config.OutputFolder ??= string.Empty;
         }
 
@@ -41,7 +41,6 @@ namespace Edimsha.WPF.Services.Editor
                 image = Resize(img);
             }
             
-            // TODO: Algo falla neste punto
             var savePath = GeneratesavePath();
             
             if ((bool) _config.AlwaysIncludeOnReplace)
@@ -72,7 +71,7 @@ namespace Edimsha.WPF.Services.Editor
             if ((bool) _config.ReplaceForOriginal && !(bool) _config.AlwaysIncludeOnReplace)
                 return imageName;
 
-            if (!samePath && !(bool) _config.AlwaysIncludeOnReplace) return imageName;
+            if (samePath && !(bool) _config.AlwaysIncludeOnReplace) return imageName;
             
             var edimsha =  _config.Edimsha;
             return $"{edimsha}{imageName}";
