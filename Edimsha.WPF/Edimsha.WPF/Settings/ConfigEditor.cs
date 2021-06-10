@@ -2,7 +2,7 @@
 
 namespace Edimsha.WPF.Settings
 {
-    public class Config
+    public class ConfigEditor
     {
         public object Language { get; set; }
         public object CleanListOnExit { get; set; }

@@ -11,25 +11,25 @@ namespace Edimsha.WPF.Services.Editor
     public class Edition
     {
         private readonly string _path;
-        private readonly Config _config;
+        private readonly ConfigEditor _configEditor;
         public Resolution Resolution { get; set; }
 
-        public Edition(string path, Config config)
+        public Edition(string path, ConfigEditor configEditor)
         {
             _path = path;
-            _config = config;
+            _configEditor = configEditor;
 
             FixNull();
         }
 
         private void FixNull()
         {
-            _config.Edimsha ??= "edimsha_";
+            _configEditor.Edimsha ??= "edimsha_";
 
-            if (_config.Edimsha.Equals(string.Empty))
-                _config.Edimsha = "edimsha_";
+            if (_configEditor.Edimsha.Equals(string.Empty))
+                _configEditor.Edimsha = "edimsha_";
 
-            _config.OutputFolder ??= string.Empty;
+            _configEditor.OutputFolder ??= string.Empty;
         }
 
         public void Run()
@@ -39,7 +39,7 @@ namespace Edimsha.WPF.Services.Editor
 
             using (var img = Image.FromFile(_path))
             {
-                if ((bool) _config.KeepOriginalResolution || (Resolution.Width <= 0 || Resolution.Height <= 0))
+                if ((bool) _configEditor.KeepOriginalResolution || (Resolution.Width <= 0 || Resolution.Height <= 0))
                     Resolution = new Resolution {Width = img.Width, Height = img.Height};
 
                 image = Resize(img);
@@ -47,10 +47,10 @@ namespace Edimsha.WPF.Services.Editor
 
             var savePath = GeneratesavePath();
 
-            if ((bool) _config.AlwaysIncludeOnReplace)
+            if ((bool) _configEditor.AlwaysIncludeOnReplace)
                 File.Delete(_path);
 
-            if ((bool) _config.OptimizeImage)
+            if ((bool) _configEditor.OptimizeImage)
                 image.Save(savePath, ImageFormat.Jpeg);
             else
                 image.Save(savePath, ImageFormat.Jpeg);
@@ -62,28 +62,28 @@ namespace Edimsha.WPF.Services.Editor
         {
             var name = GenerateName();
 
-            return _config.OutputFolder.Equals(string.Empty)
+            return _configEditor.OutputFolder.Equals(string.Empty)
                 ? Path.Combine(Directory.GetParent(_path)?.FullName ?? string.Empty, name)
-                : Path.Combine((string) _config.OutputFolder, name);
+                : Path.Combine((string) _configEditor.OutputFolder, name);
         }
 
         private string GenerateName()
         {
             var samePath = IsSamePath();
             var imageName = Path.GetFileName(_path);
-            
-            if ((bool) _config.ReplaceForOriginal && !(bool) _config.AlwaysIncludeOnReplace)
+
+            if ((bool) _configEditor.ReplaceForOriginal && !(bool) _configEditor.AlwaysIncludeOnReplace)
                 return imageName;
 
-            if (samePath && !(bool) _config.AlwaysIncludeOnReplace) return imageName;
-            
-            var edimsha =  _config.Edimsha;
+            if (samePath && !(bool) _configEditor.AlwaysIncludeOnReplace) return imageName;
+
+            var edimsha = _configEditor.Edimsha;
             return $"{edimsha}{imageName}";
         }
 
         private bool IsSamePath()
         {
-            var outputDir = _config.OutputFolder;
+            var outputDir = _configEditor.OutputFolder;
             var currentDir = Directory.GetParent(_path)?.FullName;
 
             return outputDir == null || Equals(outputDir, currentDir);

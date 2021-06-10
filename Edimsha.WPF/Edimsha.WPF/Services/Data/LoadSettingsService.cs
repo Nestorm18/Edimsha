@@ -26,7 +26,7 @@ namespace Edimsha.WPF.Services.Data
                 Logger.Log($"settingName: {settingName}", LogLevel.Debug);
 
                 var serializer = new JsonSerializer();
-                var config = (Config) serializer.Deserialize(settings!, typeof(Config));
+                var config = (ConfigEditor) serializer.Deserialize(settings!, typeof(ConfigEditor));
 
                 if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
             }
@@ -71,7 +71,7 @@ namespace Edimsha.WPF.Services.Data
             return JsonConvert.DeserializeObject<List<Resolution>>(resolutions);
         }
 
-        public Config GetConfigFormViewType(ViewType type)
+        public ConfigEditor GetConfigFormViewType(ViewType type)
         {
             var settings = GetSettingFileWithViewType(type);
 
@@ -80,7 +80,7 @@ namespace Edimsha.WPF.Services.Data
                 Logger.Log("Obtaining all settings editor", LogLevel.Debug);
 
                 var serializer = new JsonSerializer();
-                return (Config) serializer.Deserialize(settings, typeof(Config));
+                return (ConfigEditor) serializer.Deserialize(settings, typeof(ConfigEditor));
             }
             catch (Exception e)
             {

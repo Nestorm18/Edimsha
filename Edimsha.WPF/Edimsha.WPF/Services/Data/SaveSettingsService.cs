@@ -21,7 +21,7 @@ namespace Edimsha.WPF.Services.Data
         public async Task<bool> SaveConfigurationSettings<T>(ViewType type, string settingName, T value)
         {
             // Update Config.cs file when you add new setting to json
-            Config newconfig;
+            ConfigEditor newconfig;
 
             switch (type)
             {
@@ -30,7 +30,7 @@ namespace Edimsha.WPF.Services.Data
                     using (var settings = File.OpenText(SettingsEditor))
                     {
                         var serializer = new JsonSerializer();
-                        var config = (Config) serializer.Deserialize(settings, typeof(Config));
+                        var config = (ConfigEditor) serializer.Deserialize(settings, typeof(ConfigEditor));
 
                         var propertyInfo = config?.GetType().GetProperty(settingName);
                         if (propertyInfo != null)
@@ -49,7 +49,7 @@ namespace Edimsha.WPF.Services.Data
                     using (var settings = File.OpenText(SettingsConversor))
                     {
                         var serializer = new JsonSerializer();
-                        var config = (Config) serializer.Deserialize(settings, typeof(Config));
+                        var config = (ConfigEditor) serializer.Deserialize(settings, typeof(ConfigEditor));
 
                         var propertyInfo = config?.GetType().GetProperty(settingName);
                         if (propertyInfo != null)
@@ -66,6 +66,7 @@ namespace Edimsha.WPF.Services.Data
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
+
             return true;
         }
 
