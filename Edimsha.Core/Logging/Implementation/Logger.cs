@@ -35,12 +35,7 @@ namespace Edimsha.Core.Logging.Implementation
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            Start();
-            GetInstance();
-
-            _sw = new StreamWriter(_fileName, true, Encoding.ASCII);
             _sw.WriteLine(_instance.Log(message, level, origin, filePath, lineNumber));
-            _sw.Close();
         }
 
         private static void Start()
@@ -61,6 +56,22 @@ namespace Edimsha.Core.Logging.Implementation
             // Create a file once
             var fs = new FileStream(_fileName, FileMode.OpenOrCreate);
             fs.Close();
+        }
+
+        public static void Setup()
+        {
+            Start();
+            GetInstance();
+
+            _sw = new StreamWriter(_fileName, true, Encoding.ASCII);
+
+            Log("App Setup done!");
+        }
+
+        public static void Close()
+        {
+            Log("App Close done!");
+            _sw.Close();
         }
     }
 }

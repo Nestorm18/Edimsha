@@ -20,12 +20,13 @@ namespace Edimsha.WPF
         {
             try
             {
-                Logger.Log("App starts DI");
+                Logger.Setup();
                 _host = CreateHostBuilder().Build();
             }
             catch (Exception e)
             {
                 Logger.Log(e.StackTrace, LogLevel.Error);
+                Logger.Close();
             }
         }
 
@@ -58,6 +59,7 @@ namespace Edimsha.WPF
             catch (Exception ex)
             {
                 Logger.Log(ex.StackTrace, LogLevel.Error);
+                Logger.Close();
                 throw;
             }
         }
@@ -68,7 +70,7 @@ namespace Edimsha.WPF
             {
                 await _host.StopAsync();
                 _host.Dispose();
-                
+
                 base.OnExit(e);
                 Logger.Log("Closing app...");
             }
@@ -76,6 +78,10 @@ namespace Edimsha.WPF
             {
                 Logger.Log(ex.StackTrace, LogLevel.Error);
                 throw;
+            }
+            finally
+            {
+                Logger.Close();
             }
         }
     }
