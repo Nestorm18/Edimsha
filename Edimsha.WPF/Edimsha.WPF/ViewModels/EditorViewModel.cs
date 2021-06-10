@@ -23,14 +23,182 @@ namespace Edimsha.WPF.ViewModels
 {
     public class EditorViewModel : ViewModelBase, IFileDragDropTarget
     {
-        // IOC
-        private readonly ISaveSettingsService _saveSettingsService;
-        private readonly ILoadSettingsService _loadSettingsService;
         private readonly IDialogService _dialogService;
 
         // Fields
-        private bool _isLoadingSettings;
+        private readonly bool _isLoadingSettings;
+
+        private readonly ILoadSettingsService _loadSettingsService;
+
+        // IOC
+        private readonly ISaveSettingsService _saveSettingsService;
         private EditorBackgroundWorker _editorBackgroundWorker;
+
+        // Constructor
+        public EditorViewModel(
+            ISaveSettingsService saveSettingsService,
+            ILoadSettingsService loadSettingsService,
+            IDialogService dialogService)
+        {
+            Logger.Log("Constructor");
+
+            _saveSettingsService = saveSettingsService;
+            _loadSettingsService = loadSettingsService;
+            _dialogService = dialogService;
+
+            var ts = TranslationSource.Instance;
+            ts.PropertyChanged += LanguageOnPropertyChanged;
+
+            Urls = new ObservableCollection<string>();
+
+            // Commands
+            // Mouse context
+            DeleteItemCommand = new DeleteItemsCommand(this);
+            DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
+            // Parameter buttons
+            OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
+            OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
+            OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, _saveSettingsService);
+            // Run buttons
+            ResetCommand = new ResetEditorCommand(this);
+            CancelCommand = new RelayCommand(Cancel);
+            StartCommand = new RelayCommand(Start);
+
+            // Loaded
+            _isLoadingSettings = SetUserSettings();
+
+            // Load faster all paths if is after SetUserSettings() intead new ObservableCollection<string>();
+            // Example from 3,157 seconds to 0,065
+            Urls.CollectionChanged += UrlsOnCollectionChanged;
+        }
+
+        public void OnFileDrop(string[] filepaths)
+        {
+            Logger.Log($"Filepaths: {filepaths}");
+
+            var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
+
+            var listCleaned =
+                ListCleaner.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
+
+            Urls.Clear();
+            foreach (var s in listCleaned) Urls.Add(s);
+
+            SavePaths();
+        }
+
+        internal void SavePaths()
+        {
+            Logger.Log("Saving paths");
+
+            var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
+            if (!success) StatusBar = "error_saving_editor_paths";
+        }
+
+        /// <summary>
+        ///     Using code behind translation, the "OnPropertyChanged" property of the element
+        ///     that will be updated when changing languages must be called.
+        ///     <para>Example:</para>
+        ///     Set text when UI starts; set new value you need if you update your text in any part on the viewmodel
+        ///     passing the translation key.
+        ///     <code>StatusBar = "application_started";</code>
+        ///     To update the current showing text to new language you must add you property like this.
+        ///     <code>OnPropertyChanged(nameof(StatusBar));</code>
+        ///     <para>NOTE: Use <see cref="LangKeyToTranslationConverter" /> in your text binding in XAML.</para>
+        /// </summary>
+        private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Logger.Log("Language changed");
+            OnPropertyChanged(nameof(StatusBar));
+        }
+
+        private bool SetUserSettings()
+        {
+            Logger.Log("Loading saved settings");
+            StatusBar = "application_started";
+
+            _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
+            OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "OutputFolder");
+            Edimsha = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "Edimsha");
+            CompresionValue = _loadSettingsService.LoadConfigurationSetting<double>(ViewType.Editor, "CompresionValue");
+
+            IsRunningUi = true;
+
+            UrlsOnCollectionChanged(null, null);
+
+            // Configuration has finished so its false for _isLoadingSettings
+            return false;
+        }
+
+        private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Logger.Log("Paths updated");
+            if (_isLoadingSettings) return;
+            var isEnabled = Urls.Count > 0;
+
+            IsCtxDelete = isEnabled;
+            IsCtxDeleteAll = isEnabled;
+            IsStartedUi = isEnabled;
+        }
+
+        private async Task UpdateSetting<T>(string setting, T value)
+        {
+            Logger.Log($"setting: {setting}, Value: {value}");
+            var success = await _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, setting, value);
+
+            if (!success) StatusBar = "the_option_could_not_be_saved";
+        }
+
+        private void Cancel()
+        {
+            Logger.Log("Canceled edition");
+            _editorBackgroundWorker.CancelAsync();
+
+            IsRunningUi = true;
+        }
+
+        private void Start()
+        {
+            Logger.Log("Started edition");
+            IsRunningUi = false;
+
+            var paths = _urls;
+            var config = _loadSettingsService.GetConfigFormViewType(ViewType.Editor);
+
+            _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution {Width = WidthImage, Height = HeightImage});
+            _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
+            _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            _editorBackgroundWorker.RunWorkerAsync();
+        }
+
+        // BackgroundWorker
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var state = e.UserState as MyUserState;
+
+            PbPosition = e.ProgressPercentage;
+
+            if (state == null) return;
+
+            StatusBar = "procesing";
+            StatusBar2 = $"{e.ProgressPercentage} -> {state.CountPaths}";
+        }
+
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                Logger.Log("Cancelled by user...");
+                StatusBar = "cancelled_by_user";
+                StatusBar2 = "";
+            }
+            else
+            {
+                _editorBackgroundWorker.ProgressChanged -= Worker_ProgressChanged;
+                _editorBackgroundWorker.RunWorkerCompleted -= Worker_RunWorkerCompleted;
+                IsRunningUi = true;
+            }
+        }
 
         // Properties
 
@@ -41,6 +209,7 @@ namespace Edimsha.WPF.ViewModels
         private bool _isCtxDelete;
         private bool _isCtxDeleteAll;
         private string _statusBar;
+        private string _statusBar2;
         private ObservableCollection<string> _urls;
         private string _outputFolder;
         private string _edimsha;
@@ -150,6 +319,16 @@ namespace Edimsha.WPF.ViewModels
             set
             {
                 _statusBar = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string StatusBar2
+        {
+            get => _statusBar2;
+            set
+            {
+                _statusBar2 = value;
                 OnPropertyChanged();
             }
         }
@@ -273,169 +452,5 @@ namespace Edimsha.WPF.ViewModels
         public ICommand StartCommand { get; }
 
         #endregion
-
-        // Constructor
-        public EditorViewModel(
-            ISaveSettingsService saveSettingsService,
-            ILoadSettingsService loadSettingsService,
-            IDialogService dialogService)
-        {
-            Logger.Log("Constructor");
-
-            _saveSettingsService = saveSettingsService;
-            _loadSettingsService = loadSettingsService;
-            _dialogService = dialogService;
-
-            var ts = TranslationSource.Instance;
-            ts.PropertyChanged += LanguageOnPropertyChanged;
-
-            Urls = new ObservableCollection<string>();
-
-            // Commands
-            // Mouse context
-            DeleteItemCommand = new DeleteItemsCommand(this);
-            DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
-            // Parameter buttons
-            OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
-            OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
-            OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, _saveSettingsService);
-            // Run buttons
-            ResetCommand = new ResetEditorCommand(this);
-            CancelCommand = new RelayCommand(Cancel);
-            StartCommand = new RelayCommand(Start);
-
-            // Loaded
-            _isLoadingSettings = SetUserSettings();
-
-            // Load faster all paths if is after SetUserSettings() intead new ObservableCollection<string>();
-            // Example from 3,157 seconds to 0,065
-            Urls.CollectionChanged += UrlsOnCollectionChanged;
-        }
-
-        public void OnFileDrop(string[] filepaths)
-        {
-            Logger.Log($"Filepaths: {filepaths}");
-
-            var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
-
-            var listCleaned =
-                ListCleaner.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
-
-            Urls.Clear();
-            foreach (var s in listCleaned) Urls.Add(s);
-
-            SavePaths();
-        }
-
-        internal void SavePaths()
-        {
-            Logger.Log("Saving paths");
-
-            var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
-            if (!success) StatusBar = "error_saving_editor_paths";
-        }
-
-        /// <summary>
-        /// Using code behind translation, the "OnPropertyChanged" property of the element
-        /// that will be updated when changing languages must be called. 
-        /// <para>Example:</para>
-        /// Set text when UI starts; set new value you need if you update your text in any part on the viewmodel
-        /// passing the translation key.
-        /// <code>StatusBar = "application_started";</code>
-        /// To update the current showing text to new language you must add you property like this.
-        /// <code>OnPropertyChanged(nameof(StatusBar));</code>
-        /// <para>NOTE: Use <see cref="LangKeyToTranslationConverter"/> in your text binding in XAML.</para>
-        /// </summary>
-        private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Logger.Log("Language changed");
-            OnPropertyChanged(nameof(StatusBar));
-        }
-
-        private bool SetUserSettings()
-        {
-            Logger.Log($"Loading saved settings");
-            StatusBar = "application_started";
-
-            _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
-            OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "OutputFolder");
-            Edimsha = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "Edimsha");
-            CompresionValue = _loadSettingsService.LoadConfigurationSetting<double>(ViewType.Editor, "CompresionValue");
-
-            IsRunningUi = true;
-
-            UrlsOnCollectionChanged(null, null);
-
-            // Configuration has finished so its false for _isLoadingSettings
-            return false;
-        }
-
-        private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            Logger.Log($"Paths updated");
-            if (_isLoadingSettings) return;
-            var isEnabled = Urls.Count > 0;
-
-            IsCtxDelete = isEnabled;
-            IsCtxDeleteAll = isEnabled;
-            IsStartedUi = isEnabled;
-        }
-
-        private async Task UpdateSetting<T>(string setting, T value)
-        {
-            Logger.Log($"setting: {setting}, Value: {value}");
-            var success = await _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, setting, value);
-
-            if (!success) StatusBar = "the_option_could_not_be_saved";
-        }
-
-        private void Cancel()
-        {
-            Logger.Log("Canceled edition");
-            _editorBackgroundWorker.CancelAsync();
-
-            IsRunningUi = true;
-        }
-
-        private void Start()
-        {
-            Logger.Log("Started edition");
-            IsRunningUi = false;
-
-            var paths = _urls;
-            var config = _loadSettingsService.GetConfigFormViewType(ViewType.Editor);
-
-            _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution {Width = WidthImage, Height = HeightImage});
-            _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
-            _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            _editorBackgroundWorker.RunWorkerAsync();
-        }
-
-        // BackgroundWorker
-        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            var state = e.UserState as MyUserState;
-
-            PbPosition = e.ProgressPercentage;
-
-            if (state != null)
-                Logger.Log($"Editada {e.ProgressPercentage} de {state.CountPaths}");
-            // statusbar.Text = $"Editada {e.ProgressPercentage} de {state.CountPaths}";
-        }
-
-        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled)
-            {
-                Logger.Log("Cancelled by user...");
-                // statusbar.Text = "Cancelled by user...";
-            }
-            else
-            {
-                _editorBackgroundWorker.ProgressChanged -= Worker_ProgressChanged;
-                _editorBackgroundWorker.RunWorkerCompleted -= Worker_RunWorkerCompleted;
-                IsRunningUi = true;
-            }
-        }
     }
 }

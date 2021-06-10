@@ -10,16 +10,19 @@ namespace Edimsha.WPF.ViewModels
 
     public class ViewModelBase : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public virtual void Dispose()
         {
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null!)
         {
-            Logger.Log($"PropertyName: {propertyName}");
+            // Faster image procesing
+            if (!propertyName.Equals("StatusBar2") || !propertyName.Equals("StatusBar"))
+                Logger.Log($"PropertyName: {propertyName}");
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }

@@ -97,6 +97,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancelado por el usuario.
+        /// </summary>
+        internal static string cancelled_by_user {
+            get {
+                return ResourceManager.GetString("cancelled_by_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cambiar edimsha por:.
         /// </summary>
         internal static string change_edimsha_to {
@@ -309,6 +318,15 @@ namespace Edimsha.WPF.Lang {
         internal static string output_resolution {
             get {
                 return ResourceManager.GetString("output_resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Procesando.
+        /// </summary>
+        internal static string procesing {
+            get {
+                return ResourceManager.GetString("procesing", resourceCulture);
             }
         }
         

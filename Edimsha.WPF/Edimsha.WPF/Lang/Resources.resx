@@ -159,4 +159,10 @@
   <data name="reset_completed" xml:space="preserve">
     <value>Reset complete!</value>
   </data>
+  <data name="procesing" xml:space="preserve">
+    <value>Procesing</value>
+  </data>
+  <data name="cancelled_by_user" xml:space="preserve">
+    <value>Cancelled by user...</value>
+  </data>
 </root>
