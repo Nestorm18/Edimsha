@@ -45,17 +45,19 @@ namespace Edimsha.WPF.Services.Dialogs
 
             Logger.Log("Opening dialog");
             var dlg = new ResolutionDialog {DataContext = vm};
-            
+
             // Prevent load resolution if closes with the X in titlebar
             dlg.Closing += (_, _) =>
             {
+                if (vm.Width > 0 && vm.Heigth > 0) return;
+
                 vm.BypassWidthOrHeightLimitations = true;
                 vm.Width = -1;
                 vm.Heigth = -1;
             };
-            
+
             dlg.ShowDialog();
-            
+
             Logger.Log($"Resolution: {vm.GetResolution()}");
             return vm.GetResolution();
         }
