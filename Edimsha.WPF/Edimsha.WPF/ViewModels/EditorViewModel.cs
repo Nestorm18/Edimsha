@@ -29,7 +29,7 @@ namespace Edimsha.WPF.ViewModels
         private readonly IDialogService _dialogService;
 
         // Fields
-        private bool _isLoadingSettings;
+        private readonly bool _isLoadingSettings;
         private EditorBackgroundWorker _editorBackgroundWorker;
 
         // Properties
