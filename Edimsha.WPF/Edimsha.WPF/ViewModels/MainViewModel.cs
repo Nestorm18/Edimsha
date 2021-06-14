@@ -94,7 +94,7 @@ namespace Edimsha.WPF.ViewModels
             {
                 var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
 
-                if (cleanListOnExit) _saveSettingsService.SavePathsListview(new List<string>(), ViewType.Editor);
+                if (cleanListOnExit) _saveSettingsService.SavePaths(new List<string>(), ViewType.Editor);
             }
             catch (Exception e)
             {

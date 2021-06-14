@@ -66,7 +66,7 @@ namespace Edimsha.WPF.Services.Dialogs
             return vm.GetResolution();
         }
 
-        public async Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ViewType type)
+        public async Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, ViewType type)
         {
             Logger.Log($"Cheking for type {type}");
 
@@ -78,13 +78,16 @@ namespace Edimsha.WPF.Services.Dialogs
 
             if (result != MessageBoxResult.Yes) return;
 
-            var paths = loadSettingsService.GetPathChanges(type);
+            var allPaths = (List<string>) loadSettingsService.GetSavedPaths(type);
+            var deletedPaths = (List<string>) loadSettingsService.GetPathChanges(type);
 
-            if (paths == null) return;
+            if (deletedPaths == null) return;
 
-            var append = paths.Aggregate("", (current, text) => current + (text + "\n\n"));
+            var append = deletedPaths.Aggregate("", (current, text) => current + (text + "\n\n"));
 
-            //TODO Retornar lista rutas disponibles
+            var avaliablePaths = allPaths.Except(deletedPaths);
+
+            saveSettingsService.SavePaths(avaliablePaths, type);
 
             MessageBox.Show(append, TranslationSource.GetTranslationFromString("deleted_paths"), MessageBoxButton.OK, MessageBoxImage.Information);
         }

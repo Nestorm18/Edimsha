@@ -70,7 +70,7 @@ namespace Edimsha.WPF.Services.Data
             return true;
         }
 
-        public bool SavePathsListview(IEnumerable<string> values, ViewType viewType)
+        public bool SavePaths(IEnumerable<string> values, ViewType viewType)
         {
             Logger.Log($"Values: {values}, ViewType: {viewType}");
             string pathFile;

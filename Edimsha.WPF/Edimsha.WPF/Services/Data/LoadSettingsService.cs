@@ -44,7 +44,7 @@ namespace Edimsha.WPF.Services.Data
             return (T) new object();
         }
 
-        public List<string> LoadPathsListview(ViewType type)
+        public IEnumerable<string> GetSavedPaths(ViewType type)
         {
             Logger.Log($"ViewType: {type}", LogLevel.Debug);
 
@@ -102,7 +102,7 @@ namespace Edimsha.WPF.Services.Data
             {
                 Logger.Log("Obtaining last session paths", LogLevel.Debug);
 
-                var paths = LoadPathsListview(type);
+                var paths = GetSavedPaths(type);
 
                 return paths.All(File.Exists);
             }
@@ -125,7 +125,7 @@ namespace Edimsha.WPF.Services.Data
             {
                 Logger.Log("Gettings last session paths differences", LogLevel.Debug);
 
-                var changes = LoadPathsListview(type).Where(path => !File.Exists(path)).ToList();
+                var changes = GetSavedPaths(type).Where(path => !File.Exists(path)).ToList();
 
                 return changes.Count == 0 ? null : changes;
             }
@@ -163,7 +163,7 @@ namespace Edimsha.WPF.Services.Data
                         break;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ArgumentExceptionLoggedAndThrowed(type);
             }

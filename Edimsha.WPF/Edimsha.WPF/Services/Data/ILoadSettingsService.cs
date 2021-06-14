@@ -9,7 +9,7 @@ namespace Edimsha.WPF.Services.Data
     {
         T LoadConfigurationSetting<T>(ViewType type, string settingName);
 
-        List<string> LoadPathsListview(ViewType type);
+        IEnumerable<string> GetSavedPaths(ViewType type);
 
         IEnumerable<Resolution> LoadResolutions();
 

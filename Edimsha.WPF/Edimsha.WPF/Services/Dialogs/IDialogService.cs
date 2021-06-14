@@ -14,6 +14,6 @@ namespace Edimsha.WPF.Services.Dialogs
 
         Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService);
 
-        Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ViewType type);
+        Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, ViewType type);
     }
 }

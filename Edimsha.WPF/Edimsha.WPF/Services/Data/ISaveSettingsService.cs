@@ -9,7 +9,7 @@ namespace Edimsha.WPF.Services.Data
     {
         Task<bool> SaveConfigurationSettings<T>(ViewType type, string settingName, T value);
 
-        bool SavePathsListview(IEnumerable<string> values, ViewType viewType);
+        bool SavePaths(IEnumerable<string> values, ViewType viewType);
 
         void SaveResolutions(IEnumerable<Resolution> resolutions);
     }

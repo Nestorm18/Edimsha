@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
@@ -348,7 +349,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Log("Saving paths");
 
-            var success = _saveSettingsService.SavePathsListview(Urls, ViewType.Editor);
+            var success = _saveSettingsService.SavePaths(Urls, ViewType.Editor);
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -377,7 +378,7 @@ namespace Edimsha.WPF.ViewModels
             var isPathsDifferent = _loadSettingsService.StillPathsSameFromLastSession(ViewType.Editor);
             if (!isPathsDifferent) LaunchPathChangedMessageDialog();
 
-            _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
+            ((List<string>) _loadSettingsService.GetSavedPaths(ViewType.Editor))?.ForEach(Urls.Add);
             OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "OutputFolder");
             Edimsha = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "Edimsha");
             WidthImage = (int) _loadSettingsService.LoadConfigurationSetting<long>(ViewType.Editor, "Width");
@@ -464,7 +465,7 @@ namespace Edimsha.WPF.ViewModels
         // Message paths deleted
         private void LaunchPathChangedMessageDialog()
         {
-            _dialogService.PathsRemovedLastSession(_loadSettingsService, ViewType.Editor);
+            _dialogService.PathsRemovedLastSession(_loadSettingsService, _saveSettingsService, ViewType.Editor);
         }
     }
 }
