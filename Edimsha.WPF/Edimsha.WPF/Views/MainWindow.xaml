@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
     xmlns:local="clr-namespace:Edimsha.WPF"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:navigatoorType="clr-namespace:Edimsha.WPF.State.Navigators"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
@@ -20,6 +21,14 @@
     Icon="/Resources/icon.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+
+    <!-- Window close event -->
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding WindowCloseCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <!--  ReSharper restore Xaml.RedundantNamespaceAlias  -->
     <Grid>
         <Grid.Resources>

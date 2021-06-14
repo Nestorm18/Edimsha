@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Commands;
@@ -47,6 +49,8 @@ namespace Edimsha.WPF.ViewModels
         public ICommand ChangeLanguageCommand { get; }
         public ICommand ChangeModeCommand { get; }
 
+        public ICommand WindowCloseCommand { get; }
+
         // Viewmodel
         public ViewModelBase CurrentModeViewModel
         {
@@ -71,11 +75,31 @@ namespace Edimsha.WPF.ViewModels
             CurrentModeViewModel = _viewModelFactory.CreateViewModel(Mode);
 
             // Commands
+            // Window event
+            WindowCloseCommand = new RelayCommand(WindowClose);
+
+            // Menu
             QuitCommand = new QuitCommand();
             ChangeLanguageCommand = new ChangeLanguageCommand(this, _saveSettingsService);
             ChangeModeCommand = new ChangeModeCommand(this, _viewModelFactory);
 
             LoadLanguageFromSettings();
+        }
+
+        private void WindowClose()
+        {
+            Logger.Log($"Closed event");
+
+            try
+            {
+                var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
+
+                if (cleanListOnExit) _saveSettingsService.SavePathsListview(new List<string>(), ViewType.Editor);
+            }
+            catch (Exception e)
+            {
+                Logger.Log("Mode was conversor when close");
+            }
         }
 
         private void LoadLanguageFromSettings()
@@ -84,7 +108,7 @@ namespace Edimsha.WPF.ViewModels
             Language = ChangeLanguage.ResolveLanguage(lang);
 
             ChangeLanguage.SetLanguage(lang);
-            
+
             Logger.Log($"Language changed to: {lang}");
         }
     }

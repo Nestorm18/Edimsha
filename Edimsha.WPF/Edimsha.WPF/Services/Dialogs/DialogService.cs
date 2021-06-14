@@ -84,6 +84,8 @@ namespace Edimsha.WPF.Services.Dialogs
 
             var append = paths.Aggregate("", (current, text) => current + (text + "\n\n"));
 
+            //TODO Retornar lista rutas disponibles
+
             MessageBox.Show(append, TranslationSource.GetTranslationFromString("deleted_paths"), MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
