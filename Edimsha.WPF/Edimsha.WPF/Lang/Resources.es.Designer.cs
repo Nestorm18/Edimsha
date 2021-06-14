@@ -160,6 +160,15 @@ namespace Edimsha.WPF.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rutas eliminadas.
+        /// </summary>
+        internal static string deleted_paths {
+            get {
+                return ResourceManager.GetString("deleted_paths", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resolucion eliminada!.
         /// </summary>
         internal static string deleted_resolution {
@@ -291,6 +300,15 @@ namespace Edimsha.WPF.Lang {
         internal static string mode {
             get {
                 return ResourceManager.GetString("mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rutas modificadas.
+        /// </summary>
+        internal static string modified_paths {
+            get {
+                return ResourceManager.GetString("modified_paths", resourceCulture);
             }
         }
         
@@ -480,6 +498,16 @@ namespace Edimsha.WPF.Lang {
         internal static string the_option_could_not_be_saved {
             get {
                 return ResourceManager.GetString("the_option_could_not_be_saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Las rutas que estaban anteriormente se han modificado, Pulsa &quot;Si&quot; para ver los cambios..
+        /// </summary>
+        internal static string the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_changes {
+            get {
+                return ResourceManager.GetString("the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_chang" +
+                        "es", resourceCulture);
             }
         }
         

@@ -158,13 +158,23 @@
   <data name="resolution_saved" xml:space="preserve">
     <value>Resolucion guardada!</value>
   </data>
-  <data name="reset_completed" xml:space="preserve">
+    <data name="reset_completed" xml:space="preserve">
     <value>Reseteo completo!</value>
   </data>
-  <data name="procesing" xml:space="preserve">
+    <data name="procesing" xml:space="preserve">
     <value>Procesando</value>
   </data>
-  <data name="cancelled_by_user" xml:space="preserve">
+    <data name="cancelled_by_user" xml:space="preserve">
     <value>Cancelado por el usuario</value>
+  </data>
+    <data name="the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_changes"
+          xml:space="preserve">
+    <value>Las rutas que estaban anteriormente se han modificado, Pulsa "Si" para ver los cambios.</value>
+  </data>
+    <data name="deleted_paths" xml:space="preserve">
+    <value>Rutas eliminadas</value>
+  </data>
+    <data name="modified_paths" xml:space="preserve">
+    <value>Rutas modificadas</value>
   </data>
 </root>

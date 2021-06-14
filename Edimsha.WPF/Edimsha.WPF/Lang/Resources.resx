@@ -156,13 +156,23 @@
   <data name="resolution_saved" xml:space="preserve">
     <value>Resolution saved!</value>
   </data>
-  <data name="reset_completed" xml:space="preserve">
+    <data name="reset_completed" xml:space="preserve">
     <value>Reset complete!</value>
   </data>
-  <data name="procesing" xml:space="preserve">
+    <data name="procesing" xml:space="preserve">
     <value>Procesing</value>
   </data>
-  <data name="cancelled_by_user" xml:space="preserve">
+    <data name="cancelled_by_user" xml:space="preserve">
     <value>Cancelled by user...</value>
+  </data>
+    <data name="the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_changes"
+          xml:space="preserve">
+    <value>The paths that were there before have been modified, click on "Yes" to see the changes.</value>
+  </data>
+    <data name="modified_paths" xml:space="preserve">
+    <value>Modified paths</value>
+  </data>
+    <data name="deleted_paths" xml:space="preserve">
+    <value>Deleted paths</value>
   </data>
 </root>

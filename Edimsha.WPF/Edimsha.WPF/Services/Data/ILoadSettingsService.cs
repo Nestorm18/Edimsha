@@ -14,5 +14,9 @@ namespace Edimsha.WPF.Services.Data
         IEnumerable<Resolution> LoadResolutions();
 
         ConfigEditor GetConfigFormViewType(ViewType type);
+
+        bool StillPathsSameFromLastSession(ViewType type);
+
+        IEnumerable<string> GetPathChanges(ViewType type);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Edimsha.Core.Logging.Core;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Models;
@@ -81,6 +82,52 @@ namespace Edimsha.WPF.Services.Data
 
                 var serializer = new JsonSerializer();
                 return (ConfigEditor) serializer.Deserialize(settings, typeof(ConfigEditor));
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e.StackTrace, LogLevel.Error);
+                throw;
+            }
+            finally
+            {
+                settings.Close();
+            }
+        }
+
+        public bool StillPathsSameFromLastSession(ViewType type)
+        {
+            var settings = GetSettingFileWithViewType(type);
+
+            try
+            {
+                Logger.Log("Obtaining last session paths", LogLevel.Debug);
+
+                var paths = LoadPathsListview(type);
+
+                return paths.All(File.Exists);
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e.StackTrace, LogLevel.Error);
+                throw;
+            }
+            finally
+            {
+                settings.Close();
+            }
+        }
+
+        public IEnumerable<string> GetPathChanges(ViewType type)
+        {
+            var settings = GetSettingFileWithViewType(type);
+
+            try
+            {
+                Logger.Log("Gettings last session paths differences", LogLevel.Debug);
+
+                var changes = LoadPathsListview(type).Where(path => !File.Exists(path)).ToList();
+
+                return changes.Count == 0 ? null : changes;
             }
             catch (Exception e)
             {

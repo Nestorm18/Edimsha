@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Annotations;
+using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
+using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
 using Edimsha.WPF.Views.Dialogs;
 using Microsoft.Win32;
@@ -60,6 +64,27 @@ namespace Edimsha.WPF.Services.Dialogs
 
             Logger.Log($"Resolution: {vm.GetResolution()}");
             return vm.GetResolution();
+        }
+
+        public async Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ViewType type)
+        {
+            Logger.Log($"Cheking for type {type}");
+
+            var result = MessageBox.Show(
+                TranslationSource.GetTranslationFromString("the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_changes"),
+                TranslationSource.GetTranslationFromString("modified_paths"),
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes) return;
+
+            var paths = loadSettingsService.GetPathChanges(type);
+
+            if (paths == null) return;
+
+            var append = paths.Aggregate("", (current, text) => current + (text + "\n\n"));
+
+            MessageBox.Show(append, TranslationSource.GetTranslationFromString("deleted_paths"), MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

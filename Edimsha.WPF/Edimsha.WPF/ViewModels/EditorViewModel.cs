@@ -374,6 +374,9 @@ namespace Edimsha.WPF.ViewModels
             Logger.Log($"Loading saved settings");
             StatusBar = "application_started";
 
+            var isPathsDifferent = _loadSettingsService.StillPathsSameFromLastSession(ViewType.Editor);
+            if (!isPathsDifferent) LaunchPathChangedMessageDialog();
+
             _loadSettingsService.LoadPathsListview(ViewType.Editor)?.ForEach(Urls.Add);
             OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "OutputFolder");
             Edimsha = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "Edimsha");
@@ -456,6 +459,12 @@ namespace Edimsha.WPF.ViewModels
                 _editorBackgroundWorker.RunWorkerCompleted -= Worker_RunWorkerCompleted;
                 IsRunningUi = true;
             }
+        }
+
+        // Message paths deleted
+        private void LaunchPathChangedMessageDialog()
+        {
+            _dialogService.PathsRemovedLastSession(_loadSettingsService, ViewType.Editor);
         }
     }
 }
