@@ -19,9 +19,10 @@ namespace Edimsha.WPF.Lang
             {
                 if (Equals(_currentCulture, value)) return;
                 _currentCulture = value;
-                var @event = this.PropertyChanged;
-                @event?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
+                var evnt = PropertyChanged;
+                evnt?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
             }
+            // ReSharper disable once UnusedMember.Global
             get => _currentCulture;
         }
 

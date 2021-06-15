@@ -300,6 +300,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Log("Constructor");
 
+            // Setup services
             _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
             _dialogService = dialogService;

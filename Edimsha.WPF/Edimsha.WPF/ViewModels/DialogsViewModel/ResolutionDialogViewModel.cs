@@ -12,7 +12,13 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 {
     public class ResolutionDialogViewModel : ViewModelBase
     {
+        #region IOC
+
         private readonly ILoadSettingsService _loadSettingsService;
+
+        #endregion
+
+        #region Fields
 
         /// <summary>
         /// Allows you to override the limitation of entering negative numbers to return a cancellation value or clear fields.
@@ -37,7 +43,10 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             };
         }
 
-        // Properties
+        #endregion
+
+        #region Properties
+
         private bool _hasValidResolutions;
         private ObservableCollection<Resolution> _resolutions = null!;
         private int _cmbIndex;
@@ -138,7 +147,10 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             }
         }
 
-        // Commands
+        #endregion
+
+        # region Commands
+
         /// <summary>
         /// New selected resolution updates width and height fields.
         /// </summary>
@@ -155,26 +167,34 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
         public ICommand AcceptCommand { get; }
 
+        #endregion
+
+        # region Contructor
+
         public ResolutionDialogViewModel(
             ILoadSettingsService loadSettingsService,
             ISaveSettingsService saveSettingsService)
         {
             Logger.Log("Constructor");
+
             _loadSettingsService = loadSettingsService;
-            ISaveSettingsService saveSettingsService1 = saveSettingsService;
 
             Resolutions = new ObservableCollection<Resolution>();
             Resolutions.CollectionChanged += ResolutionsOnCollectionChanged;
 
             // Commands
             SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
-            SaveResolutionCommand = new SaveResolutionCommand(this, saveSettingsService1);
-            RemoveResolutionCommand = new RemoveResolutionCommand(this, saveSettingsService1);
+            SaveResolutionCommand = new SaveResolutionCommand(this, saveSettingsService);
+            RemoveResolutionCommand = new RemoveResolutionCommand(this, saveSettingsService);
             CancelCommand = new QuitResolutionsCommand(this);
             AcceptCommand = new AcceptResolutionCommand();
 
             SetUserSettings();
         }
+
+        #endregion
+
+        #region Private Methods
 
         /// <summary>
         /// Activates GUI components if we have available resolutions.
@@ -229,5 +249,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             Heigth = Resolutions[0].Height;
             CmbIndex = 0;
         }
+
+        #endregion
     }
 }
