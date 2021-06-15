@@ -336,11 +336,16 @@ namespace Edimsha.WPF.ViewModels
 
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
 
-            var listCleaned =
-                ListCleaner.PathWithoutDuplicatesAndGoodFormats(Urls.ToList(), pathsUpdated, ModeImageTypes.Editor);
+            var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
+                Urls.ToList(),
+                pathsUpdated,
+                ModeImageTypes.Editor);
 
             Urls.Clear();
             foreach (var s in listCleaned) Urls.Add(s);
+
+            // Fix not loading start button on drop after reset
+            UrlsOnCollectionChanged(null, null);
 
             SavePaths();
         }

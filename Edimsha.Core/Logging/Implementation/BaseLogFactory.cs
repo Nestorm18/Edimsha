@@ -27,17 +27,13 @@ namespace Edimsha.Core.Logging.Implementation
         #endregion
 
         #region Public Properties
-        
+
         /// <summary>
         /// If true, includes the origin of where the log message was logged from
         /// such as the class name, line number and file name
         /// </summary>
         private bool IncludeLogOriginDetails { get; } = true;
 
-        #endregion
-
-        #region Public Events
-        
         #endregion
 
         #region Constructor
@@ -96,7 +92,7 @@ namespace Edimsha.Core.Logging.Implementation
             {
                 _mLoggers.ForEach(logger => logger.Log(message, level));
             }
-            
+
             // Show in console always
             Console.WriteLine(message);
 
