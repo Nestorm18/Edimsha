@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Models;
-using Edimsha.WPF.Settings;
 
-namespace Edimsha.WPF.Services.Editor
+namespace Edimsha.Core.Editor
 {
     public class EditorBackgroundWorker : BackgroundWorker
     {
@@ -44,7 +44,7 @@ namespace Edimsha.WPF.Services.Editor
         }
     }
 
-    internal class MyUserState
+    public class MyUserState
     {
         public double CountPaths { get; init; }
     }

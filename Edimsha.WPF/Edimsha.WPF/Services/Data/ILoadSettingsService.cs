@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Models;
-using Edimsha.WPF.Settings;
 using Edimsha.WPF.State.Navigators;
 
 namespace Edimsha.WPF.Services.Data

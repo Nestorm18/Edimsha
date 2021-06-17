@@ -1,5 +1,5 @@
 using Edimsha.Core.Logging.Implementation;
-using Edimsha.WPF.Settings;
+using Edimsha.Core.Settings;
 
 namespace Edimsha.WPF.Services.Data
 {

@@ -1,4 +1,4 @@
-namespace Edimsha.WPF.Settings
+namespace Edimsha.Core.Settings
 {
     public class ConfigPaths
     {

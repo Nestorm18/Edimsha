@@ -1,7 +1,7 @@
 using Edimsha.Core.Logging.Implementation;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
-using Edimsha.WPF.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

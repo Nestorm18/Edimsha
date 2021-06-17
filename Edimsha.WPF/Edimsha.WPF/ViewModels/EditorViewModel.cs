@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Edimsha.Core.Editor;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Converters;
@@ -13,7 +14,6 @@ using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
-using Edimsha.WPF.Services.Editor;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 
@@ -464,6 +464,7 @@ namespace Edimsha.WPF.ViewModels
             {
                 _editorBackgroundWorker.ProgressChanged -= Worker_ProgressChanged;
                 _editorBackgroundWorker.RunWorkerCompleted -= Worker_RunWorkerCompleted;
+                PbPosition = 100;
                 IsRunningUi = true;
             }
         }

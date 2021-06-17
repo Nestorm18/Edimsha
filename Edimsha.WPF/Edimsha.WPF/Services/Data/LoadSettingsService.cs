@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using Edimsha.Core.Logging.Core;
 using Edimsha.Core.Logging.Implementation;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Models;
-using Edimsha.WPF.Settings;
 using Edimsha.WPF.State.Navigators;
 using Newtonsoft.Json;
 

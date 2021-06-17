@@ -1,6 +1,6 @@
 // ReSharper disable UnusedMember.Global
 
-namespace Edimsha.WPF.Settings
+namespace Edimsha.Core.Settings
 {
     public class ConfigEditor
     {
