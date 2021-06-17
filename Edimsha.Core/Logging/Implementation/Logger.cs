@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Edimsha.Core.Logging.Core;
@@ -11,8 +12,9 @@ namespace Edimsha.Core.Logging.Implementation
     public static class Logger
     {
         private static bool _isStarted;
-        private static BaseLogFactory _instance;
         private static string _fileName = string.Empty;
+        private static string _logsPath;
+        private static BaseLogFactory _instance;
         private static StreamWriter _sw;
 
         private static void GetInstance()
@@ -44,14 +46,14 @@ namespace Edimsha.Core.Logging.Implementation
             _isStarted = true;
 
             // Find current app location
-            var logsPath = $"{Directory.GetCurrentDirectory()}/logs/";
+            _logsPath = $"{Directory.GetCurrentDirectory()}/logs/";
 
             // Add log directory if not exists
-            if (!Directory.Exists(logsPath)) Directory.CreateDirectory(logsPath);
+            if (!Directory.Exists(_logsPath)) Directory.CreateDirectory(_logsPath);
 
             // The file log name
             var currentTime = DateTime.Now.ToString("dddd-dd-MMMM-yyyy--HH_mm_ss");
-            _fileName = $"{logsPath}/edimsha_{currentTime}.log";
+            _fileName = $"{_logsPath}/edimsha_{currentTime}.log";
 
             // Create a file once
             var fs = new FileStream(_fileName, FileMode.OpenOrCreate);
@@ -72,6 +74,21 @@ namespace Edimsha.Core.Logging.Implementation
         {
             Log("App Close done!");
             _sw.Close();
+
+            DeleteNonErrorsFiles();
+        }
+
+        private static void DeleteNonErrorsFiles()
+        {
+            foreach (var file in Directory.EnumerateFiles(_logsPath))
+            {
+                var lines = File.ReadAllLines(file);
+
+                var flag = lines.Any(line => line.Contains("[Error      ]"));
+
+                if (!flag)
+                    File.Delete(file);
+            }
         }
     }
 }
