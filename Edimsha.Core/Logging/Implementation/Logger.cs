@@ -75,10 +75,10 @@ namespace Edimsha.Core.Logging.Implementation
             Log("App Close done!");
             _sw.Close();
 
-            DeleteNonErrorsFiles();
+            DeleteNonErrorFiles();
         }
 
-        private static void DeleteNonErrorsFiles()
+        private static void DeleteNonErrorFiles()
         {
             foreach (var file in Directory.EnumerateFiles(_logsPath))
             {
