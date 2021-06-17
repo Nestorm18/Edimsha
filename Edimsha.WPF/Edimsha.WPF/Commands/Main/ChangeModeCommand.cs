@@ -6,7 +6,7 @@ using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
 using Edimsha.WPF.ViewModels.Factories;
 
-namespace Edimsha.WPF.Commands
+namespace Edimsha.WPF.Commands.Main
 {
     public class ChangeModeCommand : ICommand
     {
@@ -32,7 +32,7 @@ namespace Edimsha.WPF.Commands
         public void Execute(object? parameter)
         {
             if (parameter == null) return;
-            
+
             Logger.Log($"Changing mode to {(ViewType) parameter}");
             _viewModel.CurrentModeViewModel = _viewModelFactory.CreateViewModel((ViewType) parameter);
         }
