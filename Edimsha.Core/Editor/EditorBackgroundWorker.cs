@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
-using Edimsha.WPF.Models;
 
 namespace Edimsha.Core.Editor
 {

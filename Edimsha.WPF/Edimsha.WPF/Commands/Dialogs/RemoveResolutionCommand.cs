@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Input;
 using Edimsha.Core.Language;
-using Edimsha.WPF.Models;
+using Edimsha.Core.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
 

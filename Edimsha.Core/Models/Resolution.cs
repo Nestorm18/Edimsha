@@ -1,7 +1,7 @@
 #nullable enable
 using System;
 
-namespace Edimsha.WPF.Models
+namespace Edimsha.Core.Models
 {
     public class Resolution
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Edimsha.WPF.Models;
+using Edimsha.Core.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 

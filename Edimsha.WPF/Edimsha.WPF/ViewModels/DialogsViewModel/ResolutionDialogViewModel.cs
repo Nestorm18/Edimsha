@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using Edimsha.Core.Logging.Implementation;
+using Edimsha.Core.Models;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Dialogs;
-using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 
 namespace Edimsha.WPF.ViewModels.DialogsViewModel

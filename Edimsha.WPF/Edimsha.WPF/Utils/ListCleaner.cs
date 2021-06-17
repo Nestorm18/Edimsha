@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Edimsha.Core.Logging.Implementation;
-using Edimsha.WPF.Models;
+using Edimsha.Core.Models;
 
 namespace Edimsha.WPF.Utils
 {

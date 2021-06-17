@@ -5,8 +5,8 @@ using System.Windows.Input;
 using Edimsha.Core.Language;
 using Edimsha.Core.Logging.Core;
 using Edimsha.Core.Logging.Implementation;
+using Edimsha.Core.Models;
 using Edimsha.WPF.Converters;
-using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
 

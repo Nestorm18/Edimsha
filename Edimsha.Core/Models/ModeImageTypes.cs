@@ -1,7 +1,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
 
-namespace Edimsha.WPF.Models
+namespace Edimsha.Core.Models
 {
     public enum ModeImageTypes
     {

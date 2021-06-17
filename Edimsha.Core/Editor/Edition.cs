@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
-using Edimsha.WPF.Models;
 
 namespace Edimsha.Core.Editor
 {
