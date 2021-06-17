@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true"></xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="drag_the_images_or_folder_to_edit" xml:space="preserve">
+    <value>Drag the images or folder to edit</value>
+  </data>
+  <data name="delete_item" xml:space="preserve">
+    <value>Delete item</value>
+  </data>
+  <data name="delete_all_paths" xml:space="preserve">
+    <value>Delete all paths</value>
+  </data>
+  <data name="delete_paths_on_exit" xml:space="preserve">
+    <value>Delete paths on exit</value>
+  </data>
+  <data name="select_files" xml:space="preserve">
+    <value>Select files</value>
+  </data>
+  <data name="output_folder" xml:space="preserve">
+    <value>Output folder:</value>
+  </data>
+  <data name="by_default_same_folder_edimsha_imagename_png" xml:space="preserve">
+    <value>By default same folder edimsha_Imagename.png</value>
+  </data>
+  <data name="select_folder" xml:space="preserve">
+    <value>Select folder</value>
+  </data>
+  <data name="change_edimsha_to" xml:space="preserve">
+    <value>Change edimsha to:</value>
+  </data>
+  <data name="edimsha_omitted_if_the_output_folder_is_different" xml:space="preserve">
+    <value>edimsha_ (omitted if the output folder is different)</value>
+  </data>
+  <data name="always_include_when_replacing" xml:space="preserve">
+    <value>Always include when replacing</value>
+  </data>
+  <data name="output_resolution" xml:space="preserve">
+    <value>Output resolution:</value>
+  </data>
+  <data name="width_px" xml:space="preserve">
+    <value>Width (px):</value>
+  </data>
+  <data name="height_px" xml:space="preserve">
+    <value>Height (px):</value>
+  </data>
+  <data name="keep_original_resolution" xml:space="preserve">
+    <value>Keep original resolution</value>
+  </data>
+  <data name="resolutions_used" xml:space="preserve">
+    <value>Resolutions used</value>
+  </data>
+  <data name="compression_in_percentage" xml:space="preserve">
+    <value>Compression in%:</value>
+  </data>
+  <data name="optimize_image" xml:space="preserve">
+    <value>Optimize image</value>
+  </data>
+  <data name="replace_with_original_image" xml:space="preserve">
+    <value>Replace with original image</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="search_update" xml:space="preserve">
+    <value>Search update</value>
+  </data>
+  <data name="send_logs_0_errors" xml:space="preserve">
+    <value>Send logs (0 errors)</value>
+  </data>
+  <data name="quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="editor" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="converter" xml:space="preserve">
+    <value>Converter</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="file" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="select_images" xml:space="preserve">
+    <value>Select images</value>
+  </data>
+  <data name="image_files" xml:space="preserve">
+    <value>Image files</value>
+  </data>
+  <data name="application_started" xml:space="preserve">
+    <value>Application started</value>
+  </data>
+  <data name="error_saving_editor_paths" xml:space="preserve">
+    <value>Error saving editor paths</value>
+  </data>
+  <data name="the_option_could_not_be_saved" xml:space="preserve">
+    <value>The option could not be saved</value>
+  </data>
+  <data name="iterate_folders_and_subfolders" xml:space="preserve">
+    <value>Iterate folders and subfolders</value>
+  </data>
+  <data name="list_options" xml:space="preserve">
+    <value>List options:</value>
+  </data>
+  <data name="resolutions" xml:space="preserve">
+    <value>Resolutions:</value>
+  </data>
+  <data name="load_resolution" xml:space="preserve">
+    <value>Load resolution</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="save_resolution" xml:space="preserve">
+    <value>Save resolution</value>
+  </data>
+  <data name="heightpxy" xml:space="preserve">
+    <value>Height (px) (Y):</value>
+  </data>
+  <data name="widthpxx" xml:space="preserve">
+    <value>Width (px) (Y):</value>
+  </data>
+  <data name="deleted_resolution" xml:space="preserve">
+    <value>Deleted resolution!</value>
+  </data>
+  <data name="the_resolution_already_exists" xml:space="preserve">
+    <value>The resolution already exists!</value>
+  </data>
+  <data name="resolution_saved" xml:space="preserve">
+    <value>Resolution saved!</value>
+  </data>
+    <data name="reset_completed" xml:space="preserve">
+    <value>Reset complete!</value>
+  </data>
+    <data name="procesing" xml:space="preserve">
+    <value>Procesing</value>
+  </data>
+    <data name="cancelled_by_user" xml:space="preserve">
+    <value>Cancelled by user...</value>
+  </data>
+    <data name="the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_changes"
+          xml:space="preserve">
+    <value>The paths that were there before have been modified, click on "Yes" to see the changes.</value>
+  </data>
+    <data name="modified_paths" xml:space="preserve">
+    <value>Modified paths</value>
+  </data>
+    <data name="deleted_paths" xml:space="preserve">
+    <value>Deleted paths</value>
+  </data>
+</root>

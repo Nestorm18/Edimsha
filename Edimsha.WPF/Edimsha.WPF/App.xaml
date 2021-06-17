@@ -1,0 +1,25 @@
+﻿<Application
+    x:Class="Edimsha.WPF.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
+    xmlns:views="clr-namespace:Edimsha.WPF.Views">
+    <Application.Resources>
+        <!--  Estilos  -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Common.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--  Editor  -->
+            <DataTemplate DataType="{x:Type viewmodels:EditorViewModel}">
+                <views:EditorView />
+            </DataTemplate>
+
+            <!--  Conversor  -->
+            <DataTemplate DataType="{x:Type viewmodels:ConversorViewModel}">
+                <views:ConversorView />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edimsha", "Edimsha.csproj", "{427ACF00-5D56-41FD-A11C-3021DD9769EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edimsha.WPF", "Edimsha.WPF\Edimsha.WPF\Edimsha.WPF.csproj", "{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edimsha.Core", "Edimsha.Core\Edimsha.Core.csproj", "{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{427ACF00-5D56-41FD-A11C-3021DD9769EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{427ACF00-5D56-41FD-A11C-3021DD9769EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{427ACF00-5D56-41FD-A11C-3021DD9769EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{427ACF00-5D56-41FD-A11C-3021DD9769EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC0C9627-4DB1-478D-A962-A3B5B48E88A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDD29FCA-DA46-47A6-AC39-671C8FFF05C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
