@@ -6,7 +6,7 @@
     xmlns:converters="clr-namespace:Edimsha.WPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:imageType="clr-namespace:Edimsha.WPF.Models"
-    xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
+    xmlns:lang="clr-namespace:Edimsha.WPF.Language"
     xmlns:local="clr-namespace:Edimsha.WPF.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:utils="clr-namespace:Edimsha.WPF.Utils"

@@ -1,7 +1,7 @@
 #nullable enable
 using System;
 using System.Windows.Input;
-using Edimsha.WPF.Lang;
+using Edimsha.Core.Language;
 using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
@@ -17,7 +17,6 @@ namespace Edimsha.WPF.Commands.Dialogs
             ResolutionDialogViewModel resolutionDialogViewModel,
             ISaveSettingsService saveSettingsService)
         {
-            
             _resolutionDialogViewModel = resolutionDialogViewModel;
             _saveSettingsService = saveSettingsService;
         }

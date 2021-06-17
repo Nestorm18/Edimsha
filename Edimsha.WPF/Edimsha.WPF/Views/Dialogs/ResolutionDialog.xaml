@@ -6,7 +6,7 @@
     xmlns:converters="clr-namespace:Edimsha.WPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
+    xmlns:lang="clr-namespace:Edimsha.WPF.Language"
     xmlns:local="clr-namespace:Edimsha.WPF.Views.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels.DialogsViewModel"

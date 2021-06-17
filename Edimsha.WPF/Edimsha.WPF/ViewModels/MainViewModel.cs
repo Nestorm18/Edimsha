@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Edimsha.Core.Language;
 using Edimsha.Core.Logging.Implementation;
-using Edimsha.WPF.Commands;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Main;
-using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.Factories;
@@ -91,7 +90,7 @@ namespace Edimsha.WPF.ViewModels
         private void WindowClose()
         {
             Logger.Log($"Closed event");
-
+            //TODO: Eliminar logs sin errores
             try
             {
                 var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;

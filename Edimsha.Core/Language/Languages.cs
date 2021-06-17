@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using Edimsha.Core.Logging.Implementation;
 
-namespace Edimsha.WPF.Lang
+namespace Edimsha.Core.Language
 {
     public enum Languages
     {
@@ -15,7 +15,7 @@ namespace Edimsha.WPF.Lang
         public static string GetDescription(this Languages val)
         {
             Logger.Log($"Languages: {val}");
-            
+
             var attributes = (DescriptionAttribute[]) val
                 .GetType()
                 .GetField(val.ToString())

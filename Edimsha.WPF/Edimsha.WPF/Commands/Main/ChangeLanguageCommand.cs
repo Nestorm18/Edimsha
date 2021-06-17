@@ -1,9 +1,9 @@
 ﻿#nullable enable
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Language;
 using Edimsha.Core.Logging.Core;
 using Edimsha.Core.Logging.Implementation;
-using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;

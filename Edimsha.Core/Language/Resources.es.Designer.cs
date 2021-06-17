@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Edimsha.WPF.Lang {
+namespace Edimsha.Core.Language {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Edimsha.WPF.Lang {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Edimsha.WPF.Lang.Resources.es", typeof(Resources_es).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Edimsha.Core.Language.Resources.es", typeof(Resources_es).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

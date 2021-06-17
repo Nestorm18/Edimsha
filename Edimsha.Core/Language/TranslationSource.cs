@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Resources;
 
-namespace Edimsha.WPF.Lang
+namespace Edimsha.Core.Language
 {
     public class TranslationSource : INotifyPropertyChanged
     {

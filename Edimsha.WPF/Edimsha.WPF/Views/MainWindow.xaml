@@ -5,13 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Edimsha.WPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:lang="clr-namespace:Edimsha.WPF.Lang"
+    xmlns:lang="clr-namespace:Edimsha.WPF.Language"
     xmlns:local="clr-namespace:Edimsha.WPF"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:navigatoorType="clr-namespace:Edimsha.WPF.State.Navigators"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
     xmlns:views="clr-namespace:Edimsha.WPF.Views"
+    xmlns:language="clr-namespace:Edimsha.Core.Language;assembly=Edimsha.Core"
     Title="MainWindow"
     Width="800"
     Height="510"
@@ -69,14 +70,14 @@
             <MenuItem Header="{lang:Localization language}">
                 <RadioButton
                     Command="{Binding ChangeLanguageCommand}"
-                    CommandParameter="{x:Static lang:Languages.English}"
+                    CommandParameter="{x:Static language:Languages.English}"
                     Content="English"
                     GroupName="language"
                     IsChecked="{Binding Path=Language, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=English}" />
 
                 <RadioButton
                     Command="{Binding ChangeLanguageCommand}"
-                    CommandParameter="{x:Static lang:Languages.Spanish}"
+                    CommandParameter="{x:Static language:Languages.Spanish}"
                     Content="Español"
                     GroupName="language"
                     IsChecked="{Binding Path=Language, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Spanish}" />
