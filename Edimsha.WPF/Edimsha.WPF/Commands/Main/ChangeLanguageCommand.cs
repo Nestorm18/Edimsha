@@ -8,7 +8,7 @@ using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
 
-namespace Edimsha.WPF.Commands
+namespace Edimsha.WPF.Commands.Main
 {
     public class ChangeLanguageCommand : ICommand
     {

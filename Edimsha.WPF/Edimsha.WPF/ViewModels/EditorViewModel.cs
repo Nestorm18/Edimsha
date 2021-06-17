@@ -9,6 +9,8 @@ using System.Windows.Input;
 using Edimsha.Core.Editor;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Commands;
+using Edimsha.WPF.Commands.Basics;
+using Edimsha.WPF.Commands.Editor;
 using Edimsha.WPF.Converters;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Models;

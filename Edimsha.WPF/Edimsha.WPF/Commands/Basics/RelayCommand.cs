@@ -4,7 +4,7 @@ using Edimsha.Core.Logging.Implementation;
 
 // ReSharper disable UnusedParameter.Local
 
-namespace Edimsha.WPF.Commands
+namespace Edimsha.WPF.Commands.Basics
 {
     public class RelayCommand : ICommand
     {

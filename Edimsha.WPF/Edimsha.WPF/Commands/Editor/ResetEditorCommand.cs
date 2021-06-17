@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Edimsha.WPF.ViewModels;
 
-namespace Edimsha.WPF.Commands
+namespace Edimsha.WPF.Commands.Editor
 {
     public class ResetEditorCommand : ICommand
     {
@@ -25,7 +25,7 @@ namespace Edimsha.WPF.Commands
             // Paths
             _editorViewModel.Urls = new ObservableCollection<string>();
             _editorViewModel.SavePaths();
-            
+
             // Parameters
             _editorViewModel.CleanListOnExit = false;
             _editorViewModel.IterateSubdirectories = false;
@@ -40,7 +40,7 @@ namespace Edimsha.WPF.Commands
             _editorViewModel.ReplaceForOriginal = false;
             _editorViewModel.PbPosition = 0;
             _editorViewModel.StatusBar = "reset_completed";
-            
+
             // Reset UI 
             _editorViewModel.IsRunningUi = true;
             _editorViewModel.IsStartedUi = false;

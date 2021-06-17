@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Commands;
+using Edimsha.WPF.Commands.Basics;
+using Edimsha.WPF.Commands.Main;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;

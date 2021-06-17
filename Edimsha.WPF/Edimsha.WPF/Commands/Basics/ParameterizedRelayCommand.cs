@@ -2,7 +2,7 @@ using System;
 using System.Windows.Input;
 using Edimsha.Core.Logging.Implementation;
 
-namespace Edimsha.WPF.Commands
+namespace Edimsha.WPF.Commands.Basics
 {
     public class ParameterizedRelayCommand : ICommand
     {

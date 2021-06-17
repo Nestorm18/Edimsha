@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Edimsha.WPF.Commands
+namespace Edimsha.WPF.Commands.Basics
 {
     public abstract class AsyncCommandBase : ICommand
     {
