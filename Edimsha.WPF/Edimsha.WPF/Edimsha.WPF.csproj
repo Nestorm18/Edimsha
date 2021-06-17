@@ -75,6 +75,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Commands\Conversor"/>
         <Folder Include="Settings"/>
     </ItemGroup>
 

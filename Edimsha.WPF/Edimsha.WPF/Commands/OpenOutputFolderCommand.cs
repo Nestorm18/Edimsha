@@ -4,19 +4,22 @@ using System.Windows.Input;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Lang;
 using Edimsha.WPF.Services.Dialogs;
+using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
 
 namespace Edimsha.WPF.Commands
 {
     public class OpenOutputFolderCommand : ICommand
     {
-        private readonly EditorViewModel _editorViewModel;
+        private readonly ViewModelBase _viewModel;
+        private readonly ViewType _type;
         private readonly IDialogService _dialogService;
 
-        public OpenOutputFolderCommand(EditorViewModel editorViewModel, IDialogService dialogService)
+        public OpenOutputFolderCommand(ViewModelBase viewModel, ViewType type, IDialogService dialogService)
         {
             Logger.Log("Constructor");
-            _editorViewModel = editorViewModel;
+            _viewModel = viewModel;
+            _type = type;
             _dialogService = dialogService;
         }
 
@@ -36,7 +39,19 @@ namespace Edimsha.WPF.Commands
 
             if (success.Result == null) return;
 
-            _editorViewModel.OutputFolder = success.Result;
+            switch (_type)
+            {
+                case ViewType.Editor:
+                {
+                    if (_viewModel is EditorViewModel viewModel) viewModel.OutputFolder = success.Result;
+                    break;
+                }
+                case ViewType.Conversor:
+                {
+                    if (_viewModel is ConversorViewModel viewModel) viewModel.OutputFolder = success.Result;
+                    break;
+                }
+            }
         }
 
         public event EventHandler? CanExecuteChanged;

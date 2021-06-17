@@ -45,7 +45,7 @@ namespace Edimsha.WPF.ViewModels
         private bool _isCtxDeleteAll;
         private string _statusBar;
         private string _statusBar2;
-        private ObservableCollection<string> _urls;
+        private ObservableCollection<string> _pathList;
         private string _outputFolder;
         private string _edimsha;
         private double _compresionValue;
@@ -178,13 +178,13 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
-        public ObservableCollection<string> Urls
+        public ObservableCollection<string> PathList
         {
-            get => _urls;
+            get => _pathList;
             set
             {
-                if (value == _urls) return;
-                _urls = value;
+                if (value == _pathList) return;
+                _pathList = value;
                 OnPropertyChanged();
             }
         }
@@ -310,15 +310,15 @@ namespace Edimsha.WPF.ViewModels
             var ts = TranslationSource.Instance;
             ts.PropertyChanged += LanguageOnPropertyChanged;
 
-            Urls = new ObservableCollection<string>();
+            PathList = new ObservableCollection<string>();
 
             // Commands
             // Mouse context
-            DeleteItemCommand = new DeleteItemsCommand(this);
-            DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
+            DeleteItemCommand = new DeleteItemsCommand(this, ViewType.Editor);
+            DeleteAllItemsCommand = new DeleteItemsCommand(this, ViewType.Editor, true);
             // Parameter buttons
-            OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
-            OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
+            OpenImagesCommand = new OpenImagesCommand(this, ViewType.Editor, _dialogService);
+            OpenOutputFolderCommand = new OpenOutputFolderCommand(this, ViewType.Editor, _dialogService);
             OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, _saveSettingsService);
             // Run buttons
             ResetCommand = new ResetEditorCommand(this);
@@ -330,7 +330,7 @@ namespace Edimsha.WPF.ViewModels
 
             // Load faster all paths if is after SetUserSettings() intead new ObservableCollection<string>();
             // Example from 3,157 seconds to 0,065
-            Urls.CollectionChanged += UrlsOnCollectionChanged;
+            PathList.CollectionChanged += UrlsOnCollectionChanged;
         }
 
         public void OnFileDrop(string[] filepaths)
@@ -340,12 +340,12 @@ namespace Edimsha.WPF.ViewModels
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
 
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
-                Urls.ToList(),
+                PathList.ToList(),
                 pathsUpdated,
                 ModeImageTypes.Editor);
 
-            Urls.Clear();
-            foreach (var s in listCleaned) Urls.Add(s);
+            PathList.Clear();
+            foreach (var s in listCleaned) PathList.Add(s);
 
             // Fix not loading start button on drop after reset
             UrlsOnCollectionChanged(null, null);
@@ -357,7 +357,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Log("Saving paths");
 
-            var success = _saveSettingsService.SavePaths(Urls, ViewType.Editor);
+            var success = _saveSettingsService.SavePaths(PathList, ViewType.Editor);
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -386,7 +386,7 @@ namespace Edimsha.WPF.ViewModels
             var isPathsDifferent = _loadSettingsService.StillPathsSameFromLastSession(ViewType.Editor);
             if (!isPathsDifferent) LaunchPathChangedMessageDialog();
 
-            ((List<string>) _loadSettingsService.GetSavedPaths(ViewType.Editor))?.ForEach(Urls.Add);
+            ((List<string>) _loadSettingsService.GetSavedPaths(ViewType.Editor))?.ForEach(PathList.Add);
             OutputFolder = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "OutputFolder");
             Edimsha = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "Edimsha");
             WidthImage = (int) _loadSettingsService.LoadConfigurationSetting<long>(ViewType.Editor, "Width");
@@ -405,7 +405,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Log($"Paths updated");
             if (_isLoadingSettings) return;
-            var isEnabled = Urls.Count > 0;
+            var isEnabled = PathList.Count > 0;
 
             IsCtxDelete = isEnabled;
             IsCtxDeleteAll = isEnabled;
@@ -433,7 +433,7 @@ namespace Edimsha.WPF.ViewModels
             Logger.Log("Started edition");
             IsRunningUi = false;
 
-            var paths = _urls;
+            var paths = _pathList;
             var config = _loadSettingsService.GetConfigFormViewType(ViewType.Editor);
 
             _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution {Width = WidthImage, Height = HeightImage});

@@ -47,7 +47,7 @@
             utils:FileDragDropHelper.FileDragDropTarget="{Binding}"
             utils:FileDragDropHelper.IsFileDragDropEnabled="True"
             AllowDrop="True"
-            ItemsSource="{Binding Urls}">
+            ItemsSource="{Binding PathList}">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->

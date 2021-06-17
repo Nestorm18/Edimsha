@@ -23,7 +23,7 @@ namespace Edimsha.WPF.Commands.Editor
         public void Execute(object? parameter)
         {
             // Paths
-            _editorViewModel.Urls = new ObservableCollection<string>();
+            _editorViewModel.PathList = new ObservableCollection<string>();
             _editorViewModel.SavePaths();
 
             // Parameters

@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using Edimsha.Core.Logging.Implementation;
 
-namespace Edimsha.WPF.Commands
+namespace Edimsha.WPF.Commands.Main
 {
     public class QuitCommand : ICommand
     {
@@ -20,7 +20,7 @@ namespace Edimsha.WPF.Commands
         public void Execute(object? parameter)
         {
             if (parameter == null) return;
-            
+
             Logger.Log("Clossing");
             var window = (Window) parameter;
             window.Close();

@@ -16,13 +16,15 @@ namespace Edimsha.WPF.Commands
 {
     public class OpenImagesCommand : ICommand
     {
-        private readonly EditorViewModel _editorViewModel;
+        private readonly ViewModelBase _viewModel;
+        private readonly ViewType _type;
         private readonly IDialogService _dialogService;
 
-        public OpenImagesCommand(EditorViewModel editorViewModel, IDialogService dialogService)
+        public OpenImagesCommand(ViewModelBase viewModel, ViewType type, IDialogService dialogService)
         {
             Logger.Log("Constructor");
-            _editorViewModel = editorViewModel;
+            _viewModel = viewModel;
+            _type = type;
             _dialogService = dialogService;
         }
 
@@ -44,14 +46,41 @@ namespace Edimsha.WPF.Commands
 
             if (urls == null) return;
 
-            // Clear Urls before add new ones.
-            var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
-                _editorViewModel.Urls.ToList(),
-                urls.ToArray(),
-                ModeImageTypes.Editor);
+            switch (_type)
+            {
+                case ViewType.Editor:
+                {
+                    var viewModel = (EditorViewModel) _viewModel;
 
-            _editorViewModel.Urls.Clear();
-            foreach (var s in listCleaned) _editorViewModel.Urls.Add(s);
+                    // Clear Urls before add new ones.
+                    var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
+                        viewModel.PathList.ToList(),
+                        urls.ToArray(),
+                        ModeImageTypes.Editor);
+
+                    viewModel.PathList.Clear();
+
+                    foreach (var s in listCleaned) viewModel.PathList.Add(s);
+
+                    break;
+                }
+                case ViewType.Conversor:
+                {
+                    var viewModel = (ConversorViewModel) _viewModel;
+
+                    // Clear Urls before add new ones.
+                    var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
+                        viewModel.PathList.ToList(),
+                        urls.ToArray(),
+                        ModeImageTypes.Editor);
+
+                    viewModel.PathList.Clear();
+
+                    foreach (var s in listCleaned) viewModel.PathList.Add(s);
+
+                    break;
+                }
+            }
         }
 
         /// <summary>
