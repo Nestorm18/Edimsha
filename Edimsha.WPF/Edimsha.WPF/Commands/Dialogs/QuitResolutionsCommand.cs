@@ -30,8 +30,7 @@ namespace Edimsha.WPF.Commands.Dialogs
         public void Execute(object? parameter)
         {
             Logger.Log("Close resolutions dialogs");
-            Logger.Log($"BypassWidthOrHeightLimitations:{_resolutionDialogViewModel.BypassWidthOrHeightLimitations}",
-                LogLevel.Debug);
+            Logger.Log($"BypassWidthOrHeightLimitations:{_resolutionDialogViewModel.BypassWidthOrHeightLimitations}", LogLevel.Debug);
 
             _resolutionDialogViewModel.BypassWidthOrHeightLimitations = true;
             _resolutionDialogViewModel.Width = -1;

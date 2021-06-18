@@ -32,28 +32,15 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <param name="parameter"><see cref="Resolution"/> to remove.</param>
         public void Execute(object? parameter)
         {
-            var values = (object[]) parameter!;
-            var width = (string) values[0];
-            var height = (string) values[1];
+            if (IsParameterValid(parameter, out string width, out string height)) return;
 
-            // Not valid values
-            if (width == string.Empty || height == string.Empty) return;
-
-            var currentResolution = new Resolution()
+            var currentResolution = new Resolution
             {
                 Width = int.Parse(width),
                 Height = int.Parse(height)
             };
 
-            for (var i = 0; i < _resolutionDialogViewModel.Resolutions.Count; i++)
-            {
-                if (!_resolutionDialogViewModel.Resolutions[i].Equals(currentResolution)) continue;
-                _resolutionDialogViewModel.Resolutions.RemoveAt(i);
-                break;
-            }
-
-            _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("deleted_resolution");
-            _resolutionDialogViewModel.CmbIndex = 0;
+            RemoveResolution(currentResolution);
 
             _saveSettingsService.SaveResolutions(_resolutionDialogViewModel.Resolutions);
 
@@ -61,13 +48,55 @@ namespace Edimsha.WPF.Commands.Dialogs
         }
 
         /// <summary>
+        /// Validates if the passed parameter is a <see cref="Resolution"/>.
+        /// </summary>
+        /// <param name="parameter">The parameter that must be an object of type resolution.</param>
+        /// <param name="width">The width to return if valid.</param>
+        /// <param name="height">The height to return if valid.</param>
+        /// <returns>True if the parameter is of type <see cref="Resolution"/></returns>
+        private static bool IsParameterValid(object? parameter, out string width, out string height)
+        {
+            var values = (object[]) parameter!;
+            width = (string) values[0];
+            height = (string) values[1];
+
+            // Not a valid value
+            return width == string.Empty || height == string.Empty;
+        }
+
+        /// <summary>
+        /// Remove the selected resolution from list.
+        /// </summary>
+        /// <param name="currentResolution">The resolution to remove.</param>
+        private void RemoveResolution(Resolution currentResolution)
+        {
+            for (var i = 0; i < _resolutionDialogViewModel.Resolutions.Count; i++)
+            {
+                if (!_resolutionDialogViewModel.Resolutions[i].Equals(currentResolution)) continue;
+                _resolutionDialogViewModel.Resolutions.RemoveAt(i);
+                break;
+            }
+        }
+
+        /// <summary>
         /// Resets fields to default and disabled values as needed
         /// </summary>
         private void AllResolutionsDeleted()
         {
+            _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("deleted_resolution");
+            _resolutionDialogViewModel.CmbIndex = 0;
+
             if (_resolutionDialogViewModel.Resolutions.Count != 0) return;
 
             // Resets fields to basic
+            UpdateUiWithNoResolutionsAvaliable();
+        }
+
+        /// <summary>
+        /// Resets fields to basic UI with no resolutions.
+        /// </summary>
+        private void UpdateUiWithNoResolutionsAvaliable()
+        {
             _resolutionDialogViewModel.BypassWidthOrHeightLimitations = true;
             _resolutionDialogViewModel.Width = 0;
             _resolutionDialogViewModel.Heigth = 0;
