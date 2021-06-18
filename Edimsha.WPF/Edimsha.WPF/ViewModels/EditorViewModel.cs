@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -27,7 +26,6 @@ namespace Edimsha.WPF.ViewModels
     public class EditorViewModel : ViewModelBase, IFileDragDropTarget
     {
         // IOC
-        private readonly ISaveSettingsService _saveSettingsService;
         private readonly ILoadSettingsService _loadSettingsService;
         private readonly IDialogService _dialogService;
 
@@ -45,8 +43,6 @@ namespace Edimsha.WPF.ViewModels
         private bool _isCtxDeleteAll;
         private string _statusBar;
         private string _statusBar2;
-        private ObservableCollection<string> _pathList;
-        private string _outputFolder;
         private string _edimsha;
         private double _compresionValue;
         private int _widthImage;
@@ -178,31 +174,6 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
-        public ObservableCollection<string> PathList
-        {
-            get => _pathList;
-            set
-            {
-                if (value == _pathList) return;
-                _pathList = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string OutputFolder
-        {
-            get => _outputFolder;
-            set
-            {
-                if (value == _outputFolder) return;
-
-                _outputFolder = Directory.Exists(value) ? value : string.Empty;
-                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "OutputFolder", _outputFolder);
-
-                OnPropertyChanged();
-            }
-        }
-
         public string Edimsha
         {
             get => _edimsha;
@@ -211,7 +182,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _edimsha) return;
                 _edimsha = value;
 
-                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Edimsha", value);
+                SaveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Edimsha", value);
 
                 OnPropertyChanged();
             }
@@ -225,7 +196,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value.Equals(_compresionValue)) return;
                 _compresionValue = value;
 
-                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "CompresionValue", value);
+                SaveSettingsService.SaveConfigurationSettings(ViewType.Editor, "CompresionValue", value);
 
                 OnPropertyChanged();
             }
@@ -239,7 +210,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _widthImage) return;
                 _widthImage = value;
 
-                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Width", value);
+                SaveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Width", value);
 
                 OnPropertyChanged();
             }
@@ -253,7 +224,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _heightImage) return;
                 _heightImage = value;
 
-                _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Height", value);
+                SaveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Height", value);
 
                 OnPropertyChanged();
             }
@@ -298,12 +269,12 @@ namespace Edimsha.WPF.ViewModels
         public EditorViewModel(
             ISaveSettingsService saveSettingsService,
             ILoadSettingsService loadSettingsService,
-            IDialogService dialogService)
+            IDialogService dialogService) : base(saveSettingsService)
         {
             Logger.Log("Constructor");
 
             // Setup services
-            _saveSettingsService = saveSettingsService;
+            SaveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
             _dialogService = dialogService;
 
@@ -319,7 +290,7 @@ namespace Edimsha.WPF.ViewModels
             // Parameter buttons
             OpenImagesCommand = new OpenImagesCommand(this, ViewType.Editor, _dialogService);
             OpenOutputFolderCommand = new OpenOutputFolderCommand(this, ViewType.Editor, _dialogService);
-            OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, _saveSettingsService);
+            OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, SaveSettingsService);
             // Run buttons
             ResetCommand = new ResetEditorCommand(this);
             CancelCommand = new RelayCommand(Cancel);
@@ -357,7 +328,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Log("Saving paths");
 
-            var success = _saveSettingsService.SavePaths(PathList, ViewType.Editor);
+            var success = SaveSettingsService.SavePaths(PathList, ViewType.Editor);
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -415,7 +386,7 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Log($"setting: {setting}, Value: {value}");
-            var success = await _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, setting, value);
+            var success = await SaveSettingsService.SaveConfigurationSettings(ViewType.Editor, setting, value);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
@@ -433,7 +404,7 @@ namespace Edimsha.WPF.ViewModels
             Logger.Log("Started edition");
             IsRunningUi = false;
 
-            var paths = _pathList;
+            var paths = PathList;
             var config = _loadSettingsService.GetConfigFormViewType(ViewType.Editor);
 
             _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution {Width = WidthImage, Height = HeightImage});
@@ -474,7 +445,7 @@ namespace Edimsha.WPF.ViewModels
         // Message paths deleted
         private void LaunchPathChangedMessageDialog()
         {
-            _dialogService.PathsRemovedLastSession(_loadSettingsService, _saveSettingsService, ViewType.Editor);
+            _dialogService.PathsRemovedLastSession(_loadSettingsService, SaveSettingsService, ViewType.Editor);
         }
     }
 }

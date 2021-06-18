@@ -1,8 +1,12 @@
 #nullable enable
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Annotations;
+using Edimsha.WPF.Services.Data;
+using Edimsha.WPF.State.Navigators;
 
 namespace Edimsha.WPF.ViewModels
 {
@@ -10,7 +14,51 @@ namespace Edimsha.WPF.ViewModels
 
     public class ViewModelBase : INotifyPropertyChanged
     {
-        public virtual void Dispose()
+        // IOC
+        protected ISaveSettingsService SaveSettingsService;
+
+        #region Properties
+
+        private ObservableCollection<string> _pathList = null!;
+        private string _outputFolder;
+
+        public ObservableCollection<string> PathList
+        {
+            get => _pathList;
+            set
+            {
+                if (value == _pathList) return;
+                _pathList = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string OutputFolder
+        {
+            get => _outputFolder;
+            set
+            {
+                if (value == _outputFolder) return;
+
+                _outputFolder = Directory.Exists(value) ? value : string.Empty;
+                SaveSettingsService.SaveConfigurationSettings(ViewType.Editor, "OutputFolder", _outputFolder);
+
+                OnPropertyChanged();
+            }
+        }
+
+        # endregion
+
+        #region Constructor
+
+        protected ViewModelBase(ISaveSettingsService saveSettingsService)
+        {
+            SaveSettingsService = saveSettingsService;
+        }
+
+        #endregion
+
+        public static void Dispose()
         {
         }
 

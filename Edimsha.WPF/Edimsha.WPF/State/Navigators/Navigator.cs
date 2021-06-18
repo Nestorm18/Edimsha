@@ -12,7 +12,7 @@ namespace Edimsha.WPF.State.Navigators
             get => _currentViewModel;
             set
             {
-                _currentViewModel?.Dispose();
+                ViewModelBase.Dispose();
 
                 _currentViewModel = value;
                 StateChanged?.Invoke();

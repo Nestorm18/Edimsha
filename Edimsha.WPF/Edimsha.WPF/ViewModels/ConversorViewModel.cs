@@ -1,5 +1,4 @@
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using Edimsha.Core.Logging.Implementation;
 
@@ -7,23 +6,11 @@ namespace Edimsha.WPF.ViewModels
 {
     public class ConversorViewModel : ViewModelBase
     {
-        private ObservableCollection<string> _pathList;
-        private string _outputFolder;
-
         // Properties
 
         #region Properties
 
-        public ObservableCollection<string> PathList
-        {
-            get => _pathList;
-            set
-            {
-                if (value == _pathList) return;
-                _pathList = value;
-                OnPropertyChanged();
-            }
-        }
+        private string _outputFolder;
 
         public string OutputFolder
         {
@@ -42,7 +29,7 @@ namespace Edimsha.WPF.ViewModels
 
         # endregion
 
-        public ConversorViewModel()
+        public ConversorViewModel() : base(null)
         {
             Logger.Log("Constructor");
             Console.WriteLine("Test CONVERSOR-VM");

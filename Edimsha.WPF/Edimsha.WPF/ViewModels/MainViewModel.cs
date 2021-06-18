@@ -17,7 +17,6 @@ namespace Edimsha.WPF.ViewModels
     {
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
-        private readonly ISaveSettingsService _saveSettingsService;
         private readonly ILoadSettingsService _loadSettingsService;
 
         // Properties
@@ -67,11 +66,11 @@ namespace Edimsha.WPF.ViewModels
         public MainViewModel(
             IEdimshaViewModelFactory viewModelFactory,
             ISaveSettingsService saveSettingsService,
-            ILoadSettingsService loadSettingsService)
+            ILoadSettingsService loadSettingsService) : base(saveSettingsService)
         {
             Logger.Log("Constructor");
             _viewModelFactory = viewModelFactory;
-            _saveSettingsService = saveSettingsService;
+            SaveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
             CurrentModeViewModel = _viewModelFactory.CreateViewModel(Mode);
 
@@ -81,7 +80,7 @@ namespace Edimsha.WPF.ViewModels
 
             // Menu
             QuitCommand = new QuitCommand();
-            ChangeLanguageCommand = new ChangeLanguageCommand(this, _saveSettingsService);
+            ChangeLanguageCommand = new ChangeLanguageCommand(this, SaveSettingsService);
             ChangeModeCommand = new ChangeModeCommand(this, _viewModelFactory);
 
             LoadLanguageFromSettings();
@@ -95,7 +94,7 @@ namespace Edimsha.WPF.ViewModels
             {
                 var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
 
-                if (cleanListOnExit) _saveSettingsService.SavePaths(new List<string>(), ViewType.Editor);
+                if (cleanListOnExit) SaveSettingsService.SavePaths(new List<string>(), ViewType.Editor);
             }
             catch (Exception e)
             {

@@ -39,19 +39,16 @@ namespace Edimsha.WPF.Commands
 
             if (success.Result == null) return;
 
-            switch (_type)
+            var viewModel = _type switch
             {
-                case ViewType.Editor:
-                {
-                    if (_viewModel is EditorViewModel viewModel) viewModel.OutputFolder = success.Result;
-                    break;
-                }
-                case ViewType.Conversor:
-                {
-                    if (_viewModel is ConversorViewModel viewModel) viewModel.OutputFolder = success.Result;
-                    break;
-                }
-            }
+                ViewType.Editor => _viewModel,
+                ViewType.Conversor => _viewModel,
+                _ => null
+            };
+
+            if (viewModel == null) return;
+
+            viewModel.OutputFolder = success.Result;
         }
 
         public event EventHandler? CanExecuteChanged;
