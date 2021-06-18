@@ -8,9 +8,9 @@ namespace Edimsha.WPF.Commands.Basics
     {
         private bool _isExecuting;
 
-        public bool IsExecuting
+        private bool IsExecuting
         {
-            get { return _isExecuting; }
+            get => _isExecuting;
             set
             {
                 _isExecuting = value;
@@ -34,9 +34,9 @@ namespace Edimsha.WPF.Commands.Basics
             IsExecuting = false;
         }
 
-        public abstract Task ExecuteAsync(object parameter);
+        protected abstract Task ExecuteAsync(object parameter);
 
-        protected void OnCanExecuteChanged()
+        private void OnCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, new EventArgs());
         }

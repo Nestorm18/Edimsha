@@ -32,27 +32,19 @@ namespace Edimsha.WPF.Commands
         /// <param name="parameter">Path to delete.</param>
         public void Execute(object? parameter)
         {
-            switch (_type)
+            var viewModel = _type switch
             {
-                case ViewType.Editor:
-                {
-                    var viewModel = (EditorViewModel) _viewModel;
-                    if (_removeAll)
-                        viewModel.PathList.Clear();
-                    else
-                        viewModel.PathList.Remove((string) parameter!);
-                    break;
-                }
-                case ViewType.Conversor:
-                {
-                    var viewModel = (ConversorViewModel) _viewModel;
-                    if (_removeAll)
-                        viewModel.PathList.Clear();
-                    else
-                        viewModel.PathList.Remove((string) parameter!);
-                    break;
-                }
-            }
+                ViewType.Editor => _viewModel,
+                ViewType.Conversor => _viewModel,
+                _ => null
+            };
+
+            if (viewModel == null) return;
+
+            if (_removeAll)
+                viewModel?.PathList.Clear();
+            else
+                viewModel?.PathList.Remove((string) parameter!);
         }
 
         public event EventHandler? CanExecuteChanged;

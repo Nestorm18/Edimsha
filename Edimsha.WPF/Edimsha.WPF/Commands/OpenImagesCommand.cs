@@ -46,41 +46,24 @@ namespace Edimsha.WPF.Commands
 
             if (urls == null) return;
 
-            switch (_type)
+            var viewModel = _type switch
             {
-                case ViewType.Editor:
-                {
-                    var viewModel = (EditorViewModel) _viewModel;
+                ViewType.Editor => _viewModel,
+                ViewType.Conversor => _viewModel,
+                _ => null
+            };
 
-                    // Clear Urls before add new ones.
-                    var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
-                        viewModel.PathList.ToList(),
-                        urls.ToArray(),
-                        ModeImageTypes.Editor);
+            if (viewModel == null) return;
 
-                    viewModel.PathList.Clear();
+            // Clear Urls before add new ones.
+            var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
+                viewModel.PathList.ToList(),
+                urls.ToArray(),
+                ModeImageTypes.Editor);
 
-                    foreach (var s in listCleaned) viewModel.PathList.Add(s);
+            viewModel.PathList.Clear();
 
-                    break;
-                }
-                case ViewType.Conversor:
-                {
-                    var viewModel = (ConversorViewModel) _viewModel;
-
-                    // Clear Urls before add new ones.
-                    var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
-                        viewModel.PathList.ToList(),
-                        urls.ToArray(),
-                        ModeImageTypes.Editor);
-
-                    viewModel.PathList.Clear();
-
-                    foreach (var s in listCleaned) viewModel.PathList.Add(s);
-
-                    break;
-                }
-            }
+            foreach (var s in listCleaned) viewModel.PathList.Add(s);
         }
 
         /// <summary>
