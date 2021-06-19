@@ -37,26 +37,10 @@ namespace Edimsha.WPF.Commands.Main
             if (parameter != null) _viewModel.Language = (Languages) parameter;
 
             Logger.Log($"Changing language to {_viewModel.Language}", LogLevel.Debug);
-
-            // TODO Mellorar esta parte
-            switch (_viewModel.Language)
-            {
-                case Languages.English:
-                    Logger.Log("Saving English", LogLevel.Debug);
-                    ChangeLanguage.SetLanguage("");
-                    _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Language", Languages.English.GetDescription());
-                    _saveSettingsService.SaveConfigurationSettings(ViewType.Conversor, "Language", Languages.English.GetDescription());
-                    break;
-                case Languages.Spanish:
-                    Logger.Log("Saving Spanish", LogLevel.Debug);
-                    ChangeLanguage.SetLanguage(Languages.Spanish.GetDescription());
-                    _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Language", Languages.Spanish.GetDescription());
-                    _saveSettingsService.SaveConfigurationSettings(ViewType.Conversor, "Language", Languages.Spanish.GetDescription());
-                    break;
-                default:
-                    Logger.Log("El idioma indicado no existe", LogLevel.Error);
-                    throw new Exception("El idioma indicado no existe");
-            }
+            
+            ChangeLanguage.SetLanguage(_viewModel.Language.GetDescription());
+            _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Language", _viewModel.Language.GetDescription());
+            _saveSettingsService.SaveConfigurationSettings(ViewType.Conversor, "Language", _viewModel.Language.GetDescription());
         }
 
         public event EventHandler? CanExecuteChanged;

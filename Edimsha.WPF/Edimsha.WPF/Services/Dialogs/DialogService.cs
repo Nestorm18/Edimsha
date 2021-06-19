@@ -22,7 +22,7 @@ namespace Edimsha.WPF.Services.Dialogs
         public async Task<List<string>> OpenFileSelector(string title, string filter, bool multiselect)
         {
             Logger.Log($"Title: {title}, filter: {filter}, multiselect: {multiselect}");
-            var dlg = new OpenFileDialog()
+            var dlg = new OpenFileDialog
             {
                 Title = title,
                 Filter = filter,
