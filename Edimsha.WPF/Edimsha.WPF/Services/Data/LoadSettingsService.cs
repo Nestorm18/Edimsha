@@ -149,15 +149,11 @@ namespace Edimsha.WPF.Services.Data
                 switch (type)
                 {
                     case ViewType.Editor:
-                    {
                         settings = File.OpenText(SettingsEditor);
                         break;
-                    }
                     case ViewType.Conversor:
-                    {
                         settings = File.OpenText(SettingsConversor);
                         break;
-                    }
                     default:
                         ArgumentExceptionLoggedAndThrowed(type);
                         break;

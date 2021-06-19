@@ -16,14 +16,16 @@ namespace Edimsha.WPF.Utils
         public static IEnumerable GetImageType(object parameter)
         {
             Logger.Log($"Parameter: {parameter}");
+           
             // Gets all the values of the Enum and returns.
+            
             IEnumerable imageTypes = parameter switch
             {
                 ModeImageTypes.Editor => Enum.GetValues(typeof(ImageTypesEditor)).Cast<ImageTypesEditor>(),
                 ModeImageTypes.Converter => Enum.GetValues(typeof(ImageTypesConversor)).Cast<ImageTypesConversor>(),
                 _ => null
             };
-
+            
             return imageTypes;
         }
     }
