@@ -22,5 +22,11 @@ namespace Edimsha.Core.Models
         {
             return HashCode.Combine(Width, Height);
         }
+
+        public bool IsValid()
+        {
+            Console.WriteLine(Width > 0 && Height > 0);
+            return Width > 0 && Height > 0;
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace Edimsha.WPF.Commands.Dialogs
 
             var currentResolution = ResolutionValidator.IsParameterValid(parameter);
 
-            if (currentResolution == null) return;
+            if (!currentResolution.IsValid()) return;
 
             RemoveResolution(currentResolution);
 

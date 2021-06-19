@@ -20,7 +20,7 @@ namespace Edimsha.WPF.Utils
             Logger.Log($"width:{width}, height:{height}", LogLevel.Debug);
 
             // Not a valid value
-            if (width == string.Empty || height == string.Empty) return null;
+            if (width == string.Empty || height == string.Empty) return new Resolution();
 
             var currentResolution = new Resolution
             {
