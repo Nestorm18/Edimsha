@@ -17,13 +17,14 @@ using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
+using Edimsha.WPF.ViewModels.Interfaces;
 
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 #pragma warning disable 4014
 
 namespace Edimsha.WPF.ViewModels
 {
-    public class EditorViewModel : ViewModelBase, IFileDragDropTarget
+    public class EditorViewModel : ViewModelBase, IFileDragDropTarget, IViewType
     {
         // IOC
         private readonly ILoadSettingsService _loadSettingsService;
@@ -285,11 +286,11 @@ namespace Edimsha.WPF.ViewModels
 
             // Commands
             // Mouse context
-            DeleteItemCommand = new DeleteItemsCommand(this, ViewType.Editor);
-            DeleteAllItemsCommand = new DeleteItemsCommand(this, ViewType.Editor, true);
+            DeleteItemCommand = new DeleteItemsCommand(this);
+            DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             // Parameter buttons
-            OpenImagesCommand = new OpenImagesCommand(this, ViewType.Editor, _dialogService);
-            OpenOutputFolderCommand = new OpenOutputFolderCommand(this, ViewType.Editor, _dialogService);
+            OpenImagesCommand = new OpenImagesCommand(this, _dialogService);
+            OpenOutputFolderCommand = new OpenOutputFolderCommand(this, _dialogService);
             OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, _dialogService, _loadSettingsService, SaveSettingsService);
             // Run buttons
             ResetCommand = new ResetEditorCommand(this);
@@ -446,6 +447,11 @@ namespace Edimsha.WPF.ViewModels
         private void LaunchPathChangedMessageDialog()
         {
             _dialogService.PathsRemovedLastSession(_loadSettingsService, SaveSettingsService, ViewType.Editor);
+        }
+
+        public ViewType GetType()
+        {
+            return ViewType.Editor;
         }
     }
 }

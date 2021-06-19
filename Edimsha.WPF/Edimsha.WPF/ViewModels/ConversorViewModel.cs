@@ -1,10 +1,12 @@
 using System;
 using System.IO;
 using Edimsha.Core.Logging.Implementation;
+using Edimsha.WPF.State.Navigators;
+using Edimsha.WPF.ViewModels.Interfaces;
 
 namespace Edimsha.WPF.ViewModels
 {
-    public class ConversorViewModel : ViewModelBase
+    public class ConversorViewModel : ViewModelBase, IViewType
     {
         // Properties
 
@@ -33,6 +35,11 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Log("Constructor");
             Console.WriteLine("Test CONVERSOR-VM");
+        }
+
+        public ViewType GetType()
+        {
+            return ViewType.Conversor;
         }
     }
 }

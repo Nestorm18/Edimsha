@@ -11,13 +11,11 @@ namespace Edimsha.WPF.Commands
     {
         private readonly bool _removeAll;
         private readonly ViewModelBase _viewModel;
-        private readonly ViewType _type;
 
-        public DeleteItemsCommand(ViewModelBase viewModel, ViewType type, bool removeAll = false)
+        public DeleteItemsCommand(ViewModelBase viewModel, bool removeAll = false)
         {
             Logger.Log("Constructor");
             _viewModel = viewModel;
-            _type = type;
             _removeAll = removeAll;
         }
 
@@ -32,19 +30,10 @@ namespace Edimsha.WPF.Commands
         /// <param name="parameter">Path to delete.</param>
         public void Execute(object? parameter)
         {
-            var viewModel = _type switch
-            {
-                ViewType.Editor => _viewModel,
-                ViewType.Conversor => _viewModel,
-                _ => null
-            };
-
-            if (viewModel == null) return;
-
             if (_removeAll)
-                viewModel?.PathList.Clear();
+                _viewModel.PathList.Clear();
             else
-                viewModel?.PathList.Remove((string) parameter!);
+                _viewModel.PathList.Remove((string) parameter!);
         }
 
         public event EventHandler? CanExecuteChanged;

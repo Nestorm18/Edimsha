@@ -17,14 +17,12 @@ namespace Edimsha.WPF.Commands
     public class OpenImagesCommand : ICommand
     {
         private readonly ViewModelBase _viewModel;
-        private readonly ViewType _type;
         private readonly IDialogService _dialogService;
 
-        public OpenImagesCommand(ViewModelBase viewModel, ViewType type, IDialogService dialogService)
+        public OpenImagesCommand(ViewModelBase viewModel, IDialogService dialogService)
         {
             Logger.Log("Constructor");
             _viewModel = viewModel;
-            _type = type;
             _dialogService = dialogService;
         }
 
@@ -46,24 +44,15 @@ namespace Edimsha.WPF.Commands
 
             if (urls == null) return;
 
-            var viewModel = _type switch
-            {
-                ViewType.Editor => _viewModel,
-                ViewType.Conversor => _viewModel,
-                _ => null
-            };
-
-            if (viewModel == null) return;
-
             // Clear Urls before add new ones.
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
-                viewModel.PathList.ToList(),
+                _viewModel.PathList.ToList(),
                 urls.ToArray(),
                 ModeImageTypes.Editor);
 
-            viewModel.PathList.Clear();
+           _viewModel.PathList.Clear();
 
-            foreach (var s in listCleaned) viewModel.PathList.Add(s);
+            foreach (var s in listCleaned) _viewModel.PathList.Add(s);
         }
 
         /// <summary>

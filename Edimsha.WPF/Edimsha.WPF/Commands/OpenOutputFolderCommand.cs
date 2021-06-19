@@ -12,14 +12,12 @@ namespace Edimsha.WPF.Commands
     public class OpenOutputFolderCommand : ICommand
     {
         private readonly ViewModelBase _viewModel;
-        private readonly ViewType _type;
         private readonly IDialogService _dialogService;
 
-        public OpenOutputFolderCommand(ViewModelBase viewModel, ViewType type, IDialogService dialogService)
+        public OpenOutputFolderCommand(ViewModelBase viewModel, IDialogService dialogService)
         {
             Logger.Log("Constructor");
             _viewModel = viewModel;
-            _type = type;
             _dialogService = dialogService;
         }
 
@@ -34,21 +32,11 @@ namespace Edimsha.WPF.Commands
         /// <param name="parameter">Unused.</param>
         public void Execute(object? parameter)
         {
-            var success =
-                _dialogService.OpenFolderSelector(TranslationSource.GetTranslationFromString("select_folder"));
+            var success = _dialogService.OpenFolderSelector(TranslationSource.GetTranslationFromString("select_folder"));
 
             if (success.Result == null) return;
-
-            var viewModel = _type switch
-            {
-                ViewType.Editor => _viewModel,
-                ViewType.Conversor => _viewModel,
-                _ => null
-            };
-
-            if (viewModel == null) return;
-
-            viewModel.OutputFolder = success.Result;
+            
+            _viewModel.OutputFolder = success.Result;
         }
 
         public event EventHandler? CanExecuteChanged;

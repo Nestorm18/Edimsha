@@ -38,6 +38,7 @@ namespace Edimsha.WPF.Commands.Main
 
             Logger.Log($"Changing language to {_viewModel.Language}", LogLevel.Debug);
 
+            // TODO Mellorar esta parte
             switch (_viewModel.Language)
             {
                 case Languages.English:
