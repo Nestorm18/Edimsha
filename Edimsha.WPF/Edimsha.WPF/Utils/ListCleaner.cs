@@ -15,7 +15,10 @@ namespace Edimsha.WPF.Utils
         /// <param name="droppedPaths">The list of new paths.</param>
         /// <param name="mode"><see cref="ModeImageTypes"/> the type of image mode that is used.</param>
         /// <returns>List with validated formats and no duplicates</returns>
-        public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(IEnumerable<string> savedPaths, IEnumerable<string> droppedPaths, ModeImageTypes mode)
+        public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(
+            IEnumerable<string> savedPaths,
+            IEnumerable<string> droppedPaths,
+            ModeImageTypes mode)
         {
             Logger.Log("Cleaning paths");
             // Concat two list and remove duplicates to show in listview
@@ -33,7 +36,9 @@ namespace Edimsha.WPF.Utils
         /// <param name="filepaths">List of strings with paths to check.</param>
         /// <param name="mode"><see cref="ModeImageTypes"/> the type of image mode that is used.</param>
         /// <returns>List with validated formats.</returns>
-        private static IEnumerable<string> RemoveWrongFormats(IEnumerable<string> filepaths, ModeImageTypes mode)
+        private static IEnumerable<string> RemoveWrongFormats(
+            IEnumerable<string> filepaths,
+            ModeImageTypes mode)
         {
             Logger.Log("Removing");
             // Get all supported images formats for the current mode
