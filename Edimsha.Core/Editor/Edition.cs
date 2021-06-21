@@ -40,7 +40,7 @@ namespace Edimsha.Core.Editor
             using (var img = Image.FromFile(_path))
             {
                 if ((bool) _configEditor.KeepOriginalResolution || (Resolution.Width <= 0 || Resolution.Height <= 0))
-                    Resolution = new Resolution {Width = img.Width, Height = img.Height};
+                    Resolution = new Resolution(img.Width, img.Height);
 
                 image = Resize(img);
             }

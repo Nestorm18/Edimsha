@@ -408,7 +408,7 @@ namespace Edimsha.WPF.ViewModels
             var paths = PathList;
             var config = _loadSettingsService.GetConfigFormViewType(ViewType.Editor);
 
-            _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution {Width = WidthImage, Height = HeightImage});
+            _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution(WidthImage, HeightImage));
             _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
             _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
             _editorBackgroundWorker.RunWorkerAsync();

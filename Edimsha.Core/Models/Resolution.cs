@@ -5,8 +5,14 @@ namespace Edimsha.Core.Models
 {
     public class Resolution
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public Resolution(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        public int Width { get; }
+        public int Height { get; }
 
         public override string ToString()
         {

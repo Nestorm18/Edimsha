@@ -36,11 +36,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             if (Width == -1 || Heigth == -1) return null;
 
             // Resolution to return
-            return new Resolution
-            {
-                Width = Width,
-                Height = Heigth
-            };
+            return new Resolution(Width, Heigth);
         }
 
         #endregion
