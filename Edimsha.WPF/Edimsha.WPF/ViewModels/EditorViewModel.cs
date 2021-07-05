@@ -314,7 +314,7 @@ namespace Edimsha.WPF.ViewModels
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
                 PathList.ToList(),
                 pathsUpdated,
-                ModeImageTypes.Editor);
+                Mode.Editor);
 
             PathList.Clear();
             foreach (var s in listCleaned) PathList.Add(s);

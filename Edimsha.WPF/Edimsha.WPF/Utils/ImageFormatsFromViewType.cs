@@ -11,8 +11,8 @@ namespace Edimsha.WPF.Utils
         /// <summary>
         /// Gets a list of the available formats for the mode that is requested by parameter.
         /// </summary>
-        /// <param name="parameter">A type of <see cref="ModeImageTypes"/></param>
-        /// <returns>List of avaliable formats for requested <see cref="ModeImageTypes"/>.</returns>
+        /// <param name="parameter">A type of <see cref="Mode"/></param>
+        /// <returns>List of avaliable formats for requested <see cref="Mode"/>.</returns>
         public static IEnumerable GetImageType(object parameter)
         {
             Logger.Log($"Parameter: {parameter}");
@@ -21,8 +21,8 @@ namespace Edimsha.WPF.Utils
             
             IEnumerable imageTypes = parameter switch
             {
-                ModeImageTypes.Editor => Enum.GetValues(typeof(ImageTypesEditor)).Cast<ImageTypesEditor>(),
-                ModeImageTypes.Converter => Enum.GetValues(typeof(ImageTypesConversor)).Cast<ImageTypesConversor>(),
+                Mode.Editor => Enum.GetValues(typeof(ImageTypesEditor)).Cast<ImageTypesEditor>(),
+                Mode.Converter => Enum.GetValues(typeof(ImageTypesConversor)).Cast<ImageTypesConversor>(),
                 _ => null
             };
             

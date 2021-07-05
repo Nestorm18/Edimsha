@@ -48,7 +48,7 @@ namespace Edimsha.WPF.Commands
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
                 _viewModel.PathList.ToList(),
                 urls.ToArray(),
-                ModeImageTypes.Editor);
+                Mode.Editor);
 
             _viewModel.PathList.Clear();
 

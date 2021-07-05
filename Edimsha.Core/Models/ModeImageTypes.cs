@@ -3,12 +3,6 @@
 
 namespace Edimsha.Core.Models
 {
-    public enum ModeImageTypes
-    {
-        Editor,
-        Converter
-    }
-
     public enum ImageTypesEditor
     {
         PNG,
@@ -18,6 +12,16 @@ namespace Edimsha.Core.Models
 
     public enum ImageTypesConversor
     {
-        PNG
+        PNG,
+        BMP,
+        EPS,
+        GIF,
+        ICO,
+        JPG,
+        TGA,
+        TIF,
+        WEBP,
+        PCX,
+        PDF
     }
 }

@@ -36,7 +36,7 @@
             HorizontalAlignment="Center"
             Content="{lang:Localization drag_the_images_or_folder_to_edit,
                                         Converter={StaticResource ImageFormatsAppendConverter},
-                                        ConverterParameter={x:Static models:ModeImageTypes.Editor}}" />
+                                        ConverterParameter={x:Static models:Mode.Editor}}" />
 
         <!--  Lista de enlaces  -->
         <ListView
@@ -109,7 +109,7 @@
                 <Button
                     Grid.Column="2"
                     Command="{Binding OpenImagesCommand}"
-                    CommandParameter="{x:Static models:ModeImageTypes.Editor}"
+                    CommandParameter="{x:Static models:Mode.Editor}"
                     Content="{lang:Localization select_files}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>

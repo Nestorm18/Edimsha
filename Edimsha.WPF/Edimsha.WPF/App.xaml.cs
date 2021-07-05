@@ -20,7 +20,7 @@ namespace Edimsha.WPF
         {
             try
             {
-                Logger.Setup();
+                Logger.Setup(LoggerMode.Normal);
                 _host = CreateHostBuilder().Build();
             }
             catch (Exception e)

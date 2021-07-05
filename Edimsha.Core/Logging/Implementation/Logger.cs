@@ -40,10 +40,22 @@ namespace Edimsha.Core.Logging.Implementation
             _sw.WriteLine(_instance.Log(message, level, origin, filePath, lineNumber));
         }
 
-        private static void Start()
+        public static void Setup(LoggerMode mode)
+        {
+            Start(mode);
+            GetInstance();
+
+            _sw = new StreamWriter(_fileName, true, Encoding.ASCII);
+
+            Log("App Setup done!");
+        }
+
+        private static void Start(LoggerMode loggerMode)
         {
             if (_isStarted) return;
             _isStarted = true;
+
+            //TODO: Añadir test unitario cando esto funcione
 
             // Find current app location
             _logsPath = $"{Directory.GetCurrentDirectory()}/logs/";
@@ -58,16 +70,6 @@ namespace Edimsha.Core.Logging.Implementation
             // Create a file once
             var fs = new FileStream(_fileName, FileMode.OpenOrCreate);
             fs.Close();
-        }
-
-        public static void Setup()
-        {
-            Start();
-            GetInstance();
-
-            _sw = new StreamWriter(_fileName, true, Encoding.ASCII);
-
-            Log("App Setup done!");
         }
 
         public static void Close()
@@ -90,5 +92,14 @@ namespace Edimsha.Core.Logging.Implementation
                     File.Delete(file);
             }
         }
+    }
+
+    /// <summary>
+    /// An enumeration to enable Unittest mode.
+    /// </summary>
+    public enum LoggerMode
+    {
+        Normal,
+        Testing
     }
 }
