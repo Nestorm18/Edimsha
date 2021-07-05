@@ -178,6 +178,15 @@ namespace Edimsha.Core.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drag the images or folder to convert.
+        /// </summary>
+        internal static string drag_the_images_or_folder_to_convert {
+            get {
+                return ResourceManager.GetString("drag_the_images_or_folder_to_convert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drag the images or folder to edit.
         /// </summary>
         internal static string drag_the_images_or_folder_to_edit {

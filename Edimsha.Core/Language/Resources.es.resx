@@ -177,4 +177,7 @@
     <data name="modified_paths" xml:space="preserve">
     <value>Rutas modificadas</value>
   </data>
+  <data name="drag_the_images_or_folder_to_convert" xml:space="preserve">
+    <value>Arrastra las imagenes o carpeta a convertir</value>
+  </data>
 </root>

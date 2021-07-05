@@ -1,8 +1,6 @@
 #nullable enable
 using System;
-using System.Collections;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Edimsha.Core.Language;
 using Edimsha.Core.Logging.Implementation;
@@ -39,8 +37,7 @@ namespace Edimsha.WPF.Commands
         {
             var filter = FilterCreator.Create(ImageFormatsFromViewType.GetImageType(parameter));
 
-            var urls = await _dialogService.OpenFileSelector(
-                TranslationSource.GetTranslationFromString("select_images"), filter, true);
+            var urls = await _dialogService.OpenFileSelector(TranslationSource.GetTranslationFromString("select_images"), filter, true);
 
             if (urls == null) return;
 

@@ -175,4 +175,7 @@
     <data name="deleted_paths" xml:space="preserve">
     <value>Deleted paths</value>
   </data>
+  <data name="drag_the_images_or_folder_to_convert" xml:space="preserve">
+    <value>Drag the images or folder to convert</value>
+  </data>
 </root>
