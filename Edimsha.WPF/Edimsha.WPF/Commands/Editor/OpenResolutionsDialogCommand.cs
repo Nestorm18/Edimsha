@@ -1,8 +1,6 @@
 #nullable enable
 using System;
 using System.Windows.Input;
-using Edimsha.Core.Logging.Core;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.ViewModels;
@@ -11,6 +9,9 @@ namespace Edimsha.WPF.Commands.Editor
 {
     public class OpenResolutionsDialogCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly EditorViewModel _editorViewModel;
         private readonly IDialogService _dialogService;
         private readonly ILoadSettingsService _loadSettingsService;
@@ -22,7 +23,7 @@ namespace Edimsha.WPF.Commands.Editor
             ILoadSettingsService loadSettingsService,
             ISaveSettingsService saveSettingsService)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
             _loadSettingsService = loadSettingsService;
@@ -40,11 +41,11 @@ namespace Edimsha.WPF.Commands.Editor
         /// <param name="parameter">Unused.</param>
         public void Execute(object? parameter)
         {
-            Logger.Log("Open resolution dialog selector");
+            _logger.Info("Open resolution dialog selector");
 
             var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService).Result;
 
-            Logger.Log($"Resolution: {res}", LogLevel.Debug);
+            _logger.Info($"Resolution: {res}");
 
             if (res == null) return;
 

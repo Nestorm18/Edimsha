@@ -1,17 +1,19 @@
 using System;
 using System.Windows.Input;
-using Edimsha.Core.Logging.Implementation;
 
 namespace Edimsha.WPF.Commands.Basics
 {
     public class ParameterizedRelayCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly Action<object> _command;
         private readonly Func<bool> _canExecute;
 
         public ParameterizedRelayCommand(Action<object> commandAction, Func<bool> canExecute = null)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _command = commandAction;
             _canExecute = canExecute;
         }
@@ -25,7 +27,7 @@ namespace Edimsha.WPF.Commands.Basics
 
         public void Execute(object parameter)
         {
-            Logger.Log($"Command with parameters {parameter}");
+            _logger.Info($"Command with parameters executed");
             _command?.Invoke(parameter);
         }
     }

@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using Edimsha.Core.Language;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.Core.Models;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
@@ -14,12 +13,15 @@ namespace Edimsha.WPF.Commands
 {
     public class OpenImagesCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly ViewModelBase _viewModel;
         private readonly IDialogService _dialogService;
 
         public OpenImagesCommand(ViewModelBase viewModel, IDialogService dialogService)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _viewModel = viewModel;
             _dialogService = dialogService;
         }

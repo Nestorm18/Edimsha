@@ -1,20 +1,21 @@
 #nullable enable
 using System;
 using System.Windows.Input;
-using Edimsha.Core.Logging.Implementation;
-using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
 
 namespace Edimsha.WPF.Commands
 {
     public class DeleteItemsCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly bool _removeAll;
         private readonly ViewModelBase _viewModel;
 
         public DeleteItemsCommand(ViewModelBase viewModel, bool removeAll = false)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _viewModel = viewModel;
             _removeAll = removeAll;
         }

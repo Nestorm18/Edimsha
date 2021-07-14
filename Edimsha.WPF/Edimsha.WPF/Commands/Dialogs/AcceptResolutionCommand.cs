@@ -2,12 +2,14 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Edimsha.Core.Logging.Implementation;
 
 namespace Edimsha.WPF.Commands.Dialogs
 {
     public class AcceptResolutionCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public bool CanExecute(object? parameter)
         {
             return true;
@@ -19,7 +21,7 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <param name="parameter">The window to close as a parameter.</param>
         public void Execute(object? parameter)
         {
-            Logger.Log("Resolution accepted");
+            _logger.Info("Resolution accepted");
             
             if (parameter == null) return;
             var window = (Window) parameter;

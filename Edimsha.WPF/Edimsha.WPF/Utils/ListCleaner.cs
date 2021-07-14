@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.Core.Models;
 
 namespace Edimsha.WPF.Utils
 {
     public static class ListCleaner
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         /// <summary>
         /// Eliminate duplicate elements and validate the formats. Use internally <see cref="RemoveWrongFormats"/> to this purpose.
         /// </summary>
@@ -17,7 +19,7 @@ namespace Edimsha.WPF.Utils
         /// <returns>List with validated formats and no duplicates</returns>
         public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(IEnumerable<string> savedPaths, IEnumerable<string> droppedPaths, Mode mode)
         {
-            Logger.Log("Cleaning paths");
+            _logger.Info("Cleaning paths");
             // Concat two list and remove duplicates to show in listview
             var distinctPaths = savedPaths.Concat(droppedPaths).Distinct().ToList();
 
@@ -34,7 +36,7 @@ namespace Edimsha.WPF.Utils
         /// <param name="mode"><see cref="Mode"/> the type of image mode that is used.</param>
         /// <returns>List with validated formats.</returns>
         private static IEnumerable<string> RemoveWrongFormats(IEnumerable<string> filepaths, Mode mode) {
-            Logger.Log("Removing");
+            _logger.Info("Removing");
             // Get all supported images formats for the current mode
             var imageType = ImageFormatsFromViewType.GetImageType(mode);
 

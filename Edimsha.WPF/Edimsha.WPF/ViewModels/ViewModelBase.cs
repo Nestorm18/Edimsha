@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Annotations;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
@@ -14,6 +13,9 @@ namespace Edimsha.WPF.ViewModels
 
     public class ViewModelBase : INotifyPropertyChanged
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         // IOC
         protected ISaveSettingsService SaveSettingsService;
 
@@ -72,7 +74,7 @@ namespace Edimsha.WPF.ViewModels
             // Faster image procesing
             if (!propertyName.Contains("StatusBar") || !propertyName.Contains("PbPosition")) return;
 
-            Logger.Log($"PropertyName: {propertyName}");
+            _logger.Info($"PropertyName: {propertyName}");
         }
     }
 }

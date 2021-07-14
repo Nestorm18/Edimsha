@@ -1,4 +1,4 @@
-using Edimsha.Core.Logging.Implementation;
+
 using Edimsha.Core.Settings;
 
 namespace Edimsha.WPF.Services.Data
@@ -13,7 +13,6 @@ namespace Edimsha.WPF.Services.Data
 
         protected SettingsService(ConfigPaths settingsPath)
         {
-            Logger.Log($"SettingsPath : {settingsPath}");
             SettingsEditor = settingsPath.SettingsEditor;
             SettingsConversor = settingsPath.SettingsConversor;
             EditorPathsJson = settingsPath.EditorPathsJson;

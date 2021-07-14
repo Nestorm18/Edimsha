@@ -1,4 +1,4 @@
-using Edimsha.Core.Logging.Implementation;
+
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
@@ -12,7 +12,6 @@ namespace Edimsha.WPF.HostBuild
     {
         public static IHostBuilder AddServices(this IHostBuilder host)
         {
-            Logger.Log("AddViews");
             host.ConfigureServices((context, services) =>
             {
                 var config = new ConfigPaths

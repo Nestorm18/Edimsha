@@ -2,21 +2,22 @@
 using System;
 using System.Windows.Input;
 using Edimsha.Core.Language;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Services.Dialogs;
-using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
 
 namespace Edimsha.WPF.Commands
 {
     public class OpenOutputFolderCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly ViewModelBase _viewModel;
         private readonly IDialogService _dialogService;
 
         public OpenOutputFolderCommand(ViewModelBase viewModel, IDialogService dialogService)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _viewModel = viewModel;
             _dialogService = dialogService;
         }

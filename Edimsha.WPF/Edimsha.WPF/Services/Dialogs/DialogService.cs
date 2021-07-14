@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Edimsha.Core.Language;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.Core.Models;
 using Edimsha.WPF.Annotations;
 using Edimsha.WPF.Services.Data;
@@ -19,9 +18,12 @@ namespace Edimsha.WPF.Services.Dialogs
 {
     public class DialogService : IDialogService
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public async Task<List<string>> OpenFileSelector(string title, string filter, bool multiselect)
         {
-            Logger.Log($"Title: {title}, filter: {filter}, multiselect: {multiselect}");
+            _logger.Info($"Title: {title}, filter: {filter}, multiselect: {multiselect}");
             var dlg = new OpenFileDialog
             {
                 Title = title,
@@ -29,13 +31,13 @@ namespace Edimsha.WPF.Services.Dialogs
                 Multiselect = multiselect
             };
 
-            Logger.Log($"Returning fileNames: {dlg.FileNames}");
+            _logger.Info($"Returning fileNames: {dlg.FileNames}");
             return dlg.ShowDialog() == true ? new List<string>(dlg.FileNames) : null;
         }
 
         public async Task<string> OpenFolderSelector(string title)
         {
-            Logger.Log($"Title: {title}");
+            _logger.Info($"Title: {title}");
             var dlg = new CommonOpenFileDialog {IsFolderPicker = true, Title = title};
 
             return dlg.ShowDialog() == CommonFileDialogResult.Ok ? dlg.FileName : null;
@@ -44,10 +46,10 @@ namespace Edimsha.WPF.Services.Dialogs
         [CanBeNull]
         public async Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService)
         {
-            Logger.Log("Viewmodel");
+            _logger.Info("Viewmodel");
             var vm = new ResolutionDialogViewModel(loadSettingsService, saveSettingsService);
 
-            Logger.Log("Opening dialog");
+            _logger.Info("Opening dialog");
             var dlg = new ResolutionDialog {DataContext = vm};
 
             // Prevent load resolution if closes with the X in titlebar
@@ -62,13 +64,13 @@ namespace Edimsha.WPF.Services.Dialogs
 
             dlg.ShowDialog();
 
-            Logger.Log($"Resolution: {vm.GetResolution()}");
+            _logger.Info($"Resolution: {vm.GetResolution()}");
             return vm.GetResolution();
         }
 
         public async Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, ViewType type)
         {
-            Logger.Log($"Cheking for type {type}");
+            _logger.Info($"Cheking for type {type}");
 
             var result = MessageBox.Show(
                 TranslationSource.GetTranslationFromString("the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_changes"),

@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using Edimsha.Core.Language;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.Core.Models;
 using Edimsha.WPF.Converters;
 using Edimsha.WPF.Services.Data;
@@ -14,6 +13,9 @@ namespace Edimsha.WPF.Commands.Dialogs
 {
     public class SaveResolutionCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly ResolutionDialogViewModel _resolutionDialogViewModel;
         private readonly ISaveSettingsService _saveSettingsService;
 
@@ -21,7 +23,7 @@ namespace Edimsha.WPF.Commands.Dialogs
             ResolutionDialogViewModel resolutionDialogViewModel,
             ISaveSettingsService saveSettingsService)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
 
             _resolutionDialogViewModel = resolutionDialogViewModel;
             _saveSettingsService = saveSettingsService;
@@ -44,7 +46,7 @@ namespace Edimsha.WPF.Commands.Dialogs
 
             if (ExistCurrentResolution(currentResolution))
             {
-                Logger.Log("the_resolution_already_exists");
+                _logger.Info("the_resolution_already_exists");
                 _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("the_resolution_already_exists");
             }
             else
@@ -57,7 +59,7 @@ namespace Edimsha.WPF.Commands.Dialogs
 
                 _resolutionDialogViewModel.CmbIndex = _resolutionDialogViewModel.Resolutions.Count - 1;
 
-                Logger.Log("resolution_saved");
+                _logger.Info("resolution_saved");
             }
         }
 
@@ -68,7 +70,7 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <returns></returns>
         private bool ExistCurrentResolution(Resolution currentResolution)
         {
-            Logger.Log(currentResolution.ToString());
+            _logger.Info(currentResolution.ToString());
             return _resolutionDialogViewModel.Resolutions.Any(resolution => resolution.Equals(currentResolution));
         }
 

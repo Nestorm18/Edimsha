@@ -1,11 +1,13 @@
-using Edimsha.Core.Logging.Core;
-using Edimsha.Core.Logging.Implementation;
+
 using Edimsha.Core.Models;
 
 namespace Edimsha.WPF.Utils
 {
     public static class ResolutionValidator
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         /// <summary>
         /// Validates if the passed parameter is a <see cref="Resolution"/>.
         /// </summary>
@@ -17,7 +19,7 @@ namespace Edimsha.WPF.Utils
             var width = (string) values[0];
             var height = (string) values[1];
 
-            Logger.Log($"width:{width}, height:{height}", LogLevel.Debug);
+            _logger.Info($"width:{width}, height:{height}");
 
             // Not a valid value
             if (width == string.Empty || height == string.Empty) return new Resolution(0,0);

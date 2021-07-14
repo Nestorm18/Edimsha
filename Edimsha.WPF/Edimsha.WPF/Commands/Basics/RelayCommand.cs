@@ -1,6 +1,5 @@
 using System;
 using System.Windows.Input;
-using Edimsha.Core.Logging.Implementation;
 
 // ReSharper disable UnusedParameter.Local
 
@@ -8,13 +7,16 @@ namespace Edimsha.WPF.Commands.Basics
 {
     public class RelayCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly Action _mAction;
 
         public event EventHandler CanExecuteChanged = (sender, e) => { };
 
         public RelayCommand(Action action)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _mAction = action;
         }
 
@@ -25,7 +27,7 @@ namespace Edimsha.WPF.Commands.Basics
 
         public void Execute(object parameter)
         {
-            Logger.Log("Relay executing");
+            _logger.Info("Relay executing");
             _mAction();
         }
     }

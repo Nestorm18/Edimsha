@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.Core.Editor;
 using Edimsha.Core.Language;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.Core.Models;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Commands.Basics;
@@ -26,6 +25,9 @@ namespace Edimsha.WPF.ViewModels
 {
     public class EditorViewModel : ViewModelBase, IFileDragDropTarget, IViewType
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         // IOC
         private readonly ILoadSettingsService _loadSettingsService;
         private readonly IDialogService _dialogService;
@@ -272,7 +274,7 @@ namespace Edimsha.WPF.ViewModels
             ILoadSettingsService loadSettingsService,
             IDialogService dialogService) : base(saveSettingsService)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
 
             // Setup services
             SaveSettingsService = saveSettingsService;
@@ -307,7 +309,7 @@ namespace Edimsha.WPF.ViewModels
 
         public void OnFileDrop(string[] filepaths)
         {
-            Logger.Log($"Filepaths: {filepaths}");
+            _logger.Info($"Filepaths: {filepaths}");
 
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
 
@@ -327,7 +329,7 @@ namespace Edimsha.WPF.ViewModels
 
         internal void SavePaths()
         {
-            Logger.Log("Saving paths");
+            _logger.Info("Saving paths");
 
             var success = SaveSettingsService.SavePaths(PathList, ViewType.Editor);
             if (!success) StatusBar = "error_saving_editor_paths";
@@ -346,13 +348,13 @@ namespace Edimsha.WPF.ViewModels
         /// </summary>
         private void LanguageOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Logger.Log("Language changed");
+            _logger.Info("Language changed");
             OnPropertyChanged(nameof(StatusBar));
         }
 
         private bool SetUserSettings()
         {
-            Logger.Log($"Loading saved settings");
+            _logger.Info($"Loading saved settings");
             StatusBar = "application_started";
 
             var isPathsDifferent = _loadSettingsService.StillPathsSameFromLastSession(ViewType.Editor);
@@ -375,7 +377,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Logger.Log($"Paths updated");
+            _logger.Info($"Paths updated");
             if (_isLoadingSettings) return;
             var isEnabled = PathList.Count > 0;
 
@@ -386,7 +388,7 @@ namespace Edimsha.WPF.ViewModels
 
         private async Task UpdateSetting<T>(string setting, T value)
         {
-            Logger.Log($"setting: {setting}, Value: {value}");
+            _logger.Info($"setting: {setting}, Value: {value}");
             var success = await SaveSettingsService.SaveConfigurationSettings(ViewType.Editor, setting, value);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
@@ -394,7 +396,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void Cancel()
         {
-            Logger.Log("Canceled edition");
+            _logger.Info("Canceled edition");
             _editorBackgroundWorker.CancelAsync();
 
             IsRunningUi = true;
@@ -402,7 +404,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void Start()
         {
-            Logger.Log("Started edition");
+            _logger.Info("Started edition");
             IsRunningUi = false;
 
             var paths = PathList;
@@ -430,7 +432,7 @@ namespace Edimsha.WPF.ViewModels
         {
             if (e.Cancelled)
             {
-                Logger.Log("Cancelled by user...");
+                _logger.Info("Cancelled by user...");
                 StatusBar = "cancelled_by_user";
                 StatusBar2 = "";
             }

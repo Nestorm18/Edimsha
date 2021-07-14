@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.State.Navigators;
@@ -13,9 +12,12 @@ namespace Edimsha.WPF.Services.Data
 {
     public class SaveSettingsService : SettingsService, ISaveSettingsService
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public SaveSettingsService(ConfigPaths settingsPath) : base(settingsPath)
         {
-            Logger.Log("Constructor");
+            
         }
 
         public async Task<bool> SaveConfigurationSettings<T>(ViewType type, string settingName, T value)
@@ -26,7 +28,7 @@ namespace Edimsha.WPF.Services.Data
             switch (type)
             {
                 case ViewType.Editor:
-                    Logger.Log($"Editor SettingName: {settingName}, Value: {value}");
+                    _logger.Info($"Editor SettingName: {settingName}, Value: {value}");
                     using (var settings = File.OpenText(SettingsEditor))
                     {
                         var serializer = new JsonSerializer();
@@ -41,11 +43,11 @@ namespace Edimsha.WPF.Services.Data
                         newconfig = config;
                     }
 
-                    Logger.Log("Writing file...");
+                    _logger.Info("Writing file...");
                     await File.WriteAllTextAsync(SettingsEditor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
                     break;
                 case ViewType.Conversor:
-                    Logger.Log($"Conversor SettingName: {settingName} C, Value: {value}");
+                    _logger.Info($"Conversor SettingName: {settingName} C, Value: {value}");
                     using (var settings = File.OpenText(SettingsConversor))
                     {
                         var serializer = new JsonSerializer();
@@ -60,7 +62,7 @@ namespace Edimsha.WPF.Services.Data
                         newconfig = config;
                     }
 
-                    Logger.Log("Writing file...");
+                    _logger.Info("Writing file...");
                     await File.WriteAllTextAsync(SettingsConversor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
                     break;
                 default:
@@ -72,7 +74,7 @@ namespace Edimsha.WPF.Services.Data
 
         public bool SavePaths(IEnumerable<string> values, ViewType viewType)
         {
-            Logger.Log($"Values: {values}, ViewType: {viewType}");
+            _logger.Info($"Values: {values}, ViewType: {viewType}");
             string pathFile;
 
             switch (viewType)
@@ -87,21 +89,21 @@ namespace Edimsha.WPF.Services.Data
                     throw new Exception("SavePathsListview viewType no encontrado");
             }
 
-            Logger.Log("Writing file...");
+            _logger.Info("Writing file...");
             File.WriteAllTextAsync(pathFile, JsonConvert.SerializeObject(values.ToList(), Formatting.Indented));
-            Logger.Log("File done!");
+            _logger.Info("File done!");
 
             return true;
         }
 
         public async void SaveResolutions(IEnumerable<Resolution> resolutions)
         {
-            Logger.Log($"Resolutions {resolutions}");
+            _logger.Info($"Resolutions {resolutions}");
             if (!File.Exists(ResolutionsJson)) throw new Exception($"SaveResolutions no ha encontrado archivo");
 
             var formatedJson = JsonConvert.SerializeObject(resolutions, Formatting.Indented);
 
-            Logger.Log("Writing file...");
+            _logger.Info("Writing file...");
             await File.WriteAllTextAsync(ResolutionsJson, formatedJson);
         }
     }

@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel;
-using Edimsha.Core.Logging.Implementation;
 
 namespace Edimsha.Core.Language
 {
+    
     public enum Languages
     {
         [Description("en-US")] English,
@@ -12,9 +12,12 @@ namespace Edimsha.Core.Language
 
     public static class AvaliableLanguages
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public static string GetDescription(this Languages val)
         {
-            Logger.Log($"Languages: {val}");
+            _logger.Info("Languages");
 
             var attributes = (DescriptionAttribute[]) val
                 .GetType()
@@ -25,7 +28,8 @@ namespace Edimsha.Core.Language
 
         public static T GetValueFromDescription<T>(string description) where T : Enum
         {
-            Logger.Log($"Description: {description}");
+            _logger.Info("Description");
+            
             foreach (var field in typeof(T).GetFields())
             {
                 if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
@@ -44,16 +48,19 @@ namespace Edimsha.Core.Language
 
     public static class ChangeLanguage
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public static void SetLanguage(string locale)
         {
-            Logger.Log($"Locale: {locale}");
+            _logger.Info("Locale");
             if (string.IsNullOrEmpty(locale)) locale = Languages.English.GetDescription();
             TranslationSource.Instance.CurrentCulture = new System.Globalization.CultureInfo(locale);
         }
 
         public static Languages ResolveLanguage(string locale)
         {
-            Logger.Log($"Locale: {locale}");
+            _logger.Info("Locale");
             return AvaliableLanguages.GetValueFromDescription<Languages>(locale);
         }
     }

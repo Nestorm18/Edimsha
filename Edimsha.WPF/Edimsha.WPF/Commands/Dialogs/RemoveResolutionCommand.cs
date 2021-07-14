@@ -2,7 +2,6 @@
 using System;
 using System.Windows.Input;
 using Edimsha.Core.Language;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.Core.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Utils;
@@ -12,6 +11,9 @@ namespace Edimsha.WPF.Commands.Dialogs
 {
     public class RemoveResolutionCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly ResolutionDialogViewModel _resolutionDialogViewModel;
         private readonly ISaveSettingsService _saveSettingsService;
 
@@ -34,7 +36,7 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <param name="parameter"><see cref="Resolution"/> to remove.</param>
         public void Execute(object? parameter)
         {
-            Logger.Log("Deleting resolution");
+            _logger.Info("Deleting resolution");
 
             var currentResolution = ResolutionValidator.IsParameterValid(parameter);
 

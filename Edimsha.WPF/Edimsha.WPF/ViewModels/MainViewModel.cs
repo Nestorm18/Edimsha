@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Edimsha.Core.Language;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Main;
 using Edimsha.WPF.Services.Data;
@@ -15,6 +14,9 @@ namespace Edimsha.WPF.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
         private readonly ILoadSettingsService _loadSettingsService;
@@ -68,7 +70,7 @@ namespace Edimsha.WPF.ViewModels
             ISaveSettingsService saveSettingsService,
             ILoadSettingsService loadSettingsService) : base(saveSettingsService)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _viewModelFactory = viewModelFactory;
             SaveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
@@ -88,17 +90,16 @@ namespace Edimsha.WPF.ViewModels
 
         private void WindowClose()
         {
-            Logger.Log($"Closed event");
-            //TODO: Eliminar logs sin errores
+            _logger.Info("Closed event");
             try
             {
                 var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
 
                 if (cleanListOnExit) SaveSettingsService.SavePaths(new List<string>(), ViewType.Editor);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Logger.Log("Mode was conversor when close");
+                _logger.Error(ex.StackTrace, "Stopped program because of exception");
             }
         }
 
@@ -109,7 +110,7 @@ namespace Edimsha.WPF.ViewModels
 
             ChangeLanguage.SetLanguage(lang);
 
-            Logger.Log($"Language changed to: {lang}");
+            _logger.Info($"Language changed to: {lang}");
         }
     }
 }

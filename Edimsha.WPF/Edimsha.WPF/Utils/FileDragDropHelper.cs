@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using Edimsha.Core.Logging.Implementation;
 
 namespace Edimsha.WPF.Utils
 {
@@ -12,6 +11,9 @@ namespace Edimsha.WPF.Utils
     /// </summary>
     public class FileDragDropHelper
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public static readonly DependencyProperty IsFileDragDropEnabledProperty =
             DependencyProperty.RegisterAttached("IsFileDragDropEnabled", typeof(bool), typeof(FileDragDropHelper),
                 new PropertyMetadata(OnFileDragDropEnabled));
@@ -47,7 +49,7 @@ namespace Edimsha.WPF.Utils
 
         private static void OnDrop(object sender, DragEventArgs dragEventArgs)
         {
-            Logger.Log("Dropped");
+            _logger.Info("Dropped");
             if (!(sender is DependencyObject d)) return;
             var target = d.GetValue(FileDragDropTargetProperty);
             if (target is IFileDragDropTarget fileTarget)
@@ -65,7 +67,7 @@ namespace Edimsha.WPF.Utils
         
         public static IEnumerable<string> IsDirectoryDropped(IEnumerable<string> filepaths, bool iterateSubdirectories)
         {
-            Logger.Log("Dropped directory");
+            _logger.Info("Dropped directory");
             var temp = new List<string>();
 
             foreach (var path in filepaths)

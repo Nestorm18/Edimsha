@@ -2,12 +2,14 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Edimsha.Core.Logging.Implementation;
 
 namespace Edimsha.WPF.Commands.Main
 {
     public class QuitCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public bool CanExecute(object? parameter)
         {
             return true;
@@ -21,7 +23,7 @@ namespace Edimsha.WPF.Commands.Main
         {
             if (parameter == null) return;
 
-            Logger.Log("Clossing");
+            _logger.Info("Clossing");
             var window = (Window) parameter;
             window.Close();
         }

@@ -2,8 +2,6 @@
 using System;
 using System.Windows.Input;
 using Edimsha.Core.Language;
-using Edimsha.Core.Logging.Core;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
@@ -15,9 +13,12 @@ namespace Edimsha.WPF.Commands.Main
         private readonly MainViewModel _viewModel;
         private readonly ISaveSettingsService _saveSettingsService;
 
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public ChangeLanguageCommand(MainViewModel viewModel, ISaveSettingsService saveSettingsService)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _viewModel = viewModel;
             _saveSettingsService = saveSettingsService;
         }
@@ -36,7 +37,7 @@ namespace Edimsha.WPF.Commands.Main
         {
             if (parameter != null) _viewModel.Language = (Languages) parameter;
 
-            Logger.Log($"Changing language to {_viewModel.Language}", LogLevel.Debug);
+            _logger.Info($"Changing language to {_viewModel.Language}");
             
             ChangeLanguage.SetLanguage(_viewModel.Language.GetDescription());
             _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Language", _viewModel.Language.GetDescription());

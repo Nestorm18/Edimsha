@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Edimsha.Core.Logging.Core;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.HostBuild;
 using Edimsha.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,19 +12,25 @@ namespace Edimsha.WPF
     /// </summary>
     public partial class App
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+       
         private static IHost _host;
 
         public App()
         {
             try
             {
-                Logger.Setup(LoggerMode.Normal);
+                throw new ApplicationException();
+                _logger.Info("Build starts");
                 _host = CreateHostBuilder().Build();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Logger.Log(e.StackTrace, LogLevel.Error);
-                Logger.Close();
+                //TODO: Log no funciona con excepciones
+                Console.WriteLine("------------------------------");
+                _logger.Error(ex, "Stopped program because of exception");
+                Console.WriteLine("------------------------------");
             }
         }
 
@@ -48,7 +52,7 @@ namespace Edimsha.WPF
         {
             try
             {
-                Logger.Log("App OnStartup");
+                _logger.Info("App starts");
                 _host.Start();
 
                 Window window = GetRequiredServiceFromHost<MainWindow>();
@@ -58,8 +62,7 @@ namespace Edimsha.WPF
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.StackTrace, LogLevel.Error);
-                Logger.Close();
+                _logger.Error(ex.StackTrace, "Stopped program because of exception");
                 throw;
             }
         }
@@ -68,20 +71,16 @@ namespace Edimsha.WPF
         {
             try
             {
+                _logger.Info("Closing app...");
                 await _host.StopAsync();
                 _host.Dispose();
 
                 base.OnExit(e);
-                Logger.Log("Closing app...");
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.StackTrace, LogLevel.Error);
+                _logger.Error(ex.StackTrace, "Stopped program because of exception");
                 throw;
-            }
-            finally
-            {
-                Logger.Close();
             }
         }
     }

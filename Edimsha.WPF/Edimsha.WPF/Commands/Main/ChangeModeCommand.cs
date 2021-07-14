@@ -1,7 +1,6 @@
 #nullable enable
 using System;
 using System.Windows.Input;
-using Edimsha.Core.Logging.Implementation;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
 using Edimsha.WPF.ViewModels.Factories;
@@ -10,12 +9,15 @@ namespace Edimsha.WPF.Commands.Main
 {
     public class ChangeModeCommand : ICommand
     {
+        // Log
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         private readonly MainViewModel _viewModel;
         private readonly IEdimshaViewModelFactory _viewModelFactory;
 
         public ChangeModeCommand(MainViewModel viewModel, IEdimshaViewModelFactory viewModelFactory)
         {
-            Logger.Log("Constructor");
+            _logger.Info("Constructor");
             _viewModel = viewModel;
             _viewModelFactory = viewModelFactory;
         }
@@ -33,7 +35,7 @@ namespace Edimsha.WPF.Commands.Main
         {
             if (parameter == null) return;
 
-            Logger.Log($"Changing mode to {(ViewType) parameter}");
+            _logger.Info($"Changing mode to {(ViewType) parameter}");
             _viewModel.CurrentModeViewModel = _viewModelFactory.CreateViewModel((ViewType) parameter);
         }
 
