@@ -41,9 +41,6 @@ namespace Edimsha.WPF.Commands.Editor
         /// <param name="parameter">Unused.</param>
         public void Execute(object? parameter)
         {
-            //TODO: Non garda crash
-            throw new ArithmeticException();
-            
             _logger.Info("Open resolution dialog selector");
 
             var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService).Result;
