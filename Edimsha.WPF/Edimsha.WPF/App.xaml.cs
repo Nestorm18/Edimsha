@@ -21,16 +21,12 @@ namespace Edimsha.WPF
         {
             try
             {
-                throw new ApplicationException();
                 _logger.Info("Build starts");
                 _host = CreateHostBuilder().Build();
             }
             catch (Exception ex)
             {
-                //TODO: Log no funciona con excepciones
-                Console.WriteLine("------------------------------");
                 _logger.Error(ex, "Stopped program because of exception");
-                Console.WriteLine("------------------------------");
             }
         }
 
