@@ -18,7 +18,6 @@ using Edimsha.WPF.Utils;
 using Edimsha.WPF.ViewModels.Contracts;
 
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
-#pragma warning disable 4014
 
 namespace Edimsha.WPF.ViewModels
 {
@@ -43,7 +42,7 @@ namespace Edimsha.WPF.ViewModels
             get => LoadSettingsService.LoadConfigurationSetting<bool>(GetViewModelType(), nameof(CleanListOnExit));
             set
             {
-                UpdateSetting(nameof(CleanListOnExit), value);
+                UpdateSetting(nameof(CleanListOnExit), value).ConfigureAwait(false);
                 OnPropertyChanged();
             }
         }
@@ -53,7 +52,7 @@ namespace Edimsha.WPF.ViewModels
             get => LoadSettingsService.LoadConfigurationSetting<bool>(GetViewModelType(), nameof(AlwaysIncludeOnReplace));
             set
             {
-                UpdateSetting(nameof(AlwaysIncludeOnReplace), value);
+                UpdateSetting(nameof(AlwaysIncludeOnReplace), value).ConfigureAwait(false);
                 OnPropertyChanged();
             }
         }
@@ -64,7 +63,7 @@ namespace Edimsha.WPF.ViewModels
 
             set
             {
-                UpdateSetting(nameof(KeepOriginalResolution), value);
+                UpdateSetting(nameof(KeepOriginalResolution), value).ConfigureAwait(false);
                 OnPropertyChanged();
             }
         }
@@ -75,7 +74,7 @@ namespace Edimsha.WPF.ViewModels
 
             set
             {
-                UpdateSetting(nameof(OptimizeImage), value);
+                UpdateSetting(nameof(OptimizeImage), value).ConfigureAwait(false);
                 OnPropertyChanged();
             }
         }
@@ -86,7 +85,7 @@ namespace Edimsha.WPF.ViewModels
 
             set
             {
-                UpdateSetting(nameof(ReplaceForOriginal), value);
+                UpdateSetting(nameof(ReplaceForOriginal), value).ConfigureAwait(false);
                 OnPropertyChanged();
             }
         }
@@ -96,7 +95,7 @@ namespace Edimsha.WPF.ViewModels
             get => LoadSettingsService.LoadConfigurationSetting<bool>(GetViewModelType(), nameof(IterateSubdirectories));
             set
             {
-                UpdateSetting(nameof(IterateSubdirectories), value);
+                UpdateSetting(nameof(IterateSubdirectories), value).ConfigureAwait(false);
                 OnPropertyChanged();
             }
         }

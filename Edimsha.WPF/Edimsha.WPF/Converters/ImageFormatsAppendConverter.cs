@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
-using Edimsha.Core.Models;
+using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.Converters
@@ -19,6 +19,9 @@ namespace Edimsha.WPF.Converters
 
             var currentText = (string) value;
             var editorImageFormats = GetAllImageFormatsInline(parameter);
+
+            if (currentText.Equals("null")) return editorImageFormats;
+
             var fullText = currentText + " " + editorImageFormats;
 
             return fullText;
@@ -32,7 +35,7 @@ namespace Edimsha.WPF.Converters
         /// <summary>
         /// Gets all available image formats XXX YYY from Enum and returns them formatted in text (* .XXX, * .YYY)
         /// </summary>
-        /// <param name="parameter">Can be <see cref="ModeImageTypes.Editor"/> or <see cref="ModeImageTypes.Converter"/>,
+        /// <param name="parameter">Can be <see cref="ViewType.Editor"/> or <see cref="ViewType.Converter"/>,
         /// used to make more generic.</param>
         /// <returns>Formatted text</returns>
         private static string GetAllImageFormatsInline(object parameter)

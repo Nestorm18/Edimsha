@@ -42,7 +42,7 @@ namespace Edimsha.WPF.ViewModels
             get => LoadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(IterateSubdirectories));
             set
             {
-                UpdateSetting(nameof(IterateSubdirectories), value);
+                UpdateSetting(nameof(IterateSubdirectories), value).ConfigureAwait(false);
                 OnPropertyChanged();
             }
         }
@@ -71,9 +71,16 @@ namespace Edimsha.WPF.ViewModels
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
 
             // Loaded
-            // _isLoadingSettings = SetUserSettings();
+            _isLoadingSettings = SetUserSettings();
             
             PathList.CollectionChanged += UrlsOnCollectionChanged;
+        }
+
+        private bool SetUserSettings()
+        {
+            IsRunningUi = true;
+            
+            return false;
         }
 
         public void OnFileDrop(string[] filepaths)
@@ -96,11 +103,11 @@ namespace Edimsha.WPF.ViewModels
             SavePaths();
         }
 
-        internal void SavePaths()
+        private void SavePaths()
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SavePaths(PathList, ViewType.Converter);
+            var success = SaveSettingsService.SavePaths(PathList,GetViewModelType());
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -110,15 +117,15 @@ namespace Edimsha.WPF.ViewModels
             if (_isLoadingSettings) return;
             var isEnabled = PathList.Count > 0;
 
-            // IsCtxDelete = isEnabled;
-            // IsCtxDeleteAll = isEnabled;
-            // IsStartedUi = isEnabled;
+            IsCtxDelete = isEnabled;
+            IsCtxDeleteAll = isEnabled;
+            IsStartedUi = isEnabled;
         }
 
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Info($"setting: {setting}, Value: {value}");
-            var success = await SaveSettingsService.SaveConfigurationSettings(ViewType.Converter, setting, value);
+            var success = await SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), setting, value);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }

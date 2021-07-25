@@ -178,4 +178,7 @@
   <data name="drag_the_images_or_folder_to_convert" xml:space="preserve">
     <value>Drag the images or folder to convert</value>
   </data>
+  <data name="null" xml:space="preserve">
+    <value>null</value>
+  </data>
 </root>

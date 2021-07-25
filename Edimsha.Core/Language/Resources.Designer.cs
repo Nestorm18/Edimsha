@@ -61,6 +61,15 @@ namespace Edimsha.Core.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to null.
+        /// </summary>
+        internal static string _null {
+            get {
+                return ResourceManager.GetString("null", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Always include when replacing.
         /// </summary>
         internal static string always_include_when_replacing {

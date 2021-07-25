@@ -32,12 +32,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label
-            Grid.Row="0"
-            HorizontalAlignment="Center"
-            Content="{lang:Localization drag_the_images_or_folder_to_convert,
-                                        Converter={StaticResource ImageFormatsAppendConverter},
-                                        ConverterParameter={x:Static navigators:ViewType.Converter}}" />
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <Label HorizontalAlignment="Center" Content="{lang:Localization drag_the_images_or_folder_to_convert}" />
+            
+            <Label HorizontalAlignment="Center"
+                   Content="{lang:Localization null,
+                                            Converter={StaticResource ImageFormatsAppendConverter},
+                                            ConverterParameter={x:Static navigators:ViewType.Converter}}" />
+        </StackPanel>
+
 
         <!--  Lista de enlaces  -->
         <ListView

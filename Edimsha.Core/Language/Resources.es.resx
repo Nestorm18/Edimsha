@@ -180,4 +180,7 @@
   <data name="drag_the_images_or_folder_to_convert" xml:space="preserve">
     <value>Arrastra las imagenes o carpeta a convertir</value>
   </data>
+  <data name="null" xml:space="preserve">
+    <value>null</value>
+  </data>
 </root>
