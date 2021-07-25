@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Edimsha.Core.Models;
+using Edimsha.WPF.State.Navigators;
 
 namespace Edimsha.WPF.Utils
 {
@@ -15,9 +15,9 @@ namespace Edimsha.WPF.Utils
         /// </summary>
         /// <param name="savedPaths">The list of currents paths.</param>
         /// <param name="droppedPaths">The list of new paths.</param>
-        /// <param name="mode"><see cref="Mode"/> the type of image mode that is used.</param>
+        /// <param name="mode"><see cref="ViewType"/> the type of image mode that is used.</param>
         /// <returns>List with validated formats and no duplicates</returns>
-        public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(IEnumerable<string> savedPaths, IEnumerable<string> droppedPaths, Mode mode)
+        public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(IEnumerable<string> savedPaths, IEnumerable<string> droppedPaths, ViewType mode)
         {
             _logger.Info("Cleaning paths");
             // Concat two list and remove duplicates to show in listview
@@ -33,9 +33,9 @@ namespace Edimsha.WPF.Utils
         /// If it only supports .jpg and .png and the list contains a .bmp delete this last element.
         /// </summary>
         /// <param name="filepaths">List of strings with paths to check.</param>
-        /// <param name="mode"><see cref="Mode"/> the type of image mode that is used.</param>
+        /// <param name="mode"><see cref="ViewType"/> the type of image mode that is used.</param>
         /// <returns>List with validated formats.</returns>
-        private static IEnumerable<string> RemoveWrongFormats(IEnumerable<string> filepaths, Mode mode) {
+        private static IEnumerable<string> RemoveWrongFormats(IEnumerable<string> filepaths, ViewType mode) {
             _logger.Info("Removing");
             // Get all supported images formats for the current mode
             var imageType = ImageFormatsFromViewType.GetImageType(mode);

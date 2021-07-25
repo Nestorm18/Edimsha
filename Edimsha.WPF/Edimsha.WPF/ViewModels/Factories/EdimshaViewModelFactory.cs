@@ -23,7 +23,7 @@ namespace Edimsha.WPF.ViewModels.Factories
             {
                 case ViewType.Editor:
                     return _createEditorViewModel();
-                case ViewType.Conversor:
+                case ViewType.Converter:
                     return _createConversorViewModel();
                 default:
                     throw new ArgumentException("El ViewType con contiene un ViewModel.", nameof(viewType));

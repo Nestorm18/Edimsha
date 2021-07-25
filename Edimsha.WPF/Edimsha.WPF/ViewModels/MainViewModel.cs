@@ -25,7 +25,7 @@ namespace Edimsha.WPF.ViewModels
         // Properties
         private ViewModelBase _currentModeViewModel;
         private Languages _language = Languages.Spanish;
-        private ViewType _mode = ViewType.Conversor;
+        private ViewType _mode = ViewType.Converter;
 
         public Languages Language
         {

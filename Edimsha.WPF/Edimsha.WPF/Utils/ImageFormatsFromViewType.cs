@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using Edimsha.Core.Models;
+using Edimsha.WPF.State.Navigators;
 
 namespace Edimsha.WPF.Utils
 {
@@ -13,8 +14,8 @@ namespace Edimsha.WPF.Utils
         /// <summary>
         /// Gets a list of the available formats for the mode that is requested by parameter.
         /// </summary>
-        /// <param name="parameter">A type of <see cref="Mode"/></param>
-        /// <returns>List of avaliable formats for requested <see cref="Mode"/>.</returns>
+        /// <param name="parameter">A type of <see cref="ViewType"/></param>
+        /// <returns>List of avaliable formats for requested <see cref="ViewType"/>.</returns>
         public static IEnumerable GetImageType(object parameter)
         {
             _logger.Info($"Parameter: {parameter}");
@@ -23,8 +24,8 @@ namespace Edimsha.WPF.Utils
             
             IEnumerable imageTypes = parameter switch
             {
-                Mode.Editor => Enum.GetValues(typeof(ImageTypesEditor)).Cast<ImageTypesEditor>(),
-                Mode.Converter => Enum.GetValues(typeof(ImageTypesConversor)).Cast<ImageTypesConversor>(),
+                ViewType.Editor => Enum.GetValues(typeof(ImageTypesEditor)).Cast<ImageTypesEditor>(),
+                ViewType.Converter => Enum.GetValues(typeof(ImageTypesConversor)).Cast<ImageTypesConversor>(),
                 _ => null
             };
             

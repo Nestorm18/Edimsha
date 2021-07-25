@@ -6,7 +6,7 @@ namespace Edimsha.WPF.State.Navigators
     public enum ViewType
     {
         Editor,
-        Conversor
+        Converter
     }
 
     public interface INavigator

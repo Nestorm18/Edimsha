@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using Edimsha.Core.Language;
-using Edimsha.Core.Models;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
@@ -18,12 +17,14 @@ namespace Edimsha.WPF.Commands
         
         private readonly CommonViewModel _viewModel;
         private readonly IDialogService _dialogService;
+        private readonly ViewType _mode;
 
-        public OpenImagesCommand(CommonViewModel viewModel, IDialogService dialogService)
+        public OpenImagesCommand(CommonViewModel viewModel, IDialogService dialogService, ViewType mode)
         {
             _logger.Info("Constructor");
             _viewModel = viewModel;
             _dialogService = dialogService;
+            _mode = mode;
         }
 
         public bool CanExecute(object? parameter)
@@ -47,7 +48,7 @@ namespace Edimsha.WPF.Commands
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
                 _viewModel.PathList.ToList(),
                 urls.ToArray(),
-                Mode.Editor);
+                _mode);
 
             _viewModel.PathList.Clear();
 

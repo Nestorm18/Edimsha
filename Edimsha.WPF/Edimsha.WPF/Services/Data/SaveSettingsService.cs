@@ -46,7 +46,7 @@ namespace Edimsha.WPF.Services.Data
                     _logger.Info("Writing file...");
                     await File.WriteAllTextAsync(SettingsEditor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
                     break;
-                case ViewType.Conversor:
+                case ViewType.Converter:
                     _logger.Info($"Conversor SettingName: {settingName} C, Value: {value}");
                     using (var settings = File.OpenText(SettingsConversor))
                     {
@@ -82,7 +82,7 @@ namespace Edimsha.WPF.Services.Data
                 case ViewType.Editor:
                     pathFile = EditorPathsJson;
                     break;
-                case ViewType.Conversor:
+                case ViewType.Converter:
                     pathFile = ConversorPathsJson;
                     break;
                 default:

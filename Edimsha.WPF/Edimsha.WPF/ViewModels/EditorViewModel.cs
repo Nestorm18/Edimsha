@@ -198,7 +198,7 @@ namespace Edimsha.WPF.ViewModels
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             // Parameter buttons
-            OpenImagesCommand = new OpenImagesCommand(this, DialogService);
+            OpenImagesCommand = new OpenImagesCommand(this, DialogService, GetViewModelType());
             OpenOutputFolderCommand = new OpenOutputFolderCommand<EditorViewModel>(this,DialogService);
             OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, DialogService, LoadSettingsService, SaveSettingsService);
             // Run buttons
@@ -223,7 +223,7 @@ namespace Edimsha.WPF.ViewModels
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
                 PathList.ToList(),
                 pathsUpdated,
-                Mode.Editor);
+                GetViewModelType());
 
             PathList.Clear();
             foreach (var s in listCleaned) PathList.Add(s);

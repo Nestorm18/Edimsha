@@ -61,10 +61,10 @@
                     IsChecked="{Binding Path=Mode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Editor}" />
                 <RadioButton
                     Command="{Binding ChangeModeCommand}"
-                    CommandParameter="{x:Static navigatoorType:ViewType.Conversor}"
+                    CommandParameter="{x:Static navigatoorType:ViewType.Converter}"
                     Content="{lang:Localization converter}"
                     GroupName="mode"
-                    IsChecked="{Binding Path=Mode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Conversor}" />
+                    IsChecked="{Binding Path=Mode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Converter}" />
             </MenuItem>
 
             <MenuItem Header="{lang:Localization language}">

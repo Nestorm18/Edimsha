@@ -13,6 +13,7 @@
     xmlns:utils="clr-namespace:Edimsha.WPF.Utils"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:navigators="clr-namespace:Edimsha.WPF.State.Navigators"
     d:DataContext="{d:DesignInstance viewmodels:EditorViewModel}"
     d:DesignHeight="470"
     d:DesignWidth="805"
@@ -36,7 +37,7 @@
             HorizontalAlignment="Center"
             Content="{lang:Localization drag_the_images_or_folder_to_edit,
                                         Converter={StaticResource ImageFormatsAppendConverter},
-                                        ConverterParameter={x:Static models:Mode.Editor}}" />
+                                        ConverterParameter={x:Static navigators:ViewType.Editor}}" />
 
         <!--  Lista de enlaces  -->
         <ListView
@@ -109,7 +110,7 @@
                 <Button
                     Grid.Column="2"
                     Command="{Binding OpenImagesCommand}"
-                    CommandParameter="{x:Static models:Mode.Editor}"
+                    CommandParameter="{x:Static navigators:ViewType.Editor}"
                     Content="{lang:Localization select_files}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>

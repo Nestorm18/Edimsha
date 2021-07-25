@@ -52,7 +52,7 @@ namespace Edimsha.WPF.Services.Data
             var file = type switch
             {
                 ViewType.Editor => EditorPathsJson,
-                ViewType.Conversor => ConversorPathsJson,
+                ViewType.Converter => ConversorPathsJson,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
 
@@ -152,7 +152,7 @@ namespace Edimsha.WPF.Services.Data
                     case ViewType.Editor:
                         settings = File.OpenText(SettingsEditor);
                         break;
-                    case ViewType.Conversor:
+                    case ViewType.Converter:
                         settings = File.OpenText(SettingsConversor);
                         break;
                     default:

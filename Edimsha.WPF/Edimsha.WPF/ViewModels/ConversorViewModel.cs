@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Edimsha.Core.Models;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
@@ -86,7 +85,7 @@ namespace Edimsha.WPF.ViewModels
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
                 PathList.ToList(),
                 pathsUpdated,
-                Mode.Converter);
+                GetViewModelType());
 
             PathList.Clear();
             foreach (var s in listCleaned) PathList.Add(s);
@@ -101,7 +100,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SavePaths(PathList, ViewType.Conversor);
+            var success = SaveSettingsService.SavePaths(PathList, ViewType.Converter);
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -119,14 +118,14 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Info($"setting: {setting}, Value: {value}");
-            var success = await SaveSettingsService.SaveConfigurationSettings(ViewType.Conversor, setting, value);
+            var success = await SaveSettingsService.SaveConfigurationSettings(ViewType.Converter, setting, value);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
 
         public ViewType GetViewModelType()
         {
-            return ViewType.Conversor;
+            return ViewType.Converter;
         }
     }
 }

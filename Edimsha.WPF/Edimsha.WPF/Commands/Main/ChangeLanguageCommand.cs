@@ -41,7 +41,7 @@ namespace Edimsha.WPF.Commands.Main
             
             ChangeLanguage.SetLanguage(_viewModel.Language.GetDescription());
             _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Language", _viewModel.Language.GetDescription());
-            _saveSettingsService.SaveConfigurationSettings(ViewType.Conversor, "Language", _viewModel.Language.GetDescription());
+            _saveSettingsService.SaveConfigurationSettings(ViewType.Converter, "Language", _viewModel.Language.GetDescription());
         }
 
         public event EventHandler? CanExecuteChanged;
