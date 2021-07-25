@@ -1,18 +1,27 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Edimsha.Core.Models;
+using Edimsha.WPF.Commands;
+using Edimsha.WPF.Services.Data;
+using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
-using Edimsha.WPF.ViewModels.Interfaces;
+using Edimsha.WPF.Utils;
+using Edimsha.WPF.ViewModels.Contracts;
 
 namespace Edimsha.WPF.ViewModels
 {
-    public class ConversorViewModel : ViewModelBase, IViewType
+    public class ConversorViewModel : CommonViewModel, IFileDragDropTarget, IViewType, IExtraFolder
     {
-        // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        
+        // Fields
+        private readonly bool _isLoadingSettings;
+
         // Properties
 
         #region Properties
-
+        
         private string _outputFolder;
 
         public string OutputFolder
@@ -23,21 +32,99 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _outputFolder) return;
 
                 _outputFolder = Directory.Exists(value) ? value : string.Empty;
-                // TODO: Cargar esto cuando funcione
-                // _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "OutputFolder", _outputFolder);
+                SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), "OutputFolder", _outputFolder);
 
+                OnPropertyChanged();
+            }
+        }
+        
+        public bool IterateSubdirectories
+        {
+            get => LoadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(IterateSubdirectories));
+            set
+            {
+                UpdateSetting(nameof(IterateSubdirectories), value);
                 OnPropertyChanged();
             }
         }
 
         # endregion
 
-        public ConversorViewModel() : base(null)
+        // Commands
+
+        #region Commands
+        
+        # endregion
+
+        public ConversorViewModel(
+            ISaveSettingsService saveSettingsService,
+            ILoadSettingsService loadSettingsService,
+            IDialogService dialogService)
+            : base(loadSettingsService, saveSettingsService, dialogService)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
+
+            PathList = new ObservableCollection<string>();
+
+            // Commands
+            // Mouse context
+            DeleteItemCommand = new DeleteItemsCommand(this);
+            DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
+
+            // Loaded
+            // _isLoadingSettings = SetUserSettings();
+            
+            PathList.CollectionChanged += UrlsOnCollectionChanged;
         }
 
-        public ViewType GetType()
+        public void OnFileDrop(string[] filepaths)
+        {
+            Logger.Info($"Filepaths: {filepaths}");
+
+            var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
+
+            var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
+                PathList.ToList(),
+                pathsUpdated,
+                Mode.Converter);
+
+            PathList.Clear();
+            foreach (var s in listCleaned) PathList.Add(s);
+
+            // Fix not loading start button on drop after reset
+            UrlsOnCollectionChanged(null, null);
+
+            SavePaths();
+        }
+
+        internal void SavePaths()
+        {
+            Logger.Info("Saving paths");
+
+            var success = SaveSettingsService.SavePaths(PathList, ViewType.Conversor);
+            if (!success) StatusBar = "error_saving_editor_paths";
+        }
+
+        private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Logger.Info($"Paths updated");
+            if (_isLoadingSettings) return;
+            var isEnabled = PathList.Count > 0;
+
+            // IsCtxDelete = isEnabled;
+            // IsCtxDeleteAll = isEnabled;
+            // IsStartedUi = isEnabled;
+        }
+
+        private async Task UpdateSetting<T>(string setting, T value)
+        {
+            Logger.Info($"setting: {setting}, Value: {value}");
+            var success = await SaveSettingsService.SaveConfigurationSettings(ViewType.Conversor, setting, value);
+
+            if (!success) StatusBar = "the_option_could_not_be_saved";
+        }
+
+        public ViewType GetViewModelType()
         {
             return ViewType.Conversor;
         }

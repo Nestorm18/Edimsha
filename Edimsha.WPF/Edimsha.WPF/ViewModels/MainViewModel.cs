@@ -16,10 +16,11 @@ namespace Edimsha.WPF.ViewModels
     {
         // Log
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        
+
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
         private readonly ILoadSettingsService _loadSettingsService;
+        private ISaveSettingsService _saveSettingsService;
 
         // Properties
         private ViewModelBase _currentModeViewModel;
@@ -68,11 +69,11 @@ namespace Edimsha.WPF.ViewModels
         public MainViewModel(
             IEdimshaViewModelFactory viewModelFactory,
             ISaveSettingsService saveSettingsService,
-            ILoadSettingsService loadSettingsService) : base(saveSettingsService)
+            ILoadSettingsService loadSettingsService)
         {
             _logger.Info("Constructor");
             _viewModelFactory = viewModelFactory;
-            SaveSettingsService = saveSettingsService;
+            _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
             CurrentModeViewModel = _viewModelFactory.CreateViewModel(Mode);
 
@@ -82,7 +83,7 @@ namespace Edimsha.WPF.ViewModels
 
             // Menu
             QuitCommand = new QuitCommand();
-            ChangeLanguageCommand = new ChangeLanguageCommand(this, SaveSettingsService);
+            ChangeLanguageCommand = new ChangeLanguageCommand(this, _saveSettingsService);
             ChangeModeCommand = new ChangeModeCommand(this, _viewModelFactory);
 
             LoadLanguageFromSettings();
@@ -93,9 +94,10 @@ namespace Edimsha.WPF.ViewModels
             _logger.Info("Closed event");
             try
             {
+                //TODO: Añadir conversor
                 var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
 
-                if (cleanListOnExit) SaveSettingsService.SavePaths(new List<string>(), ViewType.Editor);
+                if (cleanListOnExit) _saveSettingsService.SavePaths(new List<string>(), ViewType.Editor);
             }
             catch (Exception ex)
             {

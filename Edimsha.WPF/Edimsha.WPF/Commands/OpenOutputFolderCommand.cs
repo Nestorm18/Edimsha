@@ -3,19 +3,19 @@ using System;
 using System.Windows.Input;
 using Edimsha.Core.Language;
 using Edimsha.WPF.Services.Dialogs;
-using Edimsha.WPF.ViewModels;
+using Edimsha.WPF.ViewModels.Contracts;
 
 namespace Edimsha.WPF.Commands
 {
-    public class OpenOutputFolderCommand : ICommand
+    public class OpenOutputFolderCommand<T> : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         
-        private readonly ViewModelBase _viewModel;
+        private readonly T _viewModel;
         private readonly IDialogService _dialogService;
-
-        public OpenOutputFolderCommand(ViewModelBase viewModel, IDialogService dialogService)
+        
+        public OpenOutputFolderCommand(T viewModel, IDialogService dialogService)
         {
             _logger.Info("Constructor");
             _viewModel = viewModel;
@@ -37,7 +37,7 @@ namespace Edimsha.WPF.Commands
 
             if (success.Result == null) return;
             
-            _viewModel.OutputFolder = success.Result;
+            if (_viewModel is IExtraFolder viewModel) viewModel.OutputFolder = success.Result;
         }
 
         public event EventHandler? CanExecuteChanged;

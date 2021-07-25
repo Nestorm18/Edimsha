@@ -1,9 +1,9 @@
 ﻿using Edimsha.WPF.State.Navigators;
 
-namespace Edimsha.WPF.ViewModels.Interfaces
+namespace Edimsha.WPF.ViewModels.Contracts
 {
     public interface IViewType
     {
-        ViewType GetType();
+        ViewType GetViewModelType();
     }
 }

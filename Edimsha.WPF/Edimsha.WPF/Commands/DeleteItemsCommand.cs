@@ -11,9 +11,9 @@ namespace Edimsha.WPF.Commands
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly bool _removeAll;
-        private readonly ViewModelBase _viewModel;
+        private readonly CommonViewModel _viewModel;
 
-        public DeleteItemsCommand(ViewModelBase viewModel, bool removeAll = false)
+        public DeleteItemsCommand(CommonViewModel viewModel, bool removeAll = false)
         {
             _logger.Info("Constructor");
             _viewModel = viewModel;

@@ -16,10 +16,10 @@ namespace Edimsha.WPF.Commands
         // Log
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         
-        private readonly ViewModelBase _viewModel;
+        private readonly CommonViewModel _viewModel;
         private readonly IDialogService _dialogService;
 
-        public OpenImagesCommand(ViewModelBase viewModel, IDialogService dialogService)
+        public OpenImagesCommand(CommonViewModel viewModel, IDialogService dialogService)
         {
             _logger.Info("Constructor");
             _viewModel = viewModel;

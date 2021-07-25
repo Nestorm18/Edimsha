@@ -171,7 +171,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
         public ResolutionDialogViewModel(
             ILoadSettingsService loadSettingsService,
-            ISaveSettingsService saveSettingsService) : base(saveSettingsService)
+            ISaveSettingsService saveSettingsService)
         {
             _logger.Info("Constructor");
 
@@ -182,8 +182,8 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
             // Commands
             SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
-            SaveResolutionCommand = new SaveResolutionCommand(this, SaveSettingsService);
-            RemoveResolutionCommand = new RemoveResolutionCommand(this, SaveSettingsService);
+            SaveResolutionCommand = new SaveResolutionCommand(this, saveSettingsService);
+            RemoveResolutionCommand = new RemoveResolutionCommand(this, saveSettingsService);
             CancelCommand = new QuitResolutionsCommand(this);
             AcceptCommand = new AcceptResolutionCommand();
 
