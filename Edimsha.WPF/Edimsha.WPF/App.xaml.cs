@@ -2,7 +2,6 @@
 using System.Windows;
 using Edimsha.WPF.HostBuild;
 using Edimsha.WPF.Views;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Edimsha.WPF
@@ -14,8 +13,10 @@ namespace Edimsha.WPF
     {
         // Log
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-       
+
         private static IHost _host;
+
+        public T GetService<T>() where T : class => _host.Services.GetService(typeof(T)) as T;
 
         public App()
         {
@@ -39,11 +40,6 @@ namespace Edimsha.WPF
                 .AddViews();
         }
 
-        private static T GetRequiredServiceFromHost<T>()
-        {
-            return _host.Services.GetRequiredService<T>();
-        }
-
         protected override void OnStartup(StartupEventArgs e)
         {
             try
@@ -51,7 +47,7 @@ namespace Edimsha.WPF
                 _logger.Info("App starts");
                 _host.Start();
 
-                Window window = GetRequiredServiceFromHost<MainWindow>();
+                Window window = GetService<MainWindow>();
                 window.Show();
 
                 base.OnStartup(e);

@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
@@ -11,6 +11,7 @@ namespace Edimsha.WPF.HostBuild
             host.ConfigureAppConfiguration(c =>
             {
                 c.AddJsonFile("appsettings.json");
+                c.AddJsonFile("EditorSettings.json");
                 c.AddEnvironmentVariables();
             });
 
