@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Edimsha.Core.Language;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Main;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.Factories;
+using Microsoft.Extensions.Options;
 
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
@@ -21,6 +23,7 @@ namespace Edimsha.WPF.ViewModels
         private readonly IEdimshaViewModelFactory _viewModelFactory;
         private readonly ILoadSettingsService _loadSettingsService;
         private ISaveSettingsService _saveSettingsService;
+        private readonly IOptions<ConfigPaths> _options;
 
         // Properties
         private ViewModelBase _currentModeViewModel;
@@ -69,12 +72,16 @@ namespace Edimsha.WPF.ViewModels
         public MainViewModel(
             IEdimshaViewModelFactory viewModelFactory,
             ISaveSettingsService saveSettingsService,
-            ILoadSettingsService loadSettingsService)
+            ILoadSettingsService loadSettingsService,
+            IOptions<ConfigPaths> options)
         {
             _logger.Info("Constructor");
+           
             _viewModelFactory = viewModelFactory;
             _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
+            _options = options;
+           
             CurrentModeViewModel = _viewModelFactory.CreateViewModel(Mode);
 
             // Commands
@@ -107,7 +114,8 @@ namespace Edimsha.WPF.ViewModels
 
         private void LoadLanguageFromSettings()
         {
-            var lang = _loadSettingsService.LoadConfigurationSetting<string>(ViewType.Editor, "Language");
+            var lang = _loadSettingsService.LoadConfigurationSetting<string, ConfigEditor>("Language", _options.Value.SettingsEditor);
+
             Language = ChangeLanguage.ResolveLanguage(lang);
 
             ChangeLanguage.SetLanguage(lang);

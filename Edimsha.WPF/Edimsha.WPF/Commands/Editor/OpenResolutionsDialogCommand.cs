@@ -49,8 +49,8 @@ namespace Edimsha.WPF.Commands.Editor
 
             if (res == null) return;
 
-            _editorViewModel.HeightImage = res.Height;
-            _editorViewModel.WidthImage = res.Width;
+            _editorViewModel.Height = res.Height;
+            _editorViewModel.Width = res.Width;
         }
 
         public event EventHandler? CanExecuteChanged;

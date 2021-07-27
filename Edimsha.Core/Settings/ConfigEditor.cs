@@ -4,18 +4,18 @@ namespace Edimsha.Core.Settings
 {
     public class ConfigEditor
     {
-        public object Language { get; set; }
-        public object CleanListOnExit { get; set; }
-        public object IterateSubdirectories { get; set; }
-        public object OutputFolder { get; set; }
-        public object Edimsha { get; set; }
-        public object AlwaysIncludeOnReplace { get; set; }
-        public object KeepOriginalResolution { get; set; }
-        public object CompresionValue { get; set; }
-        public object OptimizeImage { get; set; }
-        public object ReplaceForOriginal { get; set; }
+        public string Language { get; set; }
+        public bool CleanListOnExit { get; set; }
+        public bool IterateSubdirectories { get; set; }
+        public string OutputFolder { get; set; }
+        public string Edimsha { get; set; }
+        public bool AlwaysIncludeOnReplace { get; set; }
+        public bool KeepOriginalResolution { get; set; }
+        public double CompresionValue { get; set; }
+        public bool OptimizeImage { get; set; }
+        public bool ReplaceForOriginal { get; set; }
 
-        public object Width { get; set; }
-        public object Height { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
     }
 }

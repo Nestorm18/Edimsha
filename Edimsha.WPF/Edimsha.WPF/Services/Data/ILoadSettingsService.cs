@@ -7,7 +7,7 @@ namespace Edimsha.WPF.Services.Data
 {
     public interface ILoadSettingsService
     {
-        T LoadConfigurationSetting<T>(ViewType type, string settingName);
+        T LoadConfigurationSetting<T, C>(string settingName, string filePath);
 
         IEnumerable<string> GetSavedPaths(ViewType type);
 
@@ -18,5 +18,7 @@ namespace Edimsha.WPF.Services.Data
         bool StillPathsSameFromLastSession(ViewType type);
 
         IEnumerable<string> GetPathChanges(ViewType type);
+        
+        //TODO: Cargar lista de opciones ben feito!
     }
 }

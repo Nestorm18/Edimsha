@@ -13,45 +13,49 @@ namespace Edimsha.WPF.Services.Data
     public class LoadSettingsService : ILoadSettingsService
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-       
-        private IOptions<ConfigPaths> _options;
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        private readonly IOptions<ConfigPaths> _options;
 
         public LoadSettingsService(IOptions<ConfigPaths> options)
         {
-            _logger.Info("Constructor loaded...");
+            Logger.Info("Constructor loaded...");
             _options = options;
         }
 
-        public T LoadConfigurationSetting<T>(ViewType type, string settingName)
+        /// <summary>
+        /// Gets a setting from selected file and returns.
+        /// </summary>
+        /// <param name="settingName">A name of the setting inside a file.</param>
+        /// <param name="filePath">A path to the saved setting file.</param>
+        /// <typeparam name="T">A type of the requested setting. Ex.: int, double, bool.</typeparam>
+        /// <typeparam name="C">A class that will be used to parse the file.</typeparam>
+        /// <returns>The value that is stored in the file for the requested setting.</returns>
+        public T LoadConfigurationSetting<T, C>(string settingName, string filePath)
         {
-            var settings = GetSettingFileWithViewType(type);
-
             try
             {
-                _logger.Info($"settingName: {settingName}");
+                Logger.Info($"settingName: {settingName}, using: {filePath}");
 
+                using var settings = File.OpenText(Path.GetFullPath(filePath));
+                
                 var serializer = new JsonSerializer();
-                var config = (ConfigEditor) serializer.Deserialize(settings!, typeof(ConfigEditor));
+                var config = (C) serializer.Deserialize(settings!, typeof(C));
 
                 if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.StackTrace, "Stopped program because of exception");
+                Logger.Error(ex.StackTrace, "Stopped program because of exception");
                 throw;
             }
-            finally
-            {
-                settings.Close();
-            }
 
-            return (T) new object();
+            return default;
         }
 
         public IEnumerable<string> GetSavedPaths(ViewType type)
         {
-            _logger.Info($"ViewType: {type}");
+            Logger.Info($"ViewType: {type}");
 
             var file = type switch
             {
@@ -69,7 +73,7 @@ namespace Edimsha.WPF.Services.Data
 
         public IEnumerable<Resolution> LoadResolutions()
         {
-            _logger.Info("Loading...");
+            Logger.Info("Loading...");
 
             if (!File.Exists(_options.Value.Resolutions)) throw new Exception($"LoadResolutions no ha encontrado archivo");
 
@@ -83,14 +87,14 @@ namespace Edimsha.WPF.Services.Data
 
             try
             {
-                _logger.Info("Obtaining all settings editor");
+                Logger.Info("Obtaining all settings editor");
 
                 var serializer = new JsonSerializer();
                 return (ConfigEditor) serializer.Deserialize(settings, typeof(ConfigEditor));
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.StackTrace, "Stopped program because of exception");
+                Logger.Error(ex.StackTrace, "Stopped program because of exception");
                 throw;
             }
             finally
@@ -105,7 +109,7 @@ namespace Edimsha.WPF.Services.Data
 
             try
             {
-                _logger.Info("Obtaining last session paths");
+                Logger.Info("Obtaining last session paths");
 
                 var paths = GetSavedPaths(type);
 
@@ -113,7 +117,7 @@ namespace Edimsha.WPF.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.StackTrace, "Stopped program because of exception");
+                Logger.Error(ex.StackTrace, "Stopped program because of exception");
                 throw;
             }
             finally
@@ -128,7 +132,7 @@ namespace Edimsha.WPF.Services.Data
 
             try
             {
-                _logger.Info("Gettings last session paths differences");
+                Logger.Info("Gettings last session paths differences");
 
                 var changes = GetSavedPaths(type).Where(path => !File.Exists(path)).ToList();
 
@@ -136,7 +140,7 @@ namespace Edimsha.WPF.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.StackTrace, "Stopped program because of exception");
+                Logger.Error(ex.StackTrace, "Stopped program because of exception");
                 throw;
             }
             finally
@@ -175,7 +179,7 @@ namespace Edimsha.WPF.Services.Data
         private static void ArgumentExceptionLoggedAndThrowed(ViewType type)
         {
             var ex = new ArgumentOutOfRangeException(nameof(type), type, null);
-            _logger.Error(ex.StackTrace, "Stopped program because of exception");
+            Logger.Error(ex.StackTrace, "Stopped program because of exception");
             throw ex;
         }
     }

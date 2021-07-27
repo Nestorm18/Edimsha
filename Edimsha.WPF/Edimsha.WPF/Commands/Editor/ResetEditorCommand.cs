@@ -32,8 +32,8 @@ namespace Edimsha.WPF.Commands.Editor
             _editorViewModel.OutputFolder = string.Empty;
             _editorViewModel.Edimsha = string.Empty;
             _editorViewModel.AlwaysIncludeOnReplace = false;
-            _editorViewModel.WidthImage = 0;
-            _editorViewModel.HeightImage = 0;
+            _editorViewModel.Width = 0;
+            _editorViewModel.Height = 0;
             _editorViewModel.KeepOriginalResolution = false;
             _editorViewModel.CompresionValue = 0.0;
             _editorViewModel.OptimizeImage = false;

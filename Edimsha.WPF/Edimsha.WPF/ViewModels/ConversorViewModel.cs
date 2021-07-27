@@ -3,17 +3,22 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 using Edimsha.WPF.ViewModels.Contracts;
+using Microsoft.Extensions.Options;
 
 namespace Edimsha.WPF.ViewModels
 {
     public class ConversorViewModel : CommonViewModel, IFileDragDropTarget, IViewType, IExtraFolder
     {
+        // IOC
+        private IOptions<ConfigPaths> _options;
+        
         // Fields
         private readonly bool _isLoadingSettings;
 
@@ -39,7 +44,7 @@ namespace Edimsha.WPF.ViewModels
         
         public bool IterateSubdirectories
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool>(ViewType.Editor, nameof(IterateSubdirectories));
+            get => LoadSettingsService.LoadConfigurationSetting<bool, ConfigConversor>(nameof(IterateSubdirectories), _options.Value.SettingsConversor);
             set
             {
                 UpdateSetting(nameof(IterateSubdirectories), value).ConfigureAwait(false);
@@ -58,9 +63,14 @@ namespace Edimsha.WPF.ViewModels
         public ConversorViewModel(
             ISaveSettingsService saveSettingsService,
             ILoadSettingsService loadSettingsService,
-            IDialogService dialogService)
-            : base(loadSettingsService, saveSettingsService, dialogService)
+            IDialogService dialogService,
+            IOptions<ConfigPaths> options)
+            : base(
+                loadSettingsService,
+                saveSettingsService,
+                dialogService)
         {
+            _options = options;
             Logger.Info("Constructor");
 
             PathList = new ObservableCollection<string>();
