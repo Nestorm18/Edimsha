@@ -5,18 +5,22 @@ using System.Linq;
 using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.State.Navigators;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace Edimsha.WPF.Services.Data
 {
-    public class LoadSettingsService : SettingsService, ILoadSettingsService
+    public class LoadSettingsService : ILoadSettingsService
     {
         // Log
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        
-        public LoadSettingsService(ConfigPaths settingsPath) : base(settingsPath)
+       
+        private IOptions<ConfigPaths> _options;
+
+        public LoadSettingsService(IOptions<ConfigPaths> options)
         {
             _logger.Info("Constructor loaded...");
+            _options = options;
         }
 
         public T LoadConfigurationSetting<T>(ViewType type, string settingName)
@@ -51,8 +55,8 @@ namespace Edimsha.WPF.Services.Data
 
             var file = type switch
             {
-                ViewType.Editor => EditorPathsJson,
-                ViewType.Converter => ConversorPathsJson,
+                ViewType.Editor => _options.Value.EditorPaths,
+                ViewType.Converter => _options.Value.ConversorPaths,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
 
@@ -67,9 +71,9 @@ namespace Edimsha.WPF.Services.Data
         {
             _logger.Info("Loading...");
 
-            if (!File.Exists(ResolutionsJson)) throw new Exception($"LoadResolutions no ha encontrado archivo");
+            if (!File.Exists(_options.Value.Resolutions)) throw new Exception($"LoadResolutions no ha encontrado archivo");
 
-            var resolutions = File.ReadAllText(ResolutionsJson);
+            var resolutions = File.ReadAllText(_options.Value.Resolutions);
             return JsonConvert.DeserializeObject<List<Resolution>>(resolutions);
         }
 
@@ -150,10 +154,10 @@ namespace Edimsha.WPF.Services.Data
                 switch (type)
                 {
                     case ViewType.Editor:
-                        settings = File.OpenText(SettingsEditor);
+                        settings = File.OpenText(_options.Value.SettingsEditor);
                         break;
                     case ViewType.Converter:
-                        settings = File.OpenText(SettingsConversor);
+                        settings = File.OpenText(_options.Value.SettingsConversor);
                         break;
                     default:
                         ArgumentExceptionLoggedAndThrowed(type);

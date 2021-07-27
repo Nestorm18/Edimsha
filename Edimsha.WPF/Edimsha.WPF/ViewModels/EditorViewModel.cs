@@ -184,11 +184,11 @@ namespace Edimsha.WPF.ViewModels
         public EditorViewModel(
             ISaveSettingsService saveSettingsService,
             ILoadSettingsService loadSettingsService,
-            IDialogService dialogService) 
+            IDialogService dialogService)
             : base(loadSettingsService, saveSettingsService, dialogService)
         {
             Logger.Info("Constructor");
-            
+
             // Inicialize collection
             PathList = new ObservableCollection<string>();
 
@@ -198,7 +198,7 @@ namespace Edimsha.WPF.ViewModels
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
             // Parameter buttons
             OpenImagesCommand = new OpenImagesCommand(this, DialogService, GetViewModelType());
-            OpenOutputFolderCommand = new OpenOutputFolderCommand<EditorViewModel>(this,DialogService);
+            OpenOutputFolderCommand = new OpenOutputFolderCommand<EditorViewModel>(this, DialogService);
             OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, DialogService, LoadSettingsService, SaveSettingsService);
             // Run buttons
             ResetCommand = new ResetEditorCommand(this);

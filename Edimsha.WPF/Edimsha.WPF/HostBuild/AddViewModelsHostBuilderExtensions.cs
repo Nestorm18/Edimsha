@@ -16,10 +16,8 @@ namespace Edimsha.WPF.HostBuild
                 services.AddTransient<EditorViewModel>();
                 services.AddTransient<ConversorViewModel>();
 
-                services.AddSingleton<CreateViewModel<EditorViewModel>>(
-                    s => s.GetRequiredService<EditorViewModel>);
-                services.AddSingleton<CreateViewModel<ConversorViewModel>>(
-                    s => s.GetRequiredService<ConversorViewModel>);
+                services.AddSingleton<CreateViewModel<EditorViewModel>>(s => s.GetRequiredService<EditorViewModel>);
+                services.AddSingleton<CreateViewModel<ConversorViewModel>>(s => s.GetRequiredService<ConversorViewModel>);
 
                 services.AddSingleton<IEdimshaViewModelFactory, EdimshaViewModelFactory>();
             });

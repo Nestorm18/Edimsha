@@ -6,18 +6,22 @@ using System.Threading.Tasks;
 using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.State.Navigators;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace Edimsha.WPF.Services.Data
 {
-    public class SaveSettingsService : SettingsService, ISaveSettingsService
+    public class SaveSettingsService : ISaveSettingsService
     {
         // Log
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+       
+        private readonly IOptions<ConfigPaths> _options;
         
-        public SaveSettingsService(ConfigPaths settingsPath) : base(settingsPath)
+        public SaveSettingsService(IOptions<ConfigPaths> options)
         {
-            
+            _logger.Info("Constructor loaded...");
+            _options = options;
         }
 
         public async Task<bool> SaveConfigurationSettings<T>(ViewType type, string settingName, T value)
@@ -29,7 +33,7 @@ namespace Edimsha.WPF.Services.Data
             {
                 case ViewType.Editor:
                     _logger.Info($"Editor SettingName: {settingName}, Value: {value}");
-                    using (var settings = File.OpenText(SettingsEditor))
+                    using (var settings = File.OpenText(_options.Value.SettingsEditor))
                     {
                         var serializer = new JsonSerializer();
                         var config = (ConfigEditor) serializer.Deserialize(settings, typeof(ConfigEditor));
@@ -44,11 +48,11 @@ namespace Edimsha.WPF.Services.Data
                     }
 
                     _logger.Info("Writing file...");
-                    await File.WriteAllTextAsync(SettingsEditor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
+                    await File.WriteAllTextAsync(_options.Value.SettingsEditor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
                     break;
                 case ViewType.Converter:
                     _logger.Info($"Conversor SettingName: {settingName} C, Value: {value}");
-                    using (var settings = File.OpenText(SettingsConversor))
+                    using (var settings = File.OpenText(_options.Value.SettingsConversor))
                     {
                         var serializer = new JsonSerializer();
                         var config = (ConfigEditor) serializer.Deserialize(settings, typeof(ConfigEditor));
@@ -63,7 +67,7 @@ namespace Edimsha.WPF.Services.Data
                     }
 
                     _logger.Info("Writing file...");
-                    await File.WriteAllTextAsync(SettingsConversor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
+                    await File.WriteAllTextAsync(_options.Value.SettingsConversor, JsonConvert.SerializeObject(newconfig, Formatting.Indented));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -80,10 +84,10 @@ namespace Edimsha.WPF.Services.Data
             switch (viewType)
             {
                 case ViewType.Editor:
-                    pathFile = EditorPathsJson;
+                    pathFile = _options.Value.EditorPaths;
                     break;
                 case ViewType.Converter:
-                    pathFile = ConversorPathsJson;
+                    pathFile = _options.Value.ConversorPaths;
                     break;
                 default:
                     throw new Exception("SavePathsListview viewType no encontrado");
@@ -99,12 +103,12 @@ namespace Edimsha.WPF.Services.Data
         public async void SaveResolutions(IEnumerable<Resolution> resolutions)
         {
             _logger.Info($"Resolutions {resolutions}");
-            if (!File.Exists(ResolutionsJson)) throw new Exception($"SaveResolutions no ha encontrado archivo");
+            if (!File.Exists(_options.Value.Resolutions)) throw new Exception($"SaveResolutions no ha encontrado archivo");
 
             var formatedJson = JsonConvert.SerializeObject(resolutions, Formatting.Indented);
 
             _logger.Info("Writing file...");
-            await File.WriteAllTextAsync(ResolutionsJson, formatedJson);
+            await File.WriteAllTextAsync(_options.Value.Resolutions, formatedJson);
         }
     }
 }
