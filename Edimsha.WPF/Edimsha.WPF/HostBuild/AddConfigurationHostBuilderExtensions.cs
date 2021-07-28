@@ -12,7 +12,7 @@ namespace Edimsha.WPF.HostBuild
             {
                 c.AddJsonFile("appsettings.json");
                 c.AddJsonFile("ConfigPaths.json");
-                c.AddJsonFile("EditorSettings.json");
+                c.AddJsonFile("Resources/EditorConfig.json");
                 c.AddEnvironmentVariables();
             });
 

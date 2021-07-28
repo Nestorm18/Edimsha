@@ -36,7 +36,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _outputFolder) return;
 
                 _outputFolder = Directory.Exists(value) ? value : string.Empty;
-                SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), "OutputFolder", _outputFolder);
+                UpdateSetting(nameof(OutputFolder), value).ConfigureAwait(false);
 
                 OnPropertyChanged();
             }
@@ -117,7 +117,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SavePaths(PathList,GetViewModelType());
+            var success = SaveSettingsService.SaveListToFile(PathList,_options.Value.ConversorPaths).Result;
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -135,7 +135,8 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Info($"setting: {setting}, Value: {value}");
-            var success = await SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), setting, value);
+            
+            var success = await SaveSettingsService.SaveConfigurationSettings<T, ConfigConversor>(setting, value, _options.Value.SettingsConversor);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }

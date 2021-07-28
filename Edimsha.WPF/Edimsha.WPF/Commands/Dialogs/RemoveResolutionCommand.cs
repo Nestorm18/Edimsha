@@ -3,9 +3,11 @@ using System;
 using System.Windows.Input;
 using Edimsha.Core.Language;
 using Edimsha.Core.Models;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Utils;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
+using Microsoft.Extensions.Options;
 
 namespace Edimsha.WPF.Commands.Dialogs
 {
@@ -16,13 +18,16 @@ namespace Edimsha.WPF.Commands.Dialogs
         
         private readonly ResolutionDialogViewModel _resolutionDialogViewModel;
         private readonly ISaveSettingsService _saveSettingsService;
+        private readonly IOptions<ConfigPaths> _options;
 
         public RemoveResolutionCommand(
             ResolutionDialogViewModel resolutionDialogViewModel,
-            ISaveSettingsService saveSettingsService)
+            ISaveSettingsService saveSettingsService,
+            IOptions<ConfigPaths> options)
         {
             _resolutionDialogViewModel = resolutionDialogViewModel;
             _saveSettingsService = saveSettingsService;
+            _options = options;
         }
 
         public bool CanExecute(object? parameter)
@@ -44,7 +49,7 @@ namespace Edimsha.WPF.Commands.Dialogs
 
             RemoveResolution(currentResolution);
 
-            _saveSettingsService.SaveResolutions(_resolutionDialogViewModel.Resolutions);
+            _saveSettingsService.SaveListToFile(_resolutionDialogViewModel.Resolutions,_options.Value.EditorPaths);
 
             AllResolutionsDeleted();
         }

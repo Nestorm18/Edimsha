@@ -187,8 +187,8 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
             // Commands
             SelectionChangedCommand = new ParameterizedRelayCommand(ComboboxSelectionChangedEvent);
-            SaveResolutionCommand = new SaveResolutionCommand(this, saveSettingsService);
-            RemoveResolutionCommand = new RemoveResolutionCommand(this, saveSettingsService);
+            SaveResolutionCommand = new SaveResolutionCommand(this, saveSettingsService, options);
+            RemoveResolutionCommand = new RemoveResolutionCommand(this, saveSettingsService,options);
             CancelCommand = new QuitResolutionsCommand(this);
             AcceptCommand = new AcceptResolutionCommand();
 

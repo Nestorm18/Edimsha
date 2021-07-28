@@ -7,11 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.Core.Editor;
-using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Editor;
+using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
@@ -27,11 +27,11 @@ namespace Edimsha.WPF.ViewModels
     {
         //IOC
         private readonly IOptions<ConfigPaths> _options;
-        
+
         // Fields
         private readonly bool _isLoadingSettings;
         private EditorBackgroundWorker _editorBackgroundWorker;
-        
+
         // Properties
 
         #region Properties
@@ -44,7 +44,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool CleanListOnExit
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConfigEditor>(nameof(CleanListOnExit), _options.Value.SettingsEditor);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(CleanListOnExit), _options.Value.EditorConfig);
             set
             {
                 UpdateSetting(nameof(CleanListOnExit), value).ConfigureAwait(false);
@@ -54,7 +54,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool AlwaysIncludeOnReplace
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConfigEditor>(nameof(AlwaysIncludeOnReplace), _options.Value.SettingsEditor);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(AlwaysIncludeOnReplace), _options.Value.EditorConfig);
             set
             {
                 UpdateSetting(nameof(AlwaysIncludeOnReplace), value).ConfigureAwait(false);
@@ -64,7 +64,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool KeepOriginalResolution
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConfigEditor>(nameof(KeepOriginalResolution), _options.Value.SettingsEditor);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(KeepOriginalResolution), _options.Value.EditorConfig);
 
             set
             {
@@ -75,7 +75,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool OptimizeImage
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConfigEditor>(nameof(OptimizeImage), _options.Value.SettingsEditor);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(OptimizeImage), _options.Value.EditorConfig);
 
             set
             {
@@ -86,7 +86,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool ReplaceForOriginal
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConfigEditor>(nameof(ReplaceForOriginal), _options.Value.SettingsEditor);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(ReplaceForOriginal), _options.Value.EditorConfig);
 
             set
             {
@@ -97,7 +97,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool IterateSubdirectories
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConfigEditor>(nameof(IterateSubdirectories), _options.Value.SettingsEditor);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(IterateSubdirectories), _options.Value.EditorConfig);
             set
             {
                 UpdateSetting(nameof(IterateSubdirectories), value).ConfigureAwait(false);
@@ -113,7 +113,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _edimsha) return;
                 _edimsha = value;
 
-                SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), "Edimsha", value);
+                UpdateSetting(nameof(Edimsha), value).ConfigureAwait(false);
 
                 OnPropertyChanged();
             }
@@ -127,7 +127,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value.Equals(_compresionValue)) return;
                 _compresionValue = value;
 
-                SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), "CompresionValue", value);
+                UpdateSetting(nameof(CompresionValue), value).ConfigureAwait(false);
 
                 OnPropertyChanged();
             }
@@ -141,7 +141,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _width) return;
                 _width = value;
 
-                SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), "Width", value);
+                UpdateSetting(nameof(Width), value).ConfigureAwait(false);
 
                 OnPropertyChanged();
             }
@@ -155,7 +155,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _height) return;
                 _height = value;
 
-                SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), "Height", value);
+                UpdateSetting(nameof(Height), value).ConfigureAwait(false);
 
                 OnPropertyChanged();
             }
@@ -169,7 +169,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _outputFolder) return;
 
                 _outputFolder = Directory.Exists(value) ? value : string.Empty;
-                SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), "OutputFolder", _outputFolder);
+                UpdateSetting(nameof(OutputFolder), value).ConfigureAwait(false);
 
                 OnPropertyChanged();
             }
@@ -244,7 +244,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SavePaths(PathList, GetViewModelType());
+            var success = SaveSettingsService.SaveListToFile(PathList, _options.Value.EditorPaths).Result;
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -255,13 +255,13 @@ namespace Edimsha.WPF.ViewModels
 
             var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.EditorPaths);
             if (!isPathsDifferent) LaunchPathChangedMessageDialog();
-            
+
             ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.EditorPaths))?.ForEach(PathList.Add);
-            OutputFolder = LoadSettingsService.LoadConfigurationSetting<string, ConfigEditor>(nameof(OutputFolder), _options.Value.SettingsEditor);
-            Edimsha = LoadSettingsService.LoadConfigurationSetting<string, ConfigEditor>(nameof(Edimsha), _options.Value.SettingsEditor);
-            Width =LoadSettingsService.LoadConfigurationSetting<int, ConfigEditor>(nameof(Width), _options.Value.SettingsEditor);
-            Height =LoadSettingsService.LoadConfigurationSetting<int, ConfigEditor>(nameof(Height), _options.Value.SettingsEditor);
-            CompresionValue = LoadSettingsService.LoadConfigurationSetting<double, ConfigEditor>(nameof(CompresionValue), _options.Value.SettingsEditor);
+            OutputFolder = LoadSettingsService.LoadConfigurationSetting<string, EditorConfig>(nameof(OutputFolder), _options.Value.EditorConfig);
+            Edimsha = LoadSettingsService.LoadConfigurationSetting<string, EditorConfig>(nameof(Edimsha), _options.Value.EditorConfig);
+            Width = LoadSettingsService.LoadConfigurationSetting<int, EditorConfig>(nameof(Width), _options.Value.EditorConfig);
+            Height = LoadSettingsService.LoadConfigurationSetting<int, EditorConfig>(nameof(Height), _options.Value.EditorConfig);
+            CompresionValue = LoadSettingsService.LoadConfigurationSetting<double, EditorConfig>(nameof(CompresionValue), _options.Value.EditorConfig);
 
             IsRunningUi = true;
 
@@ -285,7 +285,7 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Info($"setting: {setting}, Value: {value}");
-            var success = await SaveSettingsService.SaveConfigurationSettings(GetViewModelType(), setting, value);
+            var success = await SaveSettingsService.SaveConfigurationSettings<T, EditorConfig>(setting, value, _options.Value.EditorConfig);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
@@ -304,12 +304,12 @@ namespace Edimsha.WPF.ViewModels
             IsRunningUi = false;
 
             var paths = PathList;
-            var config = LoadSettingsService.GetFullConfig<ConfigEditor>(_options.Value.SettingsEditor);
+            // var config = LoadSettingsService.GetFullConfig<ConfigEditor>(_options.Value.EditorConfig);
 
-            _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution(Width, Height));
-            _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
-            _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            _editorBackgroundWorker.RunWorkerAsync();
+            // _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution(Width, Height));
+            // _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
+            // _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            // _editorBackgroundWorker.RunWorkerAsync();
         }
 
         // BackgroundWorker

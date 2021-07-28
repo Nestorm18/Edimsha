@@ -19,6 +19,8 @@ namespace Edimsha.WPF.Services.Data
             using var settings = File.OpenText(fullPath);
 
             var serializer = new JsonSerializer();
+            
+            //TODO: No deserializa correctamente
             var config = (TClass) serializer.Deserialize(settings!, typeof(TClass));
 
             if (config != null)
@@ -35,10 +37,10 @@ namespace Edimsha.WPF.Services.Data
 
             if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-            using var pathsJson = File.OpenText(fullPath);
+            using var paths = File.OpenText(fullPath);
             var serializer = new JsonSerializer();
 
-            return (List<string>) serializer.Deserialize(pathsJson, typeof(List<string>))
+            return (List<string>) serializer.Deserialize(paths, typeof(List<string>))
                    ?? throw new ArgumentException("Setting not found.");
         }
 

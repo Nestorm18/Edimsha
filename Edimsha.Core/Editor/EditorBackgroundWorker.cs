@@ -2,26 +2,25 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Edimsha.Core.Models;
-using Edimsha.Core.Settings;
 
 namespace Edimsha.Core.Editor
 {
     public class EditorBackgroundWorker : BackgroundWorker
     {
         private readonly ObservableCollection<string> _paths;
-        private readonly ConfigEditor _configEditor;
+        // private readonly EditorConfig _configEditor;
         private readonly Resolution _resolution;
 
-        public EditorBackgroundWorker(ObservableCollection<string> paths, ConfigEditor configEditor, Resolution resolution)
-        {
-            _paths = paths;
-            _configEditor = configEditor;
-            _resolution = resolution;
-
-            WorkerSupportsCancellation = true;
-            WorkerReportsProgress = true;
-            DoWork += Worker_DoWork;
-        }
+        // public EditorBackgroundWorker(ObservableCollection<string> paths, EditorConfig configEditor, Resolution resolution)
+        // {
+        //     _paths = paths;
+        //     _configEditor = configEditor;
+        //     _resolution = resolution;
+        //
+        //     WorkerSupportsCancellation = true;
+        //     WorkerReportsProgress = true;
+        //     DoWork += Worker_DoWork;
+        // }
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -35,15 +34,15 @@ namespace Edimsha.Core.Editor
                     return;
                 }
 
-                var edt = new Edition(path, _configEditor) {Resolution = _resolution};
-                edt.Run();
+                // var edt = new Edition(path, _configEditor) {Resolution = _resolution};
+                // edt.Run();
 
                 ReportProgress(cnt, new MyUserState {CountPaths = _paths.Count});
                 cnt++;
             });
         }
     }
-
+    
     public class MyUserState
     {
         public double CountPaths { get; init; }

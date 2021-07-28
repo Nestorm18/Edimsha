@@ -5,6 +5,7 @@ using Edimsha.Core.Language;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Main;
+using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.Factories;
@@ -28,7 +29,7 @@ namespace Edimsha.WPF.ViewModels
         // Properties
         private ViewModelBase _currentModeViewModel;
         private Languages _language = Languages.Spanish;
-        private ViewType _mode = ViewType.Converter;
+        private ViewType _mode = ViewType.Editor;
 
         public Languages Language
         {
@@ -90,7 +91,7 @@ namespace Edimsha.WPF.ViewModels
 
             // Menu
             QuitCommand = new QuitCommand();
-            ChangeLanguageCommand = new ChangeLanguageCommand(this, _saveSettingsService);
+            ChangeLanguageCommand = new ChangeLanguageCommand(this, _saveSettingsService, _options);
             ChangeModeCommand = new ChangeModeCommand(this, _viewModelFactory);
 
             LoadLanguageFromSettings();
@@ -104,7 +105,8 @@ namespace Edimsha.WPF.ViewModels
                 //TODO: Añadir conversor
                 var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
 
-                if (cleanListOnExit) _saveSettingsService.SavePaths(new List<string>(), ViewType.Editor);
+                if (cleanListOnExit) _saveSettingsService.SaveListToFile(new List<string>(),_options.Value.EditorPaths);
+                
             }
             catch (Exception ex)
             {
@@ -114,7 +116,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void LoadLanguageFromSettings()
         {
-            var lang = _loadSettingsService.LoadConfigurationSetting<string, ConfigEditor>("Language", _options.Value.SettingsEditor);
+            var lang = _loadSettingsService.LoadConfigurationSetting<string, EditorConfig>("Language", _options.Value.EditorConfig);
 
             Language = ChangeLanguage.ResolveLanguage(lang);
 

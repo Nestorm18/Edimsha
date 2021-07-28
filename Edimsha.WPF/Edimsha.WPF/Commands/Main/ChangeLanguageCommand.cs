@@ -2,9 +2,11 @@
 using System;
 using System.Windows.Input;
 using Edimsha.Core.Language;
+using Edimsha.Core.Settings;
+using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
-using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels;
+using Microsoft.Extensions.Options;
 
 namespace Edimsha.WPF.Commands.Main
 {
@@ -12,15 +14,17 @@ namespace Edimsha.WPF.Commands.Main
     {
         private readonly MainViewModel _viewModel;
         private readonly ISaveSettingsService _saveSettingsService;
+        private readonly IOptions<ConfigPaths> _options;
 
         // Log
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        
-        public ChangeLanguageCommand(MainViewModel viewModel, ISaveSettingsService saveSettingsService)
+
+        public ChangeLanguageCommand(MainViewModel viewModel, ISaveSettingsService saveSettingsService, IOptions<ConfigPaths> options)
         {
             _logger.Info("Constructor");
             _viewModel = viewModel;
             _saveSettingsService = saveSettingsService;
+            _options = options;
         }
 
         public bool CanExecute(object? parameter)
@@ -38,10 +42,18 @@ namespace Edimsha.WPF.Commands.Main
             if (parameter != null) _viewModel.Language = (Languages) parameter;
 
             _logger.Info($"Changing language to {_viewModel.Language}");
-            
+
             ChangeLanguage.SetLanguage(_viewModel.Language.GetDescription());
-            _saveSettingsService.SaveConfigurationSettings(ViewType.Editor, "Language", _viewModel.Language.GetDescription());
-            _saveSettingsService.SaveConfigurationSettings(ViewType.Converter, "Language", _viewModel.Language.GetDescription());
+
+            _saveSettingsService.SaveConfigurationSettings<string,
+                EditorConfig>("Language",
+                _viewModel.Language.GetDescription(),
+                _options.Value.EditorConfig);
+
+            _saveSettingsService.SaveConfigurationSettings<string,
+                ConfigConversor>("Language",
+                _viewModel.Language.GetDescription(),
+                _options.Value.SettingsConversor);
         }
 
         public event EventHandler? CanExecuteChanged;
