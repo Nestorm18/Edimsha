@@ -191,10 +191,7 @@ namespace Edimsha.WPF.ViewModels
             ILoadSettingsService loadSettingsService,
             IDialogService dialogService,
             IOptions<ConfigPaths> options)
-            : base(
-                loadSettingsService, 
-                saveSettingsService,
-                dialogService)
+            : base(loadSettingsService, saveSettingsService, dialogService)
         {
             _options = options;
             Logger.Info("Constructor");
@@ -209,7 +206,7 @@ namespace Edimsha.WPF.ViewModels
             // Parameter buttons
             OpenImagesCommand = new OpenImagesCommand(this, DialogService, GetViewModelType());
             OpenOutputFolderCommand = new OpenOutputFolderCommand<EditorViewModel>(this, DialogService);
-            OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, DialogService, LoadSettingsService, SaveSettingsService);
+            OpenResolutionsDialogCommand = new OpenResolutionsDialogCommand(this, DialogService, LoadSettingsService, SaveSettingsService, options);
             // Run buttons
             ResetCommand = new ResetEditorCommand(this);
             CancelCommand = new RelayCommand(Cancel);
@@ -256,10 +253,10 @@ namespace Edimsha.WPF.ViewModels
             Logger.Info($"Loading saved settings");
             StatusBar = "application_started";
 
-            var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(GetViewModelType());
+            var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.EditorPaths);
             if (!isPathsDifferent) LaunchPathChangedMessageDialog();
             
-            ((List<string>) LoadSettingsService.GetSavedPaths(GetViewModelType()))?.ForEach(PathList.Add);
+            ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.EditorPaths))?.ForEach(PathList.Add);
             OutputFolder = LoadSettingsService.LoadConfigurationSetting<string, ConfigEditor>(nameof(OutputFolder), _options.Value.SettingsEditor);
             Edimsha = LoadSettingsService.LoadConfigurationSetting<string, ConfigEditor>(nameof(Edimsha), _options.Value.SettingsEditor);
             Width =LoadSettingsService.LoadConfigurationSetting<int, ConfigEditor>(nameof(Width), _options.Value.SettingsEditor);
@@ -307,7 +304,7 @@ namespace Edimsha.WPF.ViewModels
             IsRunningUi = false;
 
             var paths = PathList;
-            var config = LoadSettingsService.GetConfigFormViewType(GetViewModelType());
+            var config = LoadSettingsService.GetFullConfig<ConfigEditor>(_options.Value.SettingsEditor);
 
             _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution(Width, Height));
             _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
@@ -347,7 +344,7 @@ namespace Edimsha.WPF.ViewModels
         // Message paths deleted
         private void LaunchPathChangedMessageDialog()
         {
-            DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, GetViewModelType());
+            DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, _options.Value.EditorPaths);
         }
 
         public ViewType GetViewModelType()

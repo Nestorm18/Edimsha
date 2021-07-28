@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Edimsha.Core.Models;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Services.Data;
-using Edimsha.WPF.State.Navigators;
+using Microsoft.Extensions.Options;
 
 namespace Edimsha.WPF.Services.Dialogs
 {
@@ -12,8 +13,8 @@ namespace Edimsha.WPF.Services.Dialogs
 
         Task<string> OpenFolderSelector(string title);
 
-        Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService);
+        Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, IOptions<ConfigPaths> options);
 
-        Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, ViewType type);
+        Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, string filePath);
     }
 }

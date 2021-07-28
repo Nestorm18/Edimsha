@@ -1,9 +1,11 @@
 #nullable enable
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.ViewModels;
+using Microsoft.Extensions.Options;
 
 namespace Edimsha.WPF.Commands.Editor
 {
@@ -16,18 +18,21 @@ namespace Edimsha.WPF.Commands.Editor
         private readonly IDialogService _dialogService;
         private readonly ILoadSettingsService _loadSettingsService;
         private readonly ISaveSettingsService _saveSettingsService;
+        private readonly IOptions<ConfigPaths> _options;
 
         public OpenResolutionsDialogCommand(
             EditorViewModel editorViewModel,
             IDialogService dialogService,
             ILoadSettingsService loadSettingsService,
-            ISaveSettingsService saveSettingsService)
+            ISaveSettingsService saveSettingsService,
+            IOptions<ConfigPaths> options)
         {
             _logger.Info("Constructor");
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
             _loadSettingsService = loadSettingsService;
             _saveSettingsService = saveSettingsService;
+            _options = options;
         }
 
         public bool CanExecute(object? parameter)
@@ -43,7 +48,7 @@ namespace Edimsha.WPF.Commands.Editor
         {
             _logger.Info("Open resolution dialog selector");
 
-            var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService).Result;
+            var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService, _options).Result;
 
             _logger.Info($"Resolution: {res}");
 

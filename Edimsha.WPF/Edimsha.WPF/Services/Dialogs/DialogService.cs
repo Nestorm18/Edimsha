@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using Edimsha.Core.Language;
 using Edimsha.Core.Models;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Annotations;
 using Edimsha.WPF.Services.Data;
-using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.DialogsViewModel;
 using Edimsha.WPF.Views.Dialogs;
+using Microsoft.Extensions.Options;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -44,10 +45,10 @@ namespace Edimsha.WPF.Services.Dialogs
         }
 
         [CanBeNull]
-        public async Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService)
+        public async Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, IOptions<ConfigPaths> options)
         {
             _logger.Info("Viewmodel");
-            var vm = new ResolutionDialogViewModel(loadSettingsService, saveSettingsService);
+            var vm = new ResolutionDialogViewModel(loadSettingsService, saveSettingsService, options);
 
             _logger.Info("Opening dialog");
             var dlg = new ResolutionDialog {DataContext = vm};
@@ -68,10 +69,8 @@ namespace Edimsha.WPF.Services.Dialogs
             return vm.GetResolution();
         }
 
-        public async Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, ViewType type)
+        public async Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, string filePath)
         {
-            _logger.Info($"Cheking for type {type}");
-
             var result = MessageBox.Show(
                 TranslationSource.GetTranslationFromString("the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_changes"),
                 TranslationSource.GetTranslationFromString("modified_paths"),
@@ -80,8 +79,8 @@ namespace Edimsha.WPF.Services.Dialogs
 
             if (result != MessageBoxResult.Yes) return;
 
-            var allPaths = (List<string>) loadSettingsService.GetSavedPaths(type);
-            var deletedPaths = (List<string>) loadSettingsService.GetPathChanges(type);
+            var allPaths = (List<string>) loadSettingsService.GetSavedPaths(filePath);
+            var deletedPaths = (List<string>) loadSettingsService.GetPathChanges(filePath);
 
             if (deletedPaths == null) return;
 
@@ -89,7 +88,8 @@ namespace Edimsha.WPF.Services.Dialogs
 
             var avaliablePaths = allPaths.Except(deletedPaths);
 
-            saveSettingsService.SavePaths(avaliablePaths, type);
+            //TODO: Cambiar como loadsettings
+            // saveSettingsService.SavePaths(avaliablePaths, filePath);
 
             MessageBox.Show(append, TranslationSource.GetTranslationFromString("deleted_paths"), MessageBoxButton.OK, MessageBoxImage.Information);
         }

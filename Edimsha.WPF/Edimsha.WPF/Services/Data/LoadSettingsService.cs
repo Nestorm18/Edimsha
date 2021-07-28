@@ -3,177 +3,92 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Edimsha.Core.Models;
-using Edimsha.Core.Settings;
-using Edimsha.WPF.State.Navigators;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace Edimsha.WPF.Services.Data
 {
     public class LoadSettingsService : ILoadSettingsService
     {
-        // Log
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-        private readonly IOptions<ConfigPaths> _options;
-
-        public LoadSettingsService(IOptions<ConfigPaths> options)
-        {
-            Logger.Info("Constructor loaded...");
-            _options = options;
-        }
-
         /// <inheritdoc />
         public T LoadConfigurationSetting<T, TClass>(string settingName, string filePath)
         {
-            try
-            {
-                Logger.Info($"settingName: {settingName}, using: {filePath}");
+            var fullPath = Path.GetFullPath(filePath);
 
-                using var settings = File.OpenText(Path.GetFullPath(filePath));
-                
-                var serializer = new JsonSerializer();
-                var config = (TClass) serializer.Deserialize(settings!, typeof(TClass));
+            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-                if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.StackTrace, "Stopped program because of exception");
-                throw;
-            }
+            using var settings = File.OpenText(fullPath);
+
+            var serializer = new JsonSerializer();
+            var config = (TClass) serializer.Deserialize(settings!, typeof(TClass));
+
+            if (config != null)
+                return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null)
+                       ?? throw new ArgumentException("Setting not found.");
 
             return default;
         }
 
-        public IEnumerable<string> GetSavedPaths(ViewType type)
+        /// <inheritdoc />
+        public IEnumerable<string> GetSavedPaths(string filePath)
         {
-            Logger.Info($"ViewType: {type}");
+            var fullPath = Path.GetFullPath(filePath);
 
-            var file = type switch
-            {
-                ViewType.Editor => _options.Value.EditorPaths,
-                ViewType.Converter => _options.Value.ConversorPaths,
-                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-            };
+            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-            using (var pathsJson = File.OpenText(file))
-            {
-                var serializer = new JsonSerializer();
-                return (List<string>) serializer.Deserialize(pathsJson, typeof(List<string>));
-            }
+            using var pathsJson = File.OpenText(fullPath);
+            var serializer = new JsonSerializer();
+
+            return (List<string>) serializer.Deserialize(pathsJson, typeof(List<string>))
+                   ?? throw new ArgumentException("Setting not found.");
         }
 
-        public IEnumerable<Resolution> LoadResolutions()
+        /// <inheritdoc />
+        public IEnumerable<Resolution> LoadResolutions(string filePath)
         {
-            Logger.Info("Loading...");
+            var fullPath = Path.GetFullPath(filePath);
 
-            if (!File.Exists(_options.Value.Resolutions)) throw new Exception($"LoadResolutions no ha encontrado archivo");
+            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-            var resolutions = File.ReadAllText(_options.Value.Resolutions);
+            var resolutions = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<List<Resolution>>(resolutions);
         }
 
-        public ConfigEditor GetConfigFormViewType(ViewType type)
+        /// <inheritdoc />
+        public TClass GetFullConfig<TClass>(string filePath)
         {
-            var settings = GetSettingFileWithViewType(type);
+            var fullPath = Path.GetFullPath(filePath);
 
-            try
-            {
-                Logger.Info("Obtaining all settings editor");
+            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-                var serializer = new JsonSerializer();
-                return (ConfigEditor) serializer.Deserialize(settings, typeof(ConfigEditor));
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.StackTrace, "Stopped program because of exception");
-                throw;
-            }
-            finally
-            {
-                settings.Close();
-            }
+            using var config = File.OpenText(fullPath);
+
+            var serializer = new JsonSerializer();
+
+            return (TClass) serializer.Deserialize(config, typeof(TClass));
         }
 
-        public bool StillPathsSameFromLastSession(ViewType type)
+        /// <inheritdoc />
+        public bool StillPathsSameFromLastSession(string filePath)
         {
-            var settings = GetSettingFileWithViewType(type);
+            var fullPath = Path.GetFullPath(filePath);
 
-            try
-            {
-                Logger.Info("Obtaining last session paths");
+            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-                var paths = GetSavedPaths(type);
+            var paths = GetSavedPaths(filePath);
 
-                return paths.All(File.Exists);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.StackTrace, "Stopped program because of exception");
-                throw;
-            }
-            finally
-            {
-                settings.Close();
-            }
+            return paths.All(File.Exists);
         }
 
-        public IEnumerable<string> GetPathChanges(ViewType type)
+        /// <inheritdoc />
+        public IEnumerable<string> GetPathChanges(string filePath)
         {
-            var settings = GetSettingFileWithViewType(type);
+            var fullPath = Path.GetFullPath(filePath);
 
-            try
-            {
-                Logger.Info("Gettings last session paths differences");
+            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-                var changes = GetSavedPaths(type).Where(path => !File.Exists(path)).ToList();
+            var changes = GetSavedPaths(filePath).Where(path => !File.Exists(path)).ToList();
 
-                return changes.Count == 0 ? null : changes;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.StackTrace, "Stopped program because of exception");
-                throw;
-            }
-            finally
-            {
-                settings.Close();
-            }
-        }
-
-        private StreamReader GetSettingFileWithViewType(ViewType type)
-        {
-            StreamReader settings = null;
-
-            try
-            {
-                switch (type)
-                {
-                    case ViewType.Editor:
-                        settings = File.OpenText(_options.Value.SettingsEditor);
-                        break;
-                    case ViewType.Converter:
-                        settings = File.OpenText(_options.Value.SettingsConversor);
-                        break;
-                    default:
-                        ArgumentExceptionLoggedAndThrowed(type);
-                        break;
-                }
-            }
-            catch (Exception)
-            {
-                ArgumentExceptionLoggedAndThrowed(type);
-            }
-
-            return settings;
-        }
-
-        private static void ArgumentExceptionLoggedAndThrowed(ViewType type)
-        {
-            var ex = new ArgumentOutOfRangeException(nameof(type), type, null);
-            Logger.Error(ex.StackTrace, "Stopped program because of exception");
-            throw ex;
+            return changes.Count == 0 ? null : changes;
         }
     }
 }

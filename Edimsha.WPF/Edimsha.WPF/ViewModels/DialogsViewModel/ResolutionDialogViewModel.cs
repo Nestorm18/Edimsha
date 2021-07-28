@@ -3,9 +3,11 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using Edimsha.Core.Models;
+using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Dialogs;
 using Edimsha.WPF.Services.Data;
+using Microsoft.Extensions.Options;
 
 namespace Edimsha.WPF.ViewModels.DialogsViewModel
 {
@@ -13,10 +15,11 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
     {
         // Log
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        
+
         #region IOC
 
         private readonly ILoadSettingsService _loadSettingsService;
+        private readonly IOptions<ConfigPaths> _options;
 
         #endregion
 
@@ -171,11 +174,13 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 
         public ResolutionDialogViewModel(
             ILoadSettingsService loadSettingsService,
-            ISaveSettingsService saveSettingsService)
+            ISaveSettingsService saveSettingsService,
+            IOptions<ConfigPaths> options)
         {
             _logger.Info("Constructor");
 
             _loadSettingsService = loadSettingsService;
+            _options = options;
 
             Resolutions = new ObservableCollection<Resolution>();
             Resolutions.CollectionChanged += ResolutionsOnCollectionChanged;
@@ -236,7 +241,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             _logger.Info("Loading resolutions");
             Resolutions.Clear();
 
-            var resolutions = _loadSettingsService.LoadResolutions();
+            var resolutions = _loadSettingsService.LoadResolutions(_options.Value.Resolutions);
 
             foreach (var resolution in resolutions) Resolutions.Add(resolution);
 
