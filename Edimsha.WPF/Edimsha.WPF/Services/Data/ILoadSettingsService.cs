@@ -7,7 +7,15 @@ namespace Edimsha.WPF.Services.Data
 {
     public interface ILoadSettingsService
     {
-        T LoadConfigurationSetting<T, C>(string settingName, string filePath);
+        /// <summary>
+        /// Gets a setting from selected file and returns.
+        /// </summary>
+        /// <param name="settingName">A name of the setting inside a file.</param>
+        /// <param name="filePath">A path to the saved setting file.</param>
+        /// <typeparam name="T">A type of the requested setting. Ex.: int, double, bool.</typeparam>
+        /// <typeparam name="TClass">A class that will be used to parse the file.</typeparam>
+        /// <returns>The value that is stored in the file for the requested setting.</returns>
+        T LoadConfigurationSetting<T, TClass>(string settingName, string filePath);
 
         IEnumerable<string> GetSavedPaths(ViewType type);
 

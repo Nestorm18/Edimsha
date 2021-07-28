@@ -23,15 +23,8 @@ namespace Edimsha.WPF.Services.Data
             _options = options;
         }
 
-        /// <summary>
-        /// Gets a setting from selected file and returns.
-        /// </summary>
-        /// <param name="settingName">A name of the setting inside a file.</param>
-        /// <param name="filePath">A path to the saved setting file.</param>
-        /// <typeparam name="T">A type of the requested setting. Ex.: int, double, bool.</typeparam>
-        /// <typeparam name="C">A class that will be used to parse the file.</typeparam>
-        /// <returns>The value that is stored in the file for the requested setting.</returns>
-        public T LoadConfigurationSetting<T, C>(string settingName, string filePath)
+        /// <inheritdoc />
+        public T LoadConfigurationSetting<T, TClass>(string settingName, string filePath)
         {
             try
             {
@@ -40,7 +33,7 @@ namespace Edimsha.WPF.Services.Data
                 using var settings = File.OpenText(Path.GetFullPath(filePath));
                 
                 var serializer = new JsonSerializer();
-                var config = (C) serializer.Deserialize(settings!, typeof(C));
+                var config = (TClass) serializer.Deserialize(settings!, typeof(TClass));
 
                 if (config != null) return (T) config.GetType().GetProperty(settingName)?.GetValue(config, null);
             }
