@@ -227,6 +227,8 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info($"Filepaths: {filepaths}");
 
+            // TODO Congelado cuando se ponen muchas imagenes pero si se guardan
+            
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
 
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(

@@ -11,82 +11,100 @@ namespace Edimsha.Core.Editor
     {
         private readonly string _path;
         private readonly EditorConfig _editorConfig;
- 
+
         public Edition(string path, EditorConfig editorConfig)
         {
             _path = path;
             _editorConfig = editorConfig;
-        
+
             FixNull();
         }
-        
+
         private void FixNull()
         {
             _editorConfig.Edimsha ??= "edimsha_";
-        
+
             if (_editorConfig.Edimsha.Equals(string.Empty))
                 _editorConfig.Edimsha = "edimsha_";
-        
+
             _editorConfig.OutputFolder ??= string.Empty;
         }
-        
+
         public void Run()
         {
             // Image resize to user values
             Image image;
-        
+
             using (var img = Image.FromFile(_path))
             {
                 if (_editorConfig.KeepOriginalResolution || _editorConfig.Resolution.Width <= 0 || _editorConfig.Resolution.Height <= 0)
                     _editorConfig.Resolution = new Resolution(img.Width, img.Height);
-        
+
                 image = Resize(img);
             }
-        
+
             var savePath = GeneratesavePath();
-        
+
             if (_editorConfig.AlwaysIncludeOnReplace)
                 File.Delete(_path);
-        
-            if (_editorConfig.OptimizeImage)
-                image.Save(savePath, ImageFormat.Jpeg);
+
+            var extension = Path.GetExtension(_path);
+
+            // ReSharper disable once PossibleNullReferenceException
+            if (extension.Equals(".jpeg") || extension.Equals(".jpg"))
+            {
+                image.Save(string.Concat(savePath, extension));
+            }
             else
-                image.Save(savePath, ImageFormat.Jpeg);
-        
+            {
+                var pathWithExtension = string.Concat(savePath, ".png");
+
+                if (_editorConfig.OptimizeImage)
+                {
+                    image.Save(pathWithExtension, ImageFormat.Png);
+
+                    PngQuant.ExecutePngQuant(pathWithExtension, _editorConfig.CompresionValue);
+                }
+                else
+                {
+                    image.Save(pathWithExtension, ImageFormat.Png);
+                }
+            }
+
             image.Dispose();
         }
-        
+
         private string GeneratesavePath()
         {
             var name = GenerateName();
-        
+
             return _editorConfig.OutputFolder.Equals(string.Empty)
                 ? Path.Combine(Directory.GetParent(_path)?.FullName ?? string.Empty, name)
                 : Path.Combine(_editorConfig.OutputFolder, name);
         }
-        
+
         private string GenerateName()
         {
             var samePath = IsSamePath();
-            var imageName = Path.GetFileName(_path);
-        
+            var imageName = Path.GetFileNameWithoutExtension(_path);
+
             if (_editorConfig.ReplaceForOriginal && !_editorConfig.AlwaysIncludeOnReplace)
                 return imageName;
-        
+
             if (samePath && !_editorConfig.AlwaysIncludeOnReplace) return imageName;
-        
+
             var edimsha = _editorConfig.Edimsha;
             return $"{edimsha}{imageName}";
         }
-        
+
         private bool IsSamePath()
         {
             var outputDir = _editorConfig.OutputFolder;
             var currentDir = Directory.GetParent(_path)?.FullName;
-        
+
             return outputDir == null || Equals(outputDir, currentDir);
         }
-        
+
         private Image Resize(Image image)
         {
             return FixedSize(image, _editorConfig.Resolution.Width, _editorConfig.Resolution.Height);
