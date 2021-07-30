@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Conversor;
 using Edimsha.Core.Editor;
 using Edimsha.Core.Language;
 using Edimsha.Core.Settings;
@@ -51,7 +52,7 @@ namespace Edimsha.WPF.Commands.Main
                 _options.Value.EditorConfig);
 
             _saveSettingsService.SaveConfigurationSettings<string,
-                ConfigConversor>("Language",
+                ConversorConfig>("Language",
                 _viewModel.Language.GetDescription(),
                 _options.Value.SettingsConversor);
         }

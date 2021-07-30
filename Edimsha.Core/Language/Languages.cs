@@ -13,11 +13,11 @@ namespace Edimsha.Core.Language
     public static class AvaliableLanguages
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         public static string GetDescription(this Languages val)
         {
-            _logger.Info("Languages");
+            Logger.Info("Languages");
 
             var attributes = (DescriptionAttribute[]) val
                 .GetType()
@@ -28,7 +28,7 @@ namespace Edimsha.Core.Language
 
         public static T GetValueFromDescription<T>(string description) where T : Enum
         {
-            _logger.Info("Description");
+            Logger.Info("Description");
             
             foreach (var field in typeof(T).GetFields())
             {

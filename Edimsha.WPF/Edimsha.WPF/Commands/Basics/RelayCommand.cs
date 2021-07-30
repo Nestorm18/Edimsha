@@ -8,7 +8,7 @@ namespace Edimsha.WPF.Commands.Basics
     public class RelayCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly Action _mAction;
 
@@ -16,7 +16,7 @@ namespace Edimsha.WPF.Commands.Basics
 
         public RelayCommand(Action action)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _mAction = action;
         }
 
@@ -27,7 +27,7 @@ namespace Edimsha.WPF.Commands.Basics
 
         public void Execute(object parameter)
         {
-            _logger.Info("Relay executing");
+            Logger.Info("Relay executing");
             _mAction();
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Edimsha.Core.Conversor;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Services.Data;
@@ -18,14 +19,14 @@ namespace Edimsha.WPF.ViewModels
     {
         // IOC
         private IOptions<ConfigPaths> _options;
-        
+
         // Fields
         private readonly bool _isLoadingSettings;
 
         // Properties
 
         #region Properties
-        
+
         private string _outputFolder;
 
         public string OutputFolder
@@ -41,10 +42,10 @@ namespace Edimsha.WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
         public bool IterateSubdirectories
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConfigConversor>(nameof(IterateSubdirectories), _options.Value.SettingsConversor);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, ConversorConfig>(nameof(IterateSubdirectories), _options.Value.SettingsConversor);
             set
             {
                 UpdateSetting(nameof(IterateSubdirectories), value).ConfigureAwait(false);
@@ -57,7 +58,7 @@ namespace Edimsha.WPF.ViewModels
         // Commands
 
         #region Commands
-        
+
         # endregion
 
         public ConversorViewModel(
@@ -82,14 +83,14 @@ namespace Edimsha.WPF.ViewModels
 
             // Loaded
             _isLoadingSettings = SetUserSettings();
-            
+
             PathList.CollectionChanged += UrlsOnCollectionChanged;
         }
 
         private bool SetUserSettings()
         {
             IsRunningUi = true;
-            
+
             return false;
         }
 
@@ -117,7 +118,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SaveListToFile(PathList,_options.Value.ConversorPaths).Result;
+            var success = SaveSettingsService.SaveListToFile(PathList, _options.Value.ConversorPaths).Result;
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -135,8 +136,8 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Info($"setting: {setting}, Value: {value}");
-            
-            var success = await SaveSettingsService.SaveConfigurationSettings<T, ConfigConversor>(setting, value, _options.Value.SettingsConversor);
+
+            var success = await SaveSettingsService.SaveConfigurationSettings<T, ConversorConfig>(setting, value, _options.Value.SettingsConversor);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }

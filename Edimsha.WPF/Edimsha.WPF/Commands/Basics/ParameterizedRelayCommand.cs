@@ -6,14 +6,14 @@ namespace Edimsha.WPF.Commands.Basics
     public class ParameterizedRelayCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly Action<object> _command;
         private readonly Func<bool> _canExecute;
 
         public ParameterizedRelayCommand(Action<object> commandAction, Func<bool> canExecute = null)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _command = commandAction;
             _canExecute = canExecute;
         }
@@ -27,7 +27,7 @@ namespace Edimsha.WPF.Commands.Basics
 
         public void Execute(object parameter)
         {
-            _logger.Info($"Command with parameters executed");
+            Logger.Info($"Command with parameters executed");
             _command?.Invoke(parameter);
         }
     }
