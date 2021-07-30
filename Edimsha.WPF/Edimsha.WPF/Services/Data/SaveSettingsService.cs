@@ -8,7 +8,7 @@ namespace Edimsha.WPF.Services.Data
 {
     public class SaveSettingsService : ISaveSettingsService
     {
-        //TODO: Add documentacion
+        /// <inheritdoc />
         public async Task<bool> SaveConfigurationSettings<T, TClass>(string settingName, T value, string filePath)
         {
             var fullPath = Path.GetFullPath(filePath);
