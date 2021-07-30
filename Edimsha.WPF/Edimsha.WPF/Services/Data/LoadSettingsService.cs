@@ -20,7 +20,6 @@ namespace Edimsha.WPF.Services.Data
 
             var serializer = new JsonSerializer();
             
-            //TODO: No deserializa correctamente
             var config = (TClass) serializer.Deserialize(settings!, typeof(TClass));
 
             if (config != null)

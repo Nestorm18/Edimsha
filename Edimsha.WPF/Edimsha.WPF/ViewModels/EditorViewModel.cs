@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.Core.Editor;
+using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Commands.Basics;
@@ -259,8 +260,8 @@ namespace Edimsha.WPF.ViewModels
             ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.EditorPaths))?.ForEach(PathList.Add);
             OutputFolder = LoadSettingsService.LoadConfigurationSetting<string, EditorConfig>(nameof(OutputFolder), _options.Value.EditorConfig);
             Edimsha = LoadSettingsService.LoadConfigurationSetting<string, EditorConfig>(nameof(Edimsha), _options.Value.EditorConfig);
-            Width = LoadSettingsService.LoadConfigurationSetting<int, EditorConfig>(nameof(Width), _options.Value.EditorConfig);
-            Height = LoadSettingsService.LoadConfigurationSetting<int, EditorConfig>(nameof(Height), _options.Value.EditorConfig);
+            Width = LoadSettingsService.LoadConfigurationSetting<Resolution, EditorConfig>("Resolution", _options.Value.EditorConfig).Width;
+            Height = LoadSettingsService.LoadConfigurationSetting<Resolution, EditorConfig>("Resolution", _options.Value.EditorConfig).Height;
             CompresionValue = LoadSettingsService.LoadConfigurationSetting<double, EditorConfig>(nameof(CompresionValue), _options.Value.EditorConfig);
 
             IsRunningUi = true;
