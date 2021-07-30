@@ -12,7 +12,6 @@ using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Editor;
-using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
@@ -142,12 +141,12 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _width) return;
                 _width = value;
 
-                UpdateSetting(nameof(Width), value).ConfigureAwait(false);
+                FixResolutionLoading(Height, value);
 
                 OnPropertyChanged();
             }
         }
-
+        
         public int Height
         {
             get => _height;
@@ -156,7 +155,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _height) return;
                 _height = value;
 
-                UpdateSetting(nameof(Height), value).ConfigureAwait(false);
+                FixResolutionLoading(Width, value);
 
                 OnPropertyChanged();
             }
@@ -286,7 +285,7 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Info($"setting: {setting}, Value: {value}");
-            
+
             var success = await SaveSettingsService.SaveConfigurationSettings<T, EditorConfig>(setting, value, _options.Value.EditorConfig);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
@@ -305,13 +304,12 @@ namespace Edimsha.WPF.ViewModels
             Logger.Info("Started edition");
             IsRunningUi = false;
 
-            var paths = PathList;
-            // var config = LoadSettingsService.GetFullConfig<ConfigEditor>(_options.Value.EditorConfig);
+            var config = LoadSettingsService.GetFullConfig<EditorConfig>(_options.Value.EditorConfig);
 
-            // _editorBackgroundWorker = new EditorBackgroundWorker(paths, config, new Resolution(Width, Height));
-            // _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
-            // _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            // _editorBackgroundWorker.RunWorkerAsync();
+            _editorBackgroundWorker = new EditorBackgroundWorker(PathList, config);
+            _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
+            _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            _editorBackgroundWorker.RunWorkerAsync();
         }
 
         // BackgroundWorker
@@ -352,6 +350,15 @@ namespace Edimsha.WPF.ViewModels
         public ViewType GetViewModelType()
         {
             return ViewType.Editor;
+        }
+        
+        private void FixResolutionLoading(int property, int value)
+        {
+            if (property <= 0) return;
+
+            var newResolution = new Resolution(value, property);
+
+            UpdateSetting(nameof(Resolution), newResolution).ConfigureAwait(false);
         }
     }
 }

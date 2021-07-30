@@ -1,6 +1,6 @@
 ﻿using Edimsha.Core.Models;
 
-namespace Edimsha.WPF.Models
+namespace Edimsha.Core.Editor
 {
     public class EditorConfig
     {

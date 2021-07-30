@@ -63,6 +63,7 @@
 
     <ItemGroup>
         <Folder Include="Commands\Conversor" />
+        <Folder Include="Models" />
     </ItemGroup>
 
 </Project>

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Edimsha.Core.Editor;
 using Edimsha.Core.Language;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Main;
-using Edimsha.WPF.Models;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.Factories;
