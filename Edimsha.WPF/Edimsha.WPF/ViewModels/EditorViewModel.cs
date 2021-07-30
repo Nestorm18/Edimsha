@@ -23,7 +23,7 @@ using Microsoft.Extensions.Options;
 
 namespace Edimsha.WPF.ViewModels
 {
-    public class EditorViewModel : CommonViewModel, IFileDragDropTarget, IViewType, IExtraFolder
+    public class EditorViewModel : CommonViewModel, IFileDragDropTarget, IViewType, IExtraProperties
     {
         //IOC
         private readonly IOptions<ConfigPaths> _options;

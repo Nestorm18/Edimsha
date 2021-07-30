@@ -18,11 +18,11 @@ namespace Edimsha.WPF.Commands.Main
         private readonly IOptions<ConfigPaths> _options;
 
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public ChangeLanguageCommand(MainViewModel viewModel, ISaveSettingsService saveSettingsService, IOptions<ConfigPaths> options)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _viewModel = viewModel;
             _saveSettingsService = saveSettingsService;
             _options = options;
@@ -42,7 +42,7 @@ namespace Edimsha.WPF.Commands.Main
         {
             if (parameter != null) _viewModel.Language = (Languages) parameter;
 
-            _logger.Info($"Changing language to {_viewModel.Language}");
+            Logger.Info($"Changing language to {_viewModel.Language}");
 
             ChangeLanguage.SetLanguage(_viewModel.Language.GetDescription());
 

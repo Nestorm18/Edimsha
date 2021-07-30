@@ -10,14 +10,14 @@ namespace Edimsha.WPF.Commands
     public class OpenOutputFolderCommand<T> : ICommand
     {
         // Log
-        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly T _viewModel;
         private readonly IDialogService _dialogService;
         
         public OpenOutputFolderCommand(T viewModel, IDialogService dialogService)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _viewModel = viewModel;
             _dialogService = dialogService;
         }
@@ -37,7 +37,7 @@ namespace Edimsha.WPF.Commands
 
             if (success.Result == null) return;
             
-            if (_viewModel is IExtraFolder viewModel) viewModel.OutputFolder = success.Result;
+            if (_viewModel is IExtraProperties viewModel) viewModel.OutputFolder = success.Result;
         }
 
         public event EventHandler? CanExecuteChanged;

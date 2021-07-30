@@ -16,7 +16,7 @@ namespace Edimsha.WPF.Commands.Dialogs
     public class SaveResolutionCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly ResolutionDialogViewModel _resolutionDialogViewModel;
         private readonly ISaveSettingsService _saveSettingsService;
@@ -27,7 +27,7 @@ namespace Edimsha.WPF.Commands.Dialogs
             ISaveSettingsService saveSettingsService,
             IOptions<ConfigPaths> options)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
 
             _resolutionDialogViewModel = resolutionDialogViewModel;
             _saveSettingsService = saveSettingsService;
@@ -51,7 +51,7 @@ namespace Edimsha.WPF.Commands.Dialogs
 
             if (ExistCurrentResolution(currentResolution))
             {
-                _logger.Info("the_resolution_already_exists");
+                Logger.Info("the_resolution_already_exists");
                 _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("the_resolution_already_exists");
             }
             else
@@ -64,7 +64,7 @@ namespace Edimsha.WPF.Commands.Dialogs
 
                 _resolutionDialogViewModel.CmbIndex = _resolutionDialogViewModel.Resolutions.Count - 1;
 
-                _logger.Info("resolution_saved");
+                Logger.Info("resolution_saved");
             }
         }
 
@@ -75,7 +75,7 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <returns></returns>
         private bool ExistCurrentResolution(Resolution currentResolution)
         {
-            _logger.Info(currentResolution.ToString());
+            Logger.Info(currentResolution.ToString());
             return _resolutionDialogViewModel.Resolutions.Any(resolution => resolution.Equals(currentResolution));
         }
 

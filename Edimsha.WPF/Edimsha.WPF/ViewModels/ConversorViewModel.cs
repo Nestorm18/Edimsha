@@ -15,7 +15,7 @@ using Microsoft.Extensions.Options;
 
 namespace Edimsha.WPF.ViewModels
 {
-    public class ConversorViewModel : CommonViewModel, IFileDragDropTarget, IViewType, IExtraFolder
+    public class ConversorViewModel : CommonViewModel, IFileDragDropTarget, IViewType, IExtraProperties
     {
         // IOC
         private IOptions<ConfigPaths> _options;

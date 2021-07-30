@@ -9,13 +9,13 @@ namespace Edimsha.WPF.Commands.Dialogs
     public class QuitResolutionsCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly ResolutionDialogViewModel _resolutionDialogViewModel;
 
         public QuitResolutionsCommand(ResolutionDialogViewModel resolutionDialogViewModel)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _resolutionDialogViewModel = resolutionDialogViewModel;
         }
 
@@ -30,8 +30,8 @@ namespace Edimsha.WPF.Commands.Dialogs
         /// <param name="parameter">The window to close as a parameter</param>
         public void Execute(object? parameter)
         {
-            _logger.Info("Close resolutions dialogs");
-            _logger.Info($"BypassWidthOrHeightLimitations:{_resolutionDialogViewModel.BypassWidthOrHeightLimitations}");
+            Logger.Info("Close resolutions dialogs");
+            Logger.Info($"BypassWidthOrHeightLimitations:{_resolutionDialogViewModel.BypassWidthOrHeightLimitations}");
 
             _resolutionDialogViewModel.BypassWidthOrHeightLimitations = true;
             _resolutionDialogViewModel.Width = -1;

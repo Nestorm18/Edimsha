@@ -12,7 +12,7 @@ namespace Edimsha.WPF.Commands.Editor
     public class OpenResolutionsDialogCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly EditorViewModel _editorViewModel;
         private readonly IDialogService _dialogService;
@@ -27,7 +27,7 @@ namespace Edimsha.WPF.Commands.Editor
             ISaveSettingsService saveSettingsService,
             IOptions<ConfigPaths> options)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _editorViewModel = editorViewModel;
             _dialogService = dialogService;
             _loadSettingsService = loadSettingsService;
@@ -46,11 +46,11 @@ namespace Edimsha.WPF.Commands.Editor
         /// <param name="parameter">Unused.</param>
         public void Execute(object? parameter)
         {
-            _logger.Info("Open resolution dialog selector");
+            Logger.Info("Open resolution dialog selector");
 
             var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService, _options).Result;
 
-            _logger.Info($"Resolution: {res}");
+            Logger.Info($"Resolution: {res}");
 
             if (res == null) return;
 

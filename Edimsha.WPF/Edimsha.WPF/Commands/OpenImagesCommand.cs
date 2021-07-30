@@ -13,7 +13,7 @@ namespace Edimsha.WPF.Commands
     public class OpenImagesCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly CommonViewModel _viewModel;
         private readonly IDialogService _dialogService;
@@ -21,7 +21,7 @@ namespace Edimsha.WPF.Commands
 
         public OpenImagesCommand(CommonViewModel viewModel, IDialogService dialogService, ViewType mode)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _viewModel = viewModel;
             _dialogService = dialogService;
             _mode = mode;

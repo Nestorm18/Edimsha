@@ -8,7 +8,7 @@ namespace Edimsha.WPF.Commands.Main
     public class QuitCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         public bool CanExecute(object? parameter)
         {
@@ -23,7 +23,7 @@ namespace Edimsha.WPF.Commands.Main
         {
             if (parameter == null) return;
 
-            _logger.Info("Clossing");
+            Logger.Info("Clossing");
             var window = (Window) parameter;
             window.Close();
         }

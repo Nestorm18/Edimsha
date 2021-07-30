@@ -8,14 +8,14 @@ namespace Edimsha.WPF.Commands
     public class DeleteItemsCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly bool _removeAll;
         private readonly CommonViewModel _viewModel;
 
         public DeleteItemsCommand(CommonViewModel viewModel, bool removeAll = false)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _viewModel = viewModel;
             _removeAll = removeAll;
         }

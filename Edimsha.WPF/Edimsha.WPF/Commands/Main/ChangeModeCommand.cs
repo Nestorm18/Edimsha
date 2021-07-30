@@ -10,14 +10,14 @@ namespace Edimsha.WPF.Commands.Main
     public class ChangeModeCommand : ICommand
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         private readonly MainViewModel _viewModel;
         private readonly IEdimshaViewModelFactory _viewModelFactory;
 
         public ChangeModeCommand(MainViewModel viewModel, IEdimshaViewModelFactory viewModelFactory)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
             _viewModel = viewModel;
             _viewModelFactory = viewModelFactory;
         }
@@ -35,7 +35,7 @@ namespace Edimsha.WPF.Commands.Main
         {
             if (parameter == null) return;
 
-            _logger.Info($"Changing mode to {(ViewType) parameter}");
+            Logger.Info($"Changing mode to {(ViewType) parameter}");
             _viewModel.CurrentModeViewModel = _viewModelFactory.CreateViewModel((ViewType) parameter);
         }
 
