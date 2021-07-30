@@ -6,7 +6,7 @@ using Edimsha.WPF.Converters;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 
-namespace Edimsha.WPF.ViewModels
+namespace Edimsha.WPF.ViewModels.ViewModelCommon
 {
     public class CommonViewModel : ViewModelBase
     {

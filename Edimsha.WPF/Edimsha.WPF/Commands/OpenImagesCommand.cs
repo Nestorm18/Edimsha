@@ -6,7 +6,7 @@ using Edimsha.Core.Language;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
-using Edimsha.WPF.ViewModels;
+using Edimsha.WPF.ViewModels.ViewModelCommon;
 
 namespace Edimsha.WPF.Commands
 {

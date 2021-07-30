@@ -1,7 +1,7 @@
 #nullable enable
 using System;
 using System.Windows.Input;
-using Edimsha.WPF.ViewModels;
+using Edimsha.WPF.ViewModels.ViewModelCommon;
 
 namespace Edimsha.WPF.Commands
 {

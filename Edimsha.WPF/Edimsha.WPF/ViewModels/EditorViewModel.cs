@@ -17,6 +17,7 @@ using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 using Edimsha.WPF.ViewModels.Contracts;
+using Edimsha.WPF.ViewModels.ViewModelCommon;
 using Microsoft.Extensions.Options;
 
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
