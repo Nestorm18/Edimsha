@@ -260,8 +260,8 @@ namespace Edimsha.WPF.ViewModels
             ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.EditorPaths))?.ForEach(PathList.Add);
             OutputFolder = LoadSettingsService.LoadConfigurationSetting<string, EditorConfig>(nameof(OutputFolder), _options.Value.EditorConfig);
             Edimsha = LoadSettingsService.LoadConfigurationSetting<string, EditorConfig>(nameof(Edimsha), _options.Value.EditorConfig);
-            Width = LoadSettingsService.LoadConfigurationSetting<Resolution, EditorConfig>("Resolution", _options.Value.EditorConfig).Width;
-            Height = LoadSettingsService.LoadConfigurationSetting<Resolution, EditorConfig>("Resolution", _options.Value.EditorConfig).Height;
+            Width = LoadSettingsService.LoadConfigurationSetting<Resolution, EditorConfig>(nameof(Resolution), _options.Value.EditorConfig).Width;
+            Height = LoadSettingsService.LoadConfigurationSetting<Resolution, EditorConfig>(nameof(Resolution), _options.Value.EditorConfig).Height;
             CompresionValue = LoadSettingsService.LoadConfigurationSetting<double, EditorConfig>(nameof(CompresionValue), _options.Value.EditorConfig);
 
             IsRunningUi = true;
