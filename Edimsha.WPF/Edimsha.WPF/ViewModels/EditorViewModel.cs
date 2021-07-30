@@ -286,6 +286,7 @@ namespace Edimsha.WPF.ViewModels
         private async Task UpdateSetting<T>(string setting, T value)
         {
             Logger.Info($"setting: {setting}, Value: {value}");
+            
             var success = await SaveSettingsService.SaveConfigurationSettings<T, EditorConfig>(setting, value, _options.Value.EditorConfig);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
