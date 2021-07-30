@@ -193,8 +193,10 @@ namespace Edimsha.WPF.ViewModels
             IOptions<ConfigPaths> options)
             : base(loadSettingsService, saveSettingsService, dialogService)
         {
-            _options = options;
             Logger.Info("Constructor");
+           
+            //IOC
+            _options = options;
 
             // Inicialize collection
             PathList = new ObservableCollection<string>();
