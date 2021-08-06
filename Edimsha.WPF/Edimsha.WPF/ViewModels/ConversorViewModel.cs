@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
@@ -103,8 +104,19 @@ namespace Edimsha.WPF.ViewModels
 
         private bool SetUserSettings()
         {
-            IsRunningUi = true;
+            Logger.Info("Loading saved settings");
+            StatusBar = "application_started";
 
+            var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.ConversorPaths);
+            if (!isPathsDifferent) LaunchPathChangedMessageDialog();
+            
+            ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.ConversorPaths))?.ForEach(PathList.Add);
+
+            IsRunningUi = true;
+            
+            UrlsOnCollectionChanged(null, null);
+            
+            // Configuration has finished so its false for _isLoadingSettings
             return false;
         }
 
@@ -155,6 +167,12 @@ namespace Edimsha.WPF.ViewModels
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
 
+        // Message paths deleted
+        private void LaunchPathChangedMessageDialog()
+        {
+            DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, _options.Value.EditorPaths);
+        }
+        
         public ViewType GetViewModelType()
         {
             return ViewType.Converter;
