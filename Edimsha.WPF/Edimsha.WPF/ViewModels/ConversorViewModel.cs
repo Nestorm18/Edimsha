@@ -91,6 +91,9 @@ namespace Edimsha.WPF.ViewModels
             // Mouse context
             DeleteItemCommand = new DeleteItemsCommand(this);
             DeleteAllItemsCommand = new DeleteItemsCommand(this, true);
+            // Parameter buttons
+            OpenImagesCommand = new OpenImagesCommand(this, DialogService, GetViewModelType());
+            OpenOutputFolderCommand = new OpenOutputFolderCommand<ConversorViewModel>(this, DialogService);
 
             // Loaded
             _isLoadingSettings = SetUserSettings();
@@ -135,7 +138,6 @@ namespace Edimsha.WPF.ViewModels
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Logger.Info($"Paths updated");
             if (_isLoadingSettings) return;
             var isEnabled = PathList.Count > 0;
 
