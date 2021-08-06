@@ -17,9 +17,6 @@ namespace Edimsha.WPF.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
         private readonly ILoadSettingsService _loadSettingsService;
@@ -29,7 +26,7 @@ namespace Edimsha.WPF.ViewModels
         // Properties
         private ViewModelBase _currentModeViewModel;
         private Languages _language = Languages.Spanish;
-        private ViewType _mode = ViewType.Editor;
+        private ViewType _mode = ViewType.Converter;
 
         public Languages Language
         {
@@ -76,13 +73,13 @@ namespace Edimsha.WPF.ViewModels
             ILoadSettingsService loadSettingsService,
             IOptions<ConfigPaths> options)
         {
-            _logger.Info("Constructor");
-           
+            Logger.Info("Constructor");
+
             _viewModelFactory = viewModelFactory;
             _saveSettingsService = saveSettingsService;
             _loadSettingsService = loadSettingsService;
             _options = options;
-           
+
             CurrentModeViewModel = _viewModelFactory.CreateViewModel(Mode);
 
             // Commands
@@ -99,18 +96,30 @@ namespace Edimsha.WPF.ViewModels
 
         private void WindowClose()
         {
-            _logger.Info("Closed event");
+            Logger.Info("Closed event");
             try
             {
-                //TODO: Añadir conversor
-                var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
-
-                if (cleanListOnExit) _saveSettingsService.SaveListToFile(new List<string>(),_options.Value.EditorPaths);
-                
+                switch (Mode)
+                {
+                    case ViewType.Editor:
+                    {
+                        var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
+                        if (cleanListOnExit) _saveSettingsService.SaveListToFile(new List<string>(), _options.Value.EditorPaths);
+                        break;
+                    }
+                    case ViewType.Converter:
+                    {
+                        var cleanListOnExit = ((ConversorViewModel) CurrentModeViewModel).CleanListOnExit;
+                        if (cleanListOnExit) _saveSettingsService.SaveListToFile(new List<string>(), _options.Value.ConversorPaths);
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.StackTrace, "Stopped program because of exception");
+                Logger.Error(ex.StackTrace, "Stopped program because of exception");
             }
         }
 
@@ -122,7 +131,7 @@ namespace Edimsha.WPF.ViewModels
 
             ChangeLanguage.SetLanguage(lang);
 
-            _logger.Info($"Language changed to: {lang}");
+            Logger.Info($"Language changed to: {lang}");
         }
     }
 }

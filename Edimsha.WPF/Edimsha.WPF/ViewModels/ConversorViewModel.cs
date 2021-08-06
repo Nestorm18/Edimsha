@@ -54,6 +54,16 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
+        public bool CleanListOnExit
+        {
+            get => LoadSettingsService.LoadConfigurationSetting<bool, ConversorConfig>(nameof(CleanListOnExit), _options.Value.ConversorConfig);
+            set
+            {
+                UpdateSetting(nameof(CleanListOnExit), value).ConfigureAwait(false);
+                OnPropertyChanged();
+            }
+        }
+        
         # endregion
 
         // Commands
