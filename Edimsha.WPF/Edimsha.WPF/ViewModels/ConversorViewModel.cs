@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Edimsha.Core.Conversor;
+using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Services.Data;
@@ -111,6 +112,10 @@ namespace Edimsha.WPF.ViewModels
 
             // Loaded
             _isLoadingSettings = SetUserSettings();
+            
+            //TODO: Eliminar
+            Conversion c = new Conversion(@"D:\descargas\test\next - copia\a.jpg", new ConversorConfig(), ImageTypesConversor.BMP);
+            c.Run();
 
             PathList.CollectionChanged += UrlsOnCollectionChanged;
         }
