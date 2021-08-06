@@ -54,7 +54,7 @@ namespace Edimsha.WPF.Commands.Main
             _saveSettingsService.SaveConfigurationSettings<string,
                 ConversorConfig>("Language",
                 _viewModel.Language.GetDescription(),
-                _options.Value.SettingsConversor);
+                _options.Value.ConversorConfig);
         }
 
         public event EventHandler? CanExecuteChanged;

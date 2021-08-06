@@ -46,7 +46,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool IterateSubdirectories
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConversorConfig>(nameof(IterateSubdirectories), _options.Value.SettingsConversor);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, ConversorConfig>(nameof(IterateSubdirectories), _options.Value.ConversorConfig);
             set
             {
                 UpdateSetting(nameof(IterateSubdirectories), value).ConfigureAwait(false);
@@ -148,7 +148,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info($"setting: {setting}, Value: {value}");
 
-            var success = await SaveSettingsService.SaveConfigurationSettings<T, ConversorConfig>(setting, value, _options.Value.SettingsConversor);
+            var success = await SaveSettingsService.SaveConfigurationSettings<T, ConversorConfig>(setting, value, _options.Value.ConversorConfig);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
