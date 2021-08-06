@@ -21,7 +21,7 @@ namespace Edimsha.WPF.Services.Dialogs
     {
         // Log
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        
+
         public async Task<List<string>> OpenFileSelector(string title, string filter, bool multiselect)
         {
             _logger.Info($"Title: {title}, filter: {filter}, multiselect: {multiselect}");
@@ -87,9 +87,8 @@ namespace Edimsha.WPF.Services.Dialogs
             var append = deletedPaths.Aggregate("", (current, text) => current + (text + "\n\n"));
 
             var avaliablePaths = allPaths.Except(deletedPaths);
-
-            //TODO: Cambiar como loadsettings
-            // saveSettingsService.SavePaths(avaliablePaths, filePath);
+            
+            saveSettingsService.SaveListToFile(avaliablePaths, filePath);
 
             MessageBox.Show(append, TranslationSource.GetTranslationFromString("deleted_paths"), MessageBoxButton.OK, MessageBoxImage.Information);
         }
