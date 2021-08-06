@@ -24,6 +24,6 @@ namespace Edimsha.WPF.Services.Data
         /// <param name="list">A list to be stored.</param>
         /// <param name="filePath">A path to the saved setting file.</param>
         /// <exception cref="FileNotFoundException">The file passed as parameter not found.</exception>
-        Task<bool> SaveListToFile<T>(IEnumerable<T> list, string filePath);
+        bool SaveListToFile<T>(IEnumerable<T> list, string filePath);
     }
 }

@@ -119,7 +119,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SaveListToFile(PathList, _options.Value.ConversorPaths).Result;
+            var success = SaveSettingsService.SaveListToFile(PathList, _options.Value.ConversorPaths);
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 

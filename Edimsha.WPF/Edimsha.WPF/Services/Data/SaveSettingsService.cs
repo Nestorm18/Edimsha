@@ -37,13 +37,13 @@ namespace Edimsha.WPF.Services.Data
         }
 
         /// <inheritdoc />
-        public async Task<bool> SaveListToFile<T>(IEnumerable<T> list, string filePath)
+        public bool SaveListToFile<T>(IEnumerable<T> list, string filePath)
         {
             var fullPath = Path.GetFullPath(filePath);
 
             if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-            await File.WriteAllTextAsync(fullPath, JsonConvert.SerializeObject(list, Formatting.Indented));
+            File.WriteAllTextAsync(fullPath, JsonConvert.SerializeObject(list, Formatting.Indented));
 
             return true;
         }

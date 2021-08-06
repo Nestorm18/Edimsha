@@ -147,7 +147,7 @@ namespace Edimsha.WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
         public int Height
         {
             get => _height;
@@ -195,7 +195,7 @@ namespace Edimsha.WPF.ViewModels
             : base(loadSettingsService, saveSettingsService, dialogService)
         {
             Logger.Info("Constructor");
-           
+
             //IOC
             _options = options;
 
@@ -227,8 +227,6 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info($"Filepaths: {filepaths}");
 
-            // TODO Congelado cuando se ponen muchas imagenes pero si se guardan
-            
             var pathsUpdated = FileDragDropHelper.IsDirectoryDropped(filepaths.ToList(), IterateSubdirectories);
 
             var listCleaned = ListCleaner.PathWithoutDuplicatesAndGoodFormats(
@@ -249,7 +247,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SaveListToFile(PathList, _options.Value.EditorPaths).Result;
+            var success = SaveSettingsService.SaveListToFile(PathList, _options.Value.EditorPaths);
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -278,7 +276,6 @@ namespace Edimsha.WPF.ViewModels
 
         private void UrlsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Logger.Info($"Paths updated");
             if (_isLoadingSettings) return;
             var isEnabled = PathList.Count > 0;
 
@@ -356,7 +353,7 @@ namespace Edimsha.WPF.ViewModels
         {
             return ViewType.Editor;
         }
-        
+
         private void FixResolutionLoading(int property, int value)
         {
             if (property <= 0) return;
