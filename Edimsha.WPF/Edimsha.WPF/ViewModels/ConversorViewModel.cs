@@ -24,6 +24,7 @@ namespace Edimsha.WPF.ViewModels
 
         // Fields
         private readonly bool _isLoadingSettings;
+        private ObservableCollection<string> _imageFormats = null!;
 
         // Properties
 
@@ -65,6 +66,17 @@ namespace Edimsha.WPF.ViewModels
             }
         }
         
+        public ObservableCollection<string> ImageFormats
+        {
+            get => _imageFormats;
+            set
+            {
+                if (value == _imageFormats) return;
+                _imageFormats = value;
+                OnPropertyChanged();
+            }
+        }
+        
         # endregion
 
         // Commands
@@ -87,6 +99,7 @@ namespace Edimsha.WPF.ViewModels
             Logger.Info("Constructor");
 
             PathList = new ObservableCollection<string>();
+            ImageFormats = new ObservableCollection<string>();
 
             // Commands
             // Mouse context
@@ -112,6 +125,8 @@ namespace Edimsha.WPF.ViewModels
             
             ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.ConversorPaths))?.ForEach(PathList.Add);
 
+            FillAvaliableConvertTo();
+            
             IsRunningUi = true;
             
             UrlsOnCollectionChanged(null, null);
@@ -119,7 +134,7 @@ namespace Edimsha.WPF.ViewModels
             // Configuration has finished so its false for _isLoadingSettings
             return false;
         }
-
+        
         public void OnFileDrop(string[] filepaths)
         {
             Logger.Info($"Filepaths: {filepaths}");
@@ -138,6 +153,19 @@ namespace Edimsha.WPF.ViewModels
             UrlsOnCollectionChanged(null, null);
 
             SavePaths();
+        }
+
+        private void FillAvaliableConvertTo()
+        {
+            var imageType = ImageFormatsFromViewType.GetImageType(ViewType.Converter);
+            
+            if (imageType == null) return;
+           
+            foreach (var type in imageType)
+            {
+                var format = $"*.{type.ToString()?.ToLower()}";
+                ImageFormats.Add(format);
+            }
         }
 
         private void SavePaths()

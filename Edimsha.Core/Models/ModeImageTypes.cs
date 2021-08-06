@@ -12,16 +12,14 @@ namespace Edimsha.Core.Models
 
     public enum ImageTypesConversor
     {
-        PNG,
         BMP,
-        EPS,
+        EMF,
+        EXIF,
         GIF,
         ICO,
         JPG,
-        TGA,
-        TIF,
-        WEBP,
-        PCX,
-        PDF
+        PNG,
+        TIFF,
+        WMF
     }
 }
