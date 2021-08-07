@@ -1,6 +1,4 @@
-﻿using Edimsha.Core.Models;
-
-namespace Edimsha.Core.Editor
+﻿namespace Edimsha.Core.Models
 {
     public class EditorConfig
     {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using Edimsha.Core.Models;
 
@@ -8,15 +10,17 @@ namespace Edimsha.Core.Conversor
     {
         private readonly string _path;
         private readonly ConversorConfig _config;
+        private readonly ImageTypesConversor _format;
 
         public Conversion(string path, ConversorConfig config, ImageTypesConversor format)
         {
             _path = path;
             _config = config;
-            
+            _format = format;
+
             FixNull();
         }
-        
+
         private void FixNull()
         {
             _config.Edimsha ??= "edimsha_";
@@ -31,11 +35,34 @@ namespace Edimsha.Core.Conversor
         {
             var savePath = GeneratesavePath();
 
-            
+            savePath += $".{_format.ToString().ToLower()}";
 
-            Console.WriteLine(savePath);
+            var imageFormat = ImageTypesConversorToImageFormat();
+
+            using var img = Image.FromFile(_path);
+            
+            img.Save(savePath, imageFormat);
+            
+            img.Dispose();
         }
-        
+
+        private ImageFormat ImageTypesConversorToImageFormat()
+        {
+            return _format switch
+            {
+                ImageTypesConversor.BMP => ImageFormat.Bmp,
+                ImageTypesConversor.EMF => ImageFormat.Emf,
+                ImageTypesConversor.EXIF => ImageFormat.Exif,
+                ImageTypesConversor.GIF => ImageFormat.Gif,
+                ImageTypesConversor.ICO => ImageFormat.Icon,
+                ImageTypesConversor.JPG => ImageFormat.Jpeg,
+                ImageTypesConversor.PNG => ImageFormat.Png,
+                ImageTypesConversor.TIFF => ImageFormat.Tiff,
+                ImageTypesConversor.WMF => ImageFormat.Wmf,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
         private string GeneratesavePath()
         {
             var name = GenerateName();
@@ -44,7 +71,7 @@ namespace Edimsha.Core.Conversor
                 ? Path.Combine(Directory.GetParent(_path)?.FullName ?? string.Empty, name)
                 : Path.Combine(_config.OutputFolder, name);
         }
-        
+
         private string GenerateName()
         {
             var samePath = IsSamePath();
@@ -66,6 +93,5 @@ namespace Edimsha.Core.Conversor
 
             return outputDir == null || Equals(outputDir, currentDir);
         }
-        
     }
 }

@@ -312,7 +312,7 @@ namespace Edimsha.WPF.ViewModels
         // BackgroundWorker
         private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (!(e.UserState is MyUserState state)) return;
+            if (!(e.UserState is EditorPathState state)) return;
 
             // Percentage calculation
             PbPosition = (int) (e.ProgressPercentage * 100 / state.CountPaths);

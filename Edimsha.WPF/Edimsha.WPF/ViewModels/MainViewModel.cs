@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
-using Edimsha.Core.Editor;
 using Edimsha.Core.Language;
+using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Main;

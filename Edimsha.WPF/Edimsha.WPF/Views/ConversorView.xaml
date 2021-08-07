@@ -22,6 +22,7 @@
         <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
         <converters:ImageFormatsAppendConverter x:Key="ImageFormatsAppendConverter" />
         <converters:LangKeyToTranslationConverter x:Key="LangKeyToTranslationConverter" />
+        <converters:StringToImageTypesConverter x:Key="StringToImageTypesConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -57,14 +58,16 @@
                     <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                     <MenuItem
                         Command="{Binding DeleteItemCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu},
+                         Path=PlacementTarget.SelectedItem}"
                         Header="{lang:Localization delete_item}"
                         IsEnabled="{Binding IsCtxDelete}" />
 
                     <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                     <MenuItem
                         Command="{Binding DeleteAllItemsCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, 
+                        Path=PlacementTarget.SelectedItem}"
                         Header="{lang:Localization delete_all_paths}"
                         IsEnabled="{Binding IsCtxDeleteAll}" />
                 </ContextMenu>
@@ -126,8 +129,11 @@
 
                 <Label Grid.Column="0" Content="Formato a convertir:" />
 
-                <ComboBox Grid.Column="1" Margin="0,0,5,0" Height="24" SelectedIndex="0"
-                          ItemsSource="{Binding ImageFormats}" />
+                <ComboBox Grid.Column="1" Margin="0,0,5,0" Height="24" 
+                          ItemsSource="{Binding ImageFormats}"
+                          SelectedValue="{Binding CurrentFormat,
+                          Converter={StaticResource StringToImageTypesConverter}}"
+                          SelectedIndex="{Binding CurrentIndex}"/>
             </Grid>
 
             <Grid Height="30">
@@ -144,6 +150,7 @@
                     Margin="0,0,5,0"
                     VerticalAlignment="Center"
                     TextWrapping="Wrap"
+                    Text="{Binding Edimsha}"
                     Watermark="{lang:Localization edimsha_omitted_if_the_output_folder_is_different}" />
             </Grid>
 

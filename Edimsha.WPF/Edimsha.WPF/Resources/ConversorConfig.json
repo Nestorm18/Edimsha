@@ -2,6 +2,7 @@
   "Language": "es-ES",
   "CleanListOnExit": false,
   "IterateSubdirectories": false,
+  "CurrentIndex": 1,
   "OutputFolder": "",
   "Edimsha": "",
   "AlwaysIncludeOnReplace": false,  

@@ -1,9 +1,8 @@
 ﻿#nullable enable
 using System;
 using System.Windows.Input;
-using Edimsha.Core.Conversor;
-using Edimsha.Core.Editor;
 using Edimsha.Core.Language;
+using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.ViewModels;

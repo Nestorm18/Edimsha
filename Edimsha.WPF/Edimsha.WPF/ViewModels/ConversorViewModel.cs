@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ using Edimsha.Core.Conversor;
 using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands;
+using Edimsha.WPF.Commands.Basics;
+using Edimsha.WPF.Commands.Conversor;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
 using Edimsha.WPF.State.Navigators;
@@ -26,12 +29,15 @@ namespace Edimsha.WPF.ViewModels
         // Fields
         private readonly bool _isLoadingSettings;
         private ObservableCollection<string> _imageFormats = null!;
+        private ConversorBackgroundWorker _conversorBackgroundWorker;
 
         // Properties
 
         #region Properties
 
         private string _outputFolder;
+        private string _edimsha;
+        private ImageTypesConversor _currentFormat;
 
         public string OutputFolder
         {
@@ -42,6 +48,20 @@ namespace Edimsha.WPF.ViewModels
 
                 _outputFolder = Directory.Exists(value) ? value : string.Empty;
                 UpdateSetting(nameof(OutputFolder), value).ConfigureAwait(false);
+
+                OnPropertyChanged();
+            }
+        }
+
+        public string Edimsha
+        {
+            get => _edimsha;
+            set
+            {
+                if (value == _edimsha) return;
+                _edimsha = value;
+
+                UpdateSetting(nameof(Edimsha), value).ConfigureAwait(false);
 
                 OnPropertyChanged();
             }
@@ -66,7 +86,17 @@ namespace Edimsha.WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
+        public int CurrentIndex
+        {
+            get => LoadSettingsService.LoadConfigurationSetting<int, ConversorConfig>(nameof(CurrentIndex), _options.Value.ConversorConfig);
+            set
+            {
+                UpdateSetting(nameof(CurrentIndex), value).ConfigureAwait(false);
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<string> ImageFormats
         {
             get => _imageFormats;
@@ -77,7 +107,18 @@ namespace Edimsha.WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        
+
+        public ImageTypesConversor CurrentFormat
+        {
+            get => _currentFormat;
+            set
+            {
+                if (value == _currentFormat) return;
+                _currentFormat = value;
+                OnPropertyChanged();
+            }
+        }
+
         # endregion
 
         // Commands
@@ -91,10 +132,7 @@ namespace Edimsha.WPF.ViewModels
             ILoadSettingsService loadSettingsService,
             IDialogService dialogService,
             IOptions<ConfigPaths> options)
-            : base(
-                loadSettingsService,
-                saveSettingsService,
-                dialogService)
+            : base(loadSettingsService, saveSettingsService, dialogService)
         {
             _options = options;
             Logger.Info("Constructor");
@@ -109,13 +147,13 @@ namespace Edimsha.WPF.ViewModels
             // Parameter buttons
             OpenImagesCommand = new OpenImagesCommand(this, DialogService, GetViewModelType());
             OpenOutputFolderCommand = new OpenOutputFolderCommand<ConversorViewModel>(this, DialogService);
+            // Run buttons
+            ResetCommand = new ResetConversorCommand(this);
+            CancelCommand = new RelayCommand(Cancel);
+            StartCommand = new RelayCommand(Start);
 
             // Loaded
             _isLoadingSettings = SetUserSettings();
-            
-            //TODO: Eliminar
-            Conversion c = new Conversion(@"D:\descargas\test\next - copia\a.jpg", new ConversorConfig(), ImageTypesConversor.BMP);
-            c.Run();
 
             PathList.CollectionChanged += UrlsOnCollectionChanged;
         }
@@ -127,19 +165,19 @@ namespace Edimsha.WPF.ViewModels
 
             var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.ConversorPaths);
             if (!isPathsDifferent) LaunchPathChangedMessageDialog();
-            
+
             ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.ConversorPaths))?.ForEach(PathList.Add);
 
             FillAvaliableConvertTo();
-            
+
             IsRunningUi = true;
-            
+
             UrlsOnCollectionChanged(null, null);
-            
+
             // Configuration has finished so its false for _isLoadingSettings
             return false;
         }
-        
+
         public void OnFileDrop(string[] filepaths)
         {
             Logger.Info($"Filepaths: {filepaths}");
@@ -163,9 +201,9 @@ namespace Edimsha.WPF.ViewModels
         private void FillAvaliableConvertTo()
         {
             var imageType = ImageFormatsFromViewType.GetImageType(ViewType.Converter);
-            
+
             if (imageType == null) return;
-           
+
             foreach (var type in imageType)
             {
                 var format = $"*.{type.ToString()?.ToLower()}";
@@ -173,7 +211,7 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
-        private void SavePaths()
+        public void SavePaths()
         {
             Logger.Info("Saving paths");
 
@@ -200,12 +238,62 @@ namespace Edimsha.WPF.ViewModels
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
 
+        private void Cancel()
+        {
+            Logger.Info("Canceled edition");
+            _conversorBackgroundWorker.CancelAsync();
+
+            IsRunningUi = true;
+        }
+
+        private void Start()
+        {
+            Logger.Info("Started edition");
+            IsRunningUi = false;
+
+            var config = LoadSettingsService.GetFullConfig<ConversorConfig>(_options.Value.ConversorConfig);
+
+            _conversorBackgroundWorker = new ConversorBackgroundWorker(PathList, config, CurrentFormat);
+            _conversorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
+            _conversorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            _conversorBackgroundWorker.RunWorkerAsync();
+        }
+
+        // BackgroundWorker
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (!(e.UserState is ConversorPathState state)) return;
+
+            // Percentage calculation
+            PbPosition = (int) (e.ProgressPercentage * 100 / state.CountPaths);
+
+            StatusBar = "procesing";
+            StatusBar2 = $"{e.ProgressPercentage} -> {state.CountPaths}";
+        }
+
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                Logger.Info("Cancelled by user...");
+                StatusBar = "cancelled_by_user";
+                StatusBar2 = "";
+            }
+            else
+            {
+                _conversorBackgroundWorker.ProgressChanged -= Worker_ProgressChanged;
+                _conversorBackgroundWorker.RunWorkerCompleted -= Worker_RunWorkerCompleted;
+                PbPosition = 100;
+                IsRunningUi = true;
+            }
+        }
+
         // Message paths deleted
         private void LaunchPathChangedMessageDialog()
         {
             DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, _options.Value.EditorPaths);
         }
-        
+
         public ViewType GetViewModelType()
         {
             return ViewType.Converter;

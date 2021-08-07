@@ -3,18 +3,20 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Edimsha.Core.Models;
 
-namespace Edimsha.Core.Editor
+namespace Edimsha.Core.Conversor
 {
-    public class EditorBackgroundWorker : BackgroundWorker
+    public class ConversorBackgroundWorker : BackgroundWorker
     {
         private readonly ObservableCollection<string> _paths;
-        private readonly EditorConfig _editorConfig;
+        private readonly ConversorConfig _conversorConfig;
+        private readonly ImageTypesConversor _format;
 
-        public EditorBackgroundWorker(ObservableCollection<string> paths, EditorConfig editorConfig)
+        public ConversorBackgroundWorker(ObservableCollection<string> paths, ConversorConfig conversorConfig, ImageTypesConversor format)
         {
             _paths = paths;
-            _editorConfig = editorConfig;
-        
+            _conversorConfig = conversorConfig;
+            _format = format;
+
             WorkerSupportsCancellation = true;
             WorkerReportsProgress = true;
             DoWork += Worker_DoWork;
@@ -32,16 +34,16 @@ namespace Edimsha.Core.Editor
                     return;
                 }
 
-                var edt = new Edition(path, _editorConfig);
-                edt.Run();
+                var conversion = new Conversion(path, _conversorConfig, _format);
+                conversion.Run();
 
-                ReportProgress(cnt, new EditorPathState {CountPaths = _paths.Count});
+                ReportProgress(cnt, new ConversorPathState {CountPaths = _paths.Count});
                 cnt++;
             });
         }
     }
-    
-    public class EditorPathState
+
+    public class ConversorPathState
     {
         public double CountPaths { get; init; }
     }
