@@ -8,7 +8,5 @@
         public int CurrentIndex { get; set; }
         public string OutputFolder { get; set; }
         public string Edimsha { get; set; }
-        public bool AlwaysIncludeOnReplace { get; set; }
-        public bool ReplaceForOriginal { get; set; }
     }
 }

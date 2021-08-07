@@ -33,6 +33,9 @@ namespace Edimsha.Core.Conversor
 
         public void Run()
         {
+            // Avoid converting to the same image format
+            if (IsSameFormatCurrentImage()) return;
+            
             var savePath = GeneratesavePath();
 
             savePath += $".{_format.ToString().ToLower()}";
@@ -40,10 +43,17 @@ namespace Edimsha.Core.Conversor
             var imageFormat = ImageTypesConversorToImageFormat();
 
             using var img = Image.FromFile(_path);
-            
+
             img.Save(savePath, imageFormat);
-            
+
             img.Dispose();
+        }
+
+        private bool IsSameFormatCurrentImage()
+        {
+            var extension = Path.GetExtension(_path);
+
+            return extension != null && extension.Equals($".{_format.ToString()}");
         }
 
         private ImageFormat ImageTypesConversorToImageFormat()
@@ -76,13 +86,10 @@ namespace Edimsha.Core.Conversor
         {
             var samePath = IsSamePath();
             var imageName = Path.GetFileNameWithoutExtension(_path);
-
-            if (_config.ReplaceForOriginal && !_config.AlwaysIncludeOnReplace)
-                return imageName;
-
-            if (samePath && !_config.AlwaysIncludeOnReplace) return imageName;
-
             var edimsha = _config.Edimsha;
+
+            if (edimsha.Equals("edimsha_") && samePath) return imageName;
+
             return $"{edimsha}{imageName}";
         }
 
@@ -91,7 +98,7 @@ namespace Edimsha.Core.Conversor
             var outputDir = _config.OutputFolder;
             var currentDir = Directory.GetParent(_path)?.FullName;
 
-            return outputDir == null || Equals(outputDir, currentDir);
+            return string.IsNullOrEmpty(outputDir) || Equals(outputDir, currentDir);
         }
     }
 }
