@@ -26,7 +26,7 @@ namespace Edimsha.WPF.ViewModels
         // Properties
         private ViewModelBase _currentModeViewModel;
         private Languages _language = Languages.Spanish;
-        private ViewType _mode = ViewType.Converter;
+        private ViewType _mode = ViewType.Editor;
 
         public Languages Language
         {
@@ -125,7 +125,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void LoadLanguageFromSettings()
         {
-            var lang = _loadSettingsService.LoadConfigurationSetting<string, EditorConfig>("Language", _options.Value.EditorConfig);
+            var lang = _loadSettingsService.LoadConfigurationSetting<string, EditorOptions>("Language", _options.Value.EditorOptions);
 
             Language = ChangeLanguage.ResolveLanguage(lang);
 

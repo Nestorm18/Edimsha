@@ -46,14 +46,14 @@ namespace Edimsha.WPF.Commands.Main
             ChangeLanguage.SetLanguage(_viewModel.Language.GetDescription());
 
             _saveSettingsService.SaveConfigurationSettings<string,
-                EditorConfig>("Language",
+                EditorOptions>("Language",
                 _viewModel.Language.GetDescription(),
-                _options.Value.EditorConfig);
+                _options.Value.EditorOptions);
 
             _saveSettingsService.SaveConfigurationSettings<string,
-                ConversorConfig>("Language",
+                ConversorOptions>("Language",
                 _viewModel.Language.GetDescription(),
-                _options.Value.ConversorConfig);
+                _options.Value.ConversorOptions);
         }
 
         public event EventHandler? CanExecuteChanged;

@@ -12,9 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Editor\EditorBackgroundWorker.cs">
-            <SubType>Component</SubType>
-        </Compile>
         <Compile Update="Language\Resources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>

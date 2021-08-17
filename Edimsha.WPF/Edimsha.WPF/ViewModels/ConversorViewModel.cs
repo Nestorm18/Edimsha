@@ -69,7 +69,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool IterateSubdirectories
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConversorConfig>(nameof(IterateSubdirectories), _options.Value.ConversorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, ConversorOptions>(nameof(IterateSubdirectories), _options.Value.ConversorOptions);
             set
             {
                 UpdateSetting(nameof(IterateSubdirectories), value).ConfigureAwait(false);
@@ -79,7 +79,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool CleanListOnExit
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, ConversorConfig>(nameof(CleanListOnExit), _options.Value.ConversorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, ConversorOptions>(nameof(CleanListOnExit), _options.Value.ConversorOptions);
             set
             {
                 UpdateSetting(nameof(CleanListOnExit), value).ConfigureAwait(false);
@@ -89,7 +89,7 @@ namespace Edimsha.WPF.ViewModels
 
         public int CurrentIndex
         {
-            get => LoadSettingsService.LoadConfigurationSetting<int, ConversorConfig>(nameof(CurrentIndex), _options.Value.ConversorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<int, ConversorOptions>(nameof(CurrentIndex), _options.Value.ConversorOptions);
             set
             {
                 UpdateSetting(nameof(CurrentIndex), value).ConfigureAwait(false);
@@ -163,10 +163,11 @@ namespace Edimsha.WPF.ViewModels
             Logger.Info("Loading saved settings");
             StatusBar = "application_started";
 
-            var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.ConversorPaths);
-            if (!isPathsDifferent) LaunchPathChangedMessageDialog();
+            // TODO: Cambiar para que busque en configuracion el lugar de arhcivo
+            // var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.ConversorPaths);
+            // if (!isPathsDifferent) LaunchPathChangedMessageDialog();
 
-            ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.ConversorPaths))?.ForEach(PathList.Add);
+            LoadSettingsService.LoadConfigurationSetting<List<string>, ConversorOptions>("Paths", _options.Value.ConversorOptions)?.ForEach(PathList.Add);
 
             FillAvaliableConvertTo();
 
@@ -211,11 +212,11 @@ namespace Edimsha.WPF.ViewModels
             }
         }
 
-        public void SavePaths()
+        public async void SavePaths()
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SaveListToFile(PathList, _options.Value.ConversorPaths);
+            var success = await SaveSettingsService.SaveConfigurationSettings<List<string>, ConversorOptions>("Paths", PathList.ToList(), _options.Value.ConversorOptions);
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -233,7 +234,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info($"setting: {setting}, Value: {value}");
 
-            var success = await SaveSettingsService.SaveConfigurationSettings<T, ConversorConfig>(setting, value, _options.Value.ConversorConfig);
+            var success = await SaveSettingsService.SaveConfigurationSettings<T, ConversorOptions>(setting, value, _options.Value.ConversorOptions);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
@@ -251,7 +252,7 @@ namespace Edimsha.WPF.ViewModels
             Logger.Info("Started edition");
             IsRunningUi = false;
 
-            var config = LoadSettingsService.GetFullConfig<ConversorConfig>(_options.Value.ConversorConfig);
+            var config = LoadSettingsService.GetFullConfig<ConversorOptions>(_options.Value.ConversorOptions);
 
             _conversorBackgroundWorker = new ConversorBackgroundWorker(PathList, config, CurrentFormat);
             _conversorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;

@@ -9,13 +9,13 @@ namespace Edimsha.Core.Conversor
     public class Conversion
     {
         private readonly string _path;
-        private readonly ConversorConfig _config;
+        private readonly ConversorOptions _options;
         private readonly ImageTypesConversor _format;
 
-        public Conversion(string path, ConversorConfig config, ImageTypesConversor format)
+        public Conversion(string path, ConversorOptions options, ImageTypesConversor format)
         {
             _path = path;
-            _config = config;
+            _options = options;
             _format = format;
 
             FixNull();
@@ -23,12 +23,12 @@ namespace Edimsha.Core.Conversor
 
         private void FixNull()
         {
-            _config.Edimsha ??= "edimsha_";
+            _options.Edimsha ??= "edimsha_";
 
-            if (_config.Edimsha.Equals(string.Empty))
-                _config.Edimsha = "edimsha_";
+            if (_options.Edimsha.Equals(string.Empty))
+                _options.Edimsha = "edimsha_";
 
-            _config.OutputFolder ??= string.Empty;
+            _options.OutputFolder ??= string.Empty;
         }
 
         public void Run()
@@ -77,16 +77,16 @@ namespace Edimsha.Core.Conversor
         {
             var name = GenerateName();
 
-            return _config.OutputFolder.Equals(string.Empty)
+            return _options.OutputFolder.Equals(string.Empty)
                 ? Path.Combine(Directory.GetParent(_path)?.FullName ?? string.Empty, name)
-                : Path.Combine(_config.OutputFolder, name);
+                : Path.Combine(_options.OutputFolder, name);
         }
 
         private string GenerateName()
         {
             var samePath = IsSamePath();
             var imageName = Path.GetFileNameWithoutExtension(_path);
-            var edimsha = _config.Edimsha;
+            var edimsha = _options.Edimsha;
 
             if (edimsha.Equals("edimsha_") && samePath) return imageName;
 
@@ -95,7 +95,7 @@ namespace Edimsha.Core.Conversor
 
         private bool IsSamePath()
         {
-            var outputDir = _config.OutputFolder;
+            var outputDir = _options.OutputFolder;
             var currentDir = Directory.GetParent(_path)?.FullName;
 
             return string.IsNullOrEmpty(outputDir) || Equals(outputDir, currentDir);

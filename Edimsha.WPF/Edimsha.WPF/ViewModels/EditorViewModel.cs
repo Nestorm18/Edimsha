@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Edimsha.Core.Editor;
@@ -31,7 +32,8 @@ namespace Edimsha.WPF.ViewModels
 
         // Fields
         private readonly bool _isLoadingSettings;
-        private EditorBackgroundWorker _editorBackgroundWorker;
+
+        private CancellationTokenSource _token;
 
         // Properties
 
@@ -45,7 +47,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool CleanListOnExit
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(CleanListOnExit), _options.Value.EditorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorOptions>(nameof(CleanListOnExit), _options.Value.EditorOptions);
             set
             {
                 UpdateSetting(nameof(CleanListOnExit), value).ConfigureAwait(false);
@@ -55,7 +57,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool AlwaysIncludeOnReplace
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(AlwaysIncludeOnReplace), _options.Value.EditorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorOptions>(nameof(AlwaysIncludeOnReplace), _options.Value.EditorOptions);
             set
             {
                 UpdateSetting(nameof(AlwaysIncludeOnReplace), value).ConfigureAwait(false);
@@ -65,7 +67,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool KeepOriginalResolution
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(KeepOriginalResolution), _options.Value.EditorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorOptions>(nameof(KeepOriginalResolution), _options.Value.EditorOptions);
 
             set
             {
@@ -76,7 +78,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool OptimizeImage
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(OptimizeImage), _options.Value.EditorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorOptions>(nameof(OptimizeImage), _options.Value.EditorOptions);
 
             set
             {
@@ -87,7 +89,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool ReplaceForOriginal
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(ReplaceForOriginal), _options.Value.EditorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorOptions>(nameof(ReplaceForOriginal), _options.Value.EditorOptions);
 
             set
             {
@@ -98,7 +100,7 @@ namespace Edimsha.WPF.ViewModels
 
         public bool IterateSubdirectories
         {
-            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorConfig>(nameof(IterateSubdirectories), _options.Value.EditorConfig);
+            get => LoadSettingsService.LoadConfigurationSetting<bool, EditorOptions>(nameof(IterateSubdirectories), _options.Value.EditorOptions);
             set
             {
                 UpdateSetting(nameof(IterateSubdirectories), value).ConfigureAwait(false);
@@ -243,11 +245,11 @@ namespace Edimsha.WPF.ViewModels
             SavePaths();
         }
 
-        internal void SavePaths()
+        public async void SavePaths()
         {
             Logger.Info("Saving paths");
 
-            var success = SaveSettingsService.SaveListToFile(PathList, _options.Value.EditorPaths);
+            var success = await SaveSettingsService.SaveConfigurationSettings<List<string>, EditorOptions>("Paths", PathList.ToList(), _options.Value.EditorOptions);
             if (!success) StatusBar = "error_saving_editor_paths";
         }
 
@@ -256,10 +258,11 @@ namespace Edimsha.WPF.ViewModels
             Logger.Info($"Loading saved settings");
             StatusBar = "application_started";
 
-            var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.EditorPaths);
-            if (!isPathsDifferent) LaunchPathChangedMessageDialog();
+            // TODO: Cambiar para que busque en configuracion el lugar de arhcivo
+            // var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.EditorPaths);
+            // if (!isPathsDifferent) LaunchPathChangedMessageDialog();
 
-            ((List<string>) LoadSettingsService.GetSavedPaths(_options.Value.EditorPaths))?.ForEach(PathList.Add);
+            LoadSettingsService.LoadConfigurationSetting<List<string>, EditorOptions>("Paths", _options.Value.EditorOptions)?.ForEach(PathList.Add);
 
             IsRunningUi = true;
 
@@ -283,7 +286,7 @@ namespace Edimsha.WPF.ViewModels
         {
             Logger.Info($"setting: {setting}, Value: {value}");
 
-            var success = await SaveSettingsService.SaveConfigurationSettings<T, EditorConfig>(setting, value, _options.Value.EditorConfig);
+            var success = await SaveSettingsService.SaveConfigurationSettings<T, EditorOptions>(setting, value, _options.Value.EditorOptions);
 
             if (!success) StatusBar = "the_option_could_not_be_saved";
         }
@@ -291,50 +294,45 @@ namespace Edimsha.WPF.ViewModels
         private void Cancel()
         {
             Logger.Info("Canceled edition");
-            _editorBackgroundWorker.CancelAsync();
-
+            _token.Cancel();
             IsRunningUi = true;
         }
 
-        private void Start()
+        private async void Start()
         {
             Logger.Info("Started edition");
             IsRunningUi = false;
 
-            var config = LoadSettingsService.GetFullConfig<EditorConfig>(_options.Value.EditorConfig);
+            var config = LoadSettingsService.GetFullConfig<EditorOptions>(_options.Value.EditorOptions);
+            config.Paths = PathList.ToList();
 
-            _editorBackgroundWorker = new EditorBackgroundWorker(PathList, config);
-            _editorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
-            _editorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            _editorBackgroundWorker.RunWorkerAsync();
+            var editor = new Editor(config);
+            var progress = new Progress<ProgressReport>();
+            progress.ProgressChanged += ProgressOnProgressChanged;
+            _token = new CancellationTokenSource();
+
+            await Task.Run(() => { editor.ExecuteProcessing(progress, _token); });
         }
 
-        // BackgroundWorker
-        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void ProgressOnProgressChanged(object? sender, ProgressReport e)
         {
-            if (!(e.UserState is EditorPathState state)) return;
-
-            // Percentage calculation
-            PbPosition = (int) (e.ProgressPercentage * 100 / state.CountPaths);
-
-            StatusBar = "procesing";
-            StatusBar2 = $"{e.ProgressPercentage} -> {state.CountPaths}";
-        }
-
-        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled)
+            switch (e.ReportType)
             {
-                Logger.Info("Cancelled by user...");
-                StatusBar = "cancelled_by_user";
-                StatusBar2 = "";
-            }
-            else
-            {
-                _editorBackgroundWorker.ProgressChanged -= Worker_ProgressChanged;
-                _editorBackgroundWorker.RunWorkerCompleted -= Worker_RunWorkerCompleted;
-                PbPosition = 100;
-                IsRunningUi = true;
+                case ReportType.Percent:
+                    PbPosition = (int) e.Data;
+                    break;
+                case ReportType.MessageA:
+                    StatusBar = (string) e.Data;
+                    break;
+                case ReportType.MessageB:
+                    StatusBar2 = (string) e.Data;
+                    break;
+                case ReportType.Finalizated:
+                    PbPosition = 100;
+                    IsRunningUi = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

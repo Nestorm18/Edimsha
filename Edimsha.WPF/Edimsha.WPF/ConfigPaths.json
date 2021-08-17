@@ -1,9 +1,7 @@
 ﻿{
   "ConfigPaths": {
-    "EditorConfig": "Resources/EditorConfig.json",
+    "EditorOptions": "Resources/EditorOptions.json",
     "ConversorConfig": "Resources/ConversorConfig.json",
-    "EditorPaths": "Resources/editorFilePaths.json",
-    "ConversorPaths": "Resources/conversorFilePaths.json",
     "Resolutions": "Resources/resolutions.json"
   }
 }

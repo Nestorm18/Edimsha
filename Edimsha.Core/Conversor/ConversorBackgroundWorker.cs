@@ -8,13 +8,13 @@ namespace Edimsha.Core.Conversor
     public class ConversorBackgroundWorker : BackgroundWorker
     {
         private readonly ObservableCollection<string> _paths;
-        private readonly ConversorConfig _conversorConfig;
+        private readonly ConversorOptions _conversorOptions;
         private readonly ImageTypesConversor _format;
 
-        public ConversorBackgroundWorker(ObservableCollection<string> paths, ConversorConfig conversorConfig, ImageTypesConversor format)
+        public ConversorBackgroundWorker(ObservableCollection<string> paths, ConversorOptions conversorOptions, ImageTypesConversor format)
         {
             _paths = paths;
-            _conversorConfig = conversorConfig;
+            _conversorOptions = conversorOptions;
             _format = format;
 
             WorkerSupportsCancellation = true;
@@ -34,7 +34,7 @@ namespace Edimsha.Core.Conversor
                     return;
                 }
 
-                var conversion = new Conversion(path, _conversorConfig, _format);
+                var conversion = new Conversion(path, _conversorOptions, _format);
                 conversion.Run();
 
                 ReportProgress(cnt, new ConversorPathState {CountPaths = _paths.Count});
