@@ -28,12 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Resources\resolutions.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
       <Resource Include="Resources\icon.ico" />
       <Resource Include="Resources\icon.png" />
     </ItemGroup>
