@@ -4,6 +4,5 @@ namespace Edimsha.Core.Settings
     {
         public string EditorOptions { get; init; }
         public string ConversorOptions { get; init; }
-        public string Resolutions { get; set; }
     }
 }
