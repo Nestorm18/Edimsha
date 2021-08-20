@@ -18,6 +18,13 @@
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding CancelCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <!--  ReSharper restore Xaml.RedundantNamespaceAlias  -->
     <StackPanel>
         <StackPanel.Resources>
