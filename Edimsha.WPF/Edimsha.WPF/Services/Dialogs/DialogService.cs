@@ -53,7 +53,7 @@ namespace Edimsha.WPF.Services.Dialogs
             _logger.Info("Opening dialog");
             var dlg = new ResolutionDialog {DataContext = vm};
 
-            // Prevent load resolution if closes with the X in titlebar
+            // Prevent load resolution if closes with the X in titlebar or Cancel (using negative number)
             dlg.Closing += (_, _) =>
             {
                 if (vm.Width > 0 && vm.Heigth > 0) return;
