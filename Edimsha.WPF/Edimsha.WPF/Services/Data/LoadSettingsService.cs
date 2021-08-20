@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Edimsha.Core.Models;
 using Newtonsoft.Json;
 
 namespace Edimsha.WPF.Services.Data
@@ -30,17 +29,6 @@ namespace Edimsha.WPF.Services.Data
         }
         
         /// <inheritdoc />
-        public IEnumerable<Resolution> LoadResolutions(string filePath)
-        {
-            var fullPath = Path.GetFullPath(filePath);
-
-            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
-
-            var resolutions = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<List<Resolution>>(resolutions);
-        }
-
-        /// <inheritdoc />
         public TClass GetFullConfig<TClass>(string filePath)
         {
             var fullPath = Path.GetFullPath(filePath);
@@ -55,25 +43,25 @@ namespace Edimsha.WPF.Services.Data
         }
 
         /// <inheritdoc />
-        public bool StillPathsSameFromLastSession(string filePath)
+        public bool StillPathsSameFromLastSession<T>(string filePath)
         {
             var fullPath = Path.GetFullPath(filePath);
            
             if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-            var paths = LoadConfigurationSetting<List<string>, EditorOptions>("Paths", filePath);
+            var paths = LoadConfigurationSetting<List<string>, T>("Paths", filePath);
 
             return paths.All(File.Exists);
         }
 
         /// <inheritdoc />
-        public IEnumerable<string> GetPathChanges(string filePath)
+        public IEnumerable<string> GetPathChanges<T>(string filePath)
         {
             var fullPath = Path.GetFullPath(filePath);
 
             if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-            var changes = LoadConfigurationSetting<List<string>, EditorOptions>("Paths", filePath).Where(path => !File.Exists(path)).ToList();
+            var changes = LoadConfigurationSetting<List<string>, T>("Paths", filePath).Where(path => !File.Exists(path)).ToList();
 
             return changes.Count == 0 ? null : changes;
         }

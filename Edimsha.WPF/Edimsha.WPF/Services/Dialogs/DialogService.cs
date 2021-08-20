@@ -69,7 +69,7 @@ namespace Edimsha.WPF.Services.Dialogs
             return vm.GetResolution();
         }
 
-        public async Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, string filePath)
+        public async Task PathsRemovedLastSession<T>(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, string filePath)
         {
             var result = MessageBox.Show(
                 TranslationSource.GetTranslationFromString("the_paths_that_were_there_before_have_been_modified_click_on_yes_to_see_the_changes"),
@@ -79,8 +79,8 @@ namespace Edimsha.WPF.Services.Dialogs
 
             if (result != MessageBoxResult.Yes) return;
 
-            var allPaths = loadSettingsService.LoadConfigurationSetting<List<string>, EditorOptions>("Paths", filePath);
-            var deletedPaths = (List<string>) loadSettingsService.GetPathChanges(filePath);
+            var allPaths = loadSettingsService.LoadConfigurationSetting<List<string>, T>("Paths", filePath);
+            var deletedPaths = (List<string>) loadSettingsService.GetPathChanges<T>(filePath);
 
             if (deletedPaths == null) return;
 
@@ -88,7 +88,7 @@ namespace Edimsha.WPF.Services.Dialogs
 
             var avaliablePaths = allPaths.Except(deletedPaths);
 
-            await saveSettingsService.SaveConfigurationSettings<List<string>, EditorOptions>("Paths", avaliablePaths.ToList(), filePath);
+            await saveSettingsService.SaveConfigurationSettings<List<string>, T>("Paths", avaliablePaths.ToList(), filePath);
 
             MessageBox.Show(append, TranslationSource.GetTranslationFromString("deleted_paths"), MessageBoxButton.OK, MessageBoxImage.Information);
         }

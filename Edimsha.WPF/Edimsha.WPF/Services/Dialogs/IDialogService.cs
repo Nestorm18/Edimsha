@@ -15,6 +15,6 @@ namespace Edimsha.WPF.Services.Dialogs
 
         Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, IOptions<ConfigPaths> options);
 
-        Task PathsRemovedLastSession(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, string filePath);
+        Task PathsRemovedLastSession<T>(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, string filePath);
     }
 }

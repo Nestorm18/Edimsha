@@ -1,5 +1,7 @@
 #nullable enable
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Edimsha.Core.Language;
 using Edimsha.Core.Models;
@@ -48,11 +50,9 @@ namespace Edimsha.WPF.Commands.Dialogs
             if (!currentResolution.IsValid()) return;
 
             RemoveResolution(currentResolution);
-
-            //TODO: Resolutions
-            // _saveSettingsService.SaveListToFile(_resolutionDialogViewModel.Resolutions,_options.Value.EditorPaths);
-           
-            // _saveSettingsService.SaveConfigurationSettings<List<string>, EditorOptions>("Paths", _resolutionDialogViewModel.PathList.ToList(), _options.Value.EditorOptions);
+            
+            _saveSettingsService.SaveConfigurationSettings<List<Resolution>, EditorOptions>
+                ("Resolutions", _resolutionDialogViewModel.Resolutions.ToList(), _options.Value.EditorOptions);
 
             AllResolutionsDeleted();
         }

@@ -1,4 +1,5 @@
 #nullable enable
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
@@ -13,9 +14,6 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
 {
     public class ResolutionDialogViewModel : ViewModelBase
     {
-        // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-
         #region IOC
 
         private readonly ILoadSettingsService _loadSettingsService;
@@ -177,7 +175,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             ISaveSettingsService saveSettingsService,
             IOptions<ConfigPaths> options)
         {
-            _logger.Info("Constructor");
+            Logger.Info("Constructor");
 
             _loadSettingsService = loadSettingsService;
             _options = options;
@@ -192,6 +190,10 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             CancelCommand = new QuitResolutionsCommand(this);
             AcceptCommand = new AcceptResolutionCommand();
 
+            
+            // TODO Cerrar en X carga resolucion
+           
+            // TODO No actualiza opciones de editor con nueva resolucion
             SetUserSettings();
         }
 
@@ -206,7 +208,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// <param name="e">Not used.</param>
         private void ResolutionsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            _logger.Info("Resolutions.Count > 0");
+            Logger.Info("Resolutions.Count > 0");
             if (Resolutions.Count > 0) HasValidResolutions = true;
         }
 
@@ -216,7 +218,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// <param name="parameter">A <see cref="Resolution"/>. must be object because it comes as a parameter from xaml and does not allow any other format.</param>
         private void ComboboxSelectionChangedEvent(object parameter)
         {
-            _logger.Info($"parameter {parameter}");
+            Logger.Info($"parameter {parameter}");
             if (!(parameter is Resolution resolution)) return;
 
             Width = resolution.Width;
@@ -228,7 +230,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// </summary>
         private void SetUserSettings()
         {
-            _logger.Info("Loading settings");
+            Logger.Info("Loading settings");
             BypassWidthOrHeightLimitations = false;
             LoadResolutions();
         }
@@ -238,10 +240,11 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
         /// </summary>
         private void LoadResolutions()
         {
-            _logger.Info("Loading resolutions");
+            Logger.Info("Loading resolutions");
             Resolutions.Clear();
 
-            var resolutions = _loadSettingsService.LoadResolutions(_options.Value.Resolutions);
+            var resolutions = _loadSettingsService.LoadConfigurationSetting<List<Resolution>, EditorOptions>
+                ("Resolutions", _options.Value.EditorOptions);
 
             foreach (var resolution in resolutions) Resolutions.Add(resolution);
 

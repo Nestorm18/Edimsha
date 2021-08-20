@@ -144,7 +144,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _width) return;
                 _width = value;
 
-                FixResolutionLoading(Height, value);
+                // FixResolutionLoading(Height, value);
 
                 OnPropertyChanged();
             }
@@ -158,7 +158,7 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _height) return;
                 _height = value;
 
-                FixResolutionLoading(Width, value);
+                // FixResolutionLoading(Width, value);
 
                 OnPropertyChanged();
             }
@@ -258,12 +258,16 @@ namespace Edimsha.WPF.ViewModels
             Logger.Info($"Loading saved settings");
             StatusBar = "application_started";
 
-            // TODO: Cambiar para que busque en configuracion el lugar de arhcivo
-            var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.EditorOptions);
+            var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession<EditorOptions>(_options.Value.EditorOptions);
             if (!isPathsDifferent) LaunchPathChangedMessageDialog();
 
             LoadSettingsService.LoadConfigurationSetting<List<string>, EditorOptions>("Paths", _options.Value.EditorOptions)?.ForEach(PathList.Add);
-
+            Edimsha = LoadSettingsService.LoadConfigurationSetting<string, EditorOptions>(nameof(Edimsha), _options.Value.EditorOptions);
+            CompresionValue = LoadSettingsService.LoadConfigurationSetting<double, EditorOptions>(nameof(CompresionValue), _options.Value.EditorOptions);
+            Width = LoadSettingsService.LoadConfigurationSetting<Resolution, EditorOptions>("Resolution", _options.Value.EditorOptions).Width;
+            Height = LoadSettingsService.LoadConfigurationSetting<Resolution, EditorOptions>("Resolution", _options.Value.EditorOptions).Height;
+            OutputFolder = LoadSettingsService.LoadConfigurationSetting<string, EditorOptions>(nameof(OutputFolder), _options.Value.EditorOptions);
+            
             IsRunningUi = true;
 
             UrlsOnCollectionChanged(null, null);
@@ -339,7 +343,7 @@ namespace Edimsha.WPF.ViewModels
         // Message paths deleted
         private void LaunchPathChangedMessageDialog()
         {
-            DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, _options.Value.EditorOptions);
+            DialogService.PathsRemovedLastSession<EditorOptions>(LoadSettingsService, SaveSettingsService, _options.Value.EditorOptions);
         }
 
         public ViewType GetViewModelType()

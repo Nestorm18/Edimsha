@@ -12,7 +12,22 @@
   "Resolution": {
     "Width": 1920,
     "Height": 1080
-  }
+  },
+  "Resolutions": [
+    {
+      "Width": 592,
+      "Height": 689
+    },
+    {
+      "Width": 1920,
+      "Height": 1080
+    },
+    {
+      "Width": 222,
+      "Height": 222
+    }
+  ],
+  "Paths": []
 }
   
   

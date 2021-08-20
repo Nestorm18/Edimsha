@@ -15,6 +15,7 @@ namespace Edimsha.Core.Models
         public bool OptimizeImage { get; set; }
         public bool ReplaceForOriginal { get; set; }
         public Resolution Resolution { get; set; }
+        public List<Resolution> Resolutions { get; set; }
         public List<string> Paths { get; set; }
     }
 }

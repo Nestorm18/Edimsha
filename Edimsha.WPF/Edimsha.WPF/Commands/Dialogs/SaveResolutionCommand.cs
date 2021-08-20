@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Edimsha.Core.Language;
@@ -57,9 +58,9 @@ namespace Edimsha.WPF.Commands.Dialogs
             else
             {
                 _resolutionDialogViewModel.Resolutions.Add(currentResolution);
-
-                //TODO: Resolutions
-                // _saveSettingsService.SaveListToFile(_resolutionDialogViewModel.Resolutions,_options.Value.EditorPaths);
+                
+                _saveSettingsService.SaveConfigurationSettings<List<Resolution>, EditorOptions>
+                    ("Resolutions", _resolutionDialogViewModel.Resolutions.ToList(), _options.Value.EditorOptions);
 
                 _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("resolution_saved");
 

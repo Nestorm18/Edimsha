@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Edimsha.Core.Models;
 
 namespace Edimsha.WPF.Services.Data
 {
@@ -20,14 +19,6 @@ namespace Edimsha.WPF.Services.Data
         T LoadConfigurationSetting<T, TClass>(string settingName, string filePath);
         
         /// <summary>
-        /// Loads the list of resolutions of the file passed as parameter.
-        /// </summary>
-        /// <param name="filePath">A path to the saved setting file.</param>
-        /// <returns>A list of resolutions.</returns>
-        ///<exception cref="FileNotFoundException">The file passed as parameter not found.</exception>
-        IEnumerable<Resolution> LoadResolutions(string filePath);
-
-        /// <summary>
         /// Gets the requested TClass configuration class filled with the values that are stored in the file that is passed as a parameter.
         /// </summary>
         /// <param name="filePath">A path to the saved setting file.</param>
@@ -40,16 +31,18 @@ namespace Edimsha.WPF.Services.Data
         /// Read the path file to check if they still exist locally.
         /// </summary>
         /// <param name="filePath">A path to the saved setting file.</param>
+        /// <typeparam name="T">Options class for each mode.</typeparam>
         /// <returns>A true if all routes persist from last session.</returns>
         /// <exception cref="FileNotFoundException">The file passed as parameter not found.</exception>
-        bool StillPathsSameFromLastSession(string filePath);
+        bool StillPathsSameFromLastSession<T>(string filePath);
 
         /// <summary>
         /// Obtain a list of the routes that have been deleted and were still stored in the file that was passed as a parameter.
         /// </summary>
         /// <param name="filePath">A path to the saved setting file.</param>
+        /// <typeparam name="T">Options class for each mode.</typeparam>
         /// <returns>Null if not found changes, otherwise return a list of strings containing the changes.</returns>
         /// <exception cref="FileNotFoundException">The file passed as parameter not found.</exception>
-        IEnumerable<string> GetPathChanges(string filePath);
+        IEnumerable<string> GetPathChanges<T>(string filePath);
     }
 }
