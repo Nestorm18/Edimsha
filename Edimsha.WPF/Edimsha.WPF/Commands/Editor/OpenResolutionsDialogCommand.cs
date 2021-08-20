@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Windows.Input;
+using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
@@ -48,14 +49,16 @@ namespace Edimsha.WPF.Commands.Editor
         {
             Logger.Info("Open resolution dialog selector");
 
-            var res = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService, _options).Result;
+            var resolution = _dialogService.OpenResolutionDialog(_loadSettingsService, _saveSettingsService, _options).Result;
 
-            Logger.Info($"Resolution: {res}");
+            Logger.Info($"Resolution: {resolution}");
 
-            if (res == null) return;
+            if (resolution == null) return;
 
-            _editorViewModel.Height = res.Height;
-            _editorViewModel.Width = res.Width;
+            _editorViewModel.Height = resolution.Height;
+            _editorViewModel.Width = resolution.Width;
+            
+            _saveSettingsService.SaveConfigurationSettings<Resolution, EditorOptions>("Resolution", resolution, _options.Value.EditorOptions);
         }
 
         public event EventHandler? CanExecuteChanged;
