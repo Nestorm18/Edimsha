@@ -144,8 +144,6 @@ namespace Edimsha.WPF.ViewModels
                 if (value == _width) return;
                 _width = value;
 
-                // FixResolutionLoading(Height, value);
-
                 OnPropertyChanged();
             }
         }
@@ -157,8 +155,6 @@ namespace Edimsha.WPF.ViewModels
             {
                 if (value == _height) return;
                 _height = value;
-
-                // FixResolutionLoading(Width, value);
 
                 OnPropertyChanged();
             }
@@ -318,7 +314,7 @@ namespace Edimsha.WPF.ViewModels
             await Task.Run(() => { editor.ExecuteProcessing(progress, _token); });
         }
 
-        private void ProgressOnProgressChanged(object? sender, ProgressReport e)
+        private void ProgressOnProgressChanged(object sender, ProgressReport e)
         {
             switch (e.ReportType)
             {
@@ -349,15 +345,6 @@ namespace Edimsha.WPF.ViewModels
         public ViewType GetViewModelType()
         {
             return ViewType.Editor;
-        }
-
-        private void FixResolutionLoading(int property, int value)
-        {
-            if (property <= 0) return;
-
-            var newResolution = new Resolution(value, property);
-
-            UpdateSetting(nameof(Resolution), newResolution).ConfigureAwait(false);
         }
     }
 }

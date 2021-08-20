@@ -189,11 +189,7 @@ namespace Edimsha.WPF.ViewModels.DialogsViewModel
             RemoveResolutionCommand = new RemoveResolutionCommand(this, saveSettingsService,options);
             CancelCommand = new QuitResolutionsCommand(this);
             AcceptCommand = new AcceptResolutionCommand();
-
             
-            // TODO Cerrar en X carga resolucion
-           
-            // TODO No actualiza opciones de editor con nueva resolucion
             SetUserSettings();
         }
 
