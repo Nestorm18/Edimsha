@@ -79,7 +79,7 @@ namespace Edimsha.WPF.Services.Dialogs
 
             if (result != MessageBoxResult.Yes) return;
 
-            var allPaths = (List<string>) loadSettingsService.GetSavedPaths(filePath);
+            var allPaths = loadSettingsService.LoadConfigurationSetting<List<string>, EditorOptions>("Paths", filePath);
             var deletedPaths = (List<string>) loadSettingsService.GetPathChanges(filePath);
 
             if (deletedPaths == null) return;
@@ -87,8 +87,8 @@ namespace Edimsha.WPF.Services.Dialogs
             var append = deletedPaths.Aggregate("", (current, text) => current + (text + "\n\n"));
 
             var avaliablePaths = allPaths.Except(deletedPaths);
-            
-            saveSettingsService.SaveListToFile(avaliablePaths, filePath);
+
+            await saveSettingsService.SaveConfigurationSettings<List<string>, EditorOptions>("Paths", avaliablePaths.ToList(), filePath);
 
             MessageBox.Show(append, TranslationSource.GetTranslationFromString("deleted_paths"), MessageBoxButton.OK, MessageBoxImage.Information);
         }

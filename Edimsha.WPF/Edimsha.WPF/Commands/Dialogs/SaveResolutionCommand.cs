@@ -58,7 +58,8 @@ namespace Edimsha.WPF.Commands.Dialogs
             {
                 _resolutionDialogViewModel.Resolutions.Add(currentResolution);
 
-                _saveSettingsService.SaveListToFile(_resolutionDialogViewModel.Resolutions,_options.Value.EditorPaths);
+                //TODO: Resolutions
+                // _saveSettingsService.SaveListToFile(_resolutionDialogViewModel.Resolutions,_options.Value.EditorPaths);
 
                 _resolutionDialogViewModel.ErrorMessage = TranslationSource.GetTranslationFromString("resolution_saved");
 

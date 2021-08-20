@@ -18,14 +18,6 @@ namespace Edimsha.WPF.Services.Data
         /// <exception cref="ArgumentException">The setting passed as parameter not found.</exception>
         /// <exception cref="FileNotFoundException">The file passed as parameter not found.</exception>
         T LoadConfigurationSetting<T, TClass>(string settingName, string filePath);
-
-        /// <summary>
-        /// Reads a file that is passed as a parameter containing a list of paths and returns them.
-        /// </summary>
-        /// <param name="filePath">A path to the saved setting file.</param>
-        /// <returns>A list containing the paths stored in the requested file.</returns>
-        /// <exception cref="FileNotFoundException">The file passed as parameter not found.</exception>
-        public IEnumerable<string> GetSavedPaths(string filePath);
         
         /// <summary>
         /// Loads the list of resolutions of the file passed as parameter.

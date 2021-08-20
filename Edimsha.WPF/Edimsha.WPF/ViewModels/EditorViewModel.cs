@@ -259,8 +259,8 @@ namespace Edimsha.WPF.ViewModels
             StatusBar = "application_started";
 
             // TODO: Cambiar para que busque en configuracion el lugar de arhcivo
-            // var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.EditorPaths);
-            // if (!isPathsDifferent) LaunchPathChangedMessageDialog();
+            var isPathsDifferent = LoadSettingsService.StillPathsSameFromLastSession(_options.Value.EditorOptions);
+            if (!isPathsDifferent) LaunchPathChangedMessageDialog();
 
             LoadSettingsService.LoadConfigurationSetting<List<string>, EditorOptions>("Paths", _options.Value.EditorOptions)?.ForEach(PathList.Add);
 
@@ -339,7 +339,7 @@ namespace Edimsha.WPF.ViewModels
         // Message paths deleted
         private void LaunchPathChangedMessageDialog()
         {
-            DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, _options.Value.EditorPaths);
+            DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, _options.Value.EditorOptions);
         }
 
         public ViewType GetViewModelType()

@@ -49,7 +49,10 @@ namespace Edimsha.WPF.Commands.Dialogs
 
             RemoveResolution(currentResolution);
 
-            _saveSettingsService.SaveListToFile(_resolutionDialogViewModel.Resolutions,_options.Value.EditorPaths);
+            //TODO: Resolutions
+            // _saveSettingsService.SaveListToFile(_resolutionDialogViewModel.Resolutions,_options.Value.EditorPaths);
+           
+            // _saveSettingsService.SaveConfigurationSettings<List<string>, EditorOptions>("Paths", _resolutionDialogViewModel.PathList.ToList(), _options.Value.EditorOptions);
 
             AllResolutionsDeleted();
         }

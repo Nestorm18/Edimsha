@@ -28,21 +28,7 @@ namespace Edimsha.WPF.Services.Data
 
             return default;
         }
-
-        /// <inheritdoc />
-        public IEnumerable<string> GetSavedPaths(string filePath)
-        {
-            var fullPath = Path.GetFullPath(filePath);
-
-            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
-
-            using var paths = File.OpenText(fullPath);
-            var serializer = new JsonSerializer();
-
-            return (List<string>) serializer.Deserialize(paths, typeof(List<string>))
-                   ?? throw new ArgumentException("Setting not found.");
-        }
-
+        
         /// <inheritdoc />
         public IEnumerable<Resolution> LoadResolutions(string filePath)
         {
@@ -72,10 +58,10 @@ namespace Edimsha.WPF.Services.Data
         public bool StillPathsSameFromLastSession(string filePath)
         {
             var fullPath = Path.GetFullPath(filePath);
-
+           
             if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-            var paths = GetSavedPaths(filePath);
+            var paths = LoadConfigurationSetting<List<string>, EditorOptions>("Paths", filePath);
 
             return paths.All(File.Exists);
         }
@@ -87,7 +73,7 @@ namespace Edimsha.WPF.Services.Data
 
             if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
 
-            var changes = GetSavedPaths(filePath).Where(path => !File.Exists(path)).ToList();
+            var changes = LoadConfigurationSetting<List<string>, EditorOptions>("Paths", filePath).Where(path => !File.Exists(path)).ToList();
 
             return changes.Count == 0 ? null : changes;
         }

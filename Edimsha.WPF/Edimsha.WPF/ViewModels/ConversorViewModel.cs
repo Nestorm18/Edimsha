@@ -292,7 +292,8 @@ namespace Edimsha.WPF.ViewModels
         // Message paths deleted
         private void LaunchPathChangedMessageDialog()
         {
-            DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, _options.Value.EditorPaths);
+            //TODO: Revisar
+            // DialogService.PathsRemovedLastSession(LoadSettingsService, SaveSettingsService, _options.Value.ConversorPaths);
         }
 
         public ViewType GetViewModelType()

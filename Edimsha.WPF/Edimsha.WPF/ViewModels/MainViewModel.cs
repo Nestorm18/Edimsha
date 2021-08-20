@@ -104,13 +104,15 @@ namespace Edimsha.WPF.ViewModels
                     case ViewType.Editor:
                     {
                         var cleanListOnExit = ((EditorViewModel) CurrentModeViewModel).CleanListOnExit;
-                        if (cleanListOnExit) _saveSettingsService.SaveListToFile(new List<string>(), _options.Value.EditorPaths);
+                        if (cleanListOnExit)
+                            _saveSettingsService.SaveConfigurationSettings<List<string>, ConversorOptions>("Paths", new List<string>(), _options.Value.EditorOptions);
                         break;
                     }
                     case ViewType.Converter:
                     {
                         var cleanListOnExit = ((ConversorViewModel) CurrentModeViewModel).CleanListOnExit;
-                        if (cleanListOnExit) _saveSettingsService.SaveListToFile(new List<string>(), _options.Value.ConversorPaths);
+                        if (cleanListOnExit)
+                            _saveSettingsService.SaveConfigurationSettings<List<string>, ConversorOptions>("Paths", new List<string>(), _options.Value.ConversorOptions);
                         break;
                     }
                     default:

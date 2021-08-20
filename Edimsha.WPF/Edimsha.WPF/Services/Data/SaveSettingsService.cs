@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,18 +31,6 @@ namespace Edimsha.WPF.Services.Data
             }
 
             await File.WriteAllTextAsync(fullPath, JsonConvert.SerializeObject(updatedConfig, Formatting.Indented));
-
-            return true;
-        }
-
-        /// <inheritdoc />
-        public bool SaveListToFile<T>(IEnumerable<T> list, string filePath)
-        {
-            var fullPath = Path.GetFullPath(filePath);
-
-            if (!File.Exists(fullPath)) throw new FileNotFoundException($"The file in {fullPath} not exist.");
-
-            File.WriteAllTextAsync(fullPath, JsonConvert.SerializeObject(list, Formatting.Indented));
 
             return true;
         }
