@@ -4,11 +4,12 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Edimsha.Core.BaseImageEdition;
 using Edimsha.Core.Models;
 
 namespace Edimsha.Core.Conversor
 {
-    public class Conversor
+    public class Conversor : BaseEditor
     {
         private readonly ConversorOptions _options;
 
@@ -19,7 +20,12 @@ namespace Edimsha.Core.Conversor
 
         public async Task ExecuteProcessing(IProgress<ProgressReport> progress, CancellationTokenSource cancellationToken)
         {
-            FixNull();
+            _options.Edimsha ??= "edimsha_";
+
+            if (_options.Edimsha.Equals(string.Empty))
+                _options.Edimsha = "edimsha_";
+
+            _options.OutputFolder ??= string.Empty;
 
             var imageIndex = 1;
             var pathCount = _options.Paths.Count;
@@ -40,7 +46,7 @@ namespace Edimsha.Core.Conversor
                 // Avoid converting to the same image format
                 if (IsSameFormatCurrentImage(path)) return;
 
-                var savePath = GeneratesavePath(path);
+                var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha);
 
                 savePath += $".{_options.CurrentFormat.ToString()}";
 
@@ -80,44 +86,6 @@ namespace Edimsha.Core.Conversor
                 ImageTypesConversor.WMF => ImageFormat.Wmf,
                 _ => throw new ArgumentOutOfRangeException()
             };
-        }
-
-        private string GeneratesavePath(string path)
-        {
-            var name = GenerateName(path);
-
-            return _options.OutputFolder.Equals(string.Empty)
-                ? Path.Combine(Directory.GetParent(path)?.FullName ?? string.Empty, name)
-                : Path.Combine(_options.OutputFolder, name);
-        }
-
-        private string GenerateName(string path)
-        {
-            var samePath = IsSamePath(path);
-            var imageName = Path.GetFileNameWithoutExtension(path);
-            var edimsha = _options.Edimsha;
-
-            if (edimsha.Equals("edimsha_") && samePath) return imageName;
-
-            return $"{edimsha}{imageName}";
-        }
-
-        private bool IsSamePath(string path)
-        {
-            var outputDir = _options.OutputFolder;
-            var currentDir = Directory.GetParent(path)?.FullName;
-
-            return string.IsNullOrEmpty(outputDir) || Equals(outputDir, currentDir);
-        }
-
-        private void FixNull()
-        {
-            _options.Edimsha ??= "edimsha_";
-
-            if (_options.Edimsha.Equals(string.Empty))
-                _options.Edimsha = "edimsha_";
-
-            _options.OutputFolder ??= string.Empty;
         }
     }
 }

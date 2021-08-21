@@ -5,11 +5,12 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Edimsha.Core.BaseImageEdition;
 using Edimsha.Core.Models;
 
 namespace Edimsha.Core.Editor
 {
-    public class Editor
+    public class Editor : BaseEditor
     {
         private readonly EditorOptions _options;
 
@@ -20,7 +21,12 @@ namespace Edimsha.Core.Editor
 
         public async Task ExecuteProcessing(IProgress<ProgressReport> progress, CancellationTokenSource cancellationToken)
         {
-            FixNull();
+            _options.Edimsha ??= "edimsha_";
+
+            if (_options.Edimsha .Equals(string.Empty))
+                _options.Edimsha  = "edimsha_";
+
+            _options.OutputFolder  ??= string.Empty;
             
             var imageIndex = 1;
             var pathCount = _options.Paths.Count;
@@ -52,7 +58,7 @@ namespace Edimsha.Core.Editor
                     image = FixedSize(img, width, height);
                 }
                 
-                var savePath = GeneratesavePath(path);
+                var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha);
 
                 if (_options.AlwaysIncludeOnReplace)
                     File.Delete(path);
@@ -72,16 +78,6 @@ namespace Edimsha.Core.Editor
             
             progress.Report(new ProgressReport {ReportType = ReportType.Finalizated, Data = true});
             
-        }
-
-        private void FixNull()
-        {
-            _options.Edimsha ??= "edimsha_";
-
-            if (_options.Edimsha.Equals(string.Empty))
-                _options.Edimsha = "edimsha_";
-
-            _options.OutputFolder ??= string.Empty;
         }
 
         private static Image FixedSize(Image imgPhoto, int width, int height)
@@ -126,38 +122,7 @@ namespace Edimsha.Core.Editor
             grPhoto.Dispose();
             return bmPhoto;
         }
-
-        private string GeneratesavePath(string path)
-        {
-            var name = GenerateName(path);
-
-            return _options.OutputFolder.Equals(string.Empty)
-                ? Path.Combine(Directory.GetParent(path)?.FullName ?? string.Empty, name)
-                : Path.Combine(_options.OutputFolder, name);
-        }
-
-        private string GenerateName(string path)
-        {
-            var samePath = IsSamePath(path);
-            var imageName = Path.GetFileNameWithoutExtension(path);
-
-            if (_options.ReplaceForOriginal && !_options.AlwaysIncludeOnReplace)
-                return imageName;
-
-            if (samePath && !_options.AlwaysIncludeOnReplace) return imageName;
-
-            var edimsha = _options.Edimsha;
-            return $"{edimsha}{imageName}";
-        }
-
-        private bool IsSamePath(string path)
-        {
-            var outputDir = _options.OutputFolder;
-            var currentDir = Directory.GetParent(path)?.FullName;
-
-            return outputDir == null || Equals(outputDir, currentDir);
-        }
-
+        
         private void SaveAsPng(string savePath, Image image)
         {
             var pathWithExtension = string.Concat(savePath, ".png");
