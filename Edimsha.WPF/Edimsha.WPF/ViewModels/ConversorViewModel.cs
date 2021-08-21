@@ -167,6 +167,8 @@ namespace Edimsha.WPF.ViewModels
             if (!isPathsDifferent) LaunchPathChangedMessageDialog();
 
             LoadSettingsService.LoadConfigurationSetting<List<string>, ConversorOptions>("Paths", _options.Value.ConversorOptions)?.ForEach(PathList.Add);
+            Edimsha = LoadSettingsService.LoadConfigurationSetting<string, ConversorOptions>(nameof(Edimsha), _options.Value.ConversorOptions);
+            OutputFolder = LoadSettingsService.LoadConfigurationSetting<string, ConversorOptions>(nameof(OutputFolder), _options.Value.ConversorOptions);
 
             FillAvaliableConvertTo();
 
