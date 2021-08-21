@@ -3,6 +3,9 @@
 
 namespace Edimsha.Core.Models
 {
+    /// <summary>
+    /// Image formats available for editor mode..
+    /// </summary>
     public enum ImageTypesEditor
     {
         PNG,
@@ -10,6 +13,9 @@ namespace Edimsha.Core.Models
         JPEG
     }
 
+    /// <summary>
+    /// Image formats available for conversor mode.
+    /// </summary>
     public enum ImageTypesConversor
     {
         BMP,
