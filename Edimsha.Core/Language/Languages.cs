@@ -34,7 +34,7 @@ namespace Edimsha.Core.Language
         /// <summary>
         /// Uses a description in an enumeration to obtain its value.
         /// </summary>
-        /// <param name="description">The corresponding description.</param>
+        /// <param name="description">The corresponding description. Example "en-US" for English.</param>
         /// <typeparam name="T">The enum where the description will be located.</typeparam>
         /// <returns>The value that corresponds to the provided description.</returns>
         /// <exception cref="Exception">When the enum provided as <see cref="T"/> has not that desciption.</exception>
@@ -63,6 +63,10 @@ namespace Edimsha.Core.Language
         // Log
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
+        /// <summary>
+        /// Sets language for the entire UI.
+        /// </summary>
+        /// <param name="locale">The corresponding description in <see cref="Languages"/> set language in UI. Example "en-US" for English.</param>
         public static void SetLanguage(string locale)
         {
             Logger.Info("Locale");
@@ -70,6 +74,11 @@ namespace Edimsha.Core.Language
             TranslationSource.Instance.CurrentCulture = new System.Globalization.CultureInfo(locale);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Language"/> from his description value. 
+        /// </summary>
+        /// <param name="locale">The corresponding description. Example "en-US" for English.</param>
+        /// <returns></returns>
         public static Languages ResolveLanguage(string locale)
         {
             Logger.Info("Locale");
