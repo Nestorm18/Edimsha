@@ -14,11 +14,23 @@ namespace Edimsha.Core.Editor
     {
         private readonly EditorOptions _options;
 
+        /// <summary>
+        /// It is used to convert a series of options in which there are image paths and resolutions to convert
+        /// to when the <see cref="ExecuteProcessing"/> method is executed.
+        /// </summary>
+        /// <param name="options">Options to use when processing images.</param>
         public Editor(EditorOptions options)
         {
             _options = options;
         }
 
+        /// <summary>
+        /// Runs a task that resize the images passed as a list in the <see cref="EditorOptions"/> class to the new size.
+        /// All options used in this method come from <see cref="EditorOptions"/>.  
+        /// </summary>
+        /// <param name="progress">Used to report progress on each iteration or warn of errors.</param>
+        /// <param name="cancellationToken">Stop the execution of image processing as soon as possible.</param>
+        /// <returns></returns>
         public async Task ExecuteProcessing(IProgress<ProgressReport> progress, CancellationTokenSource cancellationToken)
         {
             _options.Edimsha ??= "edimsha_";
@@ -80,6 +92,13 @@ namespace Edimsha.Core.Editor
             
         }
 
+        /// <summary>
+        /// Resize an image with the values provided as parameters.
+        /// </summary>
+        /// <param name="imgPhoto">The image to be redimensioned.</param>
+        /// <param name="width">The new image width.</param>
+        /// <param name="height">The new image height.</param>
+        /// <returns></returns>
         private static Image FixedSize(Image imgPhoto, int width, int height)
         {
             var sourceWidth = imgPhoto.Width;
@@ -123,6 +142,11 @@ namespace Edimsha.Core.Editor
             return bmPhoto;
         }
         
+        /// <summary>
+        /// Used to perform an optimization in case it is indicated in the options using <see cref="PngQuant"/>.
+        /// </summary>
+        /// <param name="savePath">The path where the image will be saved.</param>
+        /// <param name="image">The image to save.</param>
         private void SaveAsPng(string savePath, Image image)
         {
             var pathWithExtension = string.Concat(savePath, ".png");
