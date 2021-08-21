@@ -49,18 +49,18 @@ namespace Edimsha.Core.Language
     public static class ChangeLanguage
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         public static void SetLanguage(string locale)
         {
-            _logger.Info("Locale");
+            Logger.Info("Locale");
             if (string.IsNullOrEmpty(locale)) locale = Languages.English.GetDescription();
             TranslationSource.Instance.CurrentCulture = new System.Globalization.CultureInfo(locale);
         }
 
         public static Languages ResolveLanguage(string locale)
         {
-            _logger.Info("Locale");
+            Logger.Info("Locale");
             return AvaliableLanguages.GetValueFromDescription<Languages>(locale);
         }
     }
