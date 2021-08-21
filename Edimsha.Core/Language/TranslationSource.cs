@@ -11,8 +11,11 @@ namespace Edimsha.Core.Language
         private readonly ResourceManager _resManager = Resources.ResourceManager;
         private CultureInfo _currentCulture;
 
-        public string this[string key] => _resManager.GetString(key, _currentCulture);
+        private string this[string key] => _resManager.GetString(key, _currentCulture);
 
+        /// <summary>
+        /// Set the current <see cref="CultureInfo"/> for the UI.
+        /// </summary>
         public CultureInfo CurrentCulture
         {
             set
