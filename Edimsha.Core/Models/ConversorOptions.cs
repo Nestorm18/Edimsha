@@ -11,5 +11,6 @@ namespace Edimsha.Core.Models
         public string OutputFolder { get; set; }
         public string Edimsha { get; set; }
         public List<string> Paths { get; set; }
+        public ImageTypesConversor CurrentFormat { get; set; }
     }
 }

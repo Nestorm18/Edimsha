@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Edimsha.Core.Conversor;
 using Edimsha.Core.Models;
@@ -29,7 +30,7 @@ namespace Edimsha.WPF.ViewModels
         // Fields
         private readonly bool _isLoadingSettings;
         private ObservableCollection<string> _imageFormats = null!;
-        private ConversorBackgroundWorker _conversorBackgroundWorker;
+        private CancellationTokenSource _token;
 
         // Properties
 
@@ -113,8 +114,7 @@ namespace Edimsha.WPF.ViewModels
             get => _currentFormat;
             set
             {
-                if (value == _currentFormat) return;
-                _currentFormat = value;
+                UpdateSetting(nameof(CurrentFormat), value).ConfigureAwait(false);
                 OnPropertyChanged();
             }
         }
@@ -243,50 +243,45 @@ namespace Edimsha.WPF.ViewModels
         private void Cancel()
         {
             Logger.Info("Canceled edition");
-            _conversorBackgroundWorker.CancelAsync();
+            _token.Cancel();
 
             IsRunningUi = true;
         }
 
-        private void Start()
+        private async void Start()
         {
             Logger.Info("Started edition");
             IsRunningUi = false;
 
             var config = LoadSettingsService.GetFullConfig<ConversorOptions>(_options.Value.ConversorOptions);
 
-            _conversorBackgroundWorker = new ConversorBackgroundWorker(PathList, config, CurrentFormat);
-            _conversorBackgroundWorker.ProgressChanged += Worker_ProgressChanged;
-            _conversorBackgroundWorker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            _conversorBackgroundWorker.RunWorkerAsync();
+            var editor = new Conversor(config);
+            var progress = new Progress<ProgressReport>();
+            progress.ProgressChanged += ProgressOnProgressChanged;
+            _token = new CancellationTokenSource();
+
+            await Task.Run(() => { editor.ExecuteProcessing(progress, _token); });
         }
 
-        // BackgroundWorker
-        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void ProgressOnProgressChanged(object sender, ProgressReport e)
         {
-            if (!(e.UserState is ConversorPathState state)) return;
-
-            // Percentage calculation
-            PbPosition = (int) (e.ProgressPercentage * 100 / state.CountPaths);
-
-            StatusBar = "procesing";
-            StatusBar2 = $"{e.ProgressPercentage} -> {state.CountPaths}";
-        }
-
-        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled)
+            switch (e.ReportType)
             {
-                Logger.Info("Cancelled by user...");
-                StatusBar = "cancelled_by_user";
-                StatusBar2 = "";
-            }
-            else
-            {
-                _conversorBackgroundWorker.ProgressChanged -= Worker_ProgressChanged;
-                _conversorBackgroundWorker.RunWorkerCompleted -= Worker_RunWorkerCompleted;
-                PbPosition = 100;
-                IsRunningUi = true;
+                case ReportType.Percent:
+                    PbPosition = (int) e.Data;
+                    break;
+                case ReportType.MessageA:
+                    StatusBar = (string) e.Data;
+                    break;
+                case ReportType.MessageB:
+                    StatusBar2 = (string) e.Data;
+                    break;
+                case ReportType.Finalizated:
+                    PbPosition = 100;
+                    IsRunningUi = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
