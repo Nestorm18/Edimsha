@@ -15,17 +15,29 @@ namespace Edimsha.Core.Language
         // Log
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
-        public static string GetDescription(this Languages val)
+        /// <summary>
+        /// Gets the description of the enumeration.
+        /// </summary>
+        /// <param name="language">The language to obtain the description.</param>
+        /// <returns>The corresponding description.</returns>
+        public static string GetDescription(this Languages language)
         {
             Logger.Info("Languages");
 
-            var attributes = (DescriptionAttribute[]) val
+            var attributes = (DescriptionAttribute[]) language
                 .GetType()
-                .GetField(val.ToString())
+                .GetField(language.ToString())
                 ?.GetCustomAttributes(typeof(DescriptionAttribute), false);
             return attributes != null && attributes.Length > 0 ? attributes[0].Description : string.Empty;
         }
 
+        /// <summary>
+        /// Uses a description in an enumeration to obtain its value.
+        /// </summary>
+        /// <param name="description">The corresponding description.</param>
+        /// <typeparam name="T">The enum where the description will be located.</typeparam>
+        /// <returns>The value that corresponds to the provided description.</returns>
+        /// <exception cref="Exception">When the enum provided as <see cref="T"/> has not that desciption.</exception>
         public static T GetValueFromDescription<T>(string description) where T : Enum
         {
             Logger.Info("Description");
