@@ -5,6 +5,11 @@ namespace Edimsha.Core.Models
 {
     public class Resolution
     {
+        /// <summary>
+        /// A size in width and height to be used with images.
+        /// </summary>
+        /// <param name="width">The image width.</param>
+        /// <param name="height">The image height.</param>
         public Resolution(int width, int height)
         {
             Width = width;
@@ -29,6 +34,10 @@ namespace Edimsha.Core.Models
             return HashCode.Combine(Width, Height);
         }
 
+        /// <summary>
+        /// Validates the current resolution.
+        /// </summary>
+        /// <returns>True if is a valid resolution.</returns>
         public bool IsValid()
         {
             Console.WriteLine(Width > 0 && Height > 0);
