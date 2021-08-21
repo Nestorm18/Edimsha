@@ -13,11 +13,23 @@ namespace Edimsha.Core.Conversor
     {
         private readonly ConversorOptions _options;
 
+        /// <summary>
+        /// It is used to convert a series of options in which there are image paths and formats to convert
+        /// to when the <see cref="ExecuteProcessing"/> method is executed.
+        /// </summary>
+        /// <param name="options">Options to use when processing images.</param>
         public Conversor(ConversorOptions options)
         {
             _options = options;
         }
 
+        /// <summary>
+        /// Runs a task that converts the images passed as a list in the <see cref="ConversorOptions"/> class to the new format.
+        /// All options used in this method come from ConversorOptions.  
+        /// </summary>
+        /// <param name="progress">Used to report progress on each iteration or warn of errors.</param>
+        /// <param name="cancellationToken">Stop the execution of image processing as soon as possible.</param>
+        /// <returns></returns>
         public async Task ExecuteProcessing(IProgress<ProgressReport> progress, CancellationTokenSource cancellationToken)
         {
             _options.Edimsha ??= "edimsha_";
@@ -64,6 +76,11 @@ namespace Edimsha.Core.Conversor
             progress.Report(new ProgressReport {ReportType = ReportType.Finalizated, Data = true});
         }
 
+        /// <summary>
+        /// Check if the image is already in the format to be converted.
+        /// </summary>
+        /// <param name="path">A current image path.</param>
+        /// <returns>True if has same format.</returns>
         private bool IsSameFormatCurrentImage(string path)
         {
             var extension = Path.GetExtension(path);
@@ -71,6 +88,10 @@ namespace Edimsha.Core.Conversor
             return extension != null && extension.Equals($".{_options.CurrentFormat.ToString()}");
         }
 
+        /// <summary>
+        /// Parse an enumeration of type ImageTypesConverter to ImageFormat.
+        /// </summary>
+        /// <returns>The corresponding value for ImageFormat.</returns>
         private ImageFormat ImageTypesConversorToImageFormat()
         {
             return _options.CurrentFormat switch
