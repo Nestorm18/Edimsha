@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Edimsha.Core.Models
 {
     public class EditorOptions
