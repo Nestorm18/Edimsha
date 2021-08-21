@@ -12,7 +12,7 @@ namespace Edimsha.WPF
     public partial class App
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static IHost _host;
 
@@ -22,12 +22,12 @@ namespace Edimsha.WPF
         {
             try
             {
-                _logger.Info("Build starts");
+                Logger.Info("Build starts");
                 _host = CreateHostBuilder().Build();
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Stopped program because of exception");
+                Logger.Error(ex, "Stopped program because of exception");
             }
         }
 
@@ -44,7 +44,7 @@ namespace Edimsha.WPF
         {
             try
             {
-                _logger.Info("App starts");
+                Logger.Info("App starts");
                 _host.Start();
 
                 Window window = GetService<MainWindow>();
@@ -54,7 +54,7 @@ namespace Edimsha.WPF
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.StackTrace, "Stopped program because of exception");
+                Logger.Error(ex.StackTrace, "Stopped program because of exception");
                 throw;
             }
         }
@@ -63,7 +63,7 @@ namespace Edimsha.WPF
         {
             try
             {
-                _logger.Info("Closing app...");
+                Logger.Info("Closing app...");
                 await _host.StopAsync();
                 _host.Dispose();
 
@@ -71,7 +71,7 @@ namespace Edimsha.WPF
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.StackTrace, "Stopped program because of exception");
+                Logger.Error(ex.StackTrace, "Stopped program because of exception");
                 throw;
             }
         }

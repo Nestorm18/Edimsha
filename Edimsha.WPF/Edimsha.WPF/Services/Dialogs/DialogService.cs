@@ -20,11 +20,11 @@ namespace Edimsha.WPF.Services.Dialogs
     public class DialogService : IDialogService
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public async Task<List<string>> OpenFileSelector(string title, string filter, bool multiselect)
         {
-            _logger.Info($"Title: {title}, filter: {filter}, multiselect: {multiselect}");
+            Logger.Info($"Title: {title}, filter: {filter}, multiselect: {multiselect}");
             var dlg = new OpenFileDialog
             {
                 Title = title,
@@ -32,13 +32,13 @@ namespace Edimsha.WPF.Services.Dialogs
                 Multiselect = multiselect
             };
 
-            _logger.Info($"Returning fileNames: {dlg.FileNames}");
+            Logger.Info($"Returning fileNames: {dlg.FileNames}");
             return dlg.ShowDialog() == true ? new List<string>(dlg.FileNames) : null;
         }
 
         public async Task<string> OpenFolderSelector(string title)
         {
-            _logger.Info($"Title: {title}");
+            Logger.Info($"Title: {title}");
             var dlg = new CommonOpenFileDialog {IsFolderPicker = true, Title = title};
 
             return dlg.ShowDialog() == CommonFileDialogResult.Ok ? dlg.FileName : null;
@@ -47,10 +47,10 @@ namespace Edimsha.WPF.Services.Dialogs
         [CanBeNull]
         public async Task<Resolution> OpenResolutionDialog(ILoadSettingsService loadSettingsService, ISaveSettingsService saveSettingsService, IOptions<ConfigPaths> options)
         {
-            _logger.Info("Viewmodel");
+            Logger.Info("Viewmodel");
             var vm = new ResolutionDialogViewModel(loadSettingsService, saveSettingsService, options);
 
-            _logger.Info("Opening dialog");
+            Logger.Info("Opening dialog");
             var dlg = new ResolutionDialog {DataContext = vm};
 
             // Prevent load resolution if closes with the X in titlebar or Cancel (using negative number)
@@ -65,7 +65,7 @@ namespace Edimsha.WPF.Services.Dialogs
 
             dlg.ShowDialog();
 
-            _logger.Info($"Resolution: {vm.GetResolution()}");
+            Logger.Info($"Resolution: {vm.GetResolution()}");
             return vm.GetResolution();
         }
 

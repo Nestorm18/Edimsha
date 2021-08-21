@@ -6,11 +6,11 @@ namespace Edimsha.WPF.Language
     public class LocalizationExtension : Binding
     {
         // Log
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         
         public LocalizationExtension(string name) : base("[" + name + "]")
         {
-            _logger.Info($"Name: {name}");
+            Logger.Info($"Name: {name}");
             Mode = BindingMode.OneWay;
             Source = TranslationSource.Instance;
         }
