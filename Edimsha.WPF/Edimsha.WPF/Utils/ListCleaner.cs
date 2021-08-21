@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Edimsha.WPF.State.Navigators;
+using Edimsha.Core.Models;
 
 namespace Edimsha.WPF.Utils
 {

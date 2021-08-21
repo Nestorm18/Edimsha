@@ -7,7 +7,6 @@ using Edimsha.Core.Settings;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Main;
 using Edimsha.WPF.Services.Data;
-using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.ViewModels.Factories;
 using Microsoft.Extensions.Options;
 

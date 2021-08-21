@@ -4,6 +4,15 @@
 namespace Edimsha.Core.Models
 {
     /// <summary>
+    /// Modes in app.
+    /// </summary>
+    public enum ViewType
+    {
+        Editor,
+        Converter
+    }
+    
+    /// <summary>
     /// Image formats available for editor mode..
     /// </summary>
     public enum ImageTypesEditor

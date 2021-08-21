@@ -1,4 +1,4 @@
-using Edimsha.WPF.State.Navigators;
+using Edimsha.Core.Models;
 
 namespace Edimsha.WPF.ViewModels.Factories
 {

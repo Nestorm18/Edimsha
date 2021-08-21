@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
-using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 
 namespace Edimsha.WPF.Converters

@@ -9,7 +9,7 @@
     xmlns:local="clr-namespace:Edimsha.WPF"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:navigatoorType="clr-namespace:Edimsha.WPF.State.Navigators"
+    xmlns:models="clr-namespace:Edimsha.Core.Models;assembly=Edimsha.Core"
     xmlns:viewmodels="clr-namespace:Edimsha.WPF.ViewModels"
     xmlns:views="clr-namespace:Edimsha.WPF.Views"
     xmlns:language="clr-namespace:Edimsha.Core.Language;assembly=Edimsha.Core"
@@ -55,13 +55,13 @@
             <MenuItem Header="{lang:Localization mode}">
                 <RadioButton
                     Command="{Binding ChangeModeCommand}"
-                    CommandParameter="{x:Static navigatoorType:ViewType.Editor}"
+                    CommandParameter="{x:Static models:ViewType.Editor}"
                     Content="{lang:Localization editor}"
                     GroupName="mode"
                     IsChecked="{Binding Path=Mode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Editor}" />
                 <RadioButton
                     Command="{Binding ChangeModeCommand}"
-                    CommandParameter="{x:Static navigatoorType:ViewType.Converter}"
+                    CommandParameter="{x:Static models:ViewType.Converter}"
                     Content="{lang:Localization converter}"
                     GroupName="mode"
                     IsChecked="{Binding Path=Mode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Converter}" />

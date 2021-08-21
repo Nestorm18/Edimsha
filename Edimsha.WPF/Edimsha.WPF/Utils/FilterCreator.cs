@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
 using Edimsha.Core.Language;
-using Edimsha.WPF.State.Navigators;
 
 namespace Edimsha.WPF.Utils
 {

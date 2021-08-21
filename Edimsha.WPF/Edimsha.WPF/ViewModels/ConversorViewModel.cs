@@ -14,7 +14,6 @@ using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Conversor;
 using Edimsha.WPF.Services.Data;
 using Edimsha.WPF.Services.Dialogs;
-using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 using Edimsha.WPF.ViewModels.Contracts;
 using Edimsha.WPF.ViewModels.ViewModelCommon;

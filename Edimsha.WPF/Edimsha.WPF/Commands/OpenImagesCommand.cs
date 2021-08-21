@@ -3,8 +3,8 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using Edimsha.Core.Language;
+using Edimsha.Core.Models;
 using Edimsha.WPF.Services.Dialogs;
-using Edimsha.WPF.State.Navigators;
 using Edimsha.WPF.Utils;
 using Edimsha.WPF.ViewModels.ViewModelCommon;
 

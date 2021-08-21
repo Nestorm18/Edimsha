@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using Edimsha.Core.Models;
-using Edimsha.WPF.State.Navigators;
 
 namespace Edimsha.WPF.Utils
 {

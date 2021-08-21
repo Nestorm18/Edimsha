@@ -1,7 +1,7 @@
 #nullable enable
 using System;
 using System.Windows.Input;
-using Edimsha.WPF.State.Navigators;
+using Edimsha.Core.Models;
 using Edimsha.WPF.ViewModels;
 using Edimsha.WPF.ViewModels.Factories;
 
