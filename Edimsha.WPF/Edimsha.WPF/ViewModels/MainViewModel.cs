@@ -19,13 +19,13 @@ namespace Edimsha.WPF.ViewModels
         // IOC
         private readonly IEdimshaViewModelFactory _viewModelFactory;
         private readonly ILoadSettingsService _loadSettingsService;
-        private ISaveSettingsService _saveSettingsService;
+        private readonly ISaveSettingsService _saveSettingsService;
         private readonly IOptions<ConfigPaths> _options;
 
         // Properties
         private ViewModelBase _currentModeViewModel;
         private Languages _language = Languages.Spanish;
-        private ViewType _mode = ViewType.Converter;
+        private ViewType _mode = ViewType.Editor;
 
         public Languages Language
         {
