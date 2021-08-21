@@ -25,7 +25,7 @@ namespace Edimsha.Core.Conversor
 
         /// <summary>
         /// Runs a task that converts the images passed as a list in the <see cref="ConversorOptions"/> class to the new format.
-        /// All options used in this method come from ConversorOptions.  
+        /// All options used in this method come from <see cref="ConversorOptions"/>.  
         /// </summary>
         /// <param name="progress">Used to report progress on each iteration or warn of errors.</param>
         /// <param name="cancellationToken">Stop the execution of image processing as soon as possible.</param>
