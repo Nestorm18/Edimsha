@@ -11,7 +11,8 @@ namespace Edimsha.Core.Language
         private readonly ResourceManager _resManager = Resources.ResourceManager;
         private CultureInfo _currentCulture;
 
-        private string this[string key] => _resManager.GetString(key, _currentCulture);
+        // ReSharper disable once MemberCanBePrivate.Global
+        public string this[string key] => _resManager.GetString(key, _currentCulture);
 
         /// <summary>
         /// Set the current <see cref="CultureInfo"/> for the UI.
