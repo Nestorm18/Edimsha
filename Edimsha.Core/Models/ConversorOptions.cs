@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable CollectionNeverUpdated.Global
 // ReSharper disable UnusedMember.Global
 
 namespace Edimsha.Core.Models
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class ConversorOptions
     {
         public string Language { get; set; }
