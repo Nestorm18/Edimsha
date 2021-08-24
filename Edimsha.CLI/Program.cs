@@ -61,32 +61,11 @@ namespace Edimsha.CLI
             config.Paths = opts.Paths.ToList();
             var pathsAsFolder = opts.PathsAsFolder;
 
-            var pathsSize = config.Paths.Count;
-
-            if (pathsSize == 0 && string.IsNullOrEmpty(pathsAsFolder))
-                Console.WriteLine("[ERROR] Must use --paths or --pathsAsFolder to set list of images or folder that contains");
-
             // Bad resolution or not used but not wanted the original values cannot be done
             if (!config.Resolution.IsValid() && !opts.KeepOriginalResolution)
                 Console.WriteLine("[ERROR] The resolution value in -w/--width or -h/--height is not valid.");
 
-            // Find all images in folder if path list is zero using pathsAsFolder otherwise Paths have priority always.
-            if (pathsSize == 0)
-                config.Paths = FindAllImagesInPaths(pathsAsFolder, config);
-
-            var (hasInvalidPath, wrongPaths) = AreValidPaths(config.Paths);
-
-            if (hasInvalidPath)
-            {
-                Console.WriteLine("[ERROR] Some of the paths provided are not valid.");
-
-                foreach (var wrongPath in wrongPaths)
-                    Console.WriteLine($"[ERROR] Path: \"{wrongPath}\" is wrong, must be a image not a directory or other format.");
-
-                Environment.Exit(-1);
-            }
-
-            config.Paths = ListCleaner.PathWithoutDuplicatesAndGoodFormats(new List<string>(), config.Paths, ViewType.Editor).ToList();
+            config.Paths = ValidatePaths(config.Paths, pathsAsFolder, config.IterateSubdirectories, ViewType.Editor);
 
             var editor = new Editor(config);
             var progress = new Progress<ProgressReport>();
@@ -96,12 +75,29 @@ namespace Edimsha.CLI
             editor.ExecuteProcessing(progress, _token);
         }
 
-        private static Tuple<bool, List<string>> AreValidPaths(IEnumerable<string> paths)
+        private static List<string> ValidatePaths(List<string> paths, string pathsAsFolder, bool iterateSubdirectories, ViewType type)
         {
+            if (paths.Count == 0 && string.IsNullOrEmpty(pathsAsFolder))
+                Console.WriteLine("[ERROR] Must use --paths or --pathsAsFolder to set list of images or folder that contains");
+
+            // Find all images in folder if path list is zero using pathsAsFolder otherwise Paths have priority always.
+            if (paths.Count == 0)
+                paths = FindAllImagesInPaths(pathsAsFolder, iterateSubdirectories);
+
             // If path are not valid return false and the paths with the problem
             var badPaths = paths.Where(path => !File.Exists(path)).ToList();
 
-            return badPaths.Count > 0 ? new Tuple<bool, List<string>>(true, badPaths) : new Tuple<bool, List<string>>(true, new List<string>());
+            if (badPaths.Count > 0)
+            {
+                Console.WriteLine("[ERROR] Some of the paths provided are not valid.");
+
+                foreach (var badPath in badPaths)
+                    Console.WriteLine($"[ERROR] Path: \"{badPath}\" is wrong, must be a image not a directory or other format.");
+
+                Environment.Exit(-1);
+            }
+
+            return ListCleaner.PathWithoutDuplicatesAndGoodFormats(new List<string>(), paths, type).ToList();
         }
 
         private static void ProgressOnProgressChanged(object? sender, ProgressReport e)
@@ -125,12 +121,12 @@ namespace Edimsha.CLI
             throw new NotImplementedException();
         }
 
-        private static List<string> FindAllImagesInPaths(string pathsAsFolder, EditorOptions config)
+        private static List<string> FindAllImagesInPaths(string pathsAsFolder, bool iterateSubdirectories)
         {
             var temp = new List<string>();
 
             if (Directory.Exists(pathsAsFolder))
-                temp.AddRange(config.IterateSubdirectories
+                temp.AddRange(iterateSubdirectories
                     ? Directory.GetFiles(pathsAsFolder, "*", SearchOption.AllDirectories)
                     : Directory.GetFiles(pathsAsFolder, "*", SearchOption.TopDirectoryOnly));
             else
