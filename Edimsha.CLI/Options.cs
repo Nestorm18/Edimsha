@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System.Collections.Generic;
+using CommandLine;
 using Edimsha.Core.Models;
 
 namespace Edimsha.CLI
@@ -35,10 +36,10 @@ namespace Edimsha.CLI
         [Option("resolution", HelpText = "The resolution at which to change the image.")]
         public Resolution Resolution { get; set; }
 
-        [Option("paths", Required = true, HelpText = "List of images to be processed separated by a comma ','.", Separator = ',', Default = new string[0])]
-        public string[] Paths { get; set; }
+        [Option("paths", HelpText = "List of images to be processed separated by a spaces. (Always takes precedence over --pathsasfolder)")]
+        public IEnumerable<string> Paths { get; set; }
 
-        [Option("pathsasfolder", Required = true, HelpText = "Path with the images to be processed.", Default = "")]
+        [Option("pathsasfolder", HelpText = "Path with the images to be processed.", Default = "")]
         public string PathsAsFolder { get; set; }
     }
 }
