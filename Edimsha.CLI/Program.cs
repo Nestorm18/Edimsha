@@ -47,18 +47,20 @@ namespace Edimsha.CLI
 
         private static void RunEditorModeInCLI(Options opts)
         {
-            var config = new EditorOptions();
+            var config = new EditorOptions
+            {
+                IterateSubdirectories = opts.IterateSubdirectories,
+                OutputFolder = opts.OutputFolder,
+                Edimsha = opts.Edimsha,
+                AlwaysIncludeOnReplace = opts.AlwaysIncludeOnReplace,
+                KeepOriginalResolution = opts.KeepOriginalResolution,
+                CompresionValue = opts.CompresionValue,
+                OptimizeImage = opts.OptimizeImage,
+                ReplaceForOriginal = opts.ReplaceForOriginal,
+                Resolution = new Resolution(opts.Width, opts.Height),
+                Paths = opts.Paths.ToList()
+            };
 
-            config.IterateSubdirectories = opts.IterateSubdirectories;
-            config.OutputFolder = opts.OutputFolder;
-            config.Edimsha = opts.Edimsha;
-            config.AlwaysIncludeOnReplace = opts.AlwaysIncludeOnReplace;
-            config.KeepOriginalResolution = opts.KeepOriginalResolution;
-            config.CompresionValue = opts.CompresionValue;
-            config.OptimizeImage = opts.OptimizeImage;
-            config.ReplaceForOriginal = opts.ReplaceForOriginal;
-            config.Resolution = new Resolution(opts.Width, opts.Height);
-            config.Paths = opts.Paths.ToList();
             var pathsAsFolder = opts.PathsAsFolder;
 
             // Bad resolution or not used but not wanted the original values cannot be done
@@ -75,6 +77,11 @@ namespace Edimsha.CLI
             editor.ExecuteProcessing(progress, _token);
         }
 
+        private static void RunConversorModeInCLI(Options opts)
+        {
+            throw new NotImplementedException();
+        }
+        
         private static List<string> ValidatePaths(List<string> paths, string pathsAsFolder, bool iterateSubdirectories, ViewType type)
         {
             if (paths.Count == 0 && string.IsNullOrEmpty(pathsAsFolder))
@@ -114,11 +121,6 @@ namespace Edimsha.CLI
                     Console.WriteLine("Finished!");
                     break;
             }
-        }
-
-        private static void RunConversorModeInCLI(Options opts)
-        {
-            throw new NotImplementedException();
         }
 
         private static List<string> FindAllImagesInPaths(string pathsAsFolder, bool iterateSubdirectories)
