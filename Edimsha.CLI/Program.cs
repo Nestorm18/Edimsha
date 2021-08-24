@@ -6,6 +6,7 @@ using System.Threading;
 using CommandLine;
 using Edimsha.Core.Editor;
 using Edimsha.Core.Models;
+using Edimsha.Core.Utils;
 
 // ReSharper disable LocalizableElement
 // ReSharper disable InconsistentNaming
@@ -60,7 +61,9 @@ namespace Edimsha.CLI
             config.Paths = opts.Paths.ToList();
             var pathsAsFolder = opts.PathsAsFolder;
 
-            if (config.Paths.Count == 0 && string.IsNullOrEmpty(pathsAsFolder))
+            var pathsSize = config.Paths.Count;
+
+            if (pathsSize == 0 && string.IsNullOrEmpty(pathsAsFolder))
                 Console.WriteLine("[ERROR] Must use --paths or --pathsAsFolder to set list of images or folder that contains");
 
             // Bad resolution or not used but not wanted the original values cannot be done
@@ -68,8 +71,22 @@ namespace Edimsha.CLI
                 Console.WriteLine("[ERROR] The resolution value in -w/--width or -h/--height is not valid.");
 
             // Find all images in folder if path list is zero using pathsAsFolder otherwise Paths have priority always.
-            if (config.Paths.Count == 0)
+            if (pathsSize == 0)
                 config.Paths = FindAllImagesInPaths(pathsAsFolder, config);
+
+            var (hasInvalidPath, wrongPaths) = AreValidPaths(config.Paths);
+
+            if (hasInvalidPath)
+            {
+                Console.WriteLine("[ERROR] Some of the paths provided are not valid.");
+
+                foreach (var wrongPath in wrongPaths)
+                    Console.WriteLine($"[ERROR] Path: \"{wrongPath}\" is wrong, must be a image not a directory or other format.");
+
+                Environment.Exit(-1);
+            }
+
+            config.Paths = ListCleaner.PathWithoutDuplicatesAndGoodFormats(new List<string>(), config.Paths, ViewType.Editor).ToList();
 
             var editor = new Editor(config);
             var progress = new Progress<ProgressReport>();
@@ -77,6 +94,14 @@ namespace Edimsha.CLI
             _token = new CancellationTokenSource();
 
             editor.ExecuteProcessing(progress, _token);
+        }
+
+        private static Tuple<bool, List<string>> AreValidPaths(IEnumerable<string> paths)
+        {
+            // If path are not valid return false and the paths with the problem
+            var badPaths = paths.Where(path => !File.Exists(path)).ToList();
+
+            return badPaths.Count > 0 ? new Tuple<bool, List<string>>(true, badPaths) : new Tuple<bool, List<string>>(true, new List<string>());
         }
 
         private static void ProgressOnProgressChanged(object? sender, ProgressReport e)
