@@ -61,12 +61,12 @@ namespace Edimsha.Core.Editor
                 
                 using (var img = Image.FromFile(path))
                 {
-                    var width = _options.Resolution.Width;
-                    var height = _options.Resolution.Height;
-
-                    if (_options.KeepOriginalResolution || width <= 0 || height <= 0)
+                    if (_options.KeepOriginalResolution || _options.Resolution.Width <= 0 || _options.Resolution.Height <= 0)
                         _options.Resolution = new Resolution(img.Width, img.Height);
 
+                    var width = _options.Resolution.Width;
+                    var height = _options.Resolution.Height;
+                    
                     image = FixedSize(img, width, height);
                 }
                 
