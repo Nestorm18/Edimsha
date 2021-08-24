@@ -58,7 +58,7 @@ namespace Edimsha.Core.Conversor
                 // Avoid converting to the same image format
                 if (IsSameFormatCurrentImage(path)) return;
 
-                var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha);
+                var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha, false);
 
                 savePath += $".{_options.CurrentFormat.ToString()}";
 

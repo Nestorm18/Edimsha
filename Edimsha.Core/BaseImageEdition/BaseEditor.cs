@@ -10,10 +10,11 @@ namespace Edimsha.Core.BaseImageEdition
         /// <param name="outputFolder">A image saving folder.</param>
         /// <param name="path">A current image path.</param>
         /// <param name="edimsha">A value of edimsha.</param>
+        /// <param name="alwaysIncludeOnReplace">Adds edimsha always.</param>
         /// <returns>The new route generated using the parameters.</returns>
-        protected static string GeneratesavePath(string outputFolder, string path, string edimsha)
+        protected static string GeneratesavePath(string outputFolder, string path, string edimsha, bool alwaysIncludeOnReplace)
         {
-            var name = GenerateName(outputFolder, path, edimsha);
+            var name = GenerateName(outputFolder, path, edimsha, alwaysIncludeOnReplace);
 
             return outputFolder.Equals(string.Empty)
                 ? Path.Combine(Directory.GetParent(path)?.FullName ?? string.Empty, name)
@@ -26,15 +27,18 @@ namespace Edimsha.Core.BaseImageEdition
         /// <param name="outputFolder">A image saving folder.</param>
         /// <param name="path">A current image path.</param>
         /// <param name="edimsha">A value of edimsha.</param>
+        /// <param name="alwaysIncludeOnReplace">Adds edimsha always.</param>
         /// <returns>The generated name.</returns>
-        private static string GenerateName(string outputFolder, string path, string edimsha)
+        private static string GenerateName(string outputFolder, string path, string edimsha, bool alwaysIncludeOnReplace)
         {
             var samePath = IsSamePath(outputFolder, path);
             var imageName = Path.GetFileNameWithoutExtension(path);
 
-            if (edimsha.Equals("edimsha_") && samePath) return imageName;
+            if (alwaysIncludeOnReplace) return $"{edimsha}{imageName}";
 
-            return $"{edimsha}{imageName}";
+            if (edimsha.Equals("edimsha_") && samePath) return $"{edimsha}{imageName}";
+            
+            return !samePath ? imageName : $"{edimsha}{imageName}";
         }
 
         /// <summary>

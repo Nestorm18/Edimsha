@@ -70,7 +70,7 @@ namespace Edimsha.Core.Editor
                     image = FixedSize(img, width, height);
                 }
                 
-                var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha);
+                var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha, _options.AlwaysIncludeOnReplace);
 
                 if (_options.ReplaceForOriginal)
                     File.Delete(path);
