@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
-using Edimsha.WPF.Utils;
+using Edimsha.Core.Utils;
 
 namespace Edimsha.WPF.Converters
 {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using Edimsha.Core.Models;
 
-namespace Edimsha.WPF.Utils
+namespace Edimsha.Core.Utils
 {
     public static class ImageFormatsFromViewType
     {

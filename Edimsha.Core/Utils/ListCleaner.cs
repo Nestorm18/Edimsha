@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Edimsha.Core.Models;
 
-namespace Edimsha.WPF.Utils
+namespace Edimsha.Core.Utils
 {
     public static class ListCleaner
     {
@@ -13,15 +13,15 @@ namespace Edimsha.WPF.Utils
         /// <summary>
         /// Eliminate duplicate elements and validate the formats. Use internally <see cref="RemoveWrongFormats"/> to this purpose.
         /// </summary>
-        /// <param name="savedPaths">The list of currents paths.</param>
-        /// <param name="droppedPaths">The list of new paths.</param>
+        /// <param name="oldPaths">The list of currents paths.</param>
+        /// <param name="newPaths">The list of new paths.</param>
         /// <param name="mode"><see cref="ViewType"/> the type of image mode that is used.</param>
         /// <returns>List with validated formats and no duplicates</returns>
-        public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(IEnumerable<string> savedPaths, IEnumerable<string> droppedPaths, ViewType mode)
+        public static IEnumerable<string> PathWithoutDuplicatesAndGoodFormats(IEnumerable<string> oldPaths, IEnumerable<string> newPaths, ViewType mode)
         {
             Logger.Info("Cleaning paths");
             // Concat two list and remove duplicates to show in listview
-            var distinctPaths = savedPaths.Concat(droppedPaths).Distinct().ToList();
+            var distinctPaths = oldPaths.Concat(newPaths).Distinct().ToList();
 
             // Remove wrong formats for the current mode
             return (List<string>) RemoveWrongFormats(distinctPaths, mode);

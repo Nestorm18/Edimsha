@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Edimsha.Core.Conversor;
 using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
+using Edimsha.Core.Utils;
 using Edimsha.WPF.Commands;
 using Edimsha.WPF.Commands.Basics;
 using Edimsha.WPF.Commands.Conversor;
