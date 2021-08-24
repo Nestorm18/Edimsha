@@ -33,13 +33,16 @@ namespace Edimsha.CLI
         [Option('r', "replaze", HelpText = "Replaces the output image with the original one.", Default = false)]
         public bool ReplaceForOriginal { get; set; }
 
-        [Option("resolution", HelpText = "The resolution at which to change the image.")]
-        public Resolution Resolution { get; set; }
+        [Option('w', "width", HelpText = "The resolution at which to change the image.", Default = -1)]
+        public int Width { get; set; }
+
+        [Option('h', "height", HelpText = "The resolution at which to change the image.", Default = -1)]
+        public int Height { get; set; }
 
         [Option("paths", HelpText = "List of images to be processed separated by a spaces. (Always takes precedence over --pathsasfolder)")]
         public IEnumerable<string> Paths { get; set; }
 
-        [Option("pathsasfolder", HelpText = "Path with the images to be processed.", Default = "")]
+        [Option('x',"pathsasfolder", HelpText = "Path with the images to be processed.", Default = "")]
         public string PathsAsFolder { get; set; }
     }
 }
