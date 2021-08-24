@@ -39,10 +39,10 @@ namespace Edimsha.CLI
         [Option('h', "height", HelpText = "The resolution at which to change the image.", Default = -1)]
         public int Height { get; set; }
 
-        [Option("paths", HelpText = "List of images to be processed separated by a spaces. (Always takes precedence over --pathsasfolder)")]
+        [Option('x', "paths", HelpText = "List of images to be processed separated by a spaces. (Always takes precedence over -p/--pathsasfolder)")]
         public IEnumerable<string> Paths { get; set; }
 
-        [Option('x',"pathsasfolder", HelpText = "Path with the images to be processed.", Default = "")]
+        [Option('p',"pathsasfolder", HelpText = "Path with the images to be processed.", Default = "")]
         public string PathsAsFolder { get; set; }
     }
 }
