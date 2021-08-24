@@ -40,7 +40,6 @@ namespace Edimsha.Core.Models
         /// <returns>True if is a valid resolution.</returns>
         public bool IsValid()
         {
-            Console.WriteLine(Width > 0 && Height > 0);
             return Width > 0 && Height > 0;
         }
     }
