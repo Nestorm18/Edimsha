@@ -72,7 +72,7 @@ namespace Edimsha.Core.Editor
                 
                 var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha);
 
-                if (_options.AlwaysIncludeOnReplace)
+                if (_options.ReplaceForOriginal)
                     File.Delete(path);
 
                 var extension = Path.GetExtension(path);
