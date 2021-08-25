@@ -60,7 +60,7 @@ namespace Edimsha.Core.Conversor
 
                 var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha, false);
 
-                savePath += $".{_options.CurrentFormat.ToString()}";
+                savePath += $".{_options.CurrentFormat.ToString().ToLower()}";
 
                 var imageFormat = ImageTypesConversorToImageFormat();
 
