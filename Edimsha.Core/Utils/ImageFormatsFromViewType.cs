@@ -24,7 +24,7 @@ namespace Edimsha.Core.Utils
             IEnumerable imageTypes = parameter switch
             {
                 ViewType.Editor => Enum.GetValues(typeof(ImageTypesEditor)).Cast<ImageTypesEditor>(),
-                ViewType.Converter => Enum.GetValues(typeof(ImageTypesConversor)).Cast<ImageTypesConversor>(),
+                ViewType.Conversor => Enum.GetValues(typeof(ImageTypesConversor)).Cast<ImageTypesConversor>(),
                 _ => null
             };
             

@@ -202,7 +202,7 @@ namespace Edimsha.WPF.ViewModels
 
         private void FillAvaliableConvertTo()
         {
-            var imageType = ImageFormatsFromViewType.GetImageType(ViewType.Converter);
+            var imageType = ImageFormatsFromViewType.GetImageType(ViewType.Conversor);
 
             if (imageType == null) return;
 
@@ -293,7 +293,7 @@ namespace Edimsha.WPF.ViewModels
 
         public ViewType GetViewModelType()
         {
-            return ViewType.Converter;
+            return ViewType.Conversor;
         }
     }
 }

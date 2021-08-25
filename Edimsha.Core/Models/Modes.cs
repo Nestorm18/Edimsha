@@ -9,7 +9,7 @@ namespace Edimsha.Core.Models
     public enum ViewType
     {
         Editor,
-        Converter
+        Conversor
     }
     
     /// <summary>

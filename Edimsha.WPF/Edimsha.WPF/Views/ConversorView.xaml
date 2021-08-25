@@ -38,7 +38,7 @@
             <Label HorizontalAlignment="Center"
                    Content="{lang:Localization null,
                                             Converter={StaticResource ImageFormatsAppendConverter},
-                                            ConverterParameter={x:Static models:ViewType.Converter}}" />
+                                            ConverterParameter={x:Static models:ViewType.Conversor}}" />
         </StackPanel>
 
 
@@ -115,7 +115,7 @@
                 <Button
                     Grid.Column="2"
                     Command="{Binding OpenImagesCommand}"
-                    CommandParameter="{x:Static models:ViewType.Converter}"
+                    CommandParameter="{x:Static models:ViewType.Conversor}"
                     Content="{lang:Localization select_files}"
                     IsEnabled="{Binding IsRunningUi}" />
             </Grid>

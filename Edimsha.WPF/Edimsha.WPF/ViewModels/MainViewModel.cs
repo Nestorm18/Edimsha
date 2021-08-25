@@ -107,7 +107,7 @@ namespace Edimsha.WPF.ViewModels
                             _saveSettingsService.SaveConfigurationSettings<List<string>, ConversorOptions>("Paths", new List<string>(), _options.Value.EditorOptions);
                         break;
                     }
-                    case ViewType.Converter:
+                    case ViewType.Conversor:
                     {
                         var cleanListOnExit = ((ConversorViewModel) CurrentModeViewModel).CleanListOnExit;
                         if (cleanListOnExit)
