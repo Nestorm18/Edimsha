@@ -24,7 +24,6 @@ namespace Edimsha.WPF.ViewModels.ViewModelCommon
         private bool _isCtxDelete;
         private bool _isCtxDeleteAll;
         private string _statusBar;
-        private string _statusBar2;
         private int _pbPosition;
         private ObservableCollection<string> _pathList = null!;
 
@@ -76,16 +75,6 @@ namespace Edimsha.WPF.ViewModels.ViewModelCommon
             set
             {
                 _statusBar = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string StatusBar2
-        {
-            get => _statusBar2;
-            set
-            {
-                _statusBar2 = value;
                 OnPropertyChanged();
             }
         }
