@@ -35,30 +35,28 @@ namespace Edimsha.Core.Editor
         {
             _options.Edimsha ??= "edimsha_";
 
-            if (_options.Edimsha .Equals(string.Empty))
-                _options.Edimsha  = "edimsha_";
+            if (_options.Edimsha.Equals(string.Empty))
+                _options.Edimsha = "edimsha_";
 
-            _options.OutputFolder  ??= string.Empty;
-            
+            _options.OutputFolder ??= string.Empty;
+
             var imageIndex = 1;
             var pathCount = _options.Paths.Count;
-            
+
             foreach (var path in _options.Paths)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    progress.Report(new ProgressReport {ReportType = ReportType.MessageA, Data = "cancelled_by_user"});
-                    progress.Report(new ProgressReport {ReportType = ReportType.MessageB, Data = ""});
+                    progress.Report(new ProgressReport {ReportType = ReportType.Message, Data = "cancelled_by_user"});
                     break;
                 }
-                
+
+                progress.Report(new ProgressReport {ReportType = ReportType.Message, Data = $"{path}"});
                 progress.Report(new ProgressReport {ReportType = ReportType.Percent, Data = imageIndex * 100 / pathCount});
-                progress.Report(new ProgressReport {ReportType = ReportType.MessageA, Data = "procesing"});
-                progress.Report(new ProgressReport {ReportType = ReportType.MessageB, Data = $"{imageIndex} -> {pathCount}"});
-                
+
                 // Image resize to user values
                 Image image;
-                
+
                 using (var img = Image.FromFile(path))
                 {
                     if (_options.KeepOriginalResolution || _options.Resolution.Width <= 0 || _options.Resolution.Height <= 0)
@@ -66,10 +64,10 @@ namespace Edimsha.Core.Editor
 
                     var width = _options.Resolution.Width;
                     var height = _options.Resolution.Height;
-                    
+
                     image = FixedSize(img, width, height);
                 }
-                
+
                 var savePath = GeneratesavePath(_options.OutputFolder, path, _options.Edimsha, _options.AlwaysIncludeOnReplace);
 
                 if (_options.ReplaceForOriginal)
@@ -78,7 +76,7 @@ namespace Edimsha.Core.Editor
                 var extension = Path.GetExtension(path);
 
                 // ReSharper disable once PossibleNullReferenceException
-                if (extension.Equals(".jpeg") || extension.Equals(".jpg")) 
+                if (extension.Equals(".jpeg") || extension.Equals(".jpg"))
                     image.Save(string.Concat(savePath, extension));
                 else
                     SaveAsPng(savePath, image);
@@ -87,9 +85,8 @@ namespace Edimsha.Core.Editor
 
                 imageIndex++;
             }
-            
+
             progress.Report(new ProgressReport {ReportType = ReportType.Finalizated, Data = true});
-            
         }
 
         /// <summary>
@@ -141,7 +138,7 @@ namespace Edimsha.Core.Editor
             grPhoto.Dispose();
             return bmPhoto;
         }
-        
+
         /// <summary>
         /// Used to perform an optimization in case it is indicated in the options using <see cref="PngQuant"/>.
         /// </summary>

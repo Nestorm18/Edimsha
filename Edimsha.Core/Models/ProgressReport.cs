@@ -3,8 +3,7 @@
     public enum ReportType
     {
         Percent,
-        MessageA,
-        MessageB,
+        Message,
         Finalizated
     }
     

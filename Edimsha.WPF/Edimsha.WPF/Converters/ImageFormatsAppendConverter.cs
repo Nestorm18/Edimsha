@@ -2,6 +2,8 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
+using Edimsha.Core.Conversor;
+using Edimsha.Core.Editor;
 using Edimsha.Core.Utils;
 
 namespace Edimsha.WPF.Converters
@@ -34,7 +36,7 @@ namespace Edimsha.WPF.Converters
         /// <summary>
         /// Gets all available image formats XXX YYY from Enum and returns them formatted in text (* .XXX, * .YYY)
         /// </summary>
-        /// <param name="parameter">Can be <see cref="ViewType.Editor"/> or <see cref="ViewType.Converter"/>,
+        /// <param name="parameter">Can be <see cref="Editor"/> or <see cref="Conversor"/>,
         /// used to make more generic.</param>
         /// <returns>Formatted text</returns>
         private static string GetAllImageFormatsInline(object parameter)

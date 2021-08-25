@@ -46,14 +46,12 @@ namespace Edimsha.Core.Conversor
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    progress.Report(new ProgressReport {ReportType = ReportType.MessageA, Data = "cancelled_by_user"});
-                    progress.Report(new ProgressReport {ReportType = ReportType.MessageB, Data = ""});
+                    progress.Report(new ProgressReport {ReportType = ReportType.Message, Data = "cancelled_by_user"});
                     break;
                 }
 
+                progress.Report(new ProgressReport {ReportType = ReportType.Message, Data = $"{path}"});
                 progress.Report(new ProgressReport {ReportType = ReportType.Percent, Data = imageIndex * 100 / pathCount});
-                progress.Report(new ProgressReport {ReportType = ReportType.MessageA, Data = "procesing"});
-                progress.Report(new ProgressReport {ReportType = ReportType.MessageB, Data = $"{imageIndex} -> {pathCount}"});
 
                 // Avoid converting to the same image format
                 if (IsSameFormatCurrentImage(path)) return;

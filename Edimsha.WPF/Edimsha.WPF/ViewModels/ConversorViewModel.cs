@@ -270,11 +270,8 @@ namespace Edimsha.WPF.ViewModels
                 case ReportType.Percent:
                     PbPosition = (int) e.Data;
                     break;
-                case ReportType.MessageA:
+                case ReportType.Message:
                     StatusBar = (string) e.Data;
-                    break;
-                case ReportType.MessageB:
-                    StatusBar2 = (string) e.Data;
                     break;
                 case ReportType.Finalizated:
                     PbPosition = 100;
