@@ -20,7 +20,12 @@ namespace Edimsha.CLI
 
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
+            var parser = new Parser(with =>
+            {
+                with.CaseInsensitiveEnumValues = true;
+            });
+            
+            parser.ParseArguments<Options>(args)
                 .WithParsed(RunOptions)
                 .WithNotParsed(HandleParseError);
         }
