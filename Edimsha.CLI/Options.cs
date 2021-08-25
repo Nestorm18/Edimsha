@@ -2,47 +2,57 @@
 using CommandLine;
 using Edimsha.Core.Models;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Edimsha.CLI
 {
-    public class Options
+    public class Options: IEditorOptionsCLI, IConversorOptionsCLI
     {
-        [Option('m', "mode", Required = true, HelpText = "Set the run mode for the program. Valid values are Editor and Conversor.")]
+        [Option('m',
+            "mode",
+            Required = true, 
+            HelpText = "Set the run mode for the program. Valid values are \"editor\" and \"conversor\".")]
         public ViewType RunMode { get; set; }
 
-        [Option('s', "subiter", HelpText = "Iterates the folders and subfolders that have been passed as paths.", Default = false)]
+        [Option('s',
+            "subiter",
+            HelpText = "Iterates the folders and subfolders that have been passed as paths.",
+            Default = false)]
         public bool IterateSubdirectories { get; set; }
 
-        [Option('f', "output", HelpText = "Save the images in the indicated folder.", Default = null)]
+        [Option('f',
+            "output",
+            HelpText = "Save the images in the indicated folder.",
+            Default = null)]
         public string OutputFolder { get; set; }
 
-        [Option('e', "edimsha", HelpText = "If the image is saved in the same path, this prefix is added before.", Default = null)]
+        [Option('e',
+            "edimsha", 
+            HelpText = "If the image is saved in the same path, this prefix is added before.",
+            Default = null)]
         public string Edimsha { get; set; }
-
-        [Option('i', "include", HelpText = "Include edimsha also in different folder.", Default = false)]
-        public bool AlwaysIncludeOnReplace { get; set; }
-
-        [Option('k', "keepresolution", HelpText = "Keeps the same resolution as the original image (can still optimize image).", Default = false)]
-        public bool KeepOriginalResolution { get; set; }
-
-        [Option('c', "compression", HelpText = "Adds the compression value of the image.", Default = 255)]
-        public double CompresionValue { get; set; }
-
-        [Option('o', "optimize", HelpText = "Optimize the image if it is png.", Default = false)]
-        public bool OptimizeImage { get; set; }
-
-        [Option('r', "replaze", HelpText = "Replaces the output image with the original one.", Default = false)]
-        public bool ReplaceForOriginal { get; set; }
-
-        [Option('w', "width", HelpText = "The resolution at which to change the image.", Default = -1)]
-        public int Width { get; set; }
-
-        [Option('h', "height", HelpText = "The resolution at which to change the image.", Default = -1)]
-        public int Height { get; set; }
-
-        [Option('x', "paths", HelpText = "List of images to be processed separated by a spaces. (Always takes precedence over -p/--pathsasfolder)")]
+        
+        [Option('x',
+            "paths",
+            HelpText = "List of images to be processed separated by a spaces. (Always takes precedence over -p/--pathsasfolder)." +
+                       "\nAvaliable format inputs:" +
+                       "\n\t\t-> Editor: PNG, JPG."+
+                       "\n\t\t-> Conversor: BMP, EMF, EXIF, GIF, ICO, JPG, PNG, TIFF, WMF.")]
         public IEnumerable<string> Paths { get; set; }
 
-        [Option('p',"pathsasfolder", HelpText = "Path with the images to be processed.", Default = "")]
+        [Option('p',
+            "paths-as-folder",
+            HelpText = "Path with the images to be processed.",
+            Default = "")]
         public string PathsAsFolder { get; set; }
+        
+        public bool AlwaysIncludeOnReplace { get; set; }
+        public bool KeepOriginalResolution { get; set; }
+        public double CompresionValue { get; set; }
+        public bool OptimizeImage { get; set; }
+        public bool ReplaceForOriginal { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public ImageTypesConversor ImageType { get; set; }
     }
 }

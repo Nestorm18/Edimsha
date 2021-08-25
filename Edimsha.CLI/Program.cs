@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using CommandLine;
+using Edimsha.Core.Conversor;
 using Edimsha.Core.Editor;
 using Edimsha.Core.Models;
 using Edimsha.Core.Utils;
@@ -31,7 +32,7 @@ namespace Edimsha.CLI
                 case ViewType.Editor:
                     RunEditorModeInCLI(opts);
                     break;
-                case ViewType.Converter:
+                case ViewType.Conversor:
                     RunConversorModeInCLI(opts);
                     break;
                 default:
@@ -79,7 +80,25 @@ namespace Edimsha.CLI
 
         private static void RunConversorModeInCLI(Options opts)
         {
-            throw new NotImplementedException();
+            var config = new ConversorOptions
+            {
+                IterateSubdirectories = opts.IterateSubdirectories,
+                OutputFolder = opts.OutputFolder,
+                Edimsha = opts.Edimsha,
+                CurrentFormat = opts.ImageType,
+                Paths = opts.Paths.ToList()
+            };
+            
+            var pathsAsFolder = opts.PathsAsFolder;
+            
+            config.Paths = ValidatePaths(config.Paths, pathsAsFolder, config.IterateSubdirectories, ViewType.Conversor);
+            
+            var conversor = new Conversor(config);
+            var progress = new Progress<ProgressReport>();
+            progress.ProgressChanged += ProgressOnProgressChanged;
+            _token = new CancellationTokenSource();
+
+            conversor.ExecuteProcessing(progress, _token);
         }
         
         private static List<string> ValidatePaths(List<string> paths, string pathsAsFolder, bool iterateSubdirectories, ViewType type)
