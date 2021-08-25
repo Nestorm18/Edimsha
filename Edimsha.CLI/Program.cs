@@ -21,12 +21,9 @@ namespace Edimsha.CLI
         static void Main(string[] args)
         {
             NLog.LogManager.DisableLogging();
-            
-            var parser = new Parser(with =>
-            {
-                with.CaseInsensitiveEnumValues = true;
-            });
-            
+
+            var parser = new Parser(with => { with.CaseInsensitiveEnumValues = true; });
+
             parser.ParseArguments<Options>(args)
                 .WithParsed(RunOptions)
                 .WithNotParsed(HandleParseError);
