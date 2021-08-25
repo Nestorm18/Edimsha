@@ -92,11 +92,11 @@ namespace Edimsha.CLI
                 CurrentFormat = opts.ImageType,
                 Paths = opts.Paths.ToList()
             };
-            
+
             var pathsAsFolder = opts.PathsAsFolder;
-            
+
             config.Paths = ValidatePaths(config.Paths, pathsAsFolder, config.IterateSubdirectories, ViewType.Conversor);
-            
+
             var conversor = new Conversor(config);
             var progress = new Progress<ProgressReport>();
             progress.ProgressChanged += ProgressOnProgressChanged;
@@ -104,7 +104,7 @@ namespace Edimsha.CLI
 
             conversor.ExecuteProcessing(progress, _token);
         }
-        
+
         private static List<string> ValidatePaths(List<string> paths, string pathsAsFolder, bool iterateSubdirectories, ViewType type)
         {
             if (paths.Count == 0 && string.IsNullOrEmpty(pathsAsFolder))
@@ -140,8 +140,8 @@ namespace Edimsha.CLI
                 case ReportType.Percent:
                     Console.WriteLine($"Percentage to finish the processing {(int) e.Data}%");
                     break;
-                case ReportType.MessageB:
-                    Console.WriteLine((string) e.Data);
+                case ReportType.Message:
+                    Console.WriteLine($"Current processing path is {(string) e.Data}");
                     break;
                 case ReportType.Finalizated:
                     Console.WriteLine("Finished!");
