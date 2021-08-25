@@ -109,7 +109,10 @@ namespace Edimsha.CLI
         private static List<string> ValidatePaths(List<string> paths, string pathsAsFolder, bool iterateSubdirectories, ViewType type)
         {
             if (paths.Count == 0 && string.IsNullOrEmpty(pathsAsFolder))
-                Console.WriteLine("[ERROR] Must use --paths or --pathsAsFolder to set list of images or folder that contains");
+            {
+                Console.WriteLine("[ERROR] Must use --paths to set list of images or --pathsAsFolder to use a folder that contains images");
+                Environment.Exit(-1);
+            }
 
             // Find all images in folder if path list is zero using pathsAsFolder otherwise Paths have priority always.
             if (paths.Count == 0)
