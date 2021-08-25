@@ -36,6 +36,7 @@ namespace Edimsha.Core.BaseImageEdition
 
             if (alwaysIncludeOnReplace) return $"{edimsha}{imageName}";
 
+            //TODO: Conversor añade edimsha_ en misma ruta pero diferente formato
             if (edimsha.Equals("edimsha_") && samePath) return $"{edimsha}{imageName}";
             
             return !samePath ? imageName : $"{edimsha}{imageName}";
