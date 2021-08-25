@@ -50,7 +50,7 @@ namespace Edimsha.Core.Conversor
                     break;
                 }
 
-                progress.Report(new ProgressReport {ReportType = ReportType.Message, Data = $"{path}"});
+                progress.Report(new ProgressReport {ReportType = ReportType.Message, Data = $"{path} | {imageIndex} -> {pathCount}"});
                 progress.Report(new ProgressReport {ReportType = ReportType.Percent, Data = imageIndex * 100 / pathCount});
 
                 // Avoid converting to the same image format

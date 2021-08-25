@@ -141,7 +141,7 @@ namespace Edimsha.CLI
                     Console.WriteLine($"Percentage to finish the processing {(int) e.Data}%");
                     break;
                 case ReportType.Message:
-                    Console.WriteLine($"Current processing path is {(string) e.Data}");
+                    Console.WriteLine($"Processing {(string) e.Data}");
                     break;
                 case ReportType.Finalizated:
                     Console.WriteLine("Finished!");

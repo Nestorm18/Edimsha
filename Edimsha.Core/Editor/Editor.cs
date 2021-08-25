@@ -51,7 +51,7 @@ namespace Edimsha.Core.Editor
                     break;
                 }
 
-                progress.Report(new ProgressReport {ReportType = ReportType.Message, Data = $"{path}"});
+                progress.Report(new ProgressReport {ReportType = ReportType.Message, Data = $"{path} | {imageIndex} -> {pathCount}"});
                 progress.Report(new ProgressReport {ReportType = ReportType.Percent, Data = imageIndex * 100 / pathCount});
 
                 // Image resize to user values

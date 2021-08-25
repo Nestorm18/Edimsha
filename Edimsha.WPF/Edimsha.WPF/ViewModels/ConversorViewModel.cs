@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Edimsha.Core.Conversor;
+using Edimsha.Core.Language;
 using Edimsha.Core.Models;
 using Edimsha.Core.Settings;
 using Edimsha.Core.Utils;
@@ -271,7 +272,7 @@ namespace Edimsha.WPF.ViewModels
                     PbPosition = (int) e.Data;
                     break;
                 case ReportType.Message:
-                    StatusBar = (string) e.Data;
+                    StatusBar = $"{TranslationSource.Instance["procesing"]}: {(string) e.Data}";
                     break;
                 case ReportType.Finalizated:
                     PbPosition = 100;
