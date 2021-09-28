@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using CommandLine;
+using CommandLine.Text;
 using Edimsha.Core.Conversor;
 using Edimsha.Core.Editor;
 using Edimsha.Core.Models;
@@ -23,10 +24,11 @@ namespace Edimsha.CLI
             NLog.LogManager.DisableLogging();
 
             var parser = new Parser(with => { with.CaseInsensitiveEnumValues = true; });
-
-            parser.ParseArguments<Options>(args)
+            var parserResult = parser.ParseArguments<Options>(args);
+            
+            parserResult
                 .WithParsed(RunOptions)
-                .WithNotParsed(HandleParseError);
+                .WithNotParsed(errs => DisplayHelp(parserResult, errs));
         }
 
         private static void RunOptions(Options opts)
@@ -48,6 +50,18 @@ namespace Edimsha.CLI
         {
             // ReSharper disable once LocalizableElement
             Console.WriteLine("[ERROR] Parsing cannot be done!");
+        }
+
+        static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)
+        {
+            var helpText = HelpText.AutoBuild(result, h =>
+             {
+                 h.AdditionalNewLineAfterOption = false; //remove the extra newline between options
+                h.Heading = "Edimsha V1.0"; //change header
+                h.Copyright = "Copyright (c) 2021 Néstor Mouzo Espasandín"; //change copyrigt text
+                return HelpText.DefaultParsingErrorsHandler(result, h);
+             }, e => e);
+            Console.WriteLine(helpText);
         }
 
         private static void RunEditorModeInCLI(Options opts)
@@ -138,10 +152,10 @@ namespace Edimsha.CLI
             switch (e.ReportType)
             {
                 case ReportType.Percent:
-                    Console.WriteLine($"Percentage to finish the processing {(int) e.Data}%");
+                    Console.WriteLine($"Percentage to finish the processing {(int)e.Data}%");
                     break;
                 case ReportType.Message:
-                    Console.WriteLine($"Processing {(string) e.Data}");
+                    Console.WriteLine($"Processing {(string)e.Data}");
                     break;
                 case ReportType.Finalizated:
                     Console.WriteLine("Finished!");

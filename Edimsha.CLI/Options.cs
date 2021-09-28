@@ -6,11 +6,11 @@ using Edimsha.Core.Models;
 
 namespace Edimsha.CLI
 {
-    public class Options: IEditorOptionsCLI, IConversorOptionsCLI
+    public class Options : IEditorOptionsCLI, IConversorOptionsCLI
     {
         [Option('m',
             "mode",
-            Required = true, 
+            Required = true,
             HelpText = "Set the run mode for the program. Valid values are \"editor\" and \"conversor\".")]
         public ViewType RunMode { get; set; }
 
@@ -27,16 +27,16 @@ namespace Edimsha.CLI
         public string OutputFolder { get; set; }
 
         [Option('e',
-            "edimsha", 
+            "edimsha",
             HelpText = "If the image is saved in the same path, this prefix is added before.",
             Default = null)]
         public string Edimsha { get; set; }
-        
+
         [Option('x',
             "paths",
             HelpText = "List of images to be processed separated by a spaces. (Always takes precedence over -p/--pathsasfolder)." +
                        "\nAvaliable format inputs:" +
-                       "\n\t\t-> Editor: PNG, JPG."+
+                       "\n\t\t-> Editor: PNG, JPG." +
                        "\n\t\t-> Conversor: BMP, EMF, EXIF, GIF, ICO, JPG, PNG, TIFF, WMF.")]
         public IEnumerable<string> Paths { get; set; }
 
@@ -45,7 +45,7 @@ namespace Edimsha.CLI
             HelpText = "Path with the images to be processed.",
             Default = "")]
         public string PathsAsFolder { get; set; }
-        
+
         public bool AlwaysIncludeOnReplace { get; set; }
         public bool KeepOriginalResolution { get; set; }
         public double CompresionValue { get; set; }
